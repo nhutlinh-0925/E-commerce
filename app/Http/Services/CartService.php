@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Services;
 
 use App\Models\User;
@@ -8,6 +7,8 @@ use App\Models\SanPham;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use App\Models\PhieuDatHang;
+use App\Models\KhachHang;
+
 // use Mail;
 
 use Illuminate\Support\Facades\Session;
@@ -76,29 +77,29 @@ class CartService
         return true;
     }
 
-    public function addCart($request)
-    {
-        try {
-            DB::beginTransaction();
-            $carts = session()->get('carts');
-            dd($carts);
-            if (is_null($carts)) return false;
-            // dd($customer);
-
-            // $this->infoProductCart($carts, $customer->id);
-            DB::commit();
-            session()->flash('success', 'Đặt hàng thành công');
-
-            session()->forget('carts');
-
-        } catch (\Exception $err){
-            DB::rollBack();
-            session()->flash('error', 'Đặt hàng lỗi, vui lòng thử lại');
-            return false;
-
-        }
-        return true;
-    }
+//    public function addCart($request)
+//    {
+//        try {
+//            DB::beginTransaction();
+//            $carts = session()->get('carts');
+//            dd($carts);
+//            if (is_null($carts)) return false;
+//            // dd($customer);
+//
+//            // $this->infoProductCart($carts, $customer->id);
+//            DB::commit();
+//            session()->flash('success', 'Đặt hàng thành công');
+//
+//            session()->forget('carts');
+//
+//        } catch (\Exception $err){
+//            DB::rollBack();
+//            session()->flash('error', 'Đặt hàng lỗi, vui lòng thử lại');
+//            return false;
+//
+//        }
+//        return true;
+//    }
 
     // protected function infoProductCart($carts, $user_id)
     // {
@@ -127,28 +128,27 @@ class CartService
     }
 
 
-    public function getProductForCart($user)
-    {
-        return $user->carts()->with(['product' => function ($query) {
-            $query->select('id', 'name', 'thumb');
-        }])->get();
-    }
+//    public function getProductForCart($user)
+//    {
+//        return $user->carts()->with(['product' => function ($query) {
+//            $query->select('id', 'name', 'thumb');
+//        }])->get();
+//    }
 
     public function getCart($request)
     {
         try{
             DB::beginTransaction();
-
             $total = 0;
             $carts = Session::get('carts');
-            // dd($carts);
+//             dd($carts);
             $productId = array_keys($carts);
 
-            $products =  Product::select('id', 'name', 'price', 'price_sale', 'thumb')
-            ->where('active', 1)
+            $products =  SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien')
+            ->where('sp_TrangThai', 1)
             ->whereIn('id', $productId)
             ->get();
-            // dd($products);
+//             dd($products);
 
             // $name = 'Nhựt Linh';
             // Mail::send('emails.test', compact('name'), function($email) use($name){
@@ -157,46 +157,52 @@ class CartService
             // });
 
             foreach ($products as $product){
-                $price = $product->price_sale != 0 ? $product->price_sale : $product->price;
+                $price = $product->sp_Gia;
                 $priceEnd = $price * $carts[$product->id];
                 $total += $priceEnd;
             }
 
-            $cart = new Cart;
-            $cart->user_id = $request->user()->id;
-            $cart->name = $request->name;
-            $cart->phone = $request->phone;
-            $cart->address = $request->address;
-            $cart->email = $request->email;
-            $cart->total = $total;
-            $cart->active = 1;
+            $cart = new PhieuDatHang;
+            $cart->khach_hang_id = $request->user()->id;
+            $cart->pdh_TongTien = $total;
+            $cart->pdh_TrangThai = 1;
             $cart->save();
+//          dd($cart);
+
+
+
+            $customer = KhachHang::find($request->user()->id);
+            $customer->kh_Ten = $request->kh_Ten;
+            $customer->kh_SoDienThoai = $request->kh_SoDienThoai;
+
+            $tien = $customer->kh_TongTienDaMua;
+            $customer->kh_TongTienDaMua = $tien + $total;
+            $customer->save();
+//          dd($customer);
+
+//            $cart->email = $request->email;
 
 
             foreach ($products as $product){
-                DB::table('detail_carts')->insert([
-                    'cart_id' =>$cart->id,
-                    'product_id'=>$product->id,
-                    'pty' => $carts[$product->id],
-                    'price' => $product->price_sale != 0 ? $product->price_sale : $product->price
+                DB::table('chi_tiet_phieu_dat_hangs')->insert([
+                    'phieu_dat_hang_id' =>$cart->id,
+                    'san_pham_id'=>$product->id,
+                    'ctpdh_SoLuong' => $carts[$product->id],
+                    'ctpdh_Gia' => $product->sp_Gia
                 ]);
             }
-            DB::commit();
-            session()->flash('success', 'Đặt hàng thành công');
 
+            DB::commit();
+            session()->flash('flash_message', 'Đặt hàng thành công');
             session()->forget('carts');
 
         } catch (\Exception $err){
             DB::rollBack();
-            session()->flash('error', 'Đặt hàng lỗi, vui lòng thử lại');
+            session()->flash('flash_message_error', 'Đặt hàng lỗi, vui lòng thử lại');
             return false;
 
         }
 
         return true;
-
     }
-
-
-
 }

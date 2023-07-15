@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s12 m12 l12 ml-2 mt-1">
+        <div class="col s9 m9 l9">
           <p>
             <label>
               <input type="checkbox">
@@ -70,7 +70,13 @@
             </label>
           </p>
         </div>
+
+          <div class="col s3 m3 l3">
+              <br>
+              <p class="margin large-small"><a href="/">Hủy bỏ !!!</a></p>
+          </div>
       </div>
+
       <div class="row">
         <div class="input-field col s12">
           <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Đăng nhập</button>

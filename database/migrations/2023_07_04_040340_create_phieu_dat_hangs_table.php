@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('phieu_dat_hangs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('khach_hang_id');
-            $table->unsignedBigInteger('nhan_vien_id');
-            $table->string('pdh_DiaChiGiao');
+            $table->unsignedBigInteger('nhan_vien_id')->nullable();
+            $table->string('pdh_DiaChiGiao')->nullable();
             $table->string('pdh_GhiChu')->nullable();
             $table->string('pdh_GiamGia')->nullable();
             $table->integer('pdh_TrangThai');
-            $table->integer('pdh_PhuongThucThanhToan');
-            $table->date('pdh_NgayDat');
+            $table->integer('pdh_PhuongThucThanhToan')->nullable();
+            $table->date('pdh_NgayDat')->nullable();
             $table->integer('pdh_TongTien');
             $table->foreign('khach_hang_id')
                 ->references('id')

@@ -2852,8 +2852,8 @@ ol {
 }
 
 .checkout__input__checkbox label input {
-	position: absolute;
-	visibility: hidden;
+	/*position: absolute;*/
+	/*visibility: hidden;*/
 }
 
 .checkout__input__checkbox label input:checked~.checkmark {

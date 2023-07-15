@@ -63,7 +63,7 @@
                                 <ul>
                                     @if (Auth::check())
                                         <a class="dropdown-item" href="">Xin chào {{ $khachhang->kh_Ten }}</a>
-                                        {{--  <a class="dropdown-item" href="/purchase_order/{{Auth::user()->id}}">Đơn hàng</a>  --}}
+                                          <a class="dropdown-item" href="/purchase_order/{{Auth::user()->id}}">Đơn hàng</a>
                                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                                     @else
                                         <a class="dropdown-item" href="{{  route('user.login')}}" style="font-weight: bold;">Đăng nhập</a>
@@ -104,7 +104,7 @@
                                 <li><a href="#">Pages</a>
                                     <ul class="dropdown">
                                         <li><a href="./about.html">About Us</a></li>
-                                        <li><a href="/cart">Shopping Cart</a></li>
+                                        <li><a href="/carts">Shopping Cart</a></li>
                                         <li><a href="./checkout.html">Check Out</a></li>
                                         <li><a href="./blog-details.html">Blog Details</a></li>
                                     </ul>
@@ -152,4 +152,3 @@
     </header>
     <!-- Header Section End -->
 
-    

@@ -39,8 +39,9 @@ Route::get('carts',[CartController::class, 'show']);
 Route::post('update-cart',[CartController::class, 'update']);
 Route::get('carts/delete/{id}',[CartController::class, 'remove']);
 Route::get('checkout',[CartController::class, 'showcheckout']);
-// Route::post('/carts/checkout',[CartController::class, 'getCart']);
+Route::post('/carts/checkout',[CartController::class, 'getCart']);
 
+Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang']);
 
 // Route::get('/login', function () {
 //     return view('front-end.login.login');

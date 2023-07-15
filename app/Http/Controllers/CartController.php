@@ -65,49 +65,82 @@ class CartController extends Controller
         return redirect('/carts');
     }
 
+
+
+    public function showcheckout()
+    {
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $products = $this->cartService->getProduct();
+            return view('front-end.checkout', [
+                // 'title' => 'Giỏ Hàng',
+                'products' => $products,
+                'carts' => session()->get('carts'),
+                'khachhang' => $khachhang
+            ]);
+        }else{
+            Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
+            Session::put('flash_message_error_link', '/user/login');
+            return redirect('/carts');
+        }
+    }
+
     public function getCart(Request $request)
     {
-        // dd($request->input());
+//        dd($request->input());
         $this->cartService->getCart($request);
         return redirect()->back();
     }
 
-    public function showcheckout()
-    {
-        // $products = $this->cartService->getProduct();
-        // if (Auth::check()){
-        //     return view('front-end.checkout', [
-        //         // 'title' => 'Giỏ Hàng',
-        //         'products' => $products,
-        //         'carts' => session()->get('carts')
-        //     ]);
-        // }
-        // else{
-        //     return redirect('/admin/users/login');
-        // }
+     public function show_DonHang($id)
+     {
+         if(Auth::check()){
+             $id_kh = Auth::user()->id;
+             $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
+//              dd($khachhang);
+             $carts = $this->cartService->getProduct();
 
-        if(Auth::check()){
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            return view('front-end.checkout', [
-                'khachhang' => $khachhang
-            ]);
-        }else{
-            return view('front-end.checkout');
-        }
-    }
+             $khach_hang_id = $id;
+             $get_cart = DB::table('phieu_dat_hangs')
+                 ->where('khach_hang_id','=',$khach_hang_id)
+                 ->orderby('id','desc')
+                 ->get();
 
-    // public function show_DonHang($id)
-    // {
-    //     $user_id= $id;
-    //     $get_cart = DB::table('carts')
-    //                 ->where('user_id','=',$user_id)
-    //                 ->orderby('id','desc')
-    //                 ->get();
-    //     return view('carts.purchase_order', [
-    //         'title' => 'Lịch sử đơn hàng'
-    //     ])->with('get_cart',$get_cart);
-    // }
+             // dd($carts);
+             return view('front-end.purchase_order',[
+                 'khachhang' => $khachhang,
+                 'carts' => $carts,
+                 'gh' => session()->get('carts'),
+                 'get_cart' => $get_cart
+             ]);
+         }
+     }
+
+//    public function show_ChitietDonhang($id){
+//        $customer = DB::table('carts')
+//            ->select('carts.*')
+//            ->where('carts.id', '=', $id)
+//            ->first();
+//
+//        $cart = DB::table('detail_carts')
+//            ->join('products', 'detail_carts.product_id', '=', 'products.id')
+//            ->select('detail_carts.*', 'products.*')
+//            ->where('detail_carts.cart_id', '=', $id)
+//            ->get();
+//
+//        return view('carts.detail_order',[
+//            'title' => 'Chi tiết đơn hàng'
+//        ])->with('customer',$customer)->with('cart',$cart);
+//    }
+
+//    public function update_DonHang(Request $request, $id){
+//        $cart = Cart::find($id);
+//        $cart->active = $request->input('active');
+//        $cart->save();
+//        Session::flash('message', "Successfully updated");
+//        return redirect()->back();
+//    }
 
 
 

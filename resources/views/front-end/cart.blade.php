@@ -80,6 +80,22 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
+    @if(Session::has('flash_message'))
+        <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            {!! session('flash_message') !!}
+        </div>
+
+    @elseif(Session::has('flash_message_error'))
+        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+{{--            <button type="button" data-bs-dismiss="alert" aria-label="Close"><i class="fa fa-times"></i></button>--}}
+            {!! session('flash_message_error') !!}
+            @if(Session::has('flash_message_error_link'))
+                <a href="/user/login">Đăng nhập tại đây</a>
+            @endif
+        </div>
+
+    @endif
 
     <!-- Shopping Cart Section Begin -->
     <section class="shopping-cart spad">
@@ -158,7 +174,7 @@
                         </form>
                     </div>
                     <div class="cart__total">
-                        <h6>Cart total</h6>
+                        <h4 class="order__title">Tổng tiền</h4>
                         <ul>
                             <li>Tổng cộng <span>{{ number_format($total, 0, '', '.') }}VNĐ</span></li>
                             <li>Vận chuyển <span>Free</span></li>
@@ -166,7 +182,7 @@
                             <li>Tổng tiền được giảm <span>0</span></li><hr style="Border: solid 1px black;">
                             <li>Tiền thanh toán<span>{{ number_format($total, 0, '', '.') }}VNĐ</span></li>
                         </ul>
-                        <a href="/checkout" class="primary-btn">Thanh toán</a>
+                        <a href="/checkout"  class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>
