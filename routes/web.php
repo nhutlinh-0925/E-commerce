@@ -41,7 +41,9 @@ Route::get('carts/delete/{id}',[CartController::class, 'remove']);
 Route::get('checkout',[CartController::class, 'showcheckout']);
 Route::post('/carts/checkout',[CartController::class, 'getCart']);
 
-Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang']);
+Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
+Route::get('/purchase_order/orderdetail/{id}',[CartController::class, 'show_ChitietDonhang']);
+//Route::get('/purchase_order/{id}', [CartController::class, 'user'])->name('users.index');
 
 // Route::get('/login', function () {
 //     return view('front-end.login.login');

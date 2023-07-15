@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\KhachHang;
 
+use App\Models\TaiKhoan;
+use DataTables;
+
 class CartController extends Controller
 {
     protected $cartService;
@@ -93,29 +96,38 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-     public function show_DonHang($id)
-     {
+     public function show_DonHang(Request $request, $id){
+//        dd($request);
          if(Auth::check()){
              $id_kh = Auth::user()->id;
              $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
 //              dd($khachhang);
              $carts = $this->cartService->getProduct();
 
-             $khach_hang_id = $id;
-             $get_cart = DB::table('phieu_dat_hangs')
-                 ->where('khach_hang_id','=',$khach_hang_id)
-                 ->orderby('id','desc')
-                 ->get();
+             if ($request->ajax())
+             {
+                 $khach_hang_id = $id;
+//                 dd($khach_hang_id);
+                 $data = DB::table('phieu_dat_hangs')
+                     ->where('khach_hang_id','=',$khach_hang_id)
+                     ->orderby('id','desc')
+                     ->get();
+//                 dd($get_cart);
+                 return Datatables::of($data)
+                     ->addIndexColumn()
+                     ->make(true);
+             }
 
-             // dd($carts);
              return view('front-end.purchase_order',[
                  'khachhang' => $khachhang,
                  'carts' => $carts,
                  'gh' => session()->get('carts'),
-                 'get_cart' => $get_cart
+//                 'get_cart' => $get_cart
              ]);
          }
      }
+
+
 
 //    public function show_ChitietDonhang($id){
 //        $customer = DB::table('carts')

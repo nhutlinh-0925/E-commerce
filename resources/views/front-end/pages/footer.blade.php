@@ -104,3 +104,57 @@
 			})
 		});
 	</script>  --}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        @if (Auth::check())
+        var userId = {{ Auth::user()->id }};
+        var table = $('.data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "/purchase_order/" + userId,
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'pdh_TrangThai', name: 'pdh_TrangThai', render: function(data, type, row) {
+                        if (data == 1) {
+                            return '<p>Chờ xử lý</p>';
+                        } else if (data == 2) {
+                            return '<p>Đang được giao</p>';
+                        } else if (data == 3) {
+                            return '<p>Hoàn thành</p>';
+                        } else if (data == 4) {
+                            return '<p>Đã bị huỷ</p>';
+                        } else {
+                            return '';
+                        }
+                    }},
+                {data: 'pdh_TongTien', name: 'pdh_TongTien', render: function(data, type, row) {
+                        var formattedAmount = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
+                        return formattedAmount;
+                    }},
+                {data: 'pdh_PhuongThucThanhToan', name: 'pdh_PhuongThucThanhToan', render: function(data, type, row) {
+                        if (data == 0) {
+                            return '<p>Nhận hàng trả tiền</p>';
+                        } else if (data == 1) {
+                            return '<p>Thanh toán qua PayPay</p>';
+                        } else if (data == 2) {
+                            return '<p>Thanh toán qua VNPay</p>';
+                        } else if (data == 3) {
+                            return '<p>Thanh toán qua OnePal</p>';
+                        } else {
+                            return '';
+                        }
+                    }},
+                {data: 'created_at', name: 'created_at'},
+                {data: null, name: 'actions', render: function(data, type, row) {
+                        return '<a class="btn btn-info text-center" href="/purchase_order/orderdetail/' + data.id + '"><i class="fa fa-eye"></i></a>';
+                    }},
+            ]
+        });
+        @endif
+    });
+</script>
+    @yield('footer')

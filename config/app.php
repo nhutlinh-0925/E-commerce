@@ -179,6 +179,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Yajra\DataTables\DataTablesServiceProvider::class,
         // Yajra\DataTables\ButtonsServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
     ],
 
@@ -196,6 +197,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // ...
         // 'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ])->toArray(),
 
 ];
