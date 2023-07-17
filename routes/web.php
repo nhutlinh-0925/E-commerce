@@ -42,8 +42,16 @@ Route::get('checkout',[CartController::class, 'showcheckout']);
 Route::post('/carts/checkout',[CartController::class, 'getCart']);
 
 Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
-Route::get('/purchase_order/orderdetail/{id}',[CartController::class, 'show_ChitietDonhang']);
+Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
 //Route::get('/purchase_order/{id}', [CartController::class, 'user'])->name('users.index');
+
+Route::get('email',[CartController::class, 'email']);
+
+//Route::get('user/login/facebook', [LoginController::class, 'login_facebook']);
+//Route::get('user/login/callback', [LoginController::class, 'callback_facebook']);
+
+Route::get('auth/google', [LoginController::class, 'login_google']);
+Route::get('auth/google/callback', [LoginController::class, 'callback_google']);
 
 // Route::get('/login', function () {
 //     return view('front-end.login.login');

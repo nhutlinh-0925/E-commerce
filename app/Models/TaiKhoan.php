@@ -21,8 +21,8 @@ class TaiKhoan extends Authenticatable
      */
     protected $fillable = [
         'email',
-        // 'provider',
-        // 'provider_id',
+         'provider',
+         'provider_id',
         'password',
         'avatar',
         'loai',

@@ -9,6 +9,10 @@ use App\Models\TaiKhoan;
 
 use App\Http\Services\CartService;
 
+use App\Social;
+//use Laravel\Socialite\Facades\Socialite;
+//use Socialite;
+use Socialite;
 class LoginController extends Controller
 {
     protected $cartService;
@@ -135,4 +139,91 @@ class LoginController extends Controller
         return redirect('/user/login');
     }
 
+//    public function login_facebook(){
+//        return Socialite::driver('facebook')->redirect();
+//    }
+
+//    public function callback_facebook(){
+//        $provider = Socialite::driver('facebook')->user();
+//        dd($provider);
+//        $account = Social::where('provider','facebook')->where('provider_user_id',$provider->getId())->first();
+////        if($account){
+////            //login in vao trang quan tri
+////            $account_name = Login::where('admin_id',$account->user)->first();
+////            Session::put('admin_name',$account_name->admin_name);
+////            Session::put('admin_id',$account_name->admin_id);
+////            return redirect('/dashboard')->with('message', 'Đăng nhập Admin thành công');
+////        }else{
+////
+////            $hieu = new Social([
+////                'provider_user_id' => $provider->getId(),
+////                'provider' => 'facebook'
+////            ]);
+////
+////            $orang = Login::where('admin_email',$provider->getEmail())->first();
+////
+////            if(!$orang){
+////                $orang = Login::create([
+////                    'admin_name' => $provider->getName(),
+////                    'admin_email' => $provider->getEmail(),
+////                    'admin_password' => '',
+////                    'admin_phone' => ''
+////
+////                ]);
+////            }
+////            $hieu->login()->associate($orang);
+////            $hieu->save();
+////
+////            $account_name = Login::where('admin_id',$account->user)->first();
+////            Session::put('admin_name',$account_name->admin_name);
+////            Session::put('admin_id',$account_name->admin_id);
+////            return redirect('/dashboard')->with('message', 'Đăng nhập Admin thành công');
+////        }
+//    }
+
+    public function login_google(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function callback_google()
+    {
+        try {
+
+            $user = Socialite::driver('google')->stateless()->user();
+//            dd($user);
+            $finduser = TaiKhoan::where('provider_id', $user->id)->first();
+
+            if($finduser){
+
+                Auth::login($finduser);
+
+                return redirect()->route('user.home');
+
+            }else{
+                $newUser = TaiKhoan::create([
+                    'email' => $user->email,
+                    'provider' => 'Google',
+                    'provider_id'=> $user->id,
+                    'password' => encrypt('google123'),
+                    'loai' => 2,
+                    'trangthai' => 1,
+                    'vip' => 0
+                ]);
+//                dd($newUser);
+
+                $kh = KhachHang::create([
+                    'tai_khoan_id' => $newUser->id,
+                    'kh_Ten' => $user->name,
+                ]);
+//                dd($kh);
+
+                Auth::login($newUser);
+
+                return redirect()->route('user.home');
+            }
+
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
 }

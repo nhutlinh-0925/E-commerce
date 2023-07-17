@@ -24,6 +24,26 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="/template/front-end-login/css/custom/custom.css">
     <!-- END: Custom CSS-->
+      <style>
+          /*.fb-button {*/
+          /*    background-color: #4267B2;*/
+          /*    color: white;*/
+          /*    padding: 10px 20px;*/
+          /*    border: none;*/
+          /*    border-radius: 4px;*/
+          /*    font-size: 16px;*/
+          /*    cursor: pointer;*/
+          /*}*/
+          .google-button {
+              background-color: #DB4437;
+              color: white;
+              font-size: 16px;
+              height: 35px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+      </style>
   </head>
   <!-- END: Head-->
   <body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 1-column login-bg   blank-page blank-page" data-open="click" data-menu="vertical-dark-menu" data-col="1-column">
@@ -78,9 +98,19 @@
       </div>
 
       <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s6 m6 l6">
           <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Đăng nhập</button>
         </div>
+            <div class="input-field col s6 m6 l6">
+                <a href="{{ url('auth/google') }}" class="google-button waves-effect border-round col s12 text-center" >Google</a>
+            </div>
+
+{{--          <div class="input-field col s6 m6 l6">--}}
+{{--              <a href="{{ url('user/login/facebook') }}" class="fb-button border-round">Facebook</a>--}}
+{{--          </div>--}}
+{{--          <div class="input-field col s6 m6 l6">--}}
+{{--              <a href="{{ url('auth/google') }}" class="google-button border-round" >Google</a>--}}
+{{--          </div>--}}
       </div>
       <div class="row">
         <div class="input-field col s6 m6 l6">
@@ -90,6 +120,9 @@
           <p class="margin right-align medium-small"><a href="user-forgot-password.html">Quên mật khẩu ?</a></p>
         </div>
       </div>
+
+
+
       @csrf
     </form>
   </div>

@@ -59,11 +59,15 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__hover">
-                                <span>Tài khoản <i class="arrow_carrot-down"></i></span>
+                                @if (Auth::check())
+                                <span>Tài khoản : {{ $khachhang->kh_Ten }}<i class="arrow_carrot-down"></i></span>
+                                @else
+                                    <span>Tài khoản <i class="arrow_carrot-down"></i></span>
+                                @endif
                                 <ul>
                                     @if (Auth::check())
-                                        <a class="dropdown-item" href="">Xin chào {{ $khachhang->kh_Ten }}</a>
-                                          <a class="dropdown-item" href="/purchase_order/{{Auth::user()->id}}">Đơn hàng</a>
+{{--                                        <a class="dropdown-item" href="">Xin chào {{ $khachhang->kh_Ten }}</a>--}}
+                                          <a class="dropdown-item" href="/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
                                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                                     @else
                                         <a class="dropdown-item" href="{{  route('user.login')}}" style="font-weight: bold;">Đăng nhập</a>

@@ -83,11 +83,14 @@
             <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Đăng ký</button>
         </div>
       </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <p class="margin medium-small"><a href="{{  route('user.login')}}">Bạn đã có tài khoản? </a></p>
+        <div class="row">
+            <div class="input-field col s6 m6 l6">
+                <p class="margin medium-small"><a href="{{  route('user.login')}}">Bạn đã có tài khoản? </a></p>
+            </div>
+            <div class="input-field col s6 m6 l6">
+                <p class="margin right-align medium-small"><a href="/">Hủy bỏ !!!</a></p>
+            </div>
         </div>
-      </div>
       @csrf
     </form>
   </div>
