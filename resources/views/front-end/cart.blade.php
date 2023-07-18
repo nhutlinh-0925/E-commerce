@@ -4,6 +4,7 @@
 <head>
 	<!-- head -->
 	@include('front-end.pages.head')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
@@ -88,7 +89,7 @@
 
     @elseif(Session::has('flash_message_error'))
         <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
-{{--            <button type="button" data-bs-dismiss="alert" aria-label="Close"><i class="fa fa-times"></i></button>--}}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             {!! session('flash_message_error') !!}
             @if(Session::has('flash_message_error_link'))
                 <a href="/user/login">Đăng nhập tại đây</a>
@@ -109,7 +110,7 @@
                         @php $total = 0; @endphp
                         <table>
                             <thead>
-                                <tr >
+                                <tr>
                                     <th class="text-center">Sản phẩm</th>
                                     <th>Số lượng</th>
                                     <th>Thành tiền</th>
@@ -141,7 +142,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price">{{ number_format($priceEnd, 0, '', '.') }}</td>
+                                    <td class="cart__price">{{ number_format($priceEnd, 0, '', '.') }} đ</td>
                                     <td class="cart__close">
                                         <a href="/carts/delete/{{ $product->id }}"><i class="fa fa-trash" style='color: red'></i></a>
                                     </td>
@@ -166,28 +167,62 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
                     <div class="cart__total">
                         <h4 class="order__title">Tổng tiền</h4>
                         <ul>
-                            <li>Tổng cộng <span>{{ number_format($total, 0, '', '.') }}VNĐ</span></li>
-                            <li>Vận chuyển <span>Free</span></li>
-                            <li>Mã giảm <span>0</span></li>
-                            <li>Tổng tiền được giảm <span>0</span></li><hr style="Border: solid 1px black;">
-                            <li>Tiền thanh toán<span>{{ number_format($total, 0, '', '.') }}VNĐ</span></li>
+                            <li>Tổng cộng : <span>{{ number_format($total, 0, '', '.') }} đ</span></li>
+                            <li>Vận chuyển : <span>Free</span></li>
+                            @if($coupons)
+                            <li>
+                                @foreach($coupons as $key => $cou)
+                                    @if($cou['mgg_LoaiGiamGia'] == 2)
+                                        Mã giảm: <span>{{ $cou['mgg_GiaTri'] }} %</span>
+                                        @php
+                                            $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
+                                        @endphp
+                                        <li>Tổng tiền được giảm <span>{{ number_format($total_coupon, 0, '', '.') }} đ</span></li><hr style="Border: solid 1px black;">
+                                        <li>Tiền thanh toán<span>{{ number_format($total - $total_coupon, 0, '', '.') }} đ</span></li>
+                                    @elseif($cou['mgg_LoaiGiamGia'] == 1)
+                                        Mã giảm: <span>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</span>
+                                        @php
+                                            $total_coupon = $total - $cou['mgg_GiaTri'];
+                                        @endphp
+                                        <li>Tổng tiền được giảm <span>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</span></li><hr style="Border: solid 1px black;">
+                                        <li>Tiền thanh toán<span>{{ number_format($total_coupon, 0, '', '.') }} đ</span></li>
+                                   @endif
+                                @endforeach
+                            @else
+                                <li>Mã giảm : <span>0</span></li>
+                                <li>Tổng tiền được giảm <span>0</span></li><hr style="Border: solid 1px black;">
+                                <li>Tiền thanh toán<span>{{ number_format($total, 0, '', '.') }} đ</span></li>
+                                @endif
+                            </li>
                         </ul>
                         <a href="/checkout"  class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>
+
         </div>
         </form>
+
+        <div class="col-lg-8">
+            <div class="cart__discount">
+                <h6>Mã giảm giá</h6>
+                @php
+                    $cou = $cou ?? ['mgg_MaGiamGia' => ''];
+                @endphp
+                <form action="check_coupon" method="POST">
+                    @csrf
+                    <input type="text" name="coupon" style="color: black" placeholder="Nhập mã giảm giá" value="{{ old($cou['mgg_MaGiamGia'], $cou['mgg_MaGiamGia']) }}">
+                    <button type="submit">Áp dụng</button>
+                </form>
+                @if($coupons)
+                    <a href="/delete_coupon">Xóa mã giảm giá</a>
+                @endif
+            </div>
+        </div>
+
         @else
     <div class="text-center"><h2>Giỏ hàng trống</h2></div>
     @endif
@@ -195,6 +230,7 @@
     <!-- Shopping Cart Section End -->
 
     @include('front-end.pages.footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 

@@ -1,15 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\LoginController;
+
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\DanhMucSanPhamController;
 use \App\Http\Controllers\ThuongHieuController;
 use \App\Http\Controllers\SanPhamController;
-
 use \App\Http\Controllers\KhachHangController;
+use \App\Http\Controllers\MaGiamGiaController;
 
 
+use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
 use \App\Http\Controllers\CartController;
 
@@ -26,30 +27,32 @@ use \App\Http\Controllers\CartController;
 
 // Front-end - Trang người dùng
 
-// Route::get('/', function () {
-//     return view('front-end.home');
-// });
+    //Trang chủ
 Route::get('/',[LoginController::class, 'home']);
-
+    //Trang shop
 Route::get('/shop',[ShopController::class, 'shop']);
 Route::get('/product/{id}',[ShopController::class, 'product_detail']);
-
+    //Trang cart
 Route::post('add-cart',[CartController::class, 'index']);
 Route::get('carts',[CartController::class, 'show']);
 Route::post('update-cart',[CartController::class, 'update']);
 Route::get('carts/delete/{id}',[CartController::class, 'remove']);
 Route::get('checkout',[CartController::class, 'showcheckout']);
 Route::post('/carts/checkout',[CartController::class, 'getCart']);
-
+    //Mã giảm giá
+Route::post('/check_coupon',[CartController::class, 'check_coupon']);
+Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
+    //Trang đơn hàng
 Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
 Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
 //Route::get('/purchase_order/{id}', [CartController::class, 'user'])->name('users.index');
-
+    //Khi mua hàng gửi email
 Route::get('email',[CartController::class, 'email']);
-
+    //Đăng nhập facebook
 //Route::get('user/login/facebook', [LoginController::class, 'login_facebook']);
 //Route::get('user/login/callback', [LoginController::class, 'callback_facebook']);
 
+    //Đăng nhập google
 Route::get('auth/google', [LoginController::class, 'login_google']);
 Route::get('auth/google/callback', [LoginController::class, 'callback_google']);
 
@@ -57,7 +60,7 @@ Route::get('auth/google/callback', [LoginController::class, 'callback_google']);
 //     return view('front-end.login.login');
 // });
 
-
+    //Khách hàng chưa đăng nhập
 Route::prefix('user')->name('user.')->group(function () {
     // Route::middleware(['guest:web'])->group(function () {
         Route::view('/login','front-end.login.login')->name('login');
@@ -81,8 +84,6 @@ Route::prefix('user')->name('user.')->group(function () {
 });
 
 // Back-end - Trang admin
-
-
 Route::prefix('admin')->name('admin.')->group(function () {
     // Route::middleware(['guest:admin'])->group(function () {
         Route::view('/login','back-end.login.login')->name('login');
@@ -135,11 +136,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('add', [SanPhamController::class, 'create']);
             Route::post('add', [SanPhamController::class, 'store']);
             // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
-            Route::get('edit/{id}', [SanPhamController::class, 'edit']);
-            Route::post('edit/{id}', [SanPhamController::class, 'update']);
+//            Route::get('edit/{id}', [SanPhamController::class, 'edit']);
+//            Route::post('edit/{id}', [SanPhamController::class, 'update']);
             // Route::DELETE('destroy/{doctor}', [AdminController::class, 'destroy']);
         });
-
+//Mã giảm giá
+        Route::prefix('/coupons')->group(function () {
+            Route::get('/', [MaGiamGiaController::class, 'index']);
+            Route::get('add', [MaGiamGiaController::class, 'create']);
+            Route::post('add', [MaGiamGiaController::class, 'store']);
+            // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
+//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
+//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
+//            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
+//            Route::post('active/{id}', [MaGiamGiaController::class, 'active']);
+//            Route::post('unactive/{id}', [MaGiamGiaController::class, 'unactive']);
+        });
         // Route::get('/users/ajax',[KhachHangController::class,'getUsers'])->name('get-users');
 
         Route::get('/users',[KhachHangController::class,'index']);

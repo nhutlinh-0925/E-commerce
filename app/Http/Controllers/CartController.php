@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\KhachHang;
 
-use App\Models\TaiKhoan;
 use DataTables;
+
+use App\Models\MaGiamGia;
 
 class CartController extends Controller
 {
@@ -43,7 +44,8 @@ class CartController extends Controller
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
-                'khachhang' => $khachhang
+                'khachhang' => $khachhang,
+                'coupons' => session()->get('coupon')
             ]);
         }else{
             $products = $this->cartService->getProduct();
@@ -51,6 +53,7 @@ class CartController extends Controller
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
+                'coupons' => session()->get('coupon')
             ]);
         }
     }
@@ -65,6 +68,16 @@ class CartController extends Controller
     public function remove($id = 0)
     {
         $this->cartService->remove($id);
+
+        $products = $this->cartService->getProduct();
+        if (count ($products) == 0){
+            $coupon = Session::get('coupon');
+            if($coupon == true){
+                Session::forget('coupon');
+                return redirect()->back();
+            }
+        }
+
         return redirect('/carts');
     }
 
@@ -80,7 +93,8 @@ class CartController extends Controller
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
-                'khachhang' => $khachhang
+                'khachhang' => $khachhang,
+                'coupons' => session()->get('coupon')
             ]);
         }else{
             Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
@@ -94,6 +108,59 @@ class CartController extends Controller
 //        dd($request->input());
         $this->cartService->getCart($request);
         return redirect()->back();
+    }
+
+    public function check_coupon(Request $request){
+    //dd($request);
+        $data = $request->all();
+        $coupon = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])->first();
+//        dd($coupon);
+        if($coupon){
+            $count_coupon = $coupon->count();
+//            dd($count_coupon);
+            if($count_coupon>0){
+                $coupon_session = Session::get('coupon');
+//                dd($coupon_session);
+                if($coupon_session == true){
+                    $is_avaiable = 0;
+                    if($is_avaiable==0){
+                        $cou[] = array(
+                            'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
+                            'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
+                            'mgg_GiaTri' => $coupon->mgg_GiaTri,
+                        );
+//                        dd($cou);
+                        session()->put('coupon',$cou);
+                    }
+                }else{
+                    $cou[] = array(
+                        'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
+                        'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
+                        'mgg_GiaTri' => $coupon->mgg_GiaTri,
+                    );
+//                    dd($cou);
+//                    Session::put('coupon',$cou);
+                      session()->put('coupon',$cou);
+
+                }
+                Session::save();
+                Session::flash('flash_message', 'Thêm mã giảm giá thành công');
+                return redirect()->back();
+            }
+
+        }else{
+            Session::flash('flash_message_error', 'Mã giảm giá không đúng');
+            return redirect()->back();
+        }
+    }
+
+    public function delete_coupon(){
+        $coupon = Session::get('coupon');
+        if($coupon == true){
+            Session::forget('coupon');
+            Session::flash('flash_message', 'Xóa mã giảm giá thành công');
+            return redirect()->back();
+        }
     }
 
      public function show_DonHang(Request $request, $id){
@@ -112,7 +179,7 @@ class CartController extends Controller
                      ->where('khach_hang_id','=',$khach_hang_id)
                      ->orderby('id','desc')
                      ->get();
-//                 dd($get_cart);
+//                 dd($data);
                  return Datatables::of($data)
                      ->addIndexColumn()
                      ->make(true);
@@ -129,22 +196,30 @@ class CartController extends Controller
 
 
 
-//    public function show_ChitietDonhang($id){
+    public function show_ChitietDonhang($id){
+        if(Auth::check()) {
+            $id_kh = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
+//              dd($khachhang);
+            $carts = $this->cartService->getProduct();
+        }
 //        $customer = DB::table('carts')
 //            ->select('carts.*')
 //            ->where('carts.id', '=', $id)
 //            ->first();
-//
+
 //        $cart = DB::table('detail_carts')
 //            ->join('products', 'detail_carts.product_id', '=', 'products.id')
 //            ->select('detail_carts.*', 'products.*')
 //            ->where('detail_carts.cart_id', '=', $id)
 //            ->get();
-//
-//        return view('carts.detail_order',[
-//            'title' => 'Chi tiết đơn hàng'
-//        ])->with('customer',$customer)->with('cart',$cart);
-//    }
+
+        return view('front-end.detail_order',[
+            'khachhang' => $khachhang,
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+        ]);
+    }
 
 //    public function update_DonHang(Request $request, $id){
 //        $cart = Cart::find($id);

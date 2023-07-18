@@ -106,7 +106,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p><b>Họ và tên</b><span>*</span></p>
-                                        <input type="text" name="kh_Ten" style="color: black" placeholder="Nhập họ tên của bạn" value="{{ $khachhang->kh_Ten }}">
+                                        <input type="text" name="kh_Ten" style="color: black" placeholder="Nhập họ tên của bạn" value="{{ old('kh_Ten', $khachhang->kh_Ten ?? '') }}">
                                         @error ('kh_Ten')
                                         <span style="color: red;">{{ $message }}</span>
                                         @enderror
@@ -126,7 +126,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p><b>Số điện thoại</b><span>*</span></p>
-                                        <input type="text" name="kh_SoDienThoai" style="color: black" placeholder="Nhập số điện thoại của bạn" value="{{ $khachhang->kh_SoDienThoai }}" >
+                                        <input type="text" name="kh_SoDienThoai" style="color: black" placeholder="Nhập số điện thoại của bạn" value="{{ old('kh_SoDienThoai', $khachhang->kh_SoDienThoai ?? '') }}" required>
                                         @error ('kh_SoDienThoai')
                                         <span style="color: red;">{{ $message }}</span>
                                         @enderror
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p><b>Ghi chú</b><span>*</span></p>
+                                        <p><b>Ghi chú</b></p>
                                         <input type="text" name="pdh_GhiChu" style="color: black" placeholder="Nhập ghi chú thêm cho đơn hàng (nếu có)....">
                                     </div>
                                 </div>
@@ -179,11 +179,35 @@
                                     @endphp
                                 @endforeach
                                 <h5 class="order__title">Tổng tiền</h5>
-                                <div class="checkout__order__products">Tiền hàng: <span>{{ number_format($total, 0, '', '.') }}VNĐ</span></div>
-                                <div class="checkout__order__products">Phí vận chuyển: <span>Total</span></div>
-                                <div class="checkout__order__products">Mã giảm: <span>Total</span></div>
-                                <div class="checkout__order__products">Tổng tiền được giảm: <span>Total</span></div><hr style="Border: solid 1px black;">
-                                <div class="checkout__order__products">Tiền thanh toán: <span>Total</span></div>
+                                <div class="checkout__order__products">Tiền hàng: <span style="color: red"><b>{{ number_format($total, 0, '', '.') }} đ</b></span></div>
+                                <div class="checkout__order__products">Phí vận chuyển: <span style="color: red"><b>Free</b></span></div>
+                                @if($coupons)
+                                    <div class="checkout__order__products">
+                                        @foreach($coupons as $key => $cou)
+                                            @if($cou['mgg_LoaiGiamGia'] == 2)
+                                                <div class="checkout__order__products">Mã giảm: <span style="color: red"><b>{{ $cou['mgg_GiaTri'] }} %</b></span></div>
+                                    @php
+                                        $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
+                                    @endphp
+                                    <div class="checkout__order__products">Tổng tiền được giảm <span style="color: red"><b>{{ number_format($total_coupon, 0, '', '.') }} đ</b></span></div><hr style="Border: solid 1px black;">
+                                    <div class="checkout__order__products">Tiền thanh toán<span style="color: red"><b>{{ number_format($total - $total_coupon, 0, '', '.') }} đ</b></span></div>
+                                @elseif($cou['mgg_LoaiGiamGia'] == 1)
+                                                <div class="checkout__order__products">Mã giảm: <span style="color: red"><b>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</b></span></div>
+                                    @php
+                                        $total_coupon = $total - $cou['mgg_GiaTri'];
+                                    @endphp
+                                    <div class="checkout__order__products">Tổng tiền được giảm <span style="color: red"><b>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</b></span></div><hr style="Border: solid 1px black;">
+                                    <div class="checkout__order__products">Tiền thanh toán<span style="color: red"><b>{{ number_format($total_coupon, 0, '', '.') }} đ</b></span></div>
+                                @endif
+                                @endforeach
+                                @else
+                                    <div class="checkout__order__products">Mã giảm : <span style="color: red"><b>0</b></span></div>
+                                    <div class="checkout__order__products">Tổng tiền được giảm <span style="color: red"><b>0</b></span></div><hr style="Border: solid 1px black;">
+                                    <div class="checkout__order__products">Tiền thanh toán<span style="color: red"><b>>{{ number_format($total, 0, '', '.') }} đ</b></span></div>
+                                    @endif
+                                    </div>
+{{--                                <div class="checkout__order_<div class="checkout__order__products">_products">Tổng tiền được giảm: <span>Total</span></div><hr style="Border: solid 1px black;">--}}
+{{--                                <div class="checkout__order__products">Tiền thanh toán: <span>Total</span></div>--}}
 {{--                                <ul class="checkout__total__products">--}}
 {{--                                    <li>01. Vanilla salted caramel <span>$ 300.0</span></li>--}}
 {{--                                    <li>02. German chocolate <span>$ 170.0</span></li>--}}

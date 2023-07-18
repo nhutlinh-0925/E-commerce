@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PhieuDatHang;
 use App\Models\KhachHang;
 
-// use Mail;
+ use Mail;
 
 use Illuminate\Support\Facades\Session;
 
@@ -53,6 +53,7 @@ class CartService
         $carts = session()->get('carts');
         if (is_null($carts)) return [];
         // dd($carts);
+
         $productId = array_keys($carts);
         // dd($productId);
         return SanPham::select('id', 'sp_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien')
@@ -72,8 +73,8 @@ class CartService
         $carts = session()->get('carts');
         // dd($carts);
         unset($carts[$id]);
-
         session()->put('carts', $carts);
+
         return true;
     }
 
@@ -141,7 +142,9 @@ class CartService
             DB::beginTransaction();
             $total = 0;
             $carts = Session::get('carts');
-//             dd($carts);
+             dd($carts);
+            $coupons = Session::get('coupon');
+//        dd($coupons);
             $productId = array_keys($carts);
 
             $products =  SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien')
@@ -160,25 +163,45 @@ class CartService
                 $price = $product->sp_Gia;
                 $priceEnd = $price * $carts[$product->id];
                 $total += $priceEnd;
+//                dd($total);
             }
 
+            $id_tk = $request->user()->id;
+            //dd($id_tk);
+            $id_kh = KhachHang::where('tai_khoan_id',$id_tk)->get();
+//            dd($id_kh);
+            $id = $id_kh->first()->id;
+
             $cart = new PhieuDatHang;
-            $cart->khach_hang_id = $request->user()->id;
+            $cart->khach_hang_id = $id;
+//            dd($cart);
             $cart->pdh_TongTien = $total;
+//            dd($cart);
             $cart->pdh_TrangThai = 1;
+//            dd($cart);
             $cart->save();
-//          dd($cart);
+//            dd($cart);
 
 
 
-            $customer = KhachHang::find($request->user()->id);
+            $customer = KhachHang::find($id);
+//            dd($customer);
             $customer->kh_Ten = $request->kh_Ten;
+//            dd($customer);
+//            $request->validate([
+//                'kh_SoDienThoai' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/']
+//            ], [
+//                'kh_SoDienThoai.required' => 'Vui lòng nhập số điện thoại',
+//                'kh_SoDienThoai.regex' => 'Số điện thoại không đúng định dạng'
+//            ]);
+
             $customer->kh_SoDienThoai = $request->kh_SoDienThoai;
 
             $tien = $customer->kh_TongTienDaMua;
             $customer->kh_TongTienDaMua = $tien + $total;
+//            dd($customer);
             $customer->save();
-//          dd($customer);
+
 
 //            $cart->email = $request->email;
 
@@ -191,6 +214,12 @@ class CartService
                     'ctpdh_Gia' => $product->sp_Gia
                 ]);
             }
+
+            $name = "Nhựt Linh";
+            Mail::send('front-end.email_order', compact('name'), function($email) use($name){
+                $email->subject('Balo');
+                $email->to('trannhutlinh0925@gmail.com', $name);
+            });
 
             DB::commit();
             session()->flash('flash_message', 'Đặt hàng thành công');
