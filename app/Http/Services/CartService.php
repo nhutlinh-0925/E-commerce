@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 
 class CartService
 {
+    //Hàm tạo giỏ hàng
     public function create($request)
     {
         $qty = (int)$request->input('num_product');
@@ -48,6 +49,7 @@ class CartService
     // dd($carts);
     }
 
+    //Hàm lấy sản phẩm cho giỏ hàng
     public function getProduct()
     {
         $carts = session()->get('carts');
@@ -62,12 +64,14 @@ class CartService
         ->get();
     }
 
+    //Hàm cập nhập số lượng giỏ hàng
     public function update($request)
     {
         session()->put('carts', $request->input('num_product'));
         return true;
     }
 
+    //Hàm xóa sản phẩm trong giỏ hàng
     public function remove($id)
     {
         $carts = session()->get('carts');
@@ -78,80 +82,29 @@ class CartService
         return true;
     }
 
-//    public function addCart($request)
-//    {
-//        try {
-//            DB::beginTransaction();
-//            $carts = session()->get('carts');
-//            dd($carts);
-//            if (is_null($carts)) return false;
-//            // dd($customer);
-//
-//            // $this->infoProductCart($carts, $customer->id);
-//            DB::commit();
-//            session()->flash('success', 'Đặt hàng thành công');
-//
-//            session()->forget('carts');
-//
-//        } catch (\Exception $err){
-//            DB::rollBack();
-//            session()->flash('error', 'Đặt hàng lỗi, vui lòng thử lại');
-//            return false;
-//
-//        }
-//        return true;
-//    }
-
-    // protected function infoProductCart($carts, $user_id)
-    // {
-    //     $productId = array_keys($carts);
-    //     $products =  Product::select('id', 'name', 'price', 'price_sale', 'thumb')
-    //     ->where('active', 1)
-    //     ->whereIn('id', $productId)
-    //     ->get();
-
-    //     $data = [];
-    //     foreach ($products as $product){
-    //         $data[] = [
-    //             'user_id' => $user_id,
-    //             'product_id' => $product->id,
-    //             'pty' => $carts[$product->id],
-    //             'price' => $product->price_sale != 0 ? $product->price_sale : $product->price
-    //         ];
-    //     }
-
-    //     return Cart::insert($data);
-    // }
-
     public function getUser()
     {
         return User::orderByDesc('id')->paginate(15);
     }
 
 
-//    public function getProductForCart($user)
-//    {
-//        return $user->carts()->with(['product' => function ($query) {
-//            $query->select('id', 'name', 'thumb');
-//        }])->get();
-//    }
-
     public function getCart($request)
     {
+//        dd($request);
         try{
             DB::beginTransaction();
             $total = 0;
             $carts = Session::get('carts');
-             dd($carts);
+            //dd($carts);
             $coupons = Session::get('coupon');
-//        dd($coupons);
+            //dd($coupons);
             $productId = array_keys($carts);
 
             $products =  SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien')
             ->where('sp_TrangThai', 1)
             ->whereIn('id', $productId)
             ->get();
-//             dd($products);
+             //dd($products);
 
             // $name = 'Nhựt Linh';
             // Mail::send('emails.test', compact('name'), function($email) use($name){
@@ -163,38 +116,47 @@ class CartService
                 $price = $product->sp_Gia;
                 $priceEnd = $price * $carts[$product->id];
                 $total += $priceEnd;
-//                dd($total);
+                //dd($total);
             }
 
+            if($coupons){
+                //dd($coupons);
+                foreach($coupons as $key => $cou)
+                    if($cou['mgg_LoaiGiamGia'] == 2){
+                        $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
+                        $tien_end = $total - $total_coupon;
+                       //dd($tien_end);
+                    }elseif($cou['mgg_LoaiGiamGia'] == 1){
+                        $tien_end = $total - $cou['mgg_GiaTri'];
+                        //dd($tien_end);
+                    }
+            }
+
+//            $tt = $request->pdh_PhuongThucThanhToan;
+
             $id_tk = $request->user()->id;
-            //dd($id_tk);
             $id_kh = KhachHang::where('tai_khoan_id',$id_tk)->get();
-//            dd($id_kh);
             $id = $id_kh->first()->id;
 
             $cart = new PhieuDatHang;
             $cart->khach_hang_id = $id;
-//            dd($cart);
-            $cart->pdh_TongTien = $total;
-//            dd($cart);
+            $cart->ma_giam_gia_id = $coupons[0]['id'];
+            $cart->pdh_GhiChu = $request->pdh_GhiChu;
+            $cart->pdh_GiamGia = $coupons[0]['mgg_MaGiamGia'];
+            $cart->pdh_TongTien = $tien_end;
             $cart->pdh_TrangThai = 1;
-//            dd($cart);
+            $cart->pdh_PhuongThucThanhToan = $request->pdh_PhuongThucThanhToan;
             $cart->save();
 //            dd($cart);
 
-
-
             $customer = KhachHang::find($id);
-//            dd($customer);
             $customer->kh_Ten = $request->kh_Ten;
-//            dd($customer);
 //            $request->validate([
 //                'kh_SoDienThoai' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/']
 //            ], [
 //                'kh_SoDienThoai.required' => 'Vui lòng nhập số điện thoại',
 //                'kh_SoDienThoai.regex' => 'Số điện thoại không đúng định dạng'
 //            ]);
-
             $customer->kh_SoDienThoai = $request->kh_SoDienThoai;
 
             $tien = $customer->kh_TongTienDaMua;
@@ -220,6 +182,10 @@ class CartService
                 $email->subject('Balo');
                 $email->to('trannhutlinh0925@gmail.com', $name);
             });
+
+            if($coupons == true){
+                Session::forget('coupon');
+            }
 
             DB::commit();
             session()->flash('flash_message', 'Đặt hàng thành công');

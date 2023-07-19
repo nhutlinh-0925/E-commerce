@@ -4,6 +4,7 @@
 <head>
 	<!-- head -->
 	@include('front-end.pages.head')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
@@ -77,13 +78,13 @@
     <!-- Breadcrumb Section End -->
     @if(Session::has('flash_message'))
         <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">
-{{--            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>--}}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             {!! session('flash_message') !!}
         </div>
 
     @elseif(Session::has('flash_message_error'))
         <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
-            {{--            <button type="button" data-bs-dismiss="alert" aria-label="Close"><i class="fa fa-times"></i></button>--}}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             {!! session('flash_message_error') !!}
         </div>
 
@@ -96,12 +97,8 @@
                 <form action="/carts/checkout" method="post">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
-{{--                            <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click--}}
-{{--                            here</a> to enter your code</h6>--}}
                             <h3 style="color: red">Thanh toán đơn hàng của ở đây</h3>
-{{--                            <h6>Vui lòng đăng nhập để thanh toán nhanh hơn</h6>--}}
                             <br>
-{{--                            <h6 class="checkout__title">Billing Details</h6>--}}
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
@@ -115,7 +112,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p><b>Email</b><span>*</span></p>
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" style="color: black" type="text" name="email" placeholder="Nhập email của bạn" value="{{Auth::user()->email}}">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" style="color: black" type="text" name="email"  value="{{Auth::user()->email}}" disabled>
                                         @error ('email')
                                         <span style="color: red;">{{ $message }}</span>
                                         @enderror
@@ -138,16 +135,8 @@
                                         <input type="text" name="pdh_GhiChu" style="color: black" placeholder="Nhập ghi chú thêm cho đơn hàng (nếu có)....">
                                     </div>
                                 </div>
+
                             </div>
-{{--                            <div class="checkout__input__checkbox">--}}
-{{--                                <label for="acc">--}}
-{{--                                    Create an account?--}}
-{{--                                    <input type="checkbox" id="acc">--}}
-{{--                                    <span class="checkmark"></span>--}}
-{{--                                </label>--}}
-{{--                                <p>Create an account by entering the information below. If you are a returning customer--}}
-{{--                                please login at the top of the page</p>--}}
-{{--                            </div>--}}
                             <div class="checkout__input">
                                 <p><b>Địa chỉ giao hàng</b><span>*</span></p>
                                 <input type="text">
@@ -155,18 +144,6 @@
                             <button  type="button" class="btn btn-primary">Thêm địa chỉ</button>
                             <br>
                             <a href="/carts">Xem lại giỏ hàng?</a>
-{{--                            <div class="checkout__input__checkbox">--}}
-{{--                                <label for="diff-acc">--}}
-{{--                                    Note about your order, e.g, special noe for delivery--}}
-{{--                                    <input type="checkbox" id="diff-acc">--}}
-{{--                                    <span class="checkmark"></span>--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
-{{--                            <div class="checkout__input">--}}
-{{--                                <p>Order notes<span>*</span></p>--}}
-{{--                                <input type="text"--}}
-{{--                                placeholder="Notes about your order, e.g. special notes for delivery.">--}}
-{{--                            </div>--}}
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
@@ -179,6 +156,7 @@
                                     @endphp
                                 @endforeach
                                 <h5 class="order__title">Tổng tiền</h5>
+
                                 <div class="checkout__order__products">Tiền hàng: <span style="color: red"><b>{{ number_format($total, 0, '', '.') }} đ</b></span></div>
                                 <div class="checkout__order__products">Phí vận chuyển: <span style="color: red"><b>Free</b></span></div>
                                 @if($coupons)
@@ -206,75 +184,18 @@
                                     <div class="checkout__order__products">Tiền thanh toán<span style="color: red"><b>>{{ number_format($total, 0, '', '.') }} đ</b></span></div>
                                     @endif
                                     </div>
-{{--                                <div class="checkout__order_<div class="checkout__order__products">_products">Tổng tiền được giảm: <span>Total</span></div><hr style="Border: solid 1px black;">--}}
-{{--                                <div class="checkout__order__products">Tiền thanh toán: <span>Total</span></div>--}}
-{{--                                <ul class="checkout__total__products">--}}
-{{--                                    <li>01. Vanilla salted caramel <span>$ 300.0</span></li>--}}
-{{--                                    <li>02. German chocolate <span>$ 170.0</span></li>--}}
-{{--                                    <li>03. Sweet autumn <span>$ 170.0</span></li>--}}
-{{--                                    <li>04. Cluten free mini dozen <span>$ 110.0</span></li>--}}
-{{--                                </ul>--}}
-                                <h5 class="order__title">PHƯƠNG THỨC THANH TOÁN</h5>
-{{--                                <ul class="checkout__total__all">--}}
-{{--                                    <li>Subtotal <span>$750.99</span></li>--}}
-{{--                                    <li>Total <span>$750.99</span></li>--}}
-{{--                                </ul>--}}
-{{--                                <div class="checkout__input__checkbox">--}}
-{{--                                    <label for="acc-or">--}}
-{{--                                        Create an account?--}}
-{{--                                        <input type="checkbox" id="acc-or">--}}
-{{--                                        <span class="checkmark"></span>--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-
-
-
-{{--                                <div class="checkout__input__checkbox">--}}
-{{--                                    <label for="payment">--}}
-{{--                                        Thanh toán khi nhận hàng--}}
-{{--                                        <input type="checkbox" id="payment">--}}
-{{--                                        <span class="checkmark"></span>--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                                <div class="checkout__input__checkbox">--}}
-{{--                                    <label for="paypal">--}}
-{{--                                        Paypal--}}
-{{--                                        <input type="checkbox" id="paypal">--}}
-{{--                                        <span class="checkmark"></span>--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                                <div class="checkout__input__checkbox">--}}
-{{--                                    <label for="paypal">--}}
-{{--                                        VNPay--}}
-{{--                                        <input type="checkbox" id="paypal">--}}
-{{--                                        <span class="checkmark"></span>--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                                <div class="checkout__input__checkbox">--}}
-{{--                                    <label for="paypal">--}}
-{{--                                        OnePal--}}
-{{--                                        <input type="checkbox" id="paypal">--}}
-{{--                                        <span class="checkmark"></span>--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-
-                                <div class="form-group">
-{{--                                    <label for="gender" class="col-md-6 control-label">Giới tính<span class="text-danger">(*)</span></label>--}}
-                                    <div class="col-md-10">
-                                        <input type="radio" name="pdh_PhuongThucThanhToan" value="0">
-                                        <label>Thanh toán khi nhận hàng</label>
-                                        <input type="radio" name="pdh_PhuongThucThanhToan" value="1">
-                                        <label>Paypal</label><br>
-                                        <input type="radio" name="pdh_PhuongThucThanhToan" value="2">
-                                        <label>VNPay</label><br>
-                                        <input type="radio" name="pdh_PhuongThucThanhToan" value="3">
-                                        <label>OnePal</label><br>
-{{--                                        @error ('gender')--}}
-{{--                                        <span style="color: red;">{{ $message }}</span>--}}
-{{--                                        @enderror--}}
-                                    </div>
-                                    <br>
-                                <a href=""><img src="/template/front-end/img/payment.png" alt="" width="300px"></a>
+                                    <h5 class="order__title">PHƯƠNG THỨC THANH TOÁN</h5>
+                                    <div class="form-group">
+                                        <label for="pdh_PhuongThucThanhToan"><b>Phương thức thanh toán</b></label>
+                                        <select name="pdh_PhuongThucThanhToan" required id="pdh_PhuongThucThanhToan" class="form-control">
+                                            <option value="" selected>Chọn phương thức thanh toán</option>
+                                            <option value="0">Thanh toán khi nhận hàng</option>
+                                            <option value="1">Paypal</option>
+                                            <option value="2">VNPay</option>
+                                            <option value="3">OnePal</option>
+                                        </select>
+                                    </div><br><br><br>
+                                    <a href="" ><img src="/template/front-end/img/payment.png" alt="" width="300px"></a>
                                     <br><br>
                                 <button class="site-btn">Đặt hàng</button>
                             </div>
@@ -288,7 +209,7 @@
     <!-- Checkout Section End -->
 
     @include('front-end.pages.footer')
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

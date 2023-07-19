@@ -125,6 +125,7 @@ class CartController extends Controller
                     $is_avaiable = 0;
                     if($is_avaiable==0){
                         $cou[] = array(
+                            'id' => $coupon->id,
                             'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
                             'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
                             'mgg_GiaTri' => $coupon->mgg_GiaTri,
@@ -134,6 +135,7 @@ class CartController extends Controller
                     }
                 }else{
                     $cou[] = array(
+                        'id' => $coupon->id,
                         'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
                         'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
                         'mgg_GiaTri' => $coupon->mgg_GiaTri,
