@@ -82,6 +82,24 @@
             </ul>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#delivery-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Phí vận chuyển</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="delivery-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/admin/deliveries/add">
+                        <i class="bi bi-circle"></i><span>Thêm phí vận chuyển</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/deliveries">
+                        <i class="bi bi-circle"></i><span>Danh sách phí vận chuyển</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
 
 
       <li class="nav-item">

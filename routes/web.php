@@ -8,7 +8,7 @@ use \App\Http\Controllers\ThuongHieuController;
 use \App\Http\Controllers\SanPhamController;
 use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\MaGiamGiaController;
-
+use \App\Http\Controllers\VanChuyenController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
@@ -152,7 +152,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::post('active/{id}', [MaGiamGiaController::class, 'active']);
 //            Route::post('unactive/{id}', [MaGiamGiaController::class, 'unactive']);
         });
-        // Route::get('/users/ajax',[KhachHangController::class,'getUsers'])->name('get-users');
+
+//Phí vận chuyển
+        Route::prefix('/deliveries')->group(function () {
+            Route::get('/', [VanChuyenController::class, 'index']);
+            Route::get('add', [VanChuyenController::class, 'create']);
+            Route::post('add', [VanChuyenController::class, 'store']);
+            // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
+//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
+//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
+//            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
+//            Route::post('active/{id}', [MaGiamGiaController::class, 'active']);
+//            Route::post('unactive/{id}', [MaGiamGiaController::class, 'unactive']);
+        });
+
+
 
         Route::get('/users',[KhachHangController::class,'index']);
         Route::get('/user1',[KhachHangController::class,'index2']);
