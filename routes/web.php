@@ -13,6 +13,7 @@ use \App\Http\Controllers\VanChuyenController;
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
 use \App\Http\Controllers\CartController;
+use \App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,14 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::middleware(['auth','isCus'])->group(function () {
         Route::get('/',[LoginController::class, 'home'])->name('home');
 
+    //Trang cài đặt
+        Route::get('/setting/{id}',[SettingController::class, 'setting']);
+        Route::post('/setting/{id}',[SettingController::class, 'account'])->name('setting');
+
+    //Phần địa chỉ trong cài đặt
+        Route::post('address/add', [SettingController::class, 'add_address'])->name('add_address');
+        Route::post('/select_city', [SettingController::class, 'select_city']);
+        Route::DELETE('/address/destroy', [SettingController::class, 'destroy_address']);
 
         Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 

@@ -66,7 +66,7 @@
                                 @endif
                                 <ul>
                                     @if (Auth::check())
-{{--                                        <a class="dropdown-item" href="">Xin chào {{ $khachhang->kh_Ten }}</a>--}}
+{{--                                        <a class="dropdown-item" href="">Mục cài đặt</a>--}}
                                           <a class="dropdown-item" href="/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
                                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                                     @else
@@ -75,9 +75,15 @@
                                     @endif
                                 </ul>
                             </div>
+                            @if (Auth::check())
                             <div class="header__top__links">
-                                <a href="#">FAQs</a>
+                                <a href="/user/setting/{{Auth::user()->id}}">Cài đặt</a>
                             </div>
+                            @else
+                                <div class="header__top__links">
+                                    <a href="#">FAQs</a>
+                                </div>
+                            @endif
 
                             <div class="header__top__hover">
                                 <span>Usd <i class="arrow_carrot-down"></i></span>

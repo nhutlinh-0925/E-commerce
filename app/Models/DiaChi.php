@@ -11,6 +11,10 @@ class DiaChi extends Model
 
     protected $fillable = [
     	'khach_hang_id',
+        'tinh_thanh_pho_id',
+        'quan_huyen_id',
+        'xa_phuong_thi_tran_id',
         'dc_DiaChi',
+        'dc_TrangThai'
     ];
 }
