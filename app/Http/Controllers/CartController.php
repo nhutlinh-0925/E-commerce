@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Services\CartService;
+use App\Models\PhiVanChuyen;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ use App\Models\KhachHang;
 use DataTables;
 
 use App\Models\MaGiamGia;
+
+use App\Models\DiaChi;
 
 class CartController extends Controller
 {
@@ -82,19 +85,31 @@ class CartController extends Controller
     }
 
 
-
+    //Hàm get checkout
     public function showcheckout()
     {
+//        dd($request);
         if(Auth::check()){
             $id = Auth::user()->id;
+            //dd($id);
             $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $id_kh = $khachhang->id;
             $products = $this->cartService->getProduct();
+
+            $address = DiaChi::where('khach_hang_id', $id_kh)->get();
+            //dd($address);
+            //$dc_md = DiaChi::where('khach_hang_id', $id)->where('dc_TrangThai', 1)->get();
+            //dd($dc_md);
+
             return view('front-end.checkout', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
                 'khachhang' => $khachhang,
-                'coupons' => session()->get('coupon')
+                'coupons' => session()->get('coupon'),
+                'address' => $address,
+//                'dc_md' => $dc_md,
+//                'pvc' => session()->get('pvc'),
             ]);
         }else{
             Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
@@ -103,9 +118,43 @@ class CartController extends Controller
         }
     }
 
+    public function get_ship(Request $request)
+    {
+        // Lấy id địa chỉ từ yêu cầu AJAX
+        $addressId = $request->input('address_id');
+        //dd($addressId);
+        $address = DiaChi::find($addressId);
+
+        if ($address) {
+            // Lấy id của tỉnh/thành phố từ địa chỉ
+            $thanhPhoId = $address->tinh_thanh_pho_id;
+
+            // Tìm thông tin phí vận chuyển từ bảng `phi_van_chuyens`
+            $shippingFee = PhiVanChuyen::where('thanh_pho_id', $thanhPhoId)->value('pvc_PhiVanChuyen');
+        } else {
+            // Nếu không tìm thấy địa chỉ, mặc định phí vận chuyển là 0 (hoặc giá trị tùy ý)
+            $shippingFee = 25000;
+        }
+
+        // Trả về kết quả dưới dạng JSON
+        return response()->json(['pvc_PhiVanChuyen' => $shippingFee]);
+    }
+
     public function getCart(Request $request)
     {
 //        dd($request->input());
+        $this -> validate($request, [
+            'kh_Ten' => 'required',
+            'kh_SoDienThoai' => 'required',
+            'dc_DiaChi' => 'required',
+            'pdh_PhuongThucThanhToan' => 'required',
+        ],
+            [
+                'kh_Ten.required' => 'Vui lòng nhập tên ',
+                'kh_SoDienThoai.required' => 'Vui lòng nhập số điện thoại',
+                'dc_DiaChi.required' => 'Vui lòng chọn địa chỉ',
+                'pdh_PhuongThucThanhToan.required' => 'Vui lòng chọn phương thức thanh toán',
+            ]);
         $this->cartService->getCart($request);
         return redirect()->back();
     }
@@ -114,13 +163,13 @@ class CartController extends Controller
     //dd($request);
         $data = $request->all();
         $coupon = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])->first();
-//        dd($coupon);
+        //dd($coupon);
         if($coupon){
             $count_coupon = $coupon->count();
-//            dd($count_coupon);
+            //dd($count_coupon);
             if($count_coupon>0){
                 $coupon_session = Session::get('coupon');
-//                dd($coupon_session);
+                //dd($coupon_session);
                 if($coupon_session == true){
                     $is_avaiable = 0;
                     if($is_avaiable==0){
@@ -130,7 +179,7 @@ class CartController extends Controller
                             'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
                             'mgg_GiaTri' => $coupon->mgg_GiaTri,
                         );
-//                        dd($cou);
+                        //dd($cou);
                         session()->put('coupon',$cou);
                     }
                 }else{
@@ -140,8 +189,7 @@ class CartController extends Controller
                         'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
                         'mgg_GiaTri' => $coupon->mgg_GiaTri,
                     );
-//                    dd($cou);
-//                    Session::put('coupon',$cou);
+                    //dd($cou);
                       session()->put('coupon',$cou);
 
                 }

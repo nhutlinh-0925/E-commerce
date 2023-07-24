@@ -125,11 +125,11 @@
                                             <a onclick="removeRow({{ $ad->id }},'/user/address/destroy')">
                                                 <i class="fa fa-close" style='color: red'></i>
                                             </a>
-                                            <a style="color: red">
-                                                @if($ad->dc_TrangThai == 1)
-                                                    (Mặc định)
-                                                @endif
-                                            </a>
+{{--                                            <a style="color: red">--}}
+{{--                                                @if($ad->dc_TrangThai == 1)--}}
+{{--                                                    (Mặc định)--}}
+{{--                                                @endif--}}
+{{--                                            </a>--}}
                                         </label>
                                         <input type="text" class="form-control" disabled  value="{{ $ad->dc_DiaChi }}">
                                     </div>
@@ -188,19 +188,19 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <label for="" class="col-lg-4 col-form-label">Chọn địa chỉ mặc định : </label>
-                                    <div class="col-lg-8">
-                                        <select class="form-control" name="dc_DiaChi" id="" >
-                                            <option disabled>--- Chọn Địa chỉ ---</option>
-                                            @foreach ($address as $ad)
-                                                <option value="{{ $ad->id }}" {{ $dc_md->contains('id', $ad->id) ? 'selected' : '' }}>
-                                                    {{ $ad->dc_DiaChi }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+{{--                                <div class="row mb-3">--}}
+{{--                                    <label for="" class="col-lg-4 col-form-label">Chọn địa chỉ mặc định : </label>--}}
+{{--                                    <div class="col-lg-8">--}}
+{{--                                        <select class="form-control" name="dc_DiaChi" id="" >--}}
+{{--                                            <option disabled>--- Chọn Địa chỉ ---</option>--}}
+{{--                                            @foreach ($address as $ad)--}}
+{{--                                                <option value="{{ $ad->id }}" {{ $dc_md->contains('id', $ad->id) ? 'selected' : '' }}>--}}
+{{--                                                    {{ $ad->dc_DiaChi }}--}}
+{{--                                                </option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
 
 

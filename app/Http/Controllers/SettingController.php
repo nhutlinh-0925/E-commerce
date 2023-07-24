@@ -30,13 +30,16 @@ class SettingController extends Controller
     {
         if (Auth::check()) {
             $id = Auth::user()->id;
+            //dd($id);
             $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
             //dd($khachhang);
+            $id_kh = $khachhang->id;
+            //dd($id_kh);
             $carts = $this->cartService->getProduct();
             // dd($carts);
             $account = TaiKhoan::find($id);
             //dd($account);
-            $address = DiaChi::where('khach_hang_id', $id)->get();
+            $address = DiaChi::where('khach_hang_id', $id_kh)->get();
             //dd($address);
             $dc_md = DiaChi::where('khach_hang_id', $id)->where('dc_TrangThai', 1)->get();
             //dd($dc_md);
@@ -153,6 +156,7 @@ class SettingController extends Controller
             $dc->quan_huyen_id = $request->province;
             $dc->xa_phuong_thi_tran_id = $request->wards;
             $dc->dc_DiaChi = $request->dc_DiaChi;
+            //$dc->dc_TrangThai = 0;
             $dc->save();
             //dd($dc);
 

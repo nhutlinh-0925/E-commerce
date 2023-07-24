@@ -171,7 +171,7 @@
                         <h4 class="order__title">Tổng tiền</h4>
                         <ul>
                             <li>Tổng cộng : <span>{{ number_format($total, 0, '', '.') }} đ</span></li>
-                            <li>Vận chuyển : <span>Free</span></li>
+                            <li>Vận chuyển : <span>{{ number_format(25000, 0, '', '.') }} đ</span></li>
                             @if($coupons)
                             <li>
                                 @foreach($coupons as $key => $cou)
@@ -181,20 +181,20 @@
                                             $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
                                         @endphp
                                         <li>Tổng tiền được giảm <span>{{ number_format($total_coupon, 0, '', '.') }} đ</span></li><hr style="Border: solid 1px black;">
-                                        <li>Tiền thanh toán<span>{{ number_format($total - $total_coupon, 0, '', '.') }} đ</span></li>
+                                        <li>Tiền thanh toán<span>{{ number_format($total - $total_coupon + 25000, 0, '', '.') }} đ</span></li>
                                     @elseif($cou['mgg_LoaiGiamGia'] == 1)
                                         Mã giảm: <span>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</span>
                                         @php
                                             $total_coupon = $total - $cou['mgg_GiaTri'];
                                         @endphp
                                         <li>Tổng tiền được giảm <span>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</span></li><hr style="Border: solid 1px black;">
-                                        <li>Tiền thanh toán<span>{{ number_format($total_coupon, 0, '', '.') }} đ</span></li>
+                                        <li>Tiền thanh toán<span>{{ number_format($total_coupon + 25000, 0, '', '.') }} đ</span></li>
                                    @endif
                                 @endforeach
                             @else
                                 <li>Mã giảm : <span>0</span></li>
                                 <li>Tổng tiền được giảm <span>0</span></li><hr style="Border: solid 1px black;">
-                                <li>Tiền thanh toán<span>{{ number_format($total, 0, '', '.') }} đ</span></li>
+                                <li>Tiền thanh toán<span>{{ number_format($total + 25000, 0, '', '.') }} đ</span></li>
                                 @endif
                             </li>
                         </ul>

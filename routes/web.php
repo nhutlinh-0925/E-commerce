@@ -84,6 +84,8 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('address/add', [SettingController::class, 'add_address'])->name('add_address');
         Route::post('/select_city', [SettingController::class, 'select_city']);
         Route::DELETE('/address/destroy', [SettingController::class, 'destroy_address']);
+    //Chọn địa chỉ ra phí ship
+        Route::post('/get_ship', [CartController::class, 'get_ship']);
 
         Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 

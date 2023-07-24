@@ -2,6 +2,8 @@
 
 namespace App\Http\Services;
 
+use App\Models\DiaChi;
+use App\Models\PhiVanChuyen;
 use App\Models\User;
 use App\Models\SanPham;
 use Illuminate\Support\Arr;
@@ -9,10 +11,11 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PhieuDatHang;
 use App\Models\KhachHang;
 
- use Mail;
+use Mail;
 
 use Illuminate\Support\Facades\Session;
 
+use Carbon\Carbon;
 class CartService
 {
     //Hàm tạo giỏ hàng
@@ -87,15 +90,16 @@ class CartService
         return User::orderByDesc('id')->paginate(15);
     }
 
-
+    //hàm post checkout
     public function getCart($request)
     {
 //        dd($request);
+
         try{
             DB::beginTransaction();
             $total = 0;
             $carts = Session::get('carts');
-            //dd($carts);
+//            dd($carts);
             $coupons = Session::get('coupon');
             //dd($coupons);
             $productId = array_keys($carts);
@@ -119,35 +123,64 @@ class CartService
                 //dd($total);
             }
 
+            $id_tk = $request->user()->id;
+            $id_kh = KhachHang::where('tai_khoan_id',$id_tk)->get();
+            $id = $id_kh->first()->id;
+
+            $id_dc = $request->dc_DiaChi;
+            $dc = DiaChi::find($id_dc);
+            //dd($dc);
+            $pdh_DiaChiGiao = $dc->dc_DiaChi;
+
+            $id_tp= $dc->tinh_thanh_pho_id;
+            //dd($id_tp);
+            $pvc = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
+            //dd($pvc);
+            $phi = $pvc[0]['pvc_PhiVanChuyen'];
+            //dd($phi);
+
+            $today =  Carbon::now()->toDateString();
+            //dd($today);
+
             if($coupons){
                 //dd($coupons);
                 foreach($coupons as $key => $cou)
                     if($cou['mgg_LoaiGiamGia'] == 2){
                         $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
-                        $tien_end = $total - $total_coupon;
-                       //dd($tien_end);
+                        $tien_end = $total - $total_coupon + $phi;
+                        //dd($tien_end);
                     }elseif($cou['mgg_LoaiGiamGia'] == 1){
-                        $tien_end = $total - $cou['mgg_GiaTri'];
+                        $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
                         //dd($tien_end);
                     }
+                $cart = new PhieuDatHang;
+                $cart->khach_hang_id = $id;
+                $cart->ma_giam_gia_id = $coupons[0]['id'];
+                $cart->pdh_GhiChu = $request->pdh_GhiChu;
+                $cart->pdh_GiamGia = $coupons[0]['mgg_MaGiamGia'];
+                $cart->pdh_DiaChiGiao = $pdh_DiaChiGiao;
+                $cart->pdh_NgayDat = $today;
+                $cart->pdh_TongTien = $tien_end;
+                $cart->pdh_TrangThai = 1;
+                $cart->pdh_PhuongThucThanhToan = $request->pdh_PhuongThucThanhToan;
+                $cart->save();
+                //dd($cart);
+            }else{
+                $tien_end = $total + $phi;
+                //dd($tien_end);
+
+                $cart = new PhieuDatHang;
+                $cart->khach_hang_id = $id;
+                $cart->pdh_GhiChu = $request->pdh_GhiChu;
+                $cart->pdh_DiaChiGiao = $pdh_DiaChiGiao;
+                $cart->pdh_NgayDat = $today;
+                $cart->pdh_TongTien = $tien_end;
+                $cart->pdh_TrangThai = 1;
+                $cart->pdh_PhuongThucThanhToan = $request->pdh_PhuongThucThanhToan;
+                $cart->save();
+                //dd($cart);
             }
 
-//            $tt = $request->pdh_PhuongThucThanhToan;
-
-            $id_tk = $request->user()->id;
-            $id_kh = KhachHang::where('tai_khoan_id',$id_tk)->get();
-            $id = $id_kh->first()->id;
-
-            $cart = new PhieuDatHang;
-            $cart->khach_hang_id = $id;
-            $cart->ma_giam_gia_id = $coupons[0]['id'];
-            $cart->pdh_GhiChu = $request->pdh_GhiChu;
-            $cart->pdh_GiamGia = $coupons[0]['mgg_MaGiamGia'];
-            $cart->pdh_TongTien = $tien_end;
-            $cart->pdh_TrangThai = 1;
-            $cart->pdh_PhuongThucThanhToan = $request->pdh_PhuongThucThanhToan;
-            $cart->save();
-//            dd($cart);
 
             $customer = KhachHang::find($id);
             $customer->kh_Ten = $request->kh_Ten;
@@ -160,12 +193,12 @@ class CartService
             $customer->kh_SoDienThoai = $request->kh_SoDienThoai;
 
             $tien = $customer->kh_TongTienDaMua;
-            $customer->kh_TongTienDaMua = $tien + $total;
-//            dd($customer);
+            $customer->kh_TongTienDaMua = $tien + $tien_end;
+            //dd($customer);
             $customer->save();
 
 
-//            $cart->email = $request->email;
+            //$cart->email = $request->email;
 
 
             foreach ($products as $product){

@@ -77,7 +77,7 @@
                             </div>
                             @if (Auth::check())
                             <div class="header__top__links">
-                                <a href="/user/setting/{{Auth::user()->id}}">Cài đặt</a>
+                                <a href="/user/setting/{{ $khachhang->id }}">Cài đặt</a>
                             </div>
                             @else
                                 <div class="header__top__links">
