@@ -22,4 +22,16 @@ class PhieuDatHang extends Model
         'pdh_TongTien',
     ];
 
+    public function khachhang()
+    {
+        return $this->hasOne(KhachHang::class, 'id', 'khach_hang_id')
+            ->withDefault(['kh_Ten' => '']);
+    }
+
+    public function nhanvien()
+    {
+        return $this->hasOne(NhanVien::class, 'id', 'nhan_vien_id')
+            ->withDefault(['nv_Ten' => '']);
+    }
+
 }

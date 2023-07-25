@@ -123,6 +123,9 @@ class CartService
                 //dd($total);
             }
 
+            // Đặt múi giờ
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+
             $id_tk = $request->user()->id;
             $id_kh = KhachHang::where('tai_khoan_id',$id_tk)->get();
             $id = $id_kh->first()->id;

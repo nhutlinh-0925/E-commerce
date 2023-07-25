@@ -9,6 +9,7 @@ use \App\Http\Controllers\SanPhamController;
 use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\MaGiamGiaController;
 use \App\Http\Controllers\VanChuyenController;
+use \App\Http\Controllers\DonHangController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
@@ -160,8 +161,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
 //            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
 //            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
-//            Route::post('active/{id}', [MaGiamGiaController::class, 'active']);
-//            Route::post('unactive/{id}', [MaGiamGiaController::class, 'unactive']);
         });
 
 //Phí vận chuyển
@@ -173,10 +172,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
 //            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
 //            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
-//            Route::post('active/{id}', [MaGiamGiaController::class, 'active']);
-//            Route::post('unactive/{id}', [MaGiamGiaController::class, 'unactive']);
         });
+//Đơn hàng
+        Route::get('/orders', [DonHangController::class, 'index']);
 
+        Route::get('/order_detail/{id}', [DonHangController::class, 'order_detail']);
+        Route::post('/order_detail/{id}', [DonHangController::class, 'order_update']);
 
 
         Route::get('/users',[KhachHangController::class,'index']);
