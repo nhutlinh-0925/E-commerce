@@ -223,7 +223,7 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" >
                                     <a href="/product/{{ $product->id }}">
-                                    <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
+                                        <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}"></a>
                                     <ul class="product__hover">
                                         <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
                                         <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a>

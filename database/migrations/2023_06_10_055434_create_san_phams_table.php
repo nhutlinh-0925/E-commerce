@@ -23,7 +23,7 @@ return new class extends Migration
             $table->longText('sp_VatLieu');
             $table->integer('sp_Gia');
             $table->integer('sp_TrangThai')->default('1');
-            $table->integer('sp_SoLuongHang')->nullable();
+            $table->integer('sp_SoLuongHang')->default('1');
             $table->integer('sp_SoLuongBan')->nullable();
             $table->string('sp_AnhDaiDien');
             $table->integer('sp_LuotXem')->nullable();

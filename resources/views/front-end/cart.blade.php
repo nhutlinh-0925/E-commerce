@@ -128,7 +128,8 @@
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px">
+                                            <a href="/product/{{ $product->id }}">
+                                                <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px"></a>
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6>{{ $product->sp_TenSanPham }}</h6>

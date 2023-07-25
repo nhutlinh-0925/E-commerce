@@ -2,8 +2,9 @@
 <html lang="zxx">
 
 <head>
-	<!-- head -->
-	@include('front-end.pages.head')
+    <!-- head -->
+    @include('front-end.pages.head')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
@@ -83,6 +84,19 @@
                 </div>
             </div>
         </div>
+        @if(Session::has('flash_message'))
+            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                {!! session('flash_message') !!}
+            </div>
+
+        @elseif(Session::has('flash_message_error'))
+            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                {!! session('flash_message_error') !!}
+            </div>
+
+        @endif
         <div class="product__details__content">
             <div class="container">
                 <form action="/add-cart" method="post">
@@ -105,6 +119,14 @@
                             @endphp
                             <h3>{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup>
                                 <span>{{ number_format($price_reduced, 0, '', '.') }}<sup><ins>đ</ins></sup></span>
+                                <br>
+                                <p>Tình trạng :
+                                    @if($product->sp_SoLuongHang > 0)
+                                        <b>Còn hàng </b>({{ $product->sp_SoLuongHang }} sản phẩm trong kho)
+                                    @elseif($product->sp_SoLuongHang == 0)
+                                        <b style="color: red">Hết hàng</b>
+                                    @endif
+                                </p>
                             </h3>
                             <div class="product__details__option">
                                 <div class="product__details__option__size">
@@ -429,6 +451,7 @@
     <!-- Related Section End -->
 
     @include('front-end.pages.footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 

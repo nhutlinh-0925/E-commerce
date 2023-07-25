@@ -21,12 +21,36 @@ class CartService
     //Hàm tạo giỏ hàng
     public function create($request)
     {
+//        $qty = (int)$request->input('num_product');
+//        //dd($qty);
+//        $product_id = (int)$request->input('product_id');
+//        //dd($product_id);
+//        $sp = SanPham::find($product_id);
+//        //dd($sp);
+//        $slh = $sp->sp_SoLuongHang;
+//        //dd($slh);
+//        $slh_end = $slh - $qty;
+//        //dd($slh_end);
+//        $sp->update([
+//            'sp_SoLuongHang' => $slh_end,
+//        ]);
+//        if ($qty <= 0 || $product_id <= 0) {
+//            session()->flash('error', 'Số lượng hoặc sản phẩm không chính xác');
+//            return false;
+//        }
         $qty = (int)$request->input('num_product');
         // dd($qty);
         $product_id = (int)$request->input('product_id');
         // dd($product_id);
-        if ($qty <= 0 || $product_id <= 0) {
-            session()->flash('error', 'Số lượng hoặc sản phẩm không chính xác');
+        $sp = SanPham::find($product_id);
+        $slh = $sp->sp_SoLuongHang;
+//        dd($slh);
+//        if($qty > $slh) {
+//            Session::flash('flash_message_error', 'Số lượng vượt quá trong kho!');
+//            return redirect('/product/{{ $product_id }}');
+//        }
+        if ($qty <= 0 || $product_id <= 0 || $qty > $slh) {
+            session()->flash('flash_message_error', 'Số lượng hoặc sản phẩm không chính xác');
             return false;
         }
         $carts = session()->get('carts');
@@ -70,6 +94,41 @@ class CartService
     //Hàm cập nhập số lượng giỏ hàng
     public function update($request)
     {
+//        $numProductArray = $request->input('num_product');
+//
+//        // Lấy giỏ hàng hiện tại từ session
+//        $carts = session()->get('carts');
+//
+//        foreach ($numProductArray as $product_id => $newQuantity) {
+//            // Lấy thông tin sản phẩm từ cơ sở dữ liệu sử dụng $product_id
+//            $product = SanPham::find($product_id);
+//
+//            if ($product) {
+//                if (isset($carts[$product_id])) {
+//                    // Tính toán sự thay đổi số lượng sản phẩm
+//                    $oldQuantity = $carts[$product_id];
+//                    $quantityChange = $newQuantity - $oldQuantity;
+//
+//                    // Cập nhật số lượng hàng tồn kho của sản phẩm
+//                    $product->sp_SoLuongHang -= $quantityChange;
+//                    $product->save();
+//
+//                    // Cập nhật số lượng sản phẩm trong giỏ hàng
+//                    $carts[$product_id] = $newQuantity;
+//                } else {
+//                    // Sản phẩm không tồn tại trong giỏ hàng, có thể xử lý lỗi tại đây hoặc bỏ qua
+//                    // Tùy thuộc vào yêu cầu của bạn
+//                }
+//            } else {
+//                // Sản phẩm không tồn tại, có thể xử lý lỗi tại đây hoặc bỏ qua
+//                // Tùy thuộc vào yêu cầu của bạn
+//            }
+//        }
+//
+//        // Cuối cùng, bạn cập nhật lại giỏ hàng mới vào session
+//        session()->put('carts', $carts);
+//
+//        return true;
         session()->put('carts', $request->input('num_product'));
         return true;
     }
@@ -77,6 +136,28 @@ class CartService
     //Hàm xóa sản phẩm trong giỏ hàng
     public function remove($id)
     {
+//        //dd($id);//id của sp
+//        $sp = SanPham::find($id);
+//        if (!$sp) {
+//            // Sản phẩm không tồn tại, có thể xử lý lỗi tại đây hoặc trả về false
+//            return false;
+//        }
+//
+//        $carts = session()->get('carts');
+////        dd($carts);
+//
+//        if (isset($carts[$id])) {
+//            // Cộng số lượng của sản phẩm trong giỏ hàng với số lượng hàng tồn kho
+//            $productQtyInCart = $carts[$id];
+//            $sp->sp_SoLuongHang += $productQtyInCart;
+//            $sp->save();
+//
+//            // Xóa sản phẩm khỏi giỏ hàng
+//            unset($carts[$id]);
+//            session()->put('carts', $carts);
+//
+//            return true;
+//        }
         $carts = session()->get('carts');
         // dd($carts);
         unset($carts[$id]);
@@ -94,7 +175,6 @@ class CartService
     public function getCart($request)
     {
 //        dd($request);
-
         try{
             DB::beginTransaction();
             $total = 0;
@@ -103,12 +183,41 @@ class CartService
             $coupons = Session::get('coupon');
             //dd($coupons);
             $productId = array_keys($carts);
+//            dd($productId);
 
-            $products =  SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien')
+            // Lấy thông tin sản phẩm từ giỏ hàng
+            foreach ($carts as $product_id => $quantity_purchased) {
+                // Bước 1: Truy xuất thông tin sản phẩm từ cơ sở dữ liệu
+                $product = SanPham::find($product_id);
+
+                if ($product) {
+                    // Bước 2: Cập nhật số lượng sản phẩm
+                    $new_quantity_in_stock = max(0, $product->sp_SoLuongHang - $quantity_purchased);
+                    $new_quantity_sold = $product->sp_SoLuongBan + $quantity_purchased;
+
+                    // Bước 3: Lưu thông tin sản phẩm đã cập nhật trở lại cơ sở dữ liệu
+                    $product->sp_SoLuongHang = $new_quantity_in_stock;
+                    $product->sp_SoLuongBan = $new_quantity_sold;
+                    $product->save();
+
+                    // Cập nhật giỏ hàng với số lượng đã mua (có thể giữ nguyên hoặc xóa sản phẩm khỏi giỏ hàng tùy theo yêu cầu của bạn)
+                    // Ví dụ: Giữ nguyên số lượng đã mua trong giỏ hàng
+                    $carts[$product_id] = $quantity_purchased;
+                }
+            }
+
+            // Lưu giỏ hàng đã cập nhật vào session
+            session()->put('carts', $carts);
+
+            // Hiển thị giỏ hàng sau khi đã cập nhật
+//            dd($carts);
+
+            $products =  SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien', 'sp_SoLuongHang', 'sp_SoLuongBan')
             ->where('sp_TrangThai', 1)
             ->whereIn('id', $productId)
             ->get();
-             //dd($products);
+//             dd($products);
+
 
             // $name = 'Nhựt Linh';
             // Mail::send('emails.test', compact('name'), function($email) use($name){
@@ -116,11 +225,16 @@ class CartService
             // $email->to('linhb1910248@student.ctu.edu.vn', $name);
             // });
 
+//            foreach ($products as $product){
+//                $sl =  $carts[$product->id];
+//                dd($sl[1]);
+//            }
+
             foreach ($products as $product){
                 $price = $product->sp_Gia;
                 $priceEnd = $price * $carts[$product->id];
                 $total += $priceEnd;
-                //dd($total);
+//                dd($total);
             }
 
             // Đặt múi giờ
