@@ -55,4 +55,11 @@ class NhanVien extends Authenticatable
         'nv_SoDienThoai',
         'nv_DiaChi',
     ];
+
+    public function taikhoan()
+    {
+        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
+            ->withDefault(['email' => ''])
+            ->withDefault(['avatar' => '']);
+    }
 }

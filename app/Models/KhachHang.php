@@ -17,4 +17,17 @@ class KhachHang extends Model
         'kh_SoDienThoai',
         'kh_SoTienDaMua',
     ];
+
+    public function taikhoan()
+    {
+        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
+            ->withDefault(['email' => ''])
+            ->withDefault(['avatar' => '']);
+    }
+
+    public function diachi()
+    {
+        return $this->hasMany(DiaChi::class);
+    }
+
 }

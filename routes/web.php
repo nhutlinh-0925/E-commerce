@@ -6,10 +6,11 @@ use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\DanhMucSanPhamController;
 use \App\Http\Controllers\ThuongHieuController;
 use \App\Http\Controllers\SanPhamController;
-use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\MaGiamGiaController;
 use \App\Http\Controllers\VanChuyenController;
 use \App\Http\Controllers\DonHangController;
+use \App\Http\Controllers\KhachHangController;
+use \App\Http\Controllers\NhanVienController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
@@ -135,7 +136,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [ThuongHieuController::class, 'index']);
             Route::get('add', [ThuongHieuController::class, 'create']);
             Route::post('add', [ThuongHieuController::class, 'store']);
-            // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
             Route::get('edit/{id}', [ThuongHieuController::class, 'edit']);
             Route::post('edit/{id}', [ThuongHieuController::class, 'update']);
             Route::DELETE('destroy/{id}', [ThuongHieuController::class, 'destroy']);
@@ -179,11 +179,31 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/order_detail/{id}', [DonHangController::class, 'order_detail']);
         Route::post('/order_detail/{id}', [DonHangController::class, 'order_update']);
 
+        //Khách hàng
+        Route::prefix('/customers')->group(function () {
+            Route::get('/', [KhachHangController::class, 'index']);
+            Route::get('add', [KhachHangController::class, 'create']);
+            Route::post('add', [KhachHangController::class, 'store']);
+//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
+//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
+            Route::get('active/{id}', [KhachHangController::class, 'active']);
+            Route::get('unactive/{id}', [KhachHangController::class, 'unactive']);
+            Route::post('/select_city', [KhachHangController::class, 'select_city']);
+        });
 
-        Route::get('/users',[KhachHangController::class,'index']);
+        //Nhân viên
+        Route::prefix('/employees')->group(function () {
+            Route::get('/', [NhanVienController::class, 'index']);
+            Route::get('add', [NhanVienController::class, 'create']);
+            Route::post('add', [NhanVienController::class, 'store']);
+//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
+//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
+            Route::get('active/{id}', [NhanVienController::class, 'active']);
+            Route::get('unactive/{id}', [NhanVienController::class, 'unactive']);
+        });
+
+        Route::get('/users2',[KhachHangController::class,'index1']);
         Route::get('/user1',[KhachHangController::class,'index2']);
-
-
 
 
 

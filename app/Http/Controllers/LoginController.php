@@ -82,7 +82,7 @@ class LoginController extends Controller
         // dd($request);
         $request->validate([
             'kh_Ten' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:tai_khoans',
             'password' => 'required|min:6|max:15',
             're_password' => 'required|same:password'
         ],

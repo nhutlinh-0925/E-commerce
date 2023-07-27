@@ -2,25 +2,210 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiaChi;
+use App\Models\KhachHang;
+use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 
 use App\Models\ThuongHieu;
+use Illuminate\Support\Facades\Auth;
+use App\Models\NhanVien;
+use Illuminate\Support\Facades\Session;
 
+use App\Models\TinhThanhPho;
+use App\Models\QuanHuyen;
+use App\Models\XaPhuongThiTran;
+
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 class KhachhangController extends Controller
 {
     public function index(){
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            // dd($nhanvien);
+        }
+        $customers = KhachHang::all()->sortByDesc("id");
+
+        return view('back-end.customer.index',[
+            'customers' => $customers,
+            'nhanvien' => $nhanvien
+        ]);
+    }
+
+    public function create()
+    {
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            // dd($nhanvien);
+        }
+        $cities = TinhThanhPho::all();
+        $districts = QuanHuyen::all();
+        $wards = XaPhuongThiTran::all();
+        return view('back-end.customer.create',[
+            'nhanvien' => $nhanvien,
+            'cities' => $cities,
+            'districts' => $districts,
+            'wards' => $wards
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+//         dd($request);
+        $this -> validate($request, [
+            'kh_Ten' => 'required',
+            'email' => 'required|email',
+            'city' => 'required',
+            'province' => 'required',
+            'wards' => 'required',
+            'dc_DiaChi' => 'required',
+            'password' => 'required|min:6',
+            'password_again' => 'required|same:password',
+            'kh_SoDienThoai' => 'required',
+            'trangthai' => 'required',
+            'avatar' => 'required',
+        ],
+            [
+                'kh_Ten.required' => 'Vui lòng nhập họ tên',
+                'email.required' => 'Vui lòng nhập email',
+                'email.email' => 'Không đúng định dạng email',
+//                'email.unique' => 'Email đã được đăng kí',
+                'city.required' => 'Vui lòng chọn thành phố',
+                'province.required' => 'Hãy chọn quận huyện',
+                'wards.required' => 'Vui lòng chọn xã phường',
+                'dc_DiaChi.required' => 'Vui lòng nhập địa chỉ cụ thể',
+                'password.required' => 'Vui lòng nhập mật khẩu',
+                'password.min' => 'Mật khẩu ít nhất 5 kí tự',
+                'password_again.required' => 'Vui lòng nhập lại mật khẩu',
+                'password_again.same' => 'Mật khẩu không giống nhau',
+                'kh_SoDienThoai.required' => 'Vui lòng nhập số điện thoại',
+                'trangthai.required' => 'Vui lòng chọn trạng thái',
+                'avatar.required' => 'Vui lòng chọn avatar',
+            ]);
+
+        $taikhoan = TaiKhoan::create([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'loai' => 2,
+            'trangthai' => $request->trangthai,
+            'vip' => 0
+        ]);
+
+        $kh = KhachHang::create([
+            'tai_khoan_id' =>$taikhoan->id,
+            'kh_Ten' => $request->kh_Ten,
+            'kh_SoDienThoai' => $request->kh_SoDienThoai,
+        ]);
+
+        $dc = DiaChi::create([
+            'khach_hang_id' => $kh->id,
+            'tinh_thanh_pho_id' => $request->city,
+            'quan_huyen_id' => $request->province,
+            'xa_phuong_thi_tran_id' => $request->wards,
+            'dc_DiaChi' => $request->dc_DiaChi,
+        ]);
+
+        $account = TaiKhoan::find($taikhoan->id);
+
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+            $image_name = $image->getClientOriginalName();
+            $destination_path = 'public/images/avatar/customers';
+            $path = $image->storeAs($destination_path, $image_name);
+
+            // Gán giá trị của trường avatar là tên file hình ảnh
+            $updateData = [
+                'avatar' => $image_name,
+            ];
+        } else {
+            // Không có hình ảnh được tải lên, giữ nguyên giá trị của trường avatar
+            $updateData = [
+                'avatar' => $account->avatar,
+            ];
+        }
+
+        // Cập nhật thông tin vào Model TaiKhoan
+        $account->update($updateData);
+
+        Session::flash('flash_message', 'Thêm khách hàng thành công!');
+        return redirect('/admin/customers');
+    }
+
+    public function active($id)
+    {
+        //        dd($id);
+        $account = TaiKhoan::find($id)
+            ->update(
+                ['trangthai' => 1],
+            );
+        Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
+        return redirect('/admin/customers');
+    }
+
+    public function unactive($id)
+    {
+//        dd($id);
+        $account = TaiKhoan::find($id)
+            ->update(
+                ['trangthai' => 0],
+            );
+        Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
+        return redirect('/admin/customers');
+    }
+
+    public function select_city(Request $request)
+    {
+        $data = $request->all();
+        if ($data['action']) {
+            $output = '';
+            if ($data['action'] == "city") {
+                $select_province = QuanHuyen::where('thanh_pho_id', $data['ma_id'])->orderby('id', 'ASC')->get();
+                $output .= '<option>---Chọn quận huyện---</option>';
+                foreach ($select_province as $key => $province) {
+                    $output .= '<option value="' . $province->id . '">' . $province->qh_Ten . '</option>';
+                }
+
+            } else {
+
+                $select_wards = XaPhuongThiTran::where('quan_huyen_id', $data['ma_id'])->orderby('id', 'ASC')->get();
+                $output .= '<option>---Chọn xã phường---</option>';
+                foreach ($select_wards as $key => $ward) {
+                    $output .= '<option value="' . $ward->id . '">' . $ward->xptt_Ten . '</option>';
+                }
+            }
+            echo $output;
+        }
+
+    }
+
+
+
+
+
+
+    public function index1(){
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            // dd($nhanvien);
+        }
         $brands = ThuongHieu::all()->sortByDesc("id");
         return view('back-end.user.index2',[
-            'brands' => $brands]);
-}
+            'brands' => $brands,
+            'nhanvien' => $nhanvien
+            ]);
+    }
 
-public function index2(){
+    public function index2(){
 
-    return view('back-end.user.index');
-}
+        return view('back-end.user.index');
+    }
 
-// public function getUsers(UsersDataTable $dataTable){
-//     return $dataTable->render('back-end.user.index');
-// }
-}
+    // public function getUsers(UsersDataTable $dataTable){
+    //     return $dataTable->render('back-end.user.index');
+    // }
+    }

@@ -84,12 +84,12 @@ class SettingController extends Controller
                 ]);
 
             if ($request->hasFile('avatar')) {
-                $destination = 'public/images/accounts' . $account->avatar;
+                $destination = 'public/images/avatar/customers' . $account->avatar;
                 if (File::exists($destination)) {
                     File::delete($destination);
                 }
 
-                $destination_path = 'public/images/accounts';
+                $destination_path = 'public/images/avatar/customers';
                 $image = $request->file('avatar');
                 $image_name = $image->getClientOriginalName();
                 $path = $request->file('avatar')->storeAs($destination_path, $image_name);

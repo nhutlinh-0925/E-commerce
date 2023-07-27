@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quan_huyen_id');
             $table->unsignedBigInteger('xa_phuong_thi_tran_id');
             $table->string('dc_DiaChi');
-            $table->integer('dc_TrangThai');
+//            $table->integer('dc_TrangThai');
             $table->foreign('khach_hang_id')
                 ->references('id')
                 ->on('khach_hangs')
