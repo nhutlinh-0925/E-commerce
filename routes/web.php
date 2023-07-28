@@ -200,6 +200,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
             Route::get('active/{id}', [NhanVienController::class, 'active']);
             Route::get('unactive/{id}', [NhanVienController::class, 'unactive']);
+
+            Route::get('/permissions', [NhanVienController::class, 'permissions']);
+            Route::get('/permissions/edit/{id}', [NhanVienController::class, 'edit_permission'])->name('edit_permission');
+            Route::get('auth/{id}', [NhanVienController::class, 'auth']);
+            Route::get('unauth/{id}', [NhanVienController::class, 'unauth']);
         });
 
         Route::get('/users2',[KhachHangController::class,'index1']);

@@ -62,4 +62,19 @@ class NhanVien extends Authenticatable
             ->withDefault(['email' => ''])
             ->withDefault(['avatar' => '']);
     }
+
+    public function chitietquyen()
+    {
+        return $this->hasMany(ChiTietQuyen::class);
+    }
+
+//    public function hasPermission($permission)
+//    {
+//        return $this->quyens->contains('q_TenQuyen', $permission);
+//    }
+
+//    public function quyens()
+//    {
+//        return $this->belongsToMany(Quyen::class, 'chi_tiet_quyens', 'nhan_vien_id', 'quyen_id');
+//    }
 }
