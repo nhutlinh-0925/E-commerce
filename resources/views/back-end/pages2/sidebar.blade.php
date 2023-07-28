@@ -239,12 +239,12 @@
                     </a>
                     <ul id="posts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="">
+                            <a href="/admin/category-posts/add">
                                 <i class="bi bi-circle"></i><span>Thêm bài viết</span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="/admin/category-posts">
                                 <i class="bi bi-circle"></i><span>Danh sách bài viết</span>
                             </a>
                         </li>

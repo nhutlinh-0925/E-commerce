@@ -11,6 +11,7 @@ use \App\Http\Controllers\VanChuyenController;
 use \App\Http\Controllers\DonHangController;
 use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\NhanVienController;
+use \App\Http\Controllers\DanhMucBaiVietController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
@@ -123,7 +124,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [DanhMucSanPhamController::class, 'index']);
             Route::get('add', [DanhMucSanPhamController::class, 'create']);
             Route::post('add', [DanhMucSanPhamController::class, 'store']);
-            // Route::get('show/{doctor}', [AdminController::class, 'show']);
             Route::get('edit/{id}', [DanhMucSanPhamController::class, 'edit']);
             Route::post('edit/{id}', [DanhMucSanPhamController::class, 'update']);
             Route::DELETE('destroy/{id}', [DanhMucSanPhamController::class, 'destroy']);
@@ -205,6 +205,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/permissions/edit/{id}', [NhanVienController::class, 'edit_permission'])->name('edit_permission');
             Route::get('auth/{id}', [NhanVienController::class, 'auth']);
             Route::get('unauth/{id}', [NhanVienController::class, 'unauth']);
+        });
+        //Danh mục bài viết
+        Route::prefix('/category-posts')->group(function () {
+            Route::get('/', [DanhMucBaiVietController::class, 'index']);
+            Route::get('add', [DanhMucBaiVietController::class, 'create']);
+            Route::post('add', [DanhMucBaiVietController::class, 'store']);
+            Route::get('edit/{id}', [DanhMucBaiVietController::class, 'edit']);
+            Route::post('edit/{id}', [DanhMucBaiVietController::class, 'update']);
+            Route::DELETE('destroy/{id}', [DanhMucBaiVietController::class, 'destroy']);
+            Route::post('active/{id}', [DanhMucBaiVietController::class, 'active']);
+            Route::post('unactive/{id}', [DanhMucBaiVietController::class, 'unactive']);
         });
 
         Route::get('/users2',[KhachHangController::class,'index1']);
