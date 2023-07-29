@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BaiViet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\KhachHang;
@@ -13,6 +14,7 @@ use App\Social;
 //use Laravel\Socialite\Facades\Socialite;
 //use Socialite;
 use Socialite;
+
 class LoginController extends Controller
 {
     protected $cartService;
@@ -28,16 +30,24 @@ class LoginController extends Controller
             // dd($khachhang);
             $carts = $this->cartService->getProduct();
             // dd($carts);
+
+            $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
+//            dd($posts);
             return view('front-end.home',[
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'posts' => $posts
             ]);
         }else{
             $carts = $this->cartService->getProduct();
+
+            $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
+//            dd($posts);
             return view('front-end.home',[
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'posts' => $posts
             ]);
         }
     }

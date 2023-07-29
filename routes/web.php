@@ -12,12 +12,13 @@ use \App\Http\Controllers\DonHangController;
 use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\NhanVienController;
 use \App\Http\Controllers\DanhMucBaiVietController;
+use \App\Http\Controllers\BaiVietController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\ShopController;
 use \App\Http\Controllers\CartController;
 use \App\Http\Controllers\SettingController;
-
+use \App\Http\Controllers\BlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,39 +33,49 @@ use \App\Http\Controllers\SettingController;
 // Front-end - Trang người dùng
 
     //Trang chủ
-Route::get('/',[LoginController::class, 'home']);
+    Route::get('/',[LoginController::class, 'home']);
+
     //Trang shop
-Route::get('/shop',[ShopController::class, 'shop']);
-Route::get('/product/{id}',[ShopController::class, 'product_detail']);
+    Route::get('/shop',[ShopController::class, 'shop']);
+    Route::get('/product/{id}',[ShopController::class, 'product_detail']);
+
     //Trang cart
-Route::post('add-cart',[CartController::class, 'index']);
-Route::get('carts',[CartController::class, 'show']);
-Route::post('update-cart',[CartController::class, 'update']);
-Route::get('carts/delete/{id}',[CartController::class, 'remove']);
-Route::get('checkout',[CartController::class, 'showcheckout']);
-Route::post('/carts/checkout',[CartController::class, 'getCart']);
+    Route::post('add-cart',[CartController::class, 'index']);
+    Route::get('carts',[CartController::class, 'show']);
+    Route::post('update-cart',[CartController::class, 'update']);
+    Route::get('carts/delete/{id}',[CartController::class, 'remove']);
+    Route::get('checkout',[CartController::class, 'showcheckout']);
+    Route::post('/carts/checkout',[CartController::class, 'getCart']);
+
     //Mã giảm giá
-Route::post('/check_coupon',[CartController::class, 'check_coupon']);
-Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
+    Route::post('/check_coupon',[CartController::class, 'check_coupon']);
+    Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
+
     //Trang đơn hàng
-Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
-Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
-//Route::get('/purchase_order/{id}', [CartController::class, 'user'])->name('users.index');
+    Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
+    Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
+    //Route::get('/purchase_order/{id}', [CartController::class, 'user'])->name('users.index');
+
     //Khi mua hàng gửi email
-Route::get('email',[CartController::class, 'email']);
+    Route::get('email',[CartController::class, 'email']);
+
     //Đăng nhập facebook
-//Route::get('user/login/facebook', [LoginController::class, 'login_facebook']);
-//Route::get('user/login/callback', [LoginController::class, 'callback_facebook']);
+    //Route::get('user/login/facebook', [LoginController::class, 'login_facebook']);
+    //Route::get('user/login/callback', [LoginController::class, 'callback_facebook']);
 
     //Đăng nhập google
-Route::get('auth/google', [LoginController::class, 'login_google']);
-Route::get('auth/google/callback', [LoginController::class, 'callback_google']);
+    Route::get('auth/google', [LoginController::class, 'login_google']);
+    Route::get('auth/google/callback', [LoginController::class, 'callback_google']);
 
-// Route::get('/login', function () {
-//     return view('front-end.login.login');
-// });
+    //Trang blog
+    Route::get('/blog',[BlogController::class, 'blog']);
+    Route::get('/blog/{id}',[BlogController::class, 'blog_detail']);
 
-    //Khách hàng chưa đăng nhập
+    // Route::get('/login', function () {
+    //     return view('front-end.login.login');
+    // });
+
+//Khách hàng chưa đăng nhập
 Route::prefix('user')->name('user.')->group(function () {
     // Route::middleware(['guest:web'])->group(function () {
         Route::view('/login','front-end.login.login')->name('login');
@@ -79,15 +90,15 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::middleware(['auth','isCus'])->group(function () {
         Route::get('/',[LoginController::class, 'home'])->name('home');
 
-    //Trang cài đặt
+        //Trang cài đặt
         Route::get('/setting/{id}',[SettingController::class, 'setting']);
         Route::post('/setting/{id}',[SettingController::class, 'account'])->name('setting');
 
-    //Phần địa chỉ trong cài đặt
+        //Phần địa chỉ trong cài đặt
         Route::post('address/add', [SettingController::class, 'add_address'])->name('add_address');
         Route::post('/select_city', [SettingController::class, 'select_city']);
         Route::DELETE('/address/destroy', [SettingController::class, 'destroy_address']);
-    //Chọn địa chỉ ra phí ship
+        //Chọn địa chỉ ra phí ship
         Route::post('/get_ship', [CartController::class, 'get_ship']);
 
         Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
@@ -106,9 +117,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/doLogin',[AdminController::class, 'doLogin'])->name('doLogin');
 
         // Route::get('/get',[AdminController::class, 'getName']);
-
-
-
 
     // });
 
@@ -131,7 +139,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('unactive/{id}', [DanhMucSanPhamController::class, 'unactive']);
         });
 
-// Thương hiệu
+        // Thương hiệu
         Route::prefix('/brands')->group(function () {
             Route::get('/', [ThuongHieuController::class, 'index']);
             Route::get('add', [ThuongHieuController::class, 'create']);
@@ -142,7 +150,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('active/{id}', [ThuongHieuController::class, 'active']);
             Route::post('unactive/{id}', [ThuongHieuController::class, 'unactive']);
         });
-//Sản phẩm
+        //Sản phẩm
         Route::prefix('/products')->group(function () {
             Route::get('/', [SanPhamController::class, 'index']);
             Route::get('add', [SanPhamController::class, 'create']);
@@ -152,7 +160,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::post('edit/{id}', [SanPhamController::class, 'update']);
             // Route::DELETE('destroy/{doctor}', [AdminController::class, 'destroy']);
         });
-//Mã giảm giá
+        //Mã giảm giá
         Route::prefix('/coupons')->group(function () {
             Route::get('/', [MaGiamGiaController::class, 'index']);
             Route::get('add', [MaGiamGiaController::class, 'create']);
@@ -163,7 +171,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
         });
 
-//Phí vận chuyển
+        //Phí vận chuyển
         Route::prefix('/deliveries')->group(function () {
             Route::get('/', [VanChuyenController::class, 'index']);
             Route::get('add', [VanChuyenController::class, 'create']);
@@ -173,7 +181,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
 //            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
         });
-//Đơn hàng
+        //Đơn hàng
         Route::get('/orders', [DonHangController::class, 'index']);
 
         Route::get('/order_detail/{id}', [DonHangController::class, 'order_detail']);
@@ -217,6 +225,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('active/{id}', [DanhMucBaiVietController::class, 'active']);
             Route::post('unactive/{id}', [DanhMucBaiVietController::class, 'unactive']);
         });
+
+        //Bài viết
+        Route::prefix('/posts')->group(function () {
+            Route::get('/', [BaiVietController::class, 'index']);
+            Route::get('add', [BaiVietController::class, 'create']);
+            Route::post('add', [BaiVietController::class, 'store']);
+        });
+
 
         Route::get('/users2',[KhachHangController::class,'index1']);
         Route::get('/user1',[KhachHangController::class,'index2']);

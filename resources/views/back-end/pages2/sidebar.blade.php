@@ -234,17 +234,34 @@
                 <hr>
                 @elseif ($permission->q_TenQuyen == 'baiviet')
                 <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#category-posts-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-bar-chart"></i><span>Danh mục bài viết</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="category-posts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/category-posts/add">
+                                <i class="bi bi-circle"></i><span>Thêm danh mục</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/category-posts">
+                                <i class="bi bi-circle"></i><span>Danh sách danh mục</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#posts-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-bar-chart"></i><span>Bài viết</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="posts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="/admin/category-posts/add">
+                            <a href="/admin/posts/add">
                                 <i class="bi bi-circle"></i><span>Thêm bài viết</span>
                             </a>
                         </li>
                         <li>
-                            <a href="/admin/category-posts">
+                            <a href="/admin/posts">
                                 <i class="bi bi-circle"></i><span>Danh sách bài viết</span>
                             </a>
                         </li>

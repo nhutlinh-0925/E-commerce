@@ -17,4 +17,9 @@ class DanhMucBaiViet extends Model
 
     protected $primaryKey = 'id';
     protected $table ='danh_muc_bai_viets';
+
+    public function posts()
+    {
+        return $this->hasMany(BaiViet::class);
+    }
 }

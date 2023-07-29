@@ -101,27 +101,19 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-2 col-md-2">
                     <div class="header__logo">
                         <a href="/"><img src="/template/front-end/img/logo.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-7 col-md-7">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                                <li class="active"><a href="/">Home</a></li>
-                                <li ><a href="/shop">Shop</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="./about.html">About Us</a></li>
-                                        <li><a href="/carts">Shopping Cart</a></li>
-                                        <li><a href="./checkout.html">Check Out</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Blog</a></li>
-                                <li><a href="./contact.html">Contacts</a></li>
-
+                            <li class="active"><a href="/">Trang chủ</a></li>
+                            <li ><a href="/shop">Cửa hàng</a></li>
+                            <li ><a href="/blog">Tin tức</a></li>
+                            <li><a href="#">Về Chúng tôi</a></li>
+                            <li ><a href="#">Liên lạc</a></li>
                         </ul>
                     </nav>
                 </div>
