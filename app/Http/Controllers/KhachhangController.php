@@ -23,8 +23,8 @@ class KhachhangController extends Controller
 {
     public function index(){
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $customers = KhachHang::all()->sortByDesc("id");
@@ -38,8 +38,8 @@ class KhachhangController extends Controller
     public function create()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $cities = TinhThanhPho::all();
@@ -189,8 +189,8 @@ class KhachhangController extends Controller
 
     public function index1(){
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $brands = ThuongHieu::all()->sortByDesc("id");

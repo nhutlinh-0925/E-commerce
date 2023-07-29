@@ -22,8 +22,8 @@ class DonHangController extends Controller
     {
         // return 123;
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $orders = PhieuDatHang::all()->sortByDesc("id");

@@ -16,8 +16,8 @@ class NhanVienController extends Controller
 {
     public function index(){
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $employees = NhanVien::all()->sortByDesc("id");
@@ -31,8 +31,8 @@ class NhanVienController extends Controller
     public function create()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         return view('back-end.employee.create',[
@@ -140,8 +140,8 @@ class NhanVienController extends Controller
 
     public function permissions(){
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
 

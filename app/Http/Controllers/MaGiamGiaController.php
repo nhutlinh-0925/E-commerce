@@ -13,8 +13,8 @@ class MaGiamGiaController extends Controller
     public function index()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $coupons = MaGiamGia::all()->sortByDesc("id");
@@ -27,8 +27,8 @@ class MaGiamGiaController extends Controller
     public function create()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         return view('back-end.coupon.create',[
@@ -121,23 +121,5 @@ class MaGiamGiaController extends Controller
 //        }
 //    }
 //
-//    public function active($id)
-//    {
-//        $brand = ThuongHieu::find($id)
-//            ->update(
-//                ['thsp_TrangThai' => 0],
-//            );
-//        Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
-//        return redirect('/admin/coupons');
-//    }
-//
-//    public function unactive($id)
-//    {
-//        $brand = ThuongHieu::find($id)
-//            ->update(
-//                ['thsp_TrangThai' => 1],
-//            );
-//        Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
-//        return redirect('/admin/coupons');
-//    }
+
 }

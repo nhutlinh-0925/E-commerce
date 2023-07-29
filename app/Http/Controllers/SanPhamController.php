@@ -23,8 +23,8 @@ class SanPhamController extends Controller
     public function index()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $products = SanPham::all()->sortByDesc("id");
@@ -44,8 +44,8 @@ class SanPhamController extends Controller
     public function create()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $category_products = DanhMucSanPham::all();
@@ -69,26 +69,7 @@ class SanPhamController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-
         $input = $request->all();
-
-        // $sp = new SanPham();
-        // $sp->sp_TenSanPham = $request->sp_TenSanPham;
-        // $sp->sp_Gia = $request->sp_Gia;
-        // $sp->danhmuc_id = $request->danhmuc_id;
-        // $sp->thuonghieu_id = $request->thuonghieu_id;
-        // $sp->sp_MoTa = $request->sp_MoTa;
-        // $sp->sp_NoiDung = $request->sp_NoiDung;
-        // $sp->sp_VatLieu = $request->sp_VatLieu;
-
-        // $get_image = $request->file('sp_AnhDaiDien');
-        // if($get_image){
-        //     $get_name_image = $get_image->getClientOriginalName();
-        //     $name_image = current(explode('.',$get_name_image));
-        //     $new_image =  $name_image.'.'.$get_image->getClientOriginalExtension();
-        //     $get_image->move('public/uploads/product',$new_image);
-        //     $input['sp_AnhDaiDien'] = $new_image;
-        // }
         if($request->hasFile('sp_AnhDaiDien'))
             {
                 $destination_path = 'public/images/products';
@@ -99,7 +80,6 @@ class SanPhamController extends Controller
                 $input['sp_AnhDaiDien'] = $image_name;
             }
 
-        // $sp->save();
         SanPham::create($input);
 
         Session::flash('flash_message', 'Thêm sản phẩm thành công!');
@@ -126,8 +106,8 @@ class SanPhamController extends Controller
     public function edit($id)
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $product = SanPham::find($id);

@@ -15,8 +15,8 @@ class DanhMucBaiVietController extends Controller
     {
         // return 123;
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $categoty_posts = DanhMucBaiViet::all()->sortByDesc("id");
@@ -29,8 +29,8 @@ class DanhMucBaiVietController extends Controller
     public function create()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         return view('back-end.category-post.create',[
@@ -70,12 +70,12 @@ class DanhMucBaiVietController extends Controller
     public function edit($id)
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
         $categoty_post = DanhMucBaiViet::find($id);
-        // dd($categoty_post);
+//         dd($categoty_post);
         return view('back-end.category-post.edit',[
             'categoty_post' => $categoty_post,
             'nhanvien' => $nhanvien

@@ -19,8 +19,8 @@ class BlogController extends Controller
 
     public function blog() {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $id_kh = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
             // dd($khachhang);
             $category_post = DanhMucBaiViet::all()->where('dmbv_TrangThai',1)->sortByDesc("id");
 //            $product_all = SanPham::all();
@@ -74,11 +74,11 @@ class BlogController extends Controller
         }else{
             $post = BaiViet::find($id);
 //            dd($post);
-//            $category_product = DanhMucSanPham::all();
-//            $product_related = SanPham::where('danh_muc_san_pham_id',$product->id)->inRandomOrder()->limit(4)->get();
+
             $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
 //             dd($post_related);
             $carts = $this->cartService->getProduct();
+
             return view('front-end.blog_detail', [
                 'post' => $post,
 //                'category_product' => $category_product,
