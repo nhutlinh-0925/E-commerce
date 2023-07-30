@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BaiViet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -122,6 +123,8 @@ class DanhMucBaiVietController extends Controller
             ->update(
                 ['dmbv_TrangThai' => 0],
             );
+//        dd($categoty_post);
+        $post_status = BaiViet::where('danh_muc_bai_viet_id', $id)->update(['bv_TrangThai' => 0]);
         Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
         return redirect('/admin/category-posts');
     }
@@ -132,6 +135,7 @@ class DanhMucBaiVietController extends Controller
             ->update(
                 ['dmbv_TrangThai' => 1],
             );
+        $post_status = BaiViet::where('danh_muc_bai_viet_id', $id)->update(['bv_TrangThai' => 1]);
         Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
         return redirect('/admin/category-posts');
     }
