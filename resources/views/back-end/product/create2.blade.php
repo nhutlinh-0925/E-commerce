@@ -160,21 +160,6 @@
                 <p class="text-center" style="font-size: 12px">Vui lòng kiểm tra kỹ thông tin trước khi thêm</p>
             </div>
 
-            {{--  <div class="col-lg-12">  --}}
-                {{--  <label for="inputAddress" class="form-label"><strong>Nguyên liệu <span class="text-danger">(*)</span></strong></label>  --}}
-                {{--  <div class="card">  --}}
-                  {{--  <div class="card-body">  --}}
-                    {{--  <h5 class="card-title">TinyMCE Editor</h5>  --}}
-
-                    {{--  <!-- TinyMCE Editor -->  --}}
-                    {{--  <textarea class="tinymce-editor" name="sp_VatLieu">
-                    </textarea>  --}}
-                    {{--  <!-- End TinyMCE Editor -->  --}}
-
-                  {{--  </div>  --}}
-                {{--  </div>  --}}
-            {{--  </div>  --}}
-
             <div class="col-12">
                 <label for="inputAddress" class="form-label"><strong>Vật liệu <span class="text-danger">(*)</span></strong></label>
                 <textarea class="form-control" placeholder="Nhập vật liệu" id="sp_VatLieu" name="sp_VatLieu" style="height: 100px;">{{ old('sp_VatLieu', $request->sp_VatLieu ?? '') }}</textarea>
@@ -183,8 +168,6 @@
                 @enderror
                 <b class="form-text text-danger" id="materialError"></b>
             </div>
-
-
 
             <div class="row">
                 <div class="col-sm">
@@ -212,7 +195,7 @@
             <div class="row">
                 <div class="col-6">
                     <label for="" class="form-label"><strong>Ảnh đại diện <span class="text-danger">(*)</span></strong></label>
-                    <input type="file" class="form-control" id="sp_AnhDaiDien" name="sp_AnhDaiDien" onchange="loadFile(event)">
+                    <input type="file" class="form-control" id="sp_AnhDaiDien" name="sp_AnhDaiDien" onchange="loadFile1(event)">
                     <b class="form-text text-danger" id="pictureError"></b>
                 </div>
 
@@ -232,7 +215,6 @@
 
 
 
-
           <div class="page">
              <div class="pagetitle text-center">
                 <h1 class="card-title"
@@ -241,8 +223,21 @@
                 </h1>
                 <p class="text-center" style="font-size: 12px">Vui lòng kiểm tra kỹ thông tin trước khi thêm</p>
             </div>
-            <div class="col-12">
 
+              <div class="row">
+                  @for ($i = 1 ; $i <=2 ; $i++ )
+                  <div class="col-6">
+                      <label for="" class="form-label"><strong>Ảnh chi tiết {!! $i !!} <span class="text-danger">(*)</span></strong></label>
+                      <input type="file" class="form-control" id="ha_AnhChiTiet_{!! $i !!}" name="ha_AnhChiTiet[]" onchange="loadFile(event, {!! $i !!})">
+                      <b class="form-text text-danger" id="picture_detailError_{!! $i !!}"></b>
+                  </div>
+
+                  <div class="col-6">
+                      <label for="" class="form-label"><strong>Xem trước hình ảnh</strong></label>
+                      <br>
+                      <img id="output{!! $i !!}" width="220px" height="170px">
+                  </div>
+                  @endfor
               </div>
 
              <div class="field btns">
@@ -250,9 +245,6 @@
                 <button class="next-2 next">TIẾP TỤC</button>
              </div>
           </div>
-
-
-
 
           <div class="page">
              <div class="pagetitle text-center">
@@ -284,9 +276,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/template/back-end2/js/script.js"></script>
     <script>
-        var loadFile = function(event){
+        var loadFile1 = function(event){
            var output = document.getElementById('output');
            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script>
+        var loadFile = function(event, i) {
+            var output = document.getElementById('output' + i);
+            output.src = URL.createObjectURL(event.target.files[0]);
         };
     </script>
 

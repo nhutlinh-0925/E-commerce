@@ -32,7 +32,9 @@ nextBtnFirst.addEventListener("click", function(event){
   } else if(isNaN($('#sp_Gia').val())){
     $('#priceError').html('Vui lòng nhập chữ số');
     return false;
-
+  } else if (parseFloat($('#sp_Gia').val()) <= 0) {
+      $('#priceError').html('Giá phải lớn hơn 0');
+      return false;
   } else if($('#danh_muc_san_pham_id').val() == ''){
     $('#categoryError').html('Vui lòng chọn danh mục');
     return false;
@@ -77,14 +79,29 @@ nextBtnSec.addEventListener("click", function(event){
   }
 });
 //Button Tiếp Theo bước 3
-nextBtnThird.addEventListener("click", function(event){
-  event.preventDefault();
-  slidePage.style.marginLeft = "-75%";
-  bullet[current - 1].classList.add("active");
-  progressCheck[current - 1].classList.add("active");
-  progressText[current - 1].classList.add("active");
-  current += 1;
+nextBtnThird.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    // Kiểm tra từng phần tử tạo động
+    for (let i = 1; i <= 2; i++) {
+        // Xóa thông báo lỗi trước khi kiểm tra cho từng phần tử
+        $('#picture_detailError_' + i).html('');
+
+        // Kiểm tra nếu không có hình ảnh được chọn cho từng phần tử
+        if ($('#ha_AnhChiTiet_' + i).val() == '') {
+            $('#picture_detailError_' + i).html('Vui lòng chọn hình ảnh');
+            return false; // Nếu có lỗi, dừng vòng lặp và không thực hiện việc chuyển trang
+        }
+    }
+
+    // Nếu không có lỗi, tiến hành chuyển trang
+    slidePage.style.marginLeft = "-75%";
+    bullet[current - 1].classList.add("active");
+    progressCheck[current - 1].classList.add("active");
+    progressText[current - 1].classList.add("active");
+    current += 1;
 });
+
 //Button Xác Nhận
 submitBtn.addEventListener("click", function(){
   bullet[current - 1].classList.add("active");

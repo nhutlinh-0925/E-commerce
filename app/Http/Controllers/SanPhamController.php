@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NhanVien;
 
+use App\Models\HinhAnh;
 
 class SanPhamController extends Controller
 {
@@ -48,9 +49,9 @@ class SanPhamController extends Controller
             $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             // dd($nhanvien);
         }
-        $category_products = DanhMucSanPham::all();
-        // dd($category_products);
-        $brands = ThuongHieu::all();
+        $category_products = DanhMucSanPham::where('dmsp_TrangThai',1)->get();
+//         dd($category_products);
+        $brands = ThuongHieu::where('thsp_TrangThai',1)->get();
         $data = [
             'category_products' => $category_products,
             'brands' => $brands,
@@ -76,11 +77,27 @@ class SanPhamController extends Controller
                 $image = $request->file('sp_AnhDaiDien');
                 $image_name = $image->getClientOriginalName();
                 $path = $request->file('sp_AnhDaiDien')->storeAs($destination_path,$image_name);
-
                 $input['sp_AnhDaiDien'] = $image_name;
             }
 
-        SanPham::create($input);
+        $sanpham = SanPham::create($input);
+
+        $id_sp = $sanpham->id;
+        $files = $request->ha_AnhChiTiet;
+        if (count($files) > 0) {
+            foreach ($files as $file){
+                if(isset($file)) {
+                    $ha_ct = new HinhAnh();
+                    $ha_ct->san_pham_id = $id_sp;
+                    // Sử dụng tên gốc của tệp tin làm tên hình ảnh trong cơ sở dữ liệu
+                    $ha_ct->ha_Ten = $file->getClientOriginalName();
+                    // Di chuyển và lưu hình ảnh vào thư mục lưu trữ
+                    $file->storeAs('public/images/product/detail', $file->getClientOriginalName());
+                    // Lưu thông tin vào cơ sở dữ liệu
+                    $ha_ct->save();
+                }
+            }
+        }
 
         Session::flash('flash_message', 'Thêm sản phẩm thành công!');
         return redirect('/admin/products');
