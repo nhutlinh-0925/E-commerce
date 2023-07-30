@@ -55,7 +55,7 @@
           </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary" style="width: 11%;">Cập nhật</button>
-          <a href="/admin/category-products" class="btn btn-danger" style="width: 11%;">Hủy</a>
+          <a href="/admin/category-products" class="btn btn-danger">Quay lại</a>
         </div>
         @csrf
       </form><!-- Vertical Form -->
