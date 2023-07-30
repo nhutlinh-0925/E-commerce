@@ -165,7 +165,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [MaGiamGiaController::class, 'index']);
             Route::get('add', [MaGiamGiaController::class, 'create']);
             Route::post('add', [MaGiamGiaController::class, 'store']);
-            // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
 //            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
 //            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
 //            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
@@ -231,6 +230,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [BaiVietController::class, 'index']);
             Route::get('add', [BaiVietController::class, 'create']);
             Route::post('add', [BaiVietController::class, 'store']);
+            Route::get('edit/{id}', [BaiVietController::class, 'edit']);
+            Route::post('edit/{id}', [BaiVietController::class, 'update']);
+            Route::DELETE('destroy/{id}', [BaiVietController::class, 'destroy']);
         });
 
 

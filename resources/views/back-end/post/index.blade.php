@@ -53,7 +53,8 @@
                                     <td>{{ $item->bv_TieuDeBaiViet }}</td>
                                     <td><img src="{{asset('/storage/images/posts/'.$item->bv_AnhDaiDien) }}" height="100px" width="100px"></td>
                                     <td>{{ $item->bv_LuotXem }}</td>
-                                    <td>{{ $item->bv_NoiDungNgan }}</td>
+                                    <td><p>{{ $item->bv_NoiDungNgan }}</p>
+                                    </td>
                                     <td>
                                         @if ($item->bv_TrangThai == 0)
                                             Ẩn
@@ -65,7 +66,7 @@
                                     <td>{{ date("d-m-Y", strtotime($item->bv_NgayTao)) }}</td>
 
                                     <td style="display: flex">
-                                          <form method="post" action="">
+                                          <form method="post" action="{{ url('/admin/posts/destroy/' .$item->id  ) }}">
                                           <a href="{{ url('/admin/posts/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật bài viết"><i class="bi bi-pencil-square"></i></a>
                                         @method('delete')
                                         @csrf

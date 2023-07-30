@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 
@@ -124,21 +125,21 @@ class BaiVietController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-//    public function edit($id)
-//    {
-//        if(Auth::check()){
-//            $id_nv = Auth::user()->id;
-//            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-//            // dd($nhanvien);
-//        }
-//        $post = BaiViet::find($id);
-//        $category_posts = DanhMucBaiViet::all();
-//        return view('back-end.post.edit',[
-//            'post' => $post,
-//            'category_posts' => $category_posts,
-//            'nhanvien' => $nhanvien
-//        ]);
-//    }
+    public function edit($id)
+    {
+        if(Auth::check()){
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
+            // dd($nhanvien);
+        }
+        $post = BaiViet::find($id);
+        $category_posts = DanhMucBaiViet::all();
+        return view('back-end.post.edit',[
+            'post' => $post,
+            'category_posts' => $category_posts,
+            'nhanvien' => $nhanvien
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -147,32 +148,32 @@ class BaiVietController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-//    public function update(Request $request, $id)
-//    {
-//        // dd($request);
+    public function update(Request $request, $id)
+    {
+//         dd($request);
 //        dd($id);
-//        $post = BaiViet::find($id);
-//        $input = $request->all();
-//        if($request->hasFile('bv_AnhDaiDien'))
-//        {
-//            $destination = 'public/images/posts'.$post->bv_AnhDaiDien;
-//            if(File::exists($destination))
-//            {
-//                File::delete($destination);
-//            }
-//            $destination_path = 'public/images/posts';
-//            $image = $request->file('bv_AnhDaiDien');
-//            $image_name = $image->getClientOriginalName();
-//            $path = $request->file('bv_AnhDaiDien')->storeAs($destination_path,$image_name);
-//
-//            $input['bv_AnhDaiDien'] = $image_name;
-//        }
-//
-//        BaiViet::find($id)->update($input);
-//
-//        Session::flash('flash_message', 'Cập nhật bài viết thành công!');
-//        return redirect('/admin/posts');
-//    }
+        $post = BaiViet::find($id);
+        $input = $request->all();
+        if($request->hasFile('bv_AnhDaiDien'))
+        {
+            $destination = 'public/images/posts'.$post->bv_AnhDaiDien;
+            if(File::exists($destination))
+            {
+                File::delete($destination);
+            }
+            $destination_path = 'public/images/posts';
+            $image = $request->file('bv_AnhDaiDien');
+            $image_name = $image->getClientOriginalName();
+            $path = $request->file('bv_AnhDaiDien')->storeAs($destination_path,$image_name);
+
+            $input['bv_AnhDaiDien'] = $image_name;
+        }
+
+        BaiViet::find($id)->update($input);
+
+        Session::flash('flash_message', 'Cập nhật bài viết thành công!');
+        return redirect('/admin/posts');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -182,6 +183,16 @@ class BaiVietController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            BaiViet::destroy($id);
+            DB::commit();
+            Session::flash('flash_message', 'Xoá bài viết thành công!');
+            return redirect('/admin/posts');
+        } catch (Exception $e) {
+            DB::rollback();
+            Session::flash('flash_message_error', 'Xóa bài viết thất bại!');
+            return redirect()->back();
+        }
     }
 }
