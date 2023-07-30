@@ -155,9 +155,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [SanPhamController::class, 'index']);
             Route::get('add', [SanPhamController::class, 'create']);
             Route::post('add', [SanPhamController::class, 'store']);
-            // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
-//            Route::get('edit/{id}', [SanPhamController::class, 'edit']);
-//            Route::post('edit/{id}', [SanPhamController::class, 'update']);
+            Route::get('edit/{id}', [SanPhamController::class, 'edit']);
+            Route::post('edit/{id}', [SanPhamController::class, 'update']);
             // Route::DELETE('destroy/{doctor}', [AdminController::class, 'destroy']);
         });
         //Mã giảm giá

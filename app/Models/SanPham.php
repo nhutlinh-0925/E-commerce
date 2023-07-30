@@ -39,4 +39,9 @@ class SanPham extends Model
         return $this->hasOne(ThuongHieu::class, 'id', 'thuong_hieu_id')
                 ->withDefault(['thsp_TenThuongHieu' => '']);
     }
+
+    public function hinhanh()
+    {
+        return $this->hasMany(HinhAnh::class);
+    }
 }

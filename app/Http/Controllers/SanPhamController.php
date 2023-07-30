@@ -128,13 +128,16 @@ class SanPhamController extends Controller
             // dd($nhanvien);
         }
         $product = SanPham::find($id);
-        $category_products = DanhMucSanPham::all();
-        $brands = ThuongHieu::all();
+        $category_products = DanhMucSanPham::where('dmsp_TrangThai',1)->get();
+//         dd($category_products);
+        $brands = ThuongHieu::where('thsp_TrangThai',1)->get();
+        $images = $product->hinhanh; // Lấy các hình ảnh liên quan đến sản phẩm
         return view('back-end.product.edit',[
             'product' => $product,
             'category_products' => $category_products,
             'brands' => $brands,
-            'nhanvien' => $nhanvien
+            'nhanvien' => $nhanvien,
+            'images' => $images
         ]);
     }
 
@@ -147,7 +150,7 @@ class SanPhamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request);
+//         dd($request);
         $product = SanPham::find($id);
         $input = $request->all();
         if($request->hasFile('sp_AnhDaiDien'))
@@ -166,6 +169,43 @@ class SanPhamController extends Controller
         }
 
         SanPham::find($id)->update($input);
+
+        // Cập nhật hình ảnh chi tiết (nếu có)
+        $files = $request->ha_AnhChiTiet;
+        if (is_array($files) && count($files) > 0) {
+            // Lưu giá trị cũ của hình ảnh chi tiết
+            $old_images = $product->hinhanh->pluck('ha_Ten')->toArray();
+
+            // Xóa các hình ảnh chi tiết cũ không còn trong danh sách hình ảnh mới
+            $deleted_images = array_diff($old_images, $files);
+            foreach ($deleted_images as $image_name) {
+                $image_path = 'public/images/product/detail/' . $image_name;
+                if (File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+
+                // Xóa bản ghi trong cơ sở dữ liệu có cùng ha_Ten
+                HinhAnh::where('ha_Ten', $image_name)->delete();
+            }
+
+            // Thêm hình ảnh chi tiết mới vào bảng HinhAnh
+            foreach ($files as $file) {
+                if (is_object($file)) {
+                    // Sử dụng tên gốc của tệp tin làm tên hình ảnh trong cơ sở dữ liệu
+                    $image_name = $file->getClientOriginalName();
+
+                    // Nếu hình ảnh chi tiết đã tồn tại thì cập nhật, nếu không thì tạo mới
+                    HinhAnh::updateOrCreate(
+                        ['san_pham_id' => $product->id, 'ha_Ten' => $image_name],
+                        ['san_pham_id' => $product->id, 'ha_Ten' => $image_name]
+                    );
+
+                    // Di chuyển và lưu hình ảnh vào thư mục lưu trữ
+                    $file->storeAs('public/images/product/detail', $image_name);
+                }
+            }
+        }
+
 
         Session::flash('flash_message', 'Cập nhật sản phẩm thành công!');
         return redirect('/admin/products');
