@@ -68,6 +68,7 @@ class BaiVietController extends Controller
                 'bv_NoiDungNgan' => 'required',
                 'bv_NoiDungChiTiet' => 'required',
                 'danh_muc_bai_viet_id' => 'required',
+                'bv_Tag' => 'required',
                 'bv_AnhDaiDien' => 'required'
             ],
                 [
@@ -75,6 +76,7 @@ class BaiVietController extends Controller
                     'bv_NoiDungNgan.required' => 'Vui lòng nhập mô tả',
                     'bv_NoiDungChiTiet.required' => 'Vui lòng mô tả chi tiết',
                     'danh_muc_bai_viet_id.required' => 'Vui lòng chọn danh mục',
+                    'bv_Tag.required' => 'Vui lòng nhập tag cho bài viết',
                     'bv_AnhDaiDien.required' => 'Vui lòng chọn hình ảnh'
                 ]);
 

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('bv_AnhDaiDien');
             $table->integer('bv_LuotXem')->default('0');
             $table->integer('bv_TrangThai');
-            $table->string('bv_Tag')->nullable();
+            $table->string('bv_Tag');
             $table->date('bv_NgayTao');
             $table->foreign('danh_muc_bai_viet_id')
                 ->references('id')

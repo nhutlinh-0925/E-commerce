@@ -1,13 +1,10 @@
 {{-- them san pham --}}
 @extends('back-end.main2')
 
-{{--  @section('head')
-    <link rel="stylesheet" type="text/css" href="/template/back-end/vendors/flag-icon/css/flag-icon.min.css">
-    <link rel="stylesheet" type="text/css" href="/template/back-end/vendors/quill/katex.min.css">
-    <link rel="stylesheet" type="text/css" href="/template/back-end/vendors/quill/monokai-sublime.min.css">
-    <link rel="stylesheet" type="text/css" href="/template/back-end/vendors/quill/quill.snow.css">
-    <link rel="stylesheet" type="text/css" href="/template/back-end/vendors/quill/quill.bubble.css">
-@endsection  --}}
+@section('head')
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+    <link rel="stylesheet" href="/template/back-end2/css/bootstrap-tagsinput.css">
+@endsection
 
 @section('content')
 
@@ -76,6 +73,16 @@
                         @enderror
                     </div>
                 </div>
+                <br><br>
+
+                    <div class="col-12">
+                        <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label>
+                        <input type="text" class="form-control" data-role="tagsinput" id="" name="bv_Tag" value="{{ old('bv_Tag', $post->bv_Tag ?? '') }}">
+
+                    </div>
+                    @error ('bv_Tag')
+                    <span style="color: red;">{{ $message }}</span>
+                    @enderror
 
                 <div class="row">
                     <div class="col-6">
@@ -112,4 +119,6 @@
             output.src = URL.createObjectURL(event.target.files[0]);
         };
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/template/back-end2/js/bootstrap-tagsinput.min.js"></script>
 @endsection
