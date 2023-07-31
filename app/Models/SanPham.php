@@ -26,7 +26,6 @@ class SanPham extends Model
         'sp_MauSac',
         'sp_KichCo',
         'sp_Tag'
-
     ];
 
     public function danhmuc()

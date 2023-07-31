@@ -1,9 +1,10 @@
 {{-- them san pham --}}
 @extends('back-end.main2')
 
-{{--  @section('head')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-@endsection  --}}
+  @section('head')
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+<link rel="stylesheet" href="/template/back-end2/css/bootstrap-tagsinput.css">
+@endsection
 
 
 @section('content')
@@ -66,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-9">
                         <label for="inputNanme4" class="form-label"><strong>Tên sản phẩm <span class="text-danger">(*)</span></strong></label>
-                        <input type="text" class="form-control" id="sp_TenSanPham" name="sp_TenSanPham" placeholder="Nhập tên sản phẩm" value="{{ old('sp_TenSanPham', $request->sp_TenSanPham ?? '') }}">
+                        <input type="text" class="form-control" id="sp_TenSanPham" name="sp_TenSanPham" placeholder="Nhập tên sản phẩm"  >
                         @error ('sp_TenSanPham')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -74,7 +75,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="inputNanme4" class="form-label"><strong>Giá sản phẩm <span class="text-danger">(*)</span></strong></label>
-                        <input type="number" class="form-control" id="sp_Gia" name="sp_Gia" placeholder="Nhập giá" value="{{ old('sp_Gia', $request->sp_Gia ?? '') }}">
+                        <input type="number" class="form-control" id="sp_Gia" name="sp_Gia" placeholder="Nhập giá">
                         @error ('sp_Gia')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -87,7 +88,7 @@
                 <div class="row">
                 <div class="col-md-6">
                     <label for="inputNanme4" class="form-label"><strong>Số lượng sản phẩm <span class="text-danger">(*)</span></strong></label>
-                    <input type="text" class="form-control" id="" name="" placeholder="Số lượng sản phẩm tăng khi nhập kho" value="{{ old('sp_SoLuongHang', $request->sp_SoLuongHang ?? '') }}" disabled>
+                    <input type="text" class="form-control" id="" name="" placeholder="Số lượng sản phẩm tăng khi nhập kho" disabled>
                     @error ('sp_SoLuongHang')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
@@ -129,7 +130,7 @@
 
                 <div class="col-12">
                     <label for="inputAddress" class="form-label"><strong>Mô tả tóm tắt sản phẩm <span class="text-danger">(*)</span></strong></label>
-                    <textarea class="form-control" placeholder="Nhập mô tả" id="sp_MoTa" name="sp_MoTa" style="height: 100px;">{{ old('sp_MoTa', $request->sp_MoTa ?? '') }}</textarea>
+                    <textarea class="form-control" placeholder="Nhập mô tả" id="sp_MoTa" name="sp_MoTa" style="height: 100px;"></textarea>
                     @error ('sp_MoTa')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
@@ -138,7 +139,7 @@
 
                 <div class="col-12">
                     <label for="inputAddress" class="form-label"><strong>Nội dung <span class="text-danger">(*)</span></strong></label>
-                    <textarea class="form-control" placeholder="Nhập nội dung" id="sp_NoiDung" name="sp_NoiDung" style="height: 100px;">{{ old('sp_NoiDung', $request->sp_NoiDung ?? '') }}</textarea>
+                    <textarea class="form-control" placeholder="Nhập nội dung" id="sp_NoiDung" name="sp_NoiDung" style="height: 100px;"></textarea>
                     @error ('sp_NoiDung')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
@@ -162,8 +163,17 @@
 
             <div class="col-12">
                 <label for="inputAddress" class="form-label"><strong>Chất liệu <span class="text-danger">(*)</span></strong></label>
-                <textarea class="form-control" placeholder="Nhập nội dung chất liệu" id="sp_ChatLieu" name="sp_ChatLieu" style="height: 100px;">{{ old('sp_VatLieu', $request->sp_VatLieu ?? '') }}</textarea>
+                <textarea class="form-control" placeholder="Nhập nội dung chất liệu" id="sp_ChatLieu" name="sp_ChatLieu" style="height: 100px;"></textarea>
                 <b class="form-text text-danger" id="materialError"></b>
+            </div><br>
+
+            <div class="row">
+              <div class="col-12">
+                  <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label>
+                  <input type="text" class="form-control" data-role="tagsinput" id="sp_Tag" name="sp_Tag">
+
+              </div>
+                <b class="form-text text-danger" id="tagError"></b>
             </div>
 
 {{--            <div class="row">--}}
@@ -200,13 +210,13 @@
                 <div class="col-6">
                     <label for="" class="form-label"><strong>Xem trước hình ảnh</strong></label>
                     <br>
-                    <img id="output" width="220px" height="170px">
+                    <img id="output" width="200px" height="130px">
                 </div>
             </div>
 
               <div class="col-sm">
                   <label for="inputNanme4" class="form-label"><strong>Video <span class="text-danger">(*)</span></strong></label>
-                  <input type="text" class="form-control" id="sp_Video" name="sp_Video" placeholder="Copy đường link video vào đây" value="{{ old('sp_Video', $request->sp_Video ?? '') }}">
+                  <input type="text" class="form-control" id="sp_Video" name="sp_Video" placeholder="Copy đường link video vào đây" >
                   <b class="form-text text-danger" id="videoError"></b>
               </div>
 
@@ -277,6 +287,7 @@
 
 @section('footer')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{--    <script src="/template/front-end/js/jquery-3.3.1.min.js"></script>--}}
     <script src="/template/back-end2/js/script.js"></script>
     <script>
         var loadFile1 = function(event){
@@ -290,5 +301,7 @@
             output.src = URL.createObjectURL(event.target.files[0]);
         };
     </script>
+{{--    <script rel="javascript" type="text/javascript" href="js/jquery-1.11.3.min.js"></script>--}}
+    <script src="/template/back-end2/js/bootstrap-tagsinput.min.js"></script>
 
 @endsection

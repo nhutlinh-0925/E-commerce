@@ -61,12 +61,15 @@ nextBtnFirst.addEventListener("click", function(event){
 nextBtnSec.addEventListener("click", function(event){
   event.preventDefault();
   $('#materialError').html('');
+  $('#tagError').html('');
   $('#pictureError').html('');
   $('#videoError').html('');
 
   if($('#sp_ChatLieu').val() == ''){
     $('#materialError').html('Vui lòng nhập nội dung chất liệu');
     return false;
+  } else if($('#sp_Tag').val() == ''){
+      $('#tagError').html('Vui lòng nhập tag cho sản phẩm');
   } else if($('#sp_AnhDaiDien').val() == ''){
     $('#pictureError').html('Vui lòng chọn hình ảnh');
   } else if($('#sp_Video').val() == ''){

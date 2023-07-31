@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('sp_LuotXem')->default('0');
             $table->string('sp_MauSac')->nullable();
             $table->string('sp_KichCo')->nullable();
-            $table->string('sp_Tag')->nullable();
+            $table->string('sp_Tag');
             $table->foreign('danh_muc_san_pham_id')
                 ->references('id')
                 ->on('danh_muc_san_phams')

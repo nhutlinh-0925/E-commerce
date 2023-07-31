@@ -1,9 +1,10 @@
 {{-- them san pham --}}
 @extends('back-end.main2')
 
-{{--  @section('head')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-@endsection  --}}
+@section('head')
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+    <link rel="stylesheet" href="/template/back-end2/css/bootstrap-tagsinput.css">
+@endsection
 
 
 @section('content')
@@ -166,6 +167,14 @@
                 <b class="form-text text-danger" id="materialError"></b>
             </div>
 
+              <div class="row">
+                  <div class="col-12">
+                      <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label>
+                      <input type="text" class="form-control" data-role="tagsinput" id="sp_Tag" name="sp_Tag" value="{{ old('sp_Tag', $product->sp_Tag ?? '') }}">
+                  </div>
+                  <b class="form-text text-danger" id="tagError"></b>
+              </div>
+
 {{--            <div class="row">--}}
 {{--                <div class="col-sm">--}}
 {{--                    <label for="inputNanme4" class="form-label"><strong>Màu sắc <span class="text-danger">(*)</span></strong></label>--}}
@@ -302,5 +311,6 @@
             output.src = URL.createObjectURL(event.target.files[0]);
         };
     </script>
+    <script src="/template/back-end2/js/bootstrap-tagsinput.min.js"></script>
 
 @endsection

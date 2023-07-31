@@ -190,7 +190,17 @@
 {{--                                    <li><span>SKU:</span> #000{{ $product->id }}</li>--}}
                                     <li><span>Danh mục:</span> {{$product->danhmuc->dmsp_TenDanhMuc}}</li>
                                     <li><span>Thương hiệu:</span> {{$product->thuonghieu->thsp_TenThuongHieu}}</li>
-                                    <li><span>Tag:</span> Clothes, Skin, Body</li>
+                                    <li>
+                                        <span>Tag:</span>
+                                        @php
+                                            $tags = $product->sp_Tag;
+                                            $tags = explode(",",$tags);
+                                        @endphp
+                                        @foreach($tags as $tag)
+                                            <a style="color: black" href="{{ url('/tag/' . Str::slug($tag)) }}">{{ $tag }},</a>
+                                        @endforeach
+{{--                                        Clothes, Skin, Body--}}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
