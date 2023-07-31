@@ -41,8 +41,8 @@
             <label for="validationDefault04" class="form-label"><strong>Hiển thị <span class="text-danger">(*)</span></strong></label>
             <select class="form-select" name="dmsp_TrangThai" id="validationDefault04" >
               <option selected disabled value="">Lựa chọn</option>
-              <option value="0">Hiện thị</option>
-              <option value="1">Ẩn</option>
+              <option value="1">Hiện thị</option>
+              <option value="0">Ẩn</option>
             </select>
             @error ('dmsp_TrangThai')
                 <span style="color: red;">{{ $message }}</span>
