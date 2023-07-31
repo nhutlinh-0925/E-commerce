@@ -35,49 +35,53 @@
             <table class="table datatable">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Tên sản phẩm</th>
-                  <th scope="col">Hình</th>
-                  <th scope="col">Giá</th>
-                  <th scope="col">Danh mục sản phẩm</th>
-                  <th scope="col">Số lượng hàng</th>
-                  <th scope="col">Thương hiệu</th>
-                  <th scope="col">Mô tả</th>
-                  {{--  <th scope="col">Nội dung</th>  --}}
-                  {{--  <th scope="col">Vật liệu</th>  --}}
-                  <th scope="col">Tùy biến</th>
+                  <th scope="col"><p style="text-align: center;">ID</th>
+                  <th scope="col"><p style="text-align: center;">Tên sản phẩm</p></th>
+                  <th scope="col"><p style="text-align: center;">Hình</p></th>
+                  <th scope="col"><p style="text-align: center;">Giá</p></th>
+                  <th scope="col"><p style="text-align: center;">Danh mục sản phẩm<p></th>
+                  <th scope="col"><p style="text-align: center;">Số lượng hàng</p></th>
+                  <th scope="col"><p style="text-align: center;">Thương hiệu</p></th>
+                  <th scope="col"><p style="text-align: center;">Tùy biến</p></th>
                 </tr>
               </thead>
               <tbody>
                 @foreach($products as $item)
                 <tr>
                     <td>{{ $item->id }}</td>
-                    <td>{{ $item->sp_TenSanPham }}</td>
+                    <td><p style="width: 100px">{{ $item->sp_TenSanPham }}</p></td>
                     {{--  <td>a</td>  --}}
 
                     <td><img src="{{ url('/storage/images/products/'.$item->sp_AnhDaiDien) }}" height="100px" width="100px"></td>
-                    <td>{{ $item->sp_Gia }}</td>
-                    <td>{{ $item->danhmuc->dmsp_TenDanhMuc }}</td>
-                    <td>{{ $item->sp_SoLuongHang }}</td>
-                    <td>{{ $item->thuonghieu->thsp_TenThuongHieu }}</td>
-                    <td>{{ $item->sp_MoTa }}</td>
-                    {{--  <td>{{ $item->sp_NoiDung }}</td>  --}}
-                    {{--  <td>{{ $item->sp_VatLieu }}</td>  --}}
+                    <td><p style="text-align: center;color: red;"><b>{{ number_format($item->sp_Gia, 0, '', '.') }} đ</b></p></td>
+                    <td><p style="text-align: center;">{{ $item->danhmuc->dmsp_TenDanhMuc }}</p></td>
+                    <td><p style="text-align: center;">{{ $item->sp_SoLuongHang }}</p></td>
+                    <td><p style="text-align: center;">{{ $item->thuonghieu->thsp_TenThuongHieu }}</p></td>
+{{--                    <td><p style="width: 100px">{{ $item->sp_MoTa }}</p></td>--}}
 
                     <td style="display: flex">
-                        {{--  <form method="post" action="">  --}}
-                        {{--  <a href="" class="btn btn-primary btn-sm" title="Xem thông tin danh mục"><i class="bi bi-eye-fill"></i></a>  --}}
-                        {{--  <a href="{{ url('/admin/category-products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật danh mục"><i class="bi bi-pencil-square"></i></a>  --}}
-                        <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật danh mục"><i class="bi bi-pencil-square"></i></a>
-
-                        {{--  @method('delete')
-                        @csrf  --}}
-                        {{--  <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa danh mục'
-                                                data-toggle = 'tooltip'
-                                                onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
-                                                <i class="bi bi-trash-fill"></i>
-                        </button>  --}}
-                    {{--  </form>  --}}
+{{--                        <form method="post" action="{{ url('/admin/products/destroy/' .$item->id  ) }}">--}}
+{{--                            <a href="" class="btn btn-primary btn-sm" title="Xem thông tin sản phẩm"><i class="bi bi-eye-fill"></i></a>--}}
+                            <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
+{{--                            @method('delete')--}}
+{{--                            @csrf--}}
+{{--                        <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa sản phẩm'--}}
+{{--                                 data-toggle = 'tooltip'--}}
+{{--                                 onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>--}}
+{{--                                 <i class="bi bi-trash-fill"></i>--}}
+{{--                        </button>--}}
+{{--                      </form>--}}
+{{--                        <form method="post" action="{{ url('/admin/products/destroy/' .$item->id  ) }}">--}}
+{{--                            <a href="" class="btn btn-primary btn-sm" title="Xem thông tin sản phẩm"><i class="bi bi-eye-fill"></i></a>--}}
+{{--                            <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>--}}
+{{--                            @method('delete')--}}
+{{--                            @csrf--}}
+{{--                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa sản phẩm'--}}
+{{--                                    data-toggle = 'tooltip'--}}
+{{--                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>--}}
+{{--                                <i class="bi bi-trash-fill"></i>--}}
+{{--                            </button>--}}
+{{--                        </form>--}}
                     </td>
                 </tr>
                 @endforeach

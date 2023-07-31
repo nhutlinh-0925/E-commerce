@@ -28,15 +28,15 @@ class ShopController extends Controller
             // dd($khachhang);
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
-            $product_all = SanPham::all();
-            $products = SanPham::paginate(7);
+//            $product_all = SanPham::all();
+            $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
 
             $carts = $this->cartService->getProduct();
             return view('front-end.shop',[
                 'category_product' => $category_product,
                 'brand' => $brand,
                 'products' => $products,
-                'product_all' => $product_all,
+//                'product_all' => $product_all,
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
@@ -44,8 +44,8 @@ class ShopController extends Controller
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
-            $product_all = SanPham::all();
-            $products = SanPham::paginate(7);
+//            $product_all = SanPham::all();
+            $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
 
             $carts = $this->cartService->getProduct();
             // dd($carts);
@@ -54,7 +54,7 @@ class ShopController extends Controller
                 'category_product' => $category_product,
                 'brand' => $brand,
                 'products' => $products,
-                'product_all' => $product_all,
+//                'product_all' => $product_all,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
             ]);
@@ -71,6 +71,8 @@ class ShopController extends Controller
             // dd($product_related);
             $carts = $this->cartService->getProduct();
             // dd($carts);
+            $images = $product->hinhanh;
+//            dd($images);
             return view('front-end.product_detail', [
                 'product' => $product,
                 'category_product' => $category_product,
@@ -78,6 +80,7 @@ class ShopController extends Controller
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'images' => $images
             ]);
         }else{
             $product = SanPham::find($id);
@@ -85,12 +88,15 @@ class ShopController extends Controller
             $product_related = SanPham::where('danh_muc_san_pham_id',$product->id)->inRandomOrder()->limit(4)->get();
             // dd($product_related);
             $carts = $this->cartService->getProduct();
+            $images = $product->hinhanh;
+//            dd($images);
             return view('front-end.product_detail', [
                 'product' => $product,
                 'category_product' => $category_product,
                 'product_related' => $product_related,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'images' => $images
             ]);
         }
     }

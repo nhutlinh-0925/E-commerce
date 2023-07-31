@@ -30,26 +30,29 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                                    <div class="product__thumb__pic set-bg" >
-                                        <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px">
+                                    <div class="product__thumb__pic set-bg">
+                                        <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px">
                                     </div>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/template/front-end/img/shop-details/thumb-2.png">
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/template/front-end/img/shop-details/thumb-3.png">
-                                    </div>
-                                </a>
-                            </li>
+                            @php
+                                $tabIndex = 2;
+                            @endphp
+                            @foreach ($images as $index => $image)
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-{{ $tabIndex }}" role="tab">
+                                        <div class="product__thumb__pic set-bg" data-setbg="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}" width="100px" height="100px">
+                                        </div>
+                                    </a>
+                                </li>
+                                @php
+                                    $tabIndex++;
+                                @endphp
+                            @endforeach
+
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/template/front-end/img/shop-details/thumb-4.png">
+                                    <div class="product__thumb__pic set-bg" data-setbg="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
                                         <i class="fa fa-play"></i>
                                     </div>
                                 </a>
@@ -60,23 +63,26 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" alt="">
+                                    <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" alt="" width="800px" height="550px">
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="/template/front-end/img/shop-details/product-big-3.png" alt="">
+                            @php
+                                $tabIndex = 2;
+                            @endphp
+                            @foreach ($images as $index => $image)
+                                <div class="tab-pane" id="tabs-{{ $tabIndex }}" role="tabpanel">
+                                    <div class="product__details__pic__item">
+                                        <img src="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}" alt="" width="800px" height="550px">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="/template/front-end/img/shop-details/product-big.png" alt="">
-                                </div>
-                            </div>
+                                @php
+                                    $tabIndex++;
+                                @endphp
+                            @endforeach
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img src="/template/front-end/img/shop-details/product-big-4.png" alt="">
-                                    <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1" class="video-popup"><i class="fa fa-play"></i></a>
+                                    <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="800px" height="550px">
+                                    <a href="{{ $product->sp_Video }}" class="video-popup"><i class="fa fa-play"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -181,8 +187,9 @@
                                 <h5><span>Guaranteed Safe Checkout</span></h5>
                                 <img src="/template/front-end/img/shop-details/details-payment.png" alt="">
                                 <ul>
-                                    <li><span>SKU:</span> 3812912</li>
+{{--                                    <li><span>SKU:</span> #000{{ $product->id }}</li>--}}
                                     <li><span>Danh mục:</span> {{$product->danhmuc->dmsp_TenDanhMuc}}</li>
+                                    <li><span>Thương hiệu:</span> {{$product->thuonghieu->thsp_TenThuongHieu}}</li>
                                     <li><span>Tag:</span> Clothes, Skin, Body</li>
                                 </ul>
                             </div>
@@ -215,7 +222,7 @@
                                         </div>
                                         <div class="product__details__tab__content__item">
                                             <h5>Chất liệu</h5>
-                                            <p>{{ $product->sp_VatLieu }}</p>
+                                            <p>{{ $product->sp_ChatLieu }}</p>
                                         </div>
                                     </div>
                                 </div>

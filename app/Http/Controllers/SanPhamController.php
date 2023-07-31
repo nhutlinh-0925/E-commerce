@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\DanhMucSanPham;
 use App\Models\ThuongHieu;
@@ -217,8 +218,18 @@ class SanPhamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+//    public function destroy($id)
+//    {
+//        try {
+//            DB::beginTransaction();
+//            SanPham::destroy($id);
+//            DB::commit();
+//            Session::flash('flash_message', 'Xoá sản phẩm thành công!');
+//            return redirect('/admin/products');
+//        } catch (Exception $e) {
+//            DB::rollback();
+//            Session::flash('flash_message_error', 'Xóa sản phẩm thất bại!');
+//            return redirect()->back();
+//        }
+//    }
 }

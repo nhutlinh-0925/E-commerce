@@ -161,36 +161,34 @@
             </div>
 
             <div class="col-12">
-                <label for="inputAddress" class="form-label"><strong>Vật liệu <span class="text-danger">(*)</span></strong></label>
-                <textarea class="form-control" placeholder="Nhập vật liệu" id="sp_VatLieu" name="sp_VatLieu" style="height: 100px;">{{ old('sp_VatLieu', $request->sp_VatLieu ?? '') }}</textarea>
-                @error ('sp_VatLieu')
-                    <span style="color: red;">{{ $message }}</span>
-                @enderror
+                <label for="inputAddress" class="form-label"><strong>Chất liệu <span class="text-danger">(*)</span></strong></label>
+                <textarea class="form-control" placeholder="Nhập nội dung chất liệu" id="sp_ChatLieu" name="sp_ChatLieu" style="height: 100px;">{{ old('sp_VatLieu', $request->sp_VatLieu ?? '') }}</textarea>
                 <b class="form-text text-danger" id="materialError"></b>
             </div>
 
-            <div class="row">
-                <div class="col-sm">
-                    <label for="inputNanme4" class="form-label"><strong>Màu sắc <span class="text-danger">(*)</span></strong></label>
-                    <input type="text" class="form-control" id="inputNanme4" name="sp_MauSac" placeholder="Nhập màu" value="{{ old('sp_MauSac', $request->sp_MauSac ?? '') }}">
-                      @error ('sp_MauSac')
-                          <span style="color: red;">{{ $message }}</span>
-                      @enderror
-                </div>
-                <div class="col-sm">
-                    <label for="inputNanme4" class="form-label"><strong>Kích cở <span class="text-danger">(*)</span></strong></label>
-                    <input type="text" class="form-control" id="inputNanme4" name="sp_KichCo" placeholder="Nhập kích cở" value="{{ old('sp_KichCo', $request->sp_KichCo ?? '') }}">
-                      @error ('sp_KichCo')
-                          <span style="color: red;">{{ $message }}</span>
-                      @enderror
-                </div>
-                <div class="col-sm">
-                    <label for="inputNanme4" class="form-label"><strong>Tag <span class="text-danger">(*)</span></strong></label>
-                    <input type="text" class="form-control" id="inputNanme4" name="sp_Tag" placeholder="Nhập tên" value="{{ old('sp_Tag', $request->sp_Tag ?? '') }}">
-                      @error ('sp_Tag')
-                          <span style="color: red;">{{ $message }}</span>
-                      @enderror
-                </div>
+{{--            <div class="row">--}}
+{{--                <div class="col-sm">--}}
+{{--                    <label for="inputNanme4" class="form-label"><strong>Màu sắc <span class="text-danger">(*)</span></strong></label>--}}
+{{--                    <input type="text" class="form-control" id="inputNanme4" name="sp_MauSac" placeholder="Nhập màu" value="{{ old('sp_MauSac', $request->sp_MauSac ?? '') }}">--}}
+{{--                      @error ('sp_MauSac')--}}
+{{--                          <span style="color: red;">{{ $message }}</span>--}}
+{{--                      @enderror--}}
+{{--                </div>--}}
+{{--                <div class="col-sm">--}}
+{{--                    <label for="inputNanme4" class="form-label"><strong>Kích cở <span class="text-danger">(*)</span></strong></label>--}}
+{{--                    <input type="text" class="form-control" id="inputNanme4" name="sp_KichCo" placeholder="Nhập kích cở" value="{{ old('sp_KichCo', $request->sp_KichCo ?? '') }}">--}}
+{{--                      @error ('sp_KichCo')--}}
+{{--                          <span style="color: red;">{{ $message }}</span>--}}
+{{--                      @enderror--}}
+{{--                </div>--}}
+{{--                <div class="col-sm">--}}
+{{--                    <label for="inputNanme4" class="form-label"><strong>Tag <span class="text-danger">(*)</span></strong></label>--}}
+{{--                    <input type="text" class="form-control" id="inputNanme4" name="sp_Tag" placeholder="Nhập tên" value="{{ old('sp_Tag', $request->sp_Tag ?? '') }}">--}}
+{{--                      @error ('sp_Tag')--}}
+{{--                          <span style="color: red;">{{ $message }}</span>--}}
+{{--                      @enderror--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <div class="row">
                 <div class="col-6">
@@ -206,7 +204,12 @@
                 </div>
             </div>
 
+              <div class="col-sm">
+                  <label for="inputNanme4" class="form-label"><strong>Video <span class="text-danger">(*)</span></strong></label>
+                  <input type="text" class="form-control" id="sp_Video" name="sp_Video" placeholder="Copy đường link video vào đây" value="{{ old('sp_Video', $request->sp_Video ?? '') }}">
+                  <b class="form-text text-danger" id="videoError"></b>
               </div>
+
              <div class="field btns">
                 <button class="prev-1 prev">QUAY LẠI</button>
                 <button class="next-1 next">TIẾP TỤC</button>
