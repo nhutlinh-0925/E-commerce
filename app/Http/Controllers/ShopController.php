@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\KhachHang;
 
 use App\Http\Services\CartService;
-
+use Illuminate\Support\Facades\DB;
 class ShopController extends Controller
 {
     protected $cartService;
@@ -67,7 +67,7 @@ class ShopController extends Controller
 
             $product = SanPham::find($id);
             $category_product = DanhMucSanPham::all();
-            $product_related = SanPham::where('danh_muc_san_pham_id',$product->id)->inRandomOrder()->limit(4)->get();
+            $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
             // dd($product_related);
             $carts = $this->cartService->getProduct();
             // dd($carts);
@@ -85,8 +85,8 @@ class ShopController extends Controller
         }else{
             $product = SanPham::find($id);
             $category_product = DanhMucSanPham::all();
-            $product_related = SanPham::where('danh_muc_san_pham_id',$product->id)->inRandomOrder()->limit(4)->get();
-            // dd($product_related);
+            $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
+            //dd($product_related);
             $carts = $this->cartService->getProduct();
             $images = $product->hinhanh;
 //            dd($images);
@@ -100,6 +100,220 @@ class ShopController extends Controller
             ]);
         }
     }
+
+    public function danhmuc_sanpham($id) {
+        if(Auth::check()){
+            $id_kh = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
+
+            $cate_pro = DanhMucSanPham::find($id);
+            //dd($cate_pro);
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+
+            $id_dm = $id;
+            $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            //dd($sp);
+
+            return view('front-end.danhmuc_sanpham', [
+                'cate_pro' => $cate_pro,
+                'category_product' => $category_product,
+                'brand' => $brand,
+                'khachhang' => $khachhang,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'sp' => $sp
+            ]);
+        }else{
+            $cate_pro = DanhMucSanPham::find($id);
+            //dd($cate_pro);
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            //dd($category_product);
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            $carts = $this->cartService->getProduct();
+
+            $id_dm = $id;
+            $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                         ->where('sp_TrangThai',1)
+                         ->orderBy('id', 'desc')
+                         ->paginate(9);
+            //dd($sp);
+            return view('front-end.danhmuc_sanpham', [
+                'cate_pro' => $cate_pro,
+                'category_product' => $category_product,
+                'brand' => $brand,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'sp' => $sp
+            ]);
+        }
+    }
+
+    public function thuonghieu_sanpham($id) {
+        if(Auth::check()){
+            $id_kh = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
+
+            $bra = ThuongHieu::find($id);
+            //dd($cate_pro);
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+
+            $id_th = $id;
+            $sp = SanPham::where('thuong_hieu_id',$id_th)
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            //dd($sp);
+
+            return view('front-end.thuonghieu_sanpham', [
+                'bra' => $bra,
+                'category_product' => $category_product,
+                'brand' => $brand,
+                'khachhang' => $khachhang,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'sp' => $sp
+            ]);
+        }else{
+            $bra = ThuongHieu::find($id);
+            //dd($cate_pro);
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            //dd($category_product);
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            $carts = $this->cartService->getProduct();
+
+            $id_th = $id;
+            $sp = SanPham::where('thuong_hieu_id',$id_th)
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            //dd($sp);
+            return view('front-end.thuonghieu_sanpham', [
+                'bra' => $bra,
+                'category_product' => $category_product,
+                'brand' => $brand,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'sp' => $sp
+            ]);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            // dd($khachhang);
+
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            //$product_all = SanPham::all();
+
+            $keywords = $request->keywords_submit;
+            $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
+                                                         ->where('sp_TrangThai',1)
+                                                         ->orderBy('id', 'desc')
+                                                         ->paginate(9);
+            $carts = $this->cartService->getProduct();
+            return view('front-end.search',[
+                'category_product' => $category_product,
+                'brand' => $brand,
+                //'product_all' => $product_all,
+                'khachhang' => $khachhang,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'search_product' => $search_product,
+                'keywords' => $keywords
+            ]);
+        }else{
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            //$product_all = SanPham::all();
+
+            $keywords = $request->keywords_submit;
+            $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
+                                ->where('sp_TrangThai',1)
+                                ->orderBy('id', 'desc')
+                                ->paginate(9);
+            //dd($search_product);
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+        }
+        return view('front-end.search',[
+            'category_product' => $category_product,
+            'brand' => $brand,
+            //'product_all' => $product_all,
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+            'search_product' => $search_product,
+            'keywords' => $keywords
+        ]);
+    }
+
+    public function tag(Request $request, $product_tag){
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            // dd($khachhang);
+
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            //$product_all = SanPham::all();
+
+            $tag = str_replace("-"," ",$product_tag);
+            $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
+                ->orWhere('sp_Tag','like','%'.$tag.'%')
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            //dd($product_tag);
+            $carts = $this->cartService->getProduct();
+            return view('front-end.product_tag',[
+                'category_product' => $category_product,
+                'brand' => $brand,
+                //'product_all' => $product_all,
+                'khachhang' => $khachhang,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'product_tag' => $product_tag,
+                'tag' => $tag
+            ]);
+        }else{
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+            //$product_all = SanPham::all();
+
+            $tag = str_replace("-"," ",$product_tag);
+            //dd($tag);
+            $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
+                ->orWhere('sp_Tag','like','%'.$tag.'%')
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            //dd($product_tag);
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+        }
+        return view('front-end.product_tag',[
+            'category_product' => $category_product,
+            'brand' => $brand,
+            //'product_all' => $product_all,
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+            'product_tag' => $product_tag,
+            'tag' => $tag
+        ]);
+    }
+
 
     // public function store($id,$sp_TenSanPham,$sp_Gia)
     // {

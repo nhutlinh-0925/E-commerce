@@ -38,6 +38,8 @@ use \App\Http\Controllers\BlogController;
     //Trang shop
     Route::get('/shop',[ShopController::class, 'shop']);
     Route::get('/product/{id}',[ShopController::class, 'product_detail']);
+    Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
+    Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
 
     //Trang cart
     Route::post('add-cart',[CartController::class, 'index']);
@@ -70,6 +72,12 @@ use \App\Http\Controllers\BlogController;
     //Trang blog
     Route::get('/blog',[BlogController::class, 'blog']);
     Route::get('/blog/{id}',[BlogController::class, 'blog_detail']);
+
+    //Tìm kiếm
+    Route::post('search', [ShopController::class, 'search']);
+
+    //Tag
+    Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
 
     // Route::get('/login', function () {
     //     return view('front-end.login.login');

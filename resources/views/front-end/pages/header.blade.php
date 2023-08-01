@@ -101,12 +101,12 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-2">
-                    <div class="header__logo">
-                        <a href="/"><img src="/template/front-end/img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-md-7">
+{{--                <div class="col-lg-1">--}}
+{{--                    <div class="header__logo">--}}
+{{--                        <a href="/"><img src="/template/front-end/img/logo.png" alt=""></a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+                <div class="col-7">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active"><a href="/">Trang chủ</a></li>
@@ -132,11 +132,13 @@
                     </div>
                 </div>  --}}
 
-                <div class="col-lg-3 col-md-3">
+                <div class="col-5">
                     <div class="header__nav__option">
                         <div class="inline-block-container">
-                            <form action="#" style="display: inline-block; margin-right: 26px;">
-                                <input type="text" placeholder="Search..." style="width: 150px;">
+                            <form action="/search" style="display: inline-block; margin-right:40px;" method="POST">
+                                @csrf
+                                <input type="text" placeholder="Search..." style="width: 110px;" name="keywords_submit">
+                                <button type="submit" ><i class="fa fa-search"></i></button>
                             </form>
                             <a href="#" class="search-switch"><img src="/template/front-end/img/icon/heart.png" alt=""></a>
                             <div class="js-show-cart"
