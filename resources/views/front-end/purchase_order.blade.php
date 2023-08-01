@@ -18,7 +18,7 @@
                 <div class="breadcrumb__text">
                     <h4>Đơn hàng của bạn</h4>
                     <div class="breadcrumb__links">
-                        <a href="/">Home</a>
+                        <a href="/">Trang chủ</a>
                         <span>Đơn hàng của bạn</span>
                     </div>
                 </div>

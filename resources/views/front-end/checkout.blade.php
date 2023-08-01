@@ -64,11 +64,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Check Out</h4>
+                        <h4>Thanh toán</h4>
                         <div class="breadcrumb__links">
-                            <a href="/">Home</a>
-                            <a href="/shop">Shop</a>
-                            <span>Check Out</span>
+                            <a href="/">Trang chủ</a>
+                            <a href="/shop">Cửa hàng</a>
+                            <a href="/cart">Giỏ hàng</a>
+                            <span>Thanh toán</span>
                         </div>
                     </div>
                 </div>

@@ -19,9 +19,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__details__breadcrumb">
-                            <a href="/">Home</a>
-                            <a href="/shop">Shop</a>
-                            <span>Product Details</span>
+                            <a href="/">Trang chủ</a>
+                            <a href="/shop">Cửa hàng</a>
+                            <span>Chi tiết sản phẩm</span>
                         </div>
                     </div>
                 </div>

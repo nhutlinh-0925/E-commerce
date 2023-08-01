@@ -19,8 +19,9 @@
                 <div class="breadcrumb__text">
                     <h4>Tin tức</h4>
                     <div class="breadcrumb__links">
-                        <a href="/">Home</a>
-                        <span>Shop</span>
+                        <a href="/">Trang chủ</a>
+                        <a href="/blog">Tin tức</a>
+                        <span>Tag bài viết</span>
                     </div>
                 </div>
             </div>
