@@ -72,12 +72,13 @@ use \App\Http\Controllers\BlogController;
     //Trang blog
     Route::get('/blog',[BlogController::class, 'blog']);
     Route::get('/blog/{id}',[BlogController::class, 'blog_detail']);
+    Route::post('/blog/search', [BlogController::class, 'search']);
+    Route::get('/blog/tag/{blog_tag}', [BlogController::class, 'tag']);
+    Route::get('/danhmuc-baiviet/{id}',[BlogController::class, 'danhmuc_baiviet']);
 
     //Tìm kiếm
     Route::post('search', [ShopController::class, 'search']);
 
-    //Tag
-    Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
 
     // Route::get('/login', function () {
     //     return view('front-end.login.login');

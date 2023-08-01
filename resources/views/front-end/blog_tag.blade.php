@@ -11,8 +11,6 @@
 
 @include('front-end.header_cart')
 
-{{--  @include('front-end.pages.banner')  --}}
-
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
     <div class="container">
@@ -48,7 +46,7 @@
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
                                                 @foreach ($category_post as $item)
-                                                     <li><a href="/danhmuc-baiviet/{{ $item->id }}">{{ $item->dmbv_TenDanhMuc }} <span class="count-check">({{ $item->posts->count() }})</span> </a></li>
+                                                    <li><a href="/danhmuc-baiviet/{{ $item->id }}">{{ $item->dmbv_TenDanhMuc }} <span class="count-check">({{ $item->posts->count() }})</span> </a></li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -80,25 +78,32 @@
             <div class="col-lg-9">
                 <div class="shop__product__option">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-{{--                            <div class="shop__product__option__left">--}}
-{{--                                <p>Hiển thị 1-12 của  kết quả</p>--}}
-{{--                            </div>--}}
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="shop__product__option__right">
-                                <p>Sort by Price:</p>
-                                <select>
-                                    <option value="">Low To High</option>
-                                    <option value="">$0 - $55</option>
-                                    <option value="">$55 - $100</option>
-                                </select>
+                        <div class="col-lg-12">
+                            <h2 style="text-align: center">Tìm kiếm</h2>
+                            <div style="text-align: center;">
+                                <p style="border-bottom: 3px solid blue; display: inline-block; padding-bottom: 5px;">
+                                    Có <b>{{ count($blog_tag) }} bài viết</b> cho tìm kiếm
+                                </p>
                             </div>
+
                         </div>
                     </div>
                 </div>
+
+                <div class="shop__product__option">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="shop__product__option__left">
+                                <h5>Kết quả tìm kiếm cho tag: <b>"{{ $tag }}"</b></h5>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
-                    @foreach($posts as $post)
+                    @foreach($blog_tag as $post)
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="blog__item">
                                 <div class="blog__item__pic set-bg">
@@ -115,7 +120,7 @@
                     @endforeach
                 </div>
                 <div class="d-flex justify-content-center">
-                    {!! $posts->links() !!}
+                    {!! $blog_tag->links() !!}
                 </div>
 
             </div>
