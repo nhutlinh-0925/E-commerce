@@ -192,10 +192,10 @@
                 <div class="shop__product__option">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h2 style="text-align: center">Tìm kiếm</h2>
+                            <h2 style="text-align: center">Danh mục sản phẩm</h2>
                             <div style="text-align: center;">
                                 <p style="border-bottom: 3px solid blue; display: inline-block; padding-bottom: 5px;">
-                                    Có <b>{{ count($sp) }} sản phẩm</b> cho tìm kiếm
+                                    Có <b>{{ count($sp) }} sản phẩm</b> cho danh mục
                                 </p>
                             </div>
 
@@ -207,7 +207,7 @@
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="shop__product__option__left">
-                                <h5>Kết quả tìm kiếm cho danh mục sản phẩm: <b>"{{ $cate_pro->dmsp_TenDanhMuc }}"</b></h5>
+                                <h5>Danh mục sản phẩm: <b>"{{ $cate_pro->dmsp_TenDanhMuc }}"</b></h5>
                             </div>
                         </div>
                         <div class="col-lg-3">
