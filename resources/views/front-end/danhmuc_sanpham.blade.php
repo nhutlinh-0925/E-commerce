@@ -174,13 +174,12 @@
                                 <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__tags">
-                                            <a href="#">Product</a>
-                                            <a href="#">Bags</a>
-                                            <a href="#">Shoes</a>
-                                            <a href="#">Fashio</a>
-                                            <a href="#">Clothing</a>
-                                            <a href="#">Hats</a>
-                                            <a href="#">Accessories</a>
+                                            @foreach($limitedArray as $item)
+                                                @php
+                                                    $slug = Str::slug($item);
+                                                @endphp
+                                                <a href="/tag/{{$slug}}">{{ $item }}</a>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>

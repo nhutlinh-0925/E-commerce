@@ -31,6 +31,25 @@ class ShopController extends Controller
 //            $product_all = SanPham::all();
             $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
 
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
+
             $carts = $this->cartService->getProduct();
             return view('front-end.shop',[
                 'category_product' => $category_product,
@@ -40,11 +59,32 @@ class ShopController extends Controller
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'limitedArray' => $limitedArray
             ]);
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
 //            $product_all = SanPham::all();
+
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
+
             $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
 
             $carts = $this->cartService->getProduct();
@@ -57,6 +97,7 @@ class ShopController extends Controller
 //                'product_all' => $product_all,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'limitedArray' => $limitedArray
             ]);
     }
 
@@ -113,6 +154,24 @@ class ShopController extends Controller
             $carts = $this->cartService->getProduct();
             // dd($carts);
 
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
+
             $id_dm = $id;
             $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
                 ->where('sp_TrangThai',1)
@@ -127,7 +186,8 @@ class ShopController extends Controller
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
-                'sp' => $sp
+                'sp' => $sp,
+                'limitedArray' => $limitedArray
             ]);
         }else{
             $cate_pro = DanhMucSanPham::find($id);
@@ -136,6 +196,25 @@ class ShopController extends Controller
             //dd($category_product);
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
             $carts = $this->cartService->getProduct();
+
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
 
             $id_dm = $id;
             $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
@@ -149,7 +228,8 @@ class ShopController extends Controller
                 'brand' => $brand,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
-                'sp' => $sp
+                'sp' => $sp,
+                'limitedArray' => $limitedArray
             ]);
         }
     }
@@ -166,6 +246,24 @@ class ShopController extends Controller
             $carts = $this->cartService->getProduct();
             // dd($carts);
 
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
+
             $id_th = $id;
             $sp = SanPham::where('thuong_hieu_id',$id_th)
                 ->where('sp_TrangThai',1)
@@ -180,7 +278,8 @@ class ShopController extends Controller
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
-                'sp' => $sp
+                'sp' => $sp,
+                'limitedArray' => $limitedArray
             ]);
         }else{
             $bra = ThuongHieu::find($id);
@@ -189,6 +288,24 @@ class ShopController extends Controller
             //dd($category_product);
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
             $carts = $this->cartService->getProduct();
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
 
             $id_th = $id;
             $sp = SanPham::where('thuong_hieu_id',$id_th)
@@ -202,7 +319,8 @@ class ShopController extends Controller
                 'brand' => $brand,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
-                'sp' => $sp
+                'sp' => $sp,
+                'limitedArray' => $limitedArray
             ]);
         }
     }
@@ -218,6 +336,24 @@ class ShopController extends Controller
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
             //$product_all = SanPham::all();
 
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
+
             $keywords = $request->keywords_submit;
             $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
                                                          ->where('sp_TrangThai',1)
@@ -232,12 +368,31 @@ class ShopController extends Controller
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'search_product' => $search_product,
-                'keywords' => $keywords
+                'keywords' => $keywords,
+                'limitedArray' => $limitedArray
             ]);
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
             //$product_all = SanPham::all();
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
 
             $keywords = $request->keywords_submit;
             $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
@@ -255,7 +410,8 @@ class ShopController extends Controller
             'carts' => $carts,
             'gh' => session()->get('carts'),
             'search_product' => $search_product,
-            'keywords' => $keywords
+            'keywords' => $keywords,
+            'limitedArray' => $limitedArray
         ]);
     }
 
@@ -268,6 +424,24 @@ class ShopController extends Controller
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
             //$product_all = SanPham::all();
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
 
             $tag = str_replace("-"," ",$product_tag);
             $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
@@ -285,12 +459,31 @@ class ShopController extends Controller
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'product_tag' => $product_tag,
-                'tag' => $tag
+                'tag' => $tag,
+                'limitedArray' => $limitedArray
             ]);
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
             //$product_all = SanPham::all();
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            //dd($tags);
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            //dd($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
 
             $tag = str_replace("-"," ",$product_tag);
             //dd($tag);
@@ -310,7 +503,8 @@ class ShopController extends Controller
             'carts' => $carts,
             'gh' => session()->get('carts'),
             'product_tag' => $product_tag,
-            'tag' => $tag
+            'tag' => $tag,
+            'limitedArray' => $limitedArray
         ]);
     }
 

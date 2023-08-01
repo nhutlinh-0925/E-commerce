@@ -174,13 +174,12 @@
                                 <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__tags">
-                                            <a href="#">Product</a>
-                                            <a href="#">Bags</a>
-                                            <a href="#">Shoes</a>
-                                            <a href="#">Fashio</a>
-                                            <a href="#">Clothing</a>
-                                            <a href="#">Hats</a>
-                                            <a href="#">Accessories</a>
+                                            @foreach($limitedArray as $item)
+                                                @php
+                                                    $slug = Str::slug($item);
+                                                @endphp
+                                                <a href="/tag/{{$slug}}">{{ $item }}</a>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +216,8 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row d-flex justify-content-center">
+                    @if (count($search_product) != 0)
                     @foreach ($search_product as $product)
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
@@ -255,9 +255,11 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @endforeach
+                            @else
+                               <h3 style="text-align: center;color: red">Không tìm thấy sản phẩm nào</h3>
                         </div>
-                    @endforeach
+                    @endif
                 </div>
 
                 <div class="d-flex justify-content-center">
