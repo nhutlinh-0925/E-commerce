@@ -23,36 +23,6 @@ class LoginController extends Controller
         $this->cartService = $cartService;
     }
 
-    public function home(){
-        if(Auth::check()){
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            // dd($khachhang);
-            $carts = $this->cartService->getProduct();
-            // dd($carts);
-
-            $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
-//            dd($posts);
-            return view('front-end.home',[
-                'khachhang' => $khachhang,
-                'carts' => $carts,
-                'gh' => session()->get('carts'),
-                'posts' => $posts
-            ]);
-        }else{
-            $carts = $this->cartService->getProduct();
-
-            $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
-//            dd($posts);
-            return view('front-end.home',[
-                'carts' => $carts,
-                'gh' => session()->get('carts'),
-                'posts' => $posts
-            ]);
-        }
-    }
-
-
     public function doLogin(Request $request)
     {
         // dd($request);
