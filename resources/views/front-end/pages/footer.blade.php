@@ -150,11 +150,37 @@
                     }},
                 {data: 'created_at', name: 'created_at'},
                 {data: null, name: 'actions', render: function(data, type, row) {
-                        return '<a class="btn btn-info text-center" href="/purchase_order/orderdetail/' + data.id + '"><i class="fa fa-eye"></i></a>';
+                        return '<a class="btn btn-info text-center" href="/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
                     }},
             ]
         });
         @endif
     });
 </script>
+
+<script type="text/javascript">
+    $('#keywords').keyup(function (){
+        var query = $(this).val();
+        // alert(query);
+        if(query != ''){
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:"{{url('/autocomplete-ajax')}}",
+                method:"POST",
+                data:{query:query, _token:_token},
+                success:function (data) {
+                    $('#search-ajax').fadeIn();
+                    $('#search-ajax').html(data);
+                }
+            });
+        }else{
+            $('#search-ajax').fadeOut();
+        }
+    });
+    $(document).on('click','li',function (){
+        $('#keywords').val($(this).text());
+        $('#search-ajax').fadeOut();
+    });
+</script>
+
     @yield('footer')
