@@ -415,6 +415,34 @@ class ShopController extends Controller
         ]);
     }
 
+    public function autocomplete_ajax(Request $request){
+        $data = $request->all();
+
+        if($data['query']) {
+            $product = SanPham::where('sp_TrangThai', 1)
+                ->where('sp_TenSanPham', 'LIKE', '%'. $data['query'].'%')->get();
+            $output = '<ul class="dropdown-menu search-results" style="display:block; position:absolute; z-index: 9999; width: 100%;">';
+            $output .= '<p style="text-align: center; font-weight: bold;">Sản phẩm gợi ý</p>';
+            foreach ($product as $key => $val) {
+                $imagePath = asset('/storage/images/products/' . $val->sp_AnhDaiDien);
+                $formattedPrice = number_format($val->sp_Gia, 0, '', '.');
+                $output .= '
+                    <li style="display: flex; align-items: center;">
+
+                        <img src="' . $imagePath . '" width="50px" height="50px" style="margin-right: 10px;">
+                        <div>
+                            <a href="/product/' . $val->id . '"><span style="font-weight: bold;color: black">' . $val->sp_TenSanPham . '</span></a><br>
+                            <span style="color: red;font-weight: bold;">' . $formattedPrice . ' đ</span>
+                        </div>
+                    </li>
+
+                ';
+            }
+            $output .= '</ul>';
+            echo $output;
+        }
+    }
+
     public function tag(Request $request, $product_tag){
         if(Auth::check()){
             $id = Auth::user()->id;

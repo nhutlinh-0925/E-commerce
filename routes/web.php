@@ -78,6 +78,7 @@ use \App\Http\Controllers\BlogController;
 
     //Tìm kiếm
     Route::post('search', [ShopController::class, 'search']);
+    Route::post('autocomplete-ajax', [ShopController::class, 'autocomplete_ajax']);
 
 
     // Route::get('/login', function () {
