@@ -292,7 +292,7 @@
             text: 'Đã thêm sản phẩm vào giỏ hàng!', // Nội dung của thông báo
             icon: 'success', // Icon của thông báo (success, error, warning, info, question)
             showConfirmButton: false, // Không hiển thị nút xác nhận
-            timer: 6500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            timer: 2000, // Thời gian hiển thị thông báo (tính theo milliseconds)
             showCloseButton: true, // Hiển thị nút X để tắt thông báo
             customClass: {
                 icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
