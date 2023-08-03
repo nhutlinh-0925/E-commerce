@@ -15,6 +15,7 @@ use \App\Http\Controllers\DanhMucBaiVietController;
 use \App\Http\Controllers\BaiVietController;
 
 use \App\Http\Controllers\LoginController;
+use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\ShopController;
 use \App\Http\Controllers\CartController;
 use \App\Http\Controllers\SettingController;
@@ -33,7 +34,7 @@ use \App\Http\Controllers\BlogController;
 // Front-end - Trang người dùng
 
     //Trang chủ
-    Route::get('/',[LoginController::class, 'home']);
+    Route::get('/',[HomeController::class, 'home']);
 
     //Trang shop
     Route::get('/shop',[ShopController::class, 'shop']);
@@ -43,6 +44,7 @@ use \App\Http\Controllers\BlogController;
 
     //Trang cart
     Route::post('add-cart',[CartController::class, 'index']);
+    Route::post('add-cart-shop',[CartController::class,'add_cart_shop']);
     Route::get('carts',[CartController::class, 'show']);
     Route::post('update-cart',[CartController::class, 'update']);
     Route::get('carts/delete/{id}',[CartController::class, 'remove']);
@@ -77,8 +79,11 @@ use \App\Http\Controllers\BlogController;
     Route::get('/danhmuc-baiviet/{id}',[BlogController::class, 'danhmuc_baiviet']);
 
     //Tìm kiếm
-    Route::post('search', [ShopController::class, 'search']);
-    Route::post('autocomplete-ajax', [ShopController::class, 'autocomplete_ajax']);
+    Route::post('search', [HomeController::class, 'search']);
+    Route::post('autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
+
+    //Tag
+    Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
 
 
     // Route::get('/login', function () {
@@ -98,7 +103,7 @@ Route::prefix('user')->name('user.')->group(function () {
 
     // Route::middleware(['auth:web'])->group(function () {
     Route::middleware(['auth','isCus'])->group(function () {
-        Route::get('/',[LoginController::class, 'home'])->name('home');
+        Route::get('/',[HomeController::class, 'home'])->name('home');
 
         //Trang cài đặt
         Route::get('/setting/{id}',[SettingController::class, 'setting']);

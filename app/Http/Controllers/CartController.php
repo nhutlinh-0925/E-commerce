@@ -37,6 +37,21 @@ class CartController extends Controller
         return redirect('/carts');
     }
 
+    public function add_cart_shop(Request $request)
+    {
+        $result = $this->cartService->create($request);
+        // dd($result);
+        // dd(session()->get('carts'));
+        if ($result === false){
+            return redirect()->back();
+        }
+        // Lưu thông báo vào Session
+        Session::flash('success_message', 'Thêm giỏ hàng thành công!');
+        return redirect()->back();
+    }
+
+
+
     public function show()
     {
         if(Auth::check()){

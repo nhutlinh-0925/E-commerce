@@ -36,12 +36,12 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="shop__sidebar">
-                    <div class="shop__sidebar__search">
-                        <form action="#">
-                            <input type="text" placeholder="Search...">
-                            <button type="submit"><span class="icon_search"></span></button>
-                        </form>
-                    </div>
+{{--                    <div class="shop__sidebar__search">--}}
+{{--                        <form action="#">--}}
+{{--                            <input type="text" placeholder="Search...">--}}
+{{--                            <button type="submit"><span class="icon_search"></span></button>--}}
+{{--                        </form>--}}
+{{--                    </div>--}}
                     <div class="shop__sidebar__accordion">
                         <div class="accordion" id="accordionExample">
                             <div class="card">
@@ -220,6 +220,8 @@
                 <div class="row">
                     @foreach ($sp as $product)
                         <div class="col-lg-4 col-md-6 col-sm-6">
+                            <form action="/add-cart-shop" method="post">
+                            @csrf
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" >
                                     <a href="/product/{{ $product->id }}">
@@ -232,30 +234,35 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6>{{ $product->sp_TenSanPham }}</h6>
-                                    <a href="" class="add-cart">+ Add To Cart</a>
-                                    <div class="rating">
+                                    <h6 class="text-center">{{ $product->sp_TenSanPham }}</h6>
+                                    <a href="#" class="add-cart">Xem nhanh</a>
+                                    <div class="text-center rating">
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
-                                    <div class="product__color__select">
-                                        <label for="pc-4">
-                                            <input type="radio" id="pc-4">
-                                        </label>
-                                        <label class="active black" for="pc-5">
-                                            <input type="radio" id="pc-5">
-                                        </label>
-                                        <label class="grey" for="pc-6">
-                                            <input type="radio" id="pc-6">
-                                        </label>
-                                    </div>
+                                    <h5 class="text-center">{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
+                                    <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
+                                    <input type="hidden" name="num_product" value= "1">
+                                    <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
+                                        + Thêm giỏ hàng
+                                    </button>
+{{--                                    <div class="product__color__select">--}}
+{{--                                        <label for="pc-4">--}}
+{{--                                            <input type="radio" id="pc-4">--}}
+{{--                                        </label>--}}
+{{--                                        <label class="active black" for="pc-5">--}}
+{{--                                            <input type="radio" id="pc-5">--}}
+{{--                                        </label>--}}
+{{--                                        <label class="grey" for="pc-6">--}}
+{{--                                            <input type="radio" id="pc-6">--}}
+{{--                                        </label>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
-
+                            </form>
                         </div>
                     @endforeach
                 </div>
@@ -271,6 +278,31 @@
 <!-- Shop Section End -->
 
 @include('front-end.pages.footer')
+@if(session()->has('success_message'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Cảm ơn bạn!!!', // Tiêu đề của thông báo
+            text: 'Đã thêm sản phẩm vào giỏ hàng!', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 6500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@endif
 
 </body>
 
