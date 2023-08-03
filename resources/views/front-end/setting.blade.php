@@ -57,7 +57,7 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    <img src="{{ url('/storage/images/accounts/'.$account->avatar) }}" alt="Profile" class="rounded-circle">
+                    <img src="{{ url('/storage/images/avatar/customers/'.$account->avatar) }}" alt="Profile" class="rounded-circle">
                     <h2>{{ $khachhang->kh_Ten }}</h2>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                                 <div class="row mb-3">
                                     <label for="profileImage" class="col-lg-4 col-form-label">Ảnh đại diện</label>
                                     <div class="col-lg-8">
-                                        <img id="output" src="{{ url('/storage/images/accounts/'.$account->avatar) }}">
+                                        <img id="output" src="{{ url('/storage/images/avatar/customers/'.$account->avatar) }}">
                                         <br><br>
                                         <input type="file" class="form-control" id="avatar" name="avatar" onchange="loadFile(event)">
                                         <input type="hidden" name="avatar" value="{{ old('avatar', $account->avatar ?? '') }}">

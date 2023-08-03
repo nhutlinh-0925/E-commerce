@@ -29,15 +29,15 @@ class SettingController extends Controller
     public function setting($id)
     {
         if (Auth::check()) {
-            $id = Auth::user()->id;
-            //dd($id);
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $id_tk = Auth::user()->id;
+            //dd($id_kh);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
             //dd($khachhang);
             $id_kh = $khachhang->id;
             //dd($id_kh);
             $carts = $this->cartService->getProduct();
             // dd($carts);
-            $account = TaiKhoan::find($id);
+            $account = TaiKhoan::find($id_tk);
             //dd($account);
             $address = DiaChi::where('khach_hang_id', $id_kh)->get();
             //dd($address);
@@ -65,8 +65,13 @@ class SettingController extends Controller
     {
 //        dd($request);
         if (Auth::check()) {
-            $id = Auth::user()->id;
-            $account = TaiKhoan::find($id);
+            $id_tk = Auth::user()->id;
+            //dd($id_tk);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            //dd($khachhang);3
+            $id_kh = $khachhang->id;
+
+            $account = TaiKhoan::find($id_tk);
 
             $input = $request->all();
 
@@ -109,23 +114,22 @@ class SettingController extends Controller
             $account->update($updateData);
 
             // Cập nhật thông tin vào Model KhachHang
-            $id_kh = $account->id;
-            //dd($id_kh);
             $kh = KhachHang::find($id_kh);
+            //dd($kh);
             $kh->update([
                 'kh_Ten' => $request->kh_Ten,
                 'kh_SoDienThoai' => $request->kh_SoDienThoai,
             ]);
 
-            $address = DiaChi::where('khach_hang_id', $id)->get();
+//            $address = DiaChi::where('khach_hang_id', $id)->get();
             //dd($address);
-            foreach ($address as $ad) {
-                $ad->dc_TrangThai = ($ad->id == $request->dc_DiaChi) ? 1 : 0;
-                $ad->save();
-            }
+//            foreach ($address as $ad) {
+//                $ad->dc_TrangThai = ($ad->id == $request->dc_DiaChi) ? 1 : 0;
+//                $ad->save();
+//            }
 
             Session::flash('flash_message', 'Cập nhật hồ sơ thành công!');
-            return redirect()->route('user.setting', ['id' => $id]);
+            return redirect()->route('user.setting', ['id' => $id_kh]);
         }
     }
 
