@@ -24,7 +24,7 @@
                             </div>
 
                             <div class="header-cart-item-txt">
-                                <a href="#" class="header-cart-item-name">
+                                <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 100px">
                                     {{ $cart->sp_TenSanPham }}
                                 </a>
 

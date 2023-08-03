@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="header-cart-item-txt">
-                                <a href="#" class="header-cart-item-name">
+                                <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 80px">
                                     {{ $cart->sp_TenSanPham }}
                                 </a>
 
@@ -145,7 +145,7 @@
                                     </td>
                                     <td class="cart__price">{{ number_format($priceEnd, 0, '', '.') }} đ</td>
                                     <td class="cart__close">
-                                        <a href="/carts/delete/{{ $product->id }}"><i class="fa fa-trash" style='color: red'></i></a>
+                                        <a href="/carts/delete/{{ $product->id }}" onclick ='return confirm("Bạn chắc chắn muốn xóa sản phẩm khỏi giỏ hàng?")'><i class="fa fa-trash" style='color: red'></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -205,10 +205,11 @@
             </div>
 
         </div>
-        </form>
+        </form><br>
 
         <div class="col-lg-8">
-            <div class="cart__discount">
+            <div class="container">
+            <div class="cart__discount container">
                 <h6>Mã giảm giá</h6>
                 @php
                     $cou = $cou ?? ['mgg_MaGiamGia' => ''];
@@ -221,6 +222,7 @@
                 @if($coupons)
                     <a href="/delete_coupon">Xóa mã giảm giá</a>
                 @endif
+            </div>
             </div>
         </div>
 

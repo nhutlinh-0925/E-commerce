@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="header-cart-item-txt">
-                                <a href="#" class="header-cart-item-name">
+                                <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 80px">
                                     {{ $cart->sp_TenSanPham }}
                                 </a>
 
@@ -68,7 +68,7 @@
                         <div class="breadcrumb__links">
                             <a href="/">Trang chủ</a>
                             <a href="/shop">Cửa hàng</a>
-                            <a href="/cart">Giỏ hàng</a>
+                            <a href="/carts">Giỏ hàng</a>
                             <span>Thanh toán</span>
                         </div>
                     </div>
