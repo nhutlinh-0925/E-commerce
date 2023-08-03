@@ -6,9 +6,11 @@ use App\Http\Services\CartService;
 use App\Models\BaiViet;
 use App\Models\DanhMucBaiViet;
 use App\Models\KhachHang;
+use App\Models\BinhLuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class BlogController extends Controller
 {
@@ -270,11 +272,17 @@ class BlogController extends Controller
             $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
 
             $post = BaiViet::find($id);
+
+            $id_bv = $post->id;
+            $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->get();
+            //dd($comment);
+
             $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();
             // dd($carts);
             return view('front-end.blog_detail', [
                 'post' => $post,
+                'comment' => $comment,
                 'post_related' => $post_related,
                 'khachhang' => $khachhang,
                 'carts' => $carts,
@@ -284,15 +292,50 @@ class BlogController extends Controller
             $post = BaiViet::find($id);
             //dd($post);
 
+            $id_bv = $post->id;
+            $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->get();
+            //dd($comment);
+
             $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();
 
             return view('front-end.blog_detail', [
                 'post' => $post,
+                'comment' => $comment,
                 'post_related' => $post_related,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
             ]);
+        }
+    }
+
+    public function add_comment(Request $request){
+        $this -> validate($request, [
+            'bl_NoiDung' => 'required',
+        ],
+            [
+                'bl_NoiDung.required' => 'Vui lòng nhập nội dung bình luận',
+            ]);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            //dd($id);
+            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $id_kh = $khachhang->id;
+
+            $bl = new BinhLuan();
+            $bl->bai_viet_id = $request->id_bv;
+            $bl->khach_hang_id = $id_kh;
+            $bl->bl_NoiDung = $request->bl_NoiDung;
+            $bl->bl_TrangThai = 0 ;
+            //dd($bl);
+            $bl->save();
+
+            Session::flash('success_message', 'Thêm bình luận thành công!');
+            return redirect()->back();
+        }else{
+            Session::flash('flash_message_error', 'Vui lòng đăng nhập để bình luận!');
+            return redirect()->back();
         }
     }
 }

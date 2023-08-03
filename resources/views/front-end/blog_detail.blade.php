@@ -22,7 +22,7 @@
                     <ul>
                         <li>Đăng bởi {{ $post->nguoidang->nv_Ten }} </li>
                         <li>{{ date("d-m-Y", strtotime($post->bv_NgayTao)) }}</li>
-                        <li>8 Comments</li>
+                        <li>{{ count($comment) }} bình luận</li>
                         <li>{{ $post->bv_LuotXem }} lượt xem</li>
                     </ul>
                 </div>
@@ -67,33 +67,37 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="blog__details__author">
-                                    <div class="blog__details__author__pic">
-                                        <img src="/template/front-end/img/blog/details/blog-author.jpg" alt="">
-                                    </div>
-                                    <div class="blog__details__author__text">
-                                        <h5>Aiden Blair</h5>
-                                    </div>
+                                    <h5><b>Bình luận : </b>({{ count($comment) }})</h5>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="blog__details__tags">
-                                    <a href="#">#Fashion</a>
-                                    <a href="#">#Trending</a>
-                                    <a href="#">#2020</a>
+                                    @php
+                                        $tags = $post->bv_Tag;
+                                        $tags = explode(",",$tags);
+                                    @endphp
+                                    @foreach($tags as $tag)
+                                        <a style="color: black" href="{{ url('/blog/tag/' . Str::slug($tag)) }}">#{{ $tag }}</a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="blog__details__comment">
                         <h4>Để lại bình luận của bạn</h4>
-                        <form action="#">
+                        <form action="/blog/add-comment" method="POST">
                             <div class="row">
                                 <div class="col-lg-12 text-center">
-{{--                                    <label for="inputAddress" class="form-label"><strong>Mô tả tóm tắt sản phẩm <span class="text-danger">(*)</span></strong></label>--}}
-                                    <textarea placeholder="Viết bình luận của bạn (Vui lòng gõ tiếng Việt có dấu)"></textarea>
+                                    <input type="hidden" name="id_bv" value="{{$post->id}}">
+                                    <textarea name="bl_NoiDung" placeholder="Viết bình luận của bạn (Vui lòng gõ tiếng Việt có dấu)" style="color: black"></textarea>
+                                    @error ('bl_NoiDung')
+                                    <span style="color: red;">{{ $message }}</span>
+                                    @enderror
+                                    <br>
                                     <button type="submit" class="site-btn">Gửi bình luận</button>
                                 </div>
                             </div>
+                            @csrf
                         </form>
                     </div>
                 </div>
@@ -134,7 +138,55 @@
 
 @include('front-end.pages.footer')
 {{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>--}}
+@if(session()->has('success_message'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
 
+    <script>
+        Swal.fire({
+            title: 'Đã thêm bình luận thành công!!!', // Tiêu đề của thông báo
+            text: 'Hãy chờ chúng tôi duyệt bình luận của bạn', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 4500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@elseif(session()->has('flash_message_error'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Rất tiết!!!', // Tiêu đề của thông báo
+            html: 'Bạn cần <a href="/user/login">đăng nhập</a> để thêm bình luận cho bài viết!', // Nội dung của thông báo với đường liên kết
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 6500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@endif
 </body>
 
 </html>

@@ -13,6 +13,7 @@ use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\NhanVienController;
 use \App\Http\Controllers\DanhMucBaiVietController;
 use \App\Http\Controllers\BaiVietController;
+use \App\Http\Controllers\BinhLuanController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
@@ -77,6 +78,8 @@ use \App\Http\Controllers\BlogController;
     Route::post('/blog/search', [BlogController::class, 'search']);
     Route::get('/blog/tag/{blog_tag}', [BlogController::class, 'tag']);
     Route::get('/danhmuc-baiviet/{id}',[BlogController::class, 'danhmuc_baiviet']);
+
+    Route::post('blog/add-comment',[BlogController::class,'add_comment']);
 
     //Tìm kiếm
     Route::post('search', [HomeController::class, 'search']);
@@ -247,6 +250,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('edit/{id}', [BaiVietController::class, 'edit']);
             Route::post('edit/{id}', [BaiVietController::class, 'update']);
             Route::DELETE('destroy/{id}', [BaiVietController::class, 'destroy']);
+        });
+
+        //Bình luận
+        Route::prefix('/comments')->group(function () {
+            Route::get('/', [BinhLuanController::class, 'index']);
+            Route::DELETE('destroy/{id}', [BinhLuanController::class, 'destroy']);
+            Route::get('active/{id}', [BinhLuanController::class, 'active']);
+            Route::get('unactive/{id}', [BinhLuanController::class, 'unactive']);
         });
 
 
