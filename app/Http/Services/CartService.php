@@ -64,6 +64,11 @@ class CartService
     $exists = Arr::exists($carts, $product_id);
     if ($exists) {
         $carts[$product_id] = $carts[$product_id] + $qty;
+        //dd($carts[$product_id]);
+        if($carts[$product_id] > $slh){
+            session()->flash('flash_message_error', 'Số lượng sản phẩm lớn hơn trong kho');
+            return false;
+        }
 
         session()->put('carts',$carts);
         return true;
@@ -94,43 +99,47 @@ class CartService
     //Hàm cập nhập số lượng giỏ hàng
     public function update($request)
     {
-//        $numProductArray = $request->input('num_product');
-//
-//        // Lấy giỏ hàng hiện tại từ session
-//        $carts = session()->get('carts');
-//
-//        foreach ($numProductArray as $product_id => $newQuantity) {
-//            // Lấy thông tin sản phẩm từ cơ sở dữ liệu sử dụng $product_id
-//            $product = SanPham::find($product_id);
-//
-//            if ($product) {
-//                if (isset($carts[$product_id])) {
-//                    // Tính toán sự thay đổi số lượng sản phẩm
-//                    $oldQuantity = $carts[$product_id];
-//                    $quantityChange = $newQuantity - $oldQuantity;
-//
-//                    // Cập nhật số lượng hàng tồn kho của sản phẩm
-//                    $product->sp_SoLuongHang -= $quantityChange;
-//                    $product->save();
-//
-//                    // Cập nhật số lượng sản phẩm trong giỏ hàng
-//                    $carts[$product_id] = $newQuantity;
-//                } else {
-//                    // Sản phẩm không tồn tại trong giỏ hàng, có thể xử lý lỗi tại đây hoặc bỏ qua
-//                    // Tùy thuộc vào yêu cầu của bạn
-//                }
-//            } else {
-//                // Sản phẩm không tồn tại, có thể xử lý lỗi tại đây hoặc bỏ qua
-//                // Tùy thuộc vào yêu cầu của bạn
-//            }
-//        }
-//
-//        // Cuối cùng, bạn cập nhật lại giỏ hàng mới vào session
-//        session()->put('carts', $carts);
-//
-//        return true;
-        session()->put('carts', $request->input('num_product'));
+        $numProductArray = $request->input('num_product');
+
+        // Lấy giỏ hàng hiện tại từ session
+        $carts = session()->get('carts');
+        //dd($carts);
+
+        foreach ($numProductArray as $product_id => $newQuantity) {
+            // Lấy thông tin sản phẩm từ cơ sở dữ liệu sử dụng $product_id
+            $product = SanPham::find($product_id);
+            //dd($product);
+            $slh = $product->sp_SoLuongHang;
+            //dd($slh);
+            if ($product) {
+                if (isset($carts[$product_id])) {
+                    //dd($carts[$product_id]);
+                    if($newQuantity > $slh){
+                        session()->flash('flash_message_error_err', 'Số lượng sản phẩm ' . $product->sp_TenSanPham .' lớn hơn trong kho');
+                        return false;
+                    }else{
+                        // Cập nhật số lượng sản phẩm trong giỏ hàng
+                        $carts[$product_id] = $newQuantity;
+                    }
+
+                } else {
+                    // Sản phẩm không tồn tại trong giỏ hàng, có thể xử lý lỗi tại đây hoặc bỏ qua
+                    // Tùy thuộc vào yêu cầu của bạn
+                }
+            } else {
+                // Sản phẩm không tồn tại, có thể xử lý lỗi tại đây hoặc bỏ qua
+                // Tùy thuộc vào yêu cầu của bạn
+            }
+        }
+
+        // Cuối cùng, bạn cập nhật lại giỏ hàng mới vào session
+        session()->put('carts', $carts);
+
         return true;
+
+
+//        session()->put('carts', $request->input('num_product'));
+//        return true;
     }
 
     //Hàm xóa sản phẩm trong giỏ hàng

@@ -90,21 +90,22 @@
                 </div>
             </div>
         </div>
-        @if(Session::has('flash_message'))
-            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {!! session('flash_message') !!}
-            </div>
 
-        @elseif(Session::has('flash_message_error'))
-            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                {!! session('flash_message_error') !!}
-            </div>
-
-        @endif
         <div class="product__details__content">
             <div class="container">
+                @if(Session::has('flash_message'))
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {!! session('flash_message') !!}
+                    </div>
+
+                @elseif(Session::has('flash_message_error'))
+                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {!! session('flash_message_error') !!}
+                    </div>
+
+                @endif
                 <form action="/add-cart" method="post">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">

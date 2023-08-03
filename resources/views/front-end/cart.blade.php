@@ -95,6 +95,11 @@
                 <a href="/user/login">Đăng nhập tại đây</a>
             @endif
         </div>
+    @elseif(Session::has('flash_message_error_err'))
+        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            {!! session('flash_message_error_err') !!}
+        </div>
 
     @endif
 
