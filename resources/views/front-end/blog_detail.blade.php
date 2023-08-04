@@ -82,6 +82,22 @@
                                 </div>
                             </div>
                         </div>
+                        @foreach($comment as $cm)
+                            <div class="row cm">
+                                <div class="col-1">
+                                    <div class="blog__details__author__pic custom-avatar" style="width: 55px">
+                                        <img src="{{ asset('/storage/images/avatar/customers/'.$cm->khachhang->taikhoan->avatar) }}" class="rounded-circle">
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="blog__details__author__text">
+                                        <h5>{{ $cm->khachhang->kh_Ten }}</h5>
+                                        <p>Lúc {{ $cm->created_at->format('H:i:s d/m/Y') }}</p><br>
+                                        <p>{{ $cm->bl_NoiDung }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="blog__details__comment">
                         <h4>Để lại bình luận của bạn</h4>
