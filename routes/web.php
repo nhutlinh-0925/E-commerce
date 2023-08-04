@@ -88,8 +88,12 @@ use \App\Http\Controllers\BlogController;
     Route::post('search', [HomeController::class, 'search']);
     Route::post('autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
 
+    //Liên hệ
     Route::get('contact',[HomeController::class,'contact']);
 
+    //Yêu thích
+    Route::get('wish-list/{id}',[ShopController::class,'wish_lish_show'])->name('wish_lish_show');
+    //Route::get('wish-list-count/{id}',[ShopController::class,'wish_lish_show_count'])->name('wish_lish_show_count');
 
     // Route::get('/login', function () {
     //     return view('front-end.login.login');

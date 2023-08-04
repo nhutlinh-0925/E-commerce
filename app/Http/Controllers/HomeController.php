@@ -11,6 +11,7 @@ use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\YeuThich;
 
 class HomeController extends Controller
 {
@@ -22,9 +23,12 @@ class HomeController extends Controller
 
     public function home(){
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            // dd($khachhang);
+            $id_tk = Auth::user()->id;
+            //dd($id_kh);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            //dd($khachhang);
+            $id_kh = $khachhang->id;
+            //dd($id_kh);
             $carts = $this->cartService->getProduct();
             // dd($carts);
 
@@ -35,6 +39,7 @@ class HomeController extends Controller
 
             $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
             //dd($posts);
+            $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             return view('front-end.home',[
                 'khachhang' => $khachhang,
                 'carts' => $carts,
@@ -42,7 +47,8 @@ class HomeController extends Controller
                 'bestseller' => $bestseller,
                 'new_arrivals' => $new_arrivals,
                 'most_views' => $most_views,
-                'posts' => $posts
+                'posts' => $posts,
+                'favoritedProducts' => $favoritedProducts,
             ]);
         }else{
             $carts = $this->cartService->getProduct();
@@ -55,6 +61,7 @@ class HomeController extends Controller
 
             $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
             //dd($posts);
+            $favoritedProducts = [];
 
             return view('front-end.home',[
                 'carts' => $carts,
@@ -62,7 +69,8 @@ class HomeController extends Controller
                 'bestseller' => $bestseller,
                 'new_arrivals' => $new_arrivals,
                 'most_views' => $most_views,
-                'posts' => $posts
+                'posts' => $posts,
+                'favoritedProducts' => $favoritedProducts,
             ]);
         }
     }
@@ -70,9 +78,12 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            // dd($khachhang);
+            $id_tk = Auth::user()->id;
+            //dd($id_kh);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            //dd($khachhang);
+            $id_kh = $khachhang->id;
+            //dd($id_kh);
 
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
@@ -102,6 +113,7 @@ class HomeController extends Controller
                 ->orderBy('id', 'desc')
                 ->paginate(9);
             $carts = $this->cartService->getProduct();
+            $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             return view('front-end.search',[
                 'category_product' => $category_product,
                 'brand' => $brand,
@@ -111,7 +123,8 @@ class HomeController extends Controller
                 'gh' => session()->get('carts'),
                 'search_product' => $search_product,
                 'keywords' => $keywords,
-                'limitedArray' => $limitedArray
+                'limitedArray' => $limitedArray,
+                'favoritedProducts' => $favoritedProducts,
             ]);
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
@@ -144,6 +157,7 @@ class HomeController extends Controller
             //dd($search_product);
             $carts = $this->cartService->getProduct();
             // dd($carts);
+            $favoritedProducts = [];
         }
         return view('front-end.search',[
             'category_product' => $category_product,
@@ -153,7 +167,8 @@ class HomeController extends Controller
             'gh' => session()->get('carts'),
             'search_product' => $search_product,
             'keywords' => $keywords,
-            'limitedArray' => $limitedArray
+            'limitedArray' => $limitedArray,
+            'favoritedProducts' => $favoritedProducts,
         ]);
     }
 

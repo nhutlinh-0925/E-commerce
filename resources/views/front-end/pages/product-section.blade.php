@@ -21,7 +21,10 @@
                                     <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}"></a>
 {{--                                <span class="label">Hot</span>--}}
                                 <ul class="product__hover">
-                                    <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
+                                    <li><a href="{{ route('wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
+                                            <i class="fa fa-heart" style="color: blue;"></i>
+                                        </a>
+                                    </li>
                                     <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a>
                                     </li>
                                     <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
@@ -70,7 +73,10 @@
                                         <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}"></a>
                                     {{--                                <span class="label">Hot</span>--}}
                                     <ul class="product__hover">
-                                        <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
+                                        <li><a href="{{ route('wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
+                                                <i class="fa fa-heart" style="color: blue;"></i>
+                                            </a>
+                                        </li>
                                         <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
                                         <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
                                     </ul>
@@ -116,9 +122,11 @@
                             <div class="product__item__pic set-bg" >
                                 <a href="/product/{{ $product->id }}">
                                     <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}"></a>
-                                {{--                                <span class="label">Hot</span>--}}
                                 <ul class="product__hover">
-                                    <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
+                                    <li><a href="{{ route('wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
+                                            <i class="fa fa-heart" style="color: blue;"></i>
+                                        </a>
+                                    </li>
                                     <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a>
                                     </li>
                                     <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>

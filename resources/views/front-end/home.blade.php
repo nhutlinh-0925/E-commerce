@@ -72,6 +72,68 @@
             });
         </script>
     @endif
+    <script>
+        // Hàm kiểm tra xem sản phẩm có trong danh sách yêu thích hay không
+        function isProductFavorited(productId) {
+            return favoritedProducts.includes(productId);
+        }
+
+        // Hàm xử lý sự kiện khi nhấn vào biểu tượng trái tim
+        function handleWishlistClick(event) {
+            event.preventDefault();
+            const heartIcon = event.currentTarget.querySelector('.fa-heart');
+            const productId = parseInt(event.currentTarget.dataset.productId);
+
+            // Kiểm tra xem người dùng đã đăng nhập hay chưa
+            const isUserLoggedIn = @json(Auth::check());
+
+            if (!isUserLoggedIn) {
+                // Hiển thị thông báo lỗi khi chưa đăng nhập
+                alert('Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích!');
+                return;
+            }
+
+            if (isProductFavorited(productId)) {
+                // Xóa sản phẩm khỏi danh sách yêu thích (đổi màu thành xanh)
+                heartIcon.style.color = 'blue';
+            } else {
+                // Thêm sản phẩm vào danh sách yêu thích (đổi màu thành đỏ)
+                heartIcon.style.color = 'red';
+            }
+
+            // Gửi yêu cầu AJAX đến route 'wish_lish_show' để thêm/xóa sản phẩm khỏi danh sách yêu thích
+            fetch(event.currentTarget.href)
+                .then(response => response.json())
+                .then(data => {
+                    // Cập nhật mảng favoritedProducts dựa trên phản hồi từ server
+                    if (data.isFavorited) {
+                        favoritedProducts.push(productId);
+                    } else {
+                        const index = favoritedProducts.indexOf(productId);
+                        if (index !== -1) {
+                            favoritedProducts.splice(index, 1);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi xử lý yêu thích sản phẩm:', error);
+                });
+        }
+
+        // Lấy danh sách các sản phẩm yêu thích từ model YeuThich
+        const favoritedProducts = @json($favoritedProducts);
+
+        // Lắng nghe sự kiện nhấn chuột vào các liên kết yêu thích
+        const wishlistLinks = document.querySelectorAll('.wishlist-link');
+        wishlistLinks.forEach(link => {
+            link.addEventListener('click', handleWishlistClick);
+            const productId = parseInt(link.dataset.productId);
+            if (isProductFavorited(productId)) {
+                // Nếu sản phẩm đã được yêu thích (có trong mảng favoritedProducts), đổi màu thành đỏ
+                link.querySelector('.fa-heart').style.color = 'red';
+            }
+        });
+    </script>
 
 </body>
 
