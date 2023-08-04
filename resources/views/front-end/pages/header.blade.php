@@ -113,7 +113,7 @@
                             <li ><a href="/shop">Cửa hàng</a></li>
                             <li ><a href="/blog">Tin tức</a></li>
                             <li><a href="#">Về Chúng tôi</a></li>
-                            <li ><a href="#">Liên lạc</a></li>
+                            <li ><a href="/contact">Liên lạc</a></li>
                         </ul>
                     </nav>
                 </div>

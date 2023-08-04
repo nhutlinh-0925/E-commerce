@@ -185,5 +185,27 @@ class HomeController extends Controller
         }
     }
 
+    public function contact(){
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            // dd($khachhang);
+
+            $carts = $this->cartService->getProduct();
+            return view('front-end.contact',[
+                'khachhang' => $khachhang,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+            ]);
+        }else{
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+        }
+        return view('front-end.contact',[
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+        ]);
+    }
+
 
 }

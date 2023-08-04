@@ -43,6 +43,9 @@ use \App\Http\Controllers\BlogController;
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
 
+    //Tag
+    Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
+
     //Trang cart
     Route::post('add-cart',[CartController::class, 'index']);
     Route::post('add-cart-shop',[CartController::class,'add_cart_shop']);
@@ -85,8 +88,7 @@ use \App\Http\Controllers\BlogController;
     Route::post('search', [HomeController::class, 'search']);
     Route::post('autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
 
-    //Tag
-    Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
+    Route::get('contact',[HomeController::class,'contact']);
 
 
     // Route::get('/login', function () {
