@@ -17,6 +17,7 @@ use DataTables;
 use App\Models\MaGiamGia;
 
 use App\Models\DiaChi;
+use App\Models\YeuThich;
 
 class CartController extends Controller
 {
@@ -55,23 +56,33 @@ class CartController extends Controller
     public function show()
     {
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $id_tk = Auth::user()->id;
+            //dd($id_kh);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            //dd($khachhang);
+            $id_kh = $khachhang->id;
+            //dd($id_kh);
             $products = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             return view('front-end.cart', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
                 'khachhang' => $khachhang,
-                'coupons' => session()->get('coupon')
+                'coupons' => session()->get('coupon'),
+                'wish_count' => $wish_count
             ]);
         }else{
             $products = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
+            //dd($wish_count);
             return view('front-end.cart', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
-                'coupons' => session()->get('coupon')
+                'coupons' => session()->get('coupon'),
+                'wish_count' => $wish_count
             ]);
         }
     }
@@ -109,12 +120,15 @@ class CartController extends Controller
             //dd($id);
             $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
             $id_kh = $khachhang->id;
+
             $products = $this->cartService->getProduct();
 
             $address = DiaChi::where('khach_hang_id', $id_kh)->get();
             //dd($address);
             //$dc_md = DiaChi::where('khach_hang_id', $id)->where('dc_TrangThai', 1)->get();
             //dd($dc_md);
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
 
             return view('front-end.checkout', [
                 // 'title' => 'Giỏ Hàng',
@@ -125,6 +139,7 @@ class CartController extends Controller
                 'address' => $address,
 //                'dc_md' => $dc_md,
 //                'pvc' => session()->get('pvc'),
+                'wish_count' => $wish_count
             ]);
         }else{
             Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
@@ -234,7 +249,11 @@ class CartController extends Controller
              $id_kh = Auth::user()->id;
              $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
 //              dd($khachhang);
+             $id_kh = $khachhang->id;
+             //dd($id_kh);
              $carts = $this->cartService->getProduct();
+             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+             //dd($wish_count);
 
              if ($request->ajax())
              {
@@ -254,7 +273,8 @@ class CartController extends Controller
                  'khachhang' => $khachhang,
                  'carts' => $carts,
                  'gh' => session()->get('carts'),
-//                 'get_cart' => $get_cart
+//                 'get_cart' => $get_cart,
+                 'wish_count' => $wish_count
              ]);
          }
      }
@@ -263,10 +283,15 @@ class CartController extends Controller
 
     public function show_ChitietDonhang($id){
         if(Auth::check()) {
-            $id_kh = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
-//              dd($khachhang);
+            $id_tk = Auth::user()->id;
+            //dd($id_kh);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            //dd($khachhang);
+            $id_kh = $khachhang->id;
+            //dd($id_kh);
             $carts = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
         }
 //        $customer = DB::table('carts')
 //            ->select('carts.*')
@@ -283,6 +308,7 @@ class CartController extends Controller
             'khachhang' => $khachhang,
             'carts' => $carts,
             'gh' => session()->get('carts'),
+            'wish_count' => $wish_count
         ]);
     }
 

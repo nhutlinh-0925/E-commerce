@@ -142,11 +142,15 @@
                                 <button type="submit" ><i class="fa fa-search"></i></button>
                                 <div id="search-ajax"></div>
                             </form>
-                            <a href="#" class="search-switch"><img src="/template/front-end/img/icon/heart.png" alt=""></a>
-                            <div class="js-show-cart"
+
+                            <div class="js-show-wish icon-header-noti-yt"
+                                 data-notify="{{ count($wish_count) }}">
+                                <i class="fa fa-heart"></i>
+                            </div>
+
+                            <div class="js-show-cart icon-header-noti"
                                 data-notify="{{ !is_null(\Illuminate\Support\Facades\Session::get('carts')) ? count(\Illuminate\Support\Facades\Session::get('carts')) : 0 }}">
                                 <i class="fa fa-cart-plus"></i>
-
                             </div>
                         </div>
                     </div>

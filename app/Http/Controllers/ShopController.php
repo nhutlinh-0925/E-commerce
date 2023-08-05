@@ -59,6 +59,8 @@ class ShopController extends Controller
 
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
 
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             return view('front-end.shop',[
                 'category_product' => $category_product,
                 'brand' => $brand,
@@ -69,6 +71,7 @@ class ShopController extends Controller
                 'gh' => session()->get('carts'),
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
@@ -100,6 +103,9 @@ class ShopController extends Controller
             $favoritedProducts = [];
             }
 
+            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
+            //dd($wish_count);
+
             return view('front-end.shop',[
                 'category_product' => $category_product,
                 'brand' => $brand,
@@ -109,20 +115,27 @@ class ShopController extends Controller
                 'gh' => session()->get('carts'),
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
     }
 
     public function product_detail($id) {
         if(Auth::check()){
-            $id_kh = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
+            $id_tk = Auth::user()->id;
+            //dd($id_kh);8
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            //dd($khachhang);
+            $id_kh = $khachhang->id;
+            //dd($id_kh);
 
             $product = SanPham::find($id);
             $category_product = DanhMucSanPham::all();
             $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
             // dd($product_related);
             $carts = $this->cartService->getProduct();
-            // dd($carts);
+            //
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             $images = $product->hinhanh;
 //            dd($images);
             return view('front-end.product_detail', [
@@ -132,6 +145,7 @@ class ShopController extends Controller
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'wish_count' => $wish_count,
                 'images' => $images
             ]);
         }else{
@@ -140,6 +154,8 @@ class ShopController extends Controller
             $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
             //dd($product_related);
             $carts = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
+            //dd($wish_count);
             $images = $product->hinhanh;
 //            dd($images);
             return view('front-end.product_detail', [
@@ -148,6 +164,7 @@ class ShopController extends Controller
                 'product_related' => $product_related,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'wish_count' => $wish_count,
                 'images' => $images
             ]);
         }
@@ -195,7 +212,8 @@ class ShopController extends Controller
             //dd($sp);
 
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
-
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             return view('front-end.danhmuc_sanpham', [
                 'cate_pro' => $cate_pro,
                 'category_product' => $category_product,
@@ -206,6 +224,7 @@ class ShopController extends Controller
                 'sp' => $sp,
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
         }else{
             $cate_pro = DanhMucSanPham::find($id);
@@ -241,6 +260,8 @@ class ShopController extends Controller
                          ->paginate(9);
             //dd($sp);
             $favoritedProducts = [];
+            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
+            //dd($wish_count);
             return view('front-end.danhmuc_sanpham', [
                 'cate_pro' => $cate_pro,
                 'category_product' => $category_product,
@@ -250,6 +271,7 @@ class ShopController extends Controller
                 'sp' => $sp,
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
         }
     }
@@ -296,7 +318,8 @@ class ShopController extends Controller
             //dd($sp);
 
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
-
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             return view('front-end.thuonghieu_sanpham', [
                 'bra' => $bra,
                 'category_product' => $category_product,
@@ -307,6 +330,7 @@ class ShopController extends Controller
                 'sp' => $sp,
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
         }else{
             $bra = ThuongHieu::find($id);
@@ -342,6 +366,8 @@ class ShopController extends Controller
             //dd($sp);
 
             $favoritedProducts = [];
+            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
+            //dd($wish_count);
             return view('front-end.thuonghieu_sanpham', [
                 'bra' => $bra,
                 'category_product' => $category_product,
@@ -351,6 +377,7 @@ class ShopController extends Controller
                 'sp' => $sp,
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
         }
     }
@@ -395,6 +422,8 @@ class ShopController extends Controller
             //dd($product_tag);
             $carts = $this->cartService->getProduct();
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             return view('front-end.product_tag',[
                 'category_product' => $category_product,
                 'brand' => $brand,
@@ -406,6 +435,7 @@ class ShopController extends Controller
                 'tag' => $tag,
                 'limitedArray' => $limitedArray,
                 'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
             ]);
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
@@ -441,6 +471,8 @@ class ShopController extends Controller
             $carts = $this->cartService->getProduct();
             // dd($carts);
             $favoritedProducts = [];
+            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
+            //dd($wish_count);
         }
         return view('front-end.product_tag',[
             'category_product' => $category_product,
@@ -452,6 +484,7 @@ class ShopController extends Controller
             'tag' => $tag,
             'limitedArray' => $limitedArray,
             'favoritedProducts' => $favoritedProducts,
+            'wish_count' => $wish_count
         ]);
     }
 

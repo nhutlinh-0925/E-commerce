@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Services\AddressService;
 use App\Http\Services\CartService;
 use App\Models\DiaChi;
+use App\Models\YeuThich;
 use App\Models\KhachHang;
 use App\Models\QuanHuyen;
 use App\Models\TaiKhoan;
@@ -37,6 +38,8 @@ class SettingController extends Controller
             //dd($id_kh);
             $carts = $this->cartService->getProduct();
             // dd($carts);
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
             $account = TaiKhoan::find($id_tk);
             //dd($account);
             $address = DiaChi::where('khach_hang_id', $id_kh)->get();
@@ -51,6 +54,7 @@ class SettingController extends Controller
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
+                'wish_count' => $wish_count,
                 'account' => $account,
                 'address' => $address,
                 'dc_md' => $dc_md,
