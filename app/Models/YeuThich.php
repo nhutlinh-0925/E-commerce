@@ -13,4 +13,9 @@ class YeuThich extends Model
         'khach_hang_id',
         'san_pham_id',
     ];
+
+    public function sanpham()
+    {
+        return $this->belongsTo(SanPham::class, 'san_pham_id');
+    }
 }

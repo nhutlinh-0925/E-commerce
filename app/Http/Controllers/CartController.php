@@ -75,14 +75,11 @@ class CartController extends Controller
             ]);
         }else{
             $products = $this->cartService->getProduct();
-            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
-            //dd($wish_count);
             return view('front-end.cart', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
                 'coupons' => session()->get('coupon'),
-                'wish_count' => $wish_count
             ]);
         }
     }

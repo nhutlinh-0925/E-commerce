@@ -142,11 +142,17 @@
                                 <button type="submit" ><i class="fa fa-search"></i></button>
                                 <div id="search-ajax"></div>
                             </form>
-
+                            @if (Auth::check())
                             <div class="js-show-wish icon-header-noti-yt"
-                                 data-notify="{{ count($wish_count) }}">
-                                <i class="fa fa-heart"></i>
+                                 data-notify="{{ count($wish_count) }}"><a href="/wish-list-count/{{ $khachhang->id }}">
+                                    <i class="fa fa-heart" style="color: black"></i></a>
                             </div>
+                            @else()
+                                <div class="js-show-wish icon-header-noti-yt"
+                                     data-notify="0"><a href="" onclick ='return confirm("Bạn cần đăng nhập để xem danh sách sản phẩm yêu thích !!!")'>
+                                        <i class="fa fa-heart" style="color: black"></i></a>
+                                </div>
+                            @endif
 
                             <div class="js-show-cart icon-header-noti"
                                 data-notify="{{ !is_null(\Illuminate\Support\Facades\Session::get('carts')) ? count(\Illuminate\Support\Facades\Session::get('carts')) : 0 }}">

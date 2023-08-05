@@ -92,9 +92,6 @@ class BlogController extends Controller
 
             $carts = $this->cartService->getProduct();
             // dd($carts);
-
-            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
-            //dd($wish_count);
         }
         return view('front-end.blog',[
             'category_post' => $category_post,
@@ -103,7 +100,6 @@ class BlogController extends Controller
             'carts' => $carts,
             'gh' => session()->get('carts'),
             'limitedArray' => $limitedArray,
-            'wish_count' => $wish_count
         ]);
     }
 
@@ -144,8 +140,6 @@ class BlogController extends Controller
                 ->paginate(9);
             //dd($blog_tag);
             $carts = $this->cartService->getProduct();
-            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
             return view('front-end.blog_tag',[
                 'category_post' => $category_post,
                 'khachhang' => $khachhang,
@@ -154,7 +148,6 @@ class BlogController extends Controller
                 'blog_tag' => $blog_tag,
                 'tag' => $tag,
                 'limitedArray' => $limitedArray,
-                'wish_count' => $wish_count
             ]);
         }else{
             $category_post = DanhMucBaiViet::all()->where('dmbv_TrangThai',1)->sortByDesc("id");
@@ -186,8 +179,6 @@ class BlogController extends Controller
             //dd($blog_tag);
             $carts = $this->cartService->getProduct();
             // dd($carts);
-            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
-            //dd($wish_count);
         }
         return view('front-end.blog_tag',[
             'category_post' => $category_post,
@@ -196,7 +187,6 @@ class BlogController extends Controller
             'blog_tag' => $blog_tag,
             'tag' => $tag,
             'limitedArray' => $limitedArray,
-            'wish_count' => $wish_count
         ]);
     }
 
@@ -281,8 +271,6 @@ class BlogController extends Controller
 
             $carts = $this->cartService->getProduct();
             // dd($carts);
-            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
-            //dd($wish_count);
         }
         return view('front-end.danhmuc_baiviet',[
             'cate_po' => $cate_po,
@@ -293,7 +281,6 @@ class BlogController extends Controller
             'gh' => session()->get('carts'),
             'bv' => $bv,
             'limitedArray' => $limitedArray,
-            'wish_count' => $wish_count
         ]);
     }
 
@@ -336,15 +323,12 @@ class BlogController extends Controller
 
             $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();
-            $wish_count = YeuThich::where('khach_hang_id', 0)->get();
-            //dd($wish_count);
             return view('front-end.blog_detail', [
                 'post' => $post,
                 'comment' => $comment,
                 'post_related' => $post_related,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
-                'wish_count' => $wish_count
             ]);
         }
     }
