@@ -93,19 +93,6 @@
 
         <div class="product__details__content">
             <div class="container">
-                @if(Session::has('flash_message'))
-                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                        {!! session('flash_message') !!}
-                    </div>
-
-                @elseif(Session::has('flash_message_error'))
-                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                        {!! session('flash_message_error') !!}
-                    </div>
-
-                @endif
                 <form action="/add-cart" method="post">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
@@ -181,7 +168,10 @@
                                 <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
                             </div>
                             <div class="product__details__btns__option">
-                                <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                                <a href="{{ route('wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
+                                    <i class="fa fa-heart" style="color: blue;"></i>
+                                    Add to wishlist
+                                </a>
                                 <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
                             </div>
                             <div class="product__details__last__option">
@@ -200,7 +190,6 @@
                                         @foreach($tags as $tag)
                                             <a style="color: black" href="{{ url('/tag/' . Str::slug($tag)) }}">{{ $tag }},</a>
                                         @endforeach
-{{--                                        Clothes, Skin, Body--}}
                                     </li>
                                 </ul>
                             </div>
@@ -323,146 +312,53 @@
             <div class="row">
                 @foreach ($product_related as $product_relate)
                 <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
+                    <form action="/add-cart-shop" method="post">
+                    @csrf
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
                             <a href="/product/{{ $product_relate->id }}">
                                 <img src="{{asset('/storage/images/products/'.$product_relate->sp_AnhDaiDien) }}">
-                            {{--  <span class="label">New</span>  --}}
                             <ul class="product__hover">
-                                <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="{{ route('wish_lish_show',$product_relate->id) }}" class="wishlist-link" data-product-id="{{ $product_relate->id }}">
+                                        <i class="fa fa-heart" style="color: blue;"></i>
+                                    </a>
+                                </li>
                                 <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
                                 <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6>{{ $product_relate->sp_TenSanPham }}</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
+                            <h6 class="text-center">{{ $product_relate->sp_TenSanPham }}</h6>
+                            <a href="#" class="add-cart">Xem nhanh</a>
+                            <div class="text-center rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
-                            <h5>{{ number_format($product_relate->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
-                            <div class="product__color__select">
-                                <label for="pc-1">
-                                    <input type="radio" id="pc-1">
-                                </label>
-                                <label class="active black" for="pc-2">
-                                    <input type="radio" id="pc-2">
-                                </label>
-                                <label class="grey" for="pc-3">
-                                    <input type="radio" id="pc-3">
-                                </label>
-                            </div>
+                            <h5 class="text-center">{{ number_format($product_relate->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
+                            <input type="hidden" name="product_id" id="product_id" value="{{$product_relate->id}}">
+                            <input type="hidden" name="num_product" value= "1">
+                            <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
+                                + Thêm giỏ hàng
+                            </button>
+{{--                            <div class="product__color__select">--}}
+{{--                                <label for="pc-1">--}}
+{{--                                    <input type="radio" id="pc-1">--}}
+{{--                                </label>--}}
+{{--                                <label class="active black" for="pc-2">--}}
+{{--                                    <input type="radio" id="pc-2">--}}
+{{--                                </label>--}}
+{{--                                <label class="grey" for="pc-3">--}}
+{{--                                    <input type="radio" id="pc-3">--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
+                    </form>
                 </div>
                 @endforeach
-                {{--  <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="/template/front-end/img/product/product-2.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Piqué Biker Jacket</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$67.24</h5>
-                            <div class="product__color__select">
-                                <label for="pc-4">
-                                    <input type="radio" id="pc-4">
-                                </label>
-                                <label class="active black" for="pc-5">
-                                    <input type="radio" id="pc-5">
-                                </label>
-                                <label class="grey" for="pc-6">
-                                    <input type="radio" id="pc-6">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                    <div class="product__item sale">
-                        <div class="product__item__pic set-bg" data-setbg="/template/front-end/img/product/product-3.jpg">
-                            <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Multi-pocket Chest Bag</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$43.48</h5>
-                            <div class="product__color__select">
-                                <label for="pc-7">
-                                    <input type="radio" id="pc-7">
-                                </label>
-                                <label class="active black" for="pc-8">
-                                    <input type="radio" id="pc-8">
-                                </label>
-                                <label class="grey" for="pc-9">
-                                    <input type="radio" id="pc-9">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="/template/front-end/img/product/product-4.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="/template/front-end/img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Diagonal Textured Cap</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$60.9</h5>
-                            <div class="product__color__select">
-                                <label for="pc-10">
-                                    <input type="radio" id="pc-10">
-                                </label>
-                                <label class="active black" for="pc-11">
-                                    <input type="radio" id="pc-11">
-                                </label>
-                                <label class="grey" for="pc-12">
-                                    <input type="radio" id="pc-12">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>  --}}
             </div>
         </div>
     </section>
@@ -470,7 +366,117 @@
 
     @include('front-end.pages.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    @if(session()->has('success_message'))
+        <style>
+            .my-custom-icon {
+                color: #ff0000; /* Màu đỏ */
+                font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+            }
+        </style>
 
+        <script>
+            Swal.fire({
+                title: 'Cảm ơn bạn!!!', // Tiêu đề của thông báo
+                text: 'Đã thêm sản phẩm vào giỏ hàng!', // Nội dung của thông báo
+                icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+                showConfirmButton: false, // Không hiển thị nút xác nhận
+                timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+                showCloseButton: true, // Hiển thị nút X để tắt thông báo
+                customClass: {
+                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+                },
+                // background: '#ff0000', // Màu nền của thông báo
+                padding: '3rem', // Khoảng cách lề bên trong thông báo
+                borderRadius: '10px' // Độ cong của góc thông báo
+            });
+        </script>
+    @elseif(session()->has('flash_message_error'))
+        <style>
+            .my-custom-icon {
+                color: #ff0000; /* Màu đỏ */
+                font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+            }
+        </style>
+
+        <script>
+            Swal.fire({
+                title: 'Rất tiết!!!', // Tiêu đề của thông báo
+                text: 'Số lượng đã vượt quá trong kho!', // Nội dung của thông báo
+                icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+                showConfirmButton: false, // Không hiển thị nút xác nhận
+                timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+                showCloseButton: true, // Hiển thị nút X để tắt thông báo
+                customClass: {
+                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+                },
+                // background: '#ff0000', // Màu nền của thông báo
+                padding: '3rem', // Khoảng cách lề bên trong thông báo
+                borderRadius: '10px' // Độ cong của góc thông báo
+            });
+        </script>
+    @endif
+    <script>
+        // Hàm kiểm tra xem sản phẩm có trong danh sách yêu thích hay không
+        function isProductFavorited(productId) {
+            return favoritedProducts.includes(productId);
+        }
+
+        // Hàm xử lý sự kiện khi nhấn vào biểu tượng trái tim
+        function handleWishlistClick(event) {
+            event.preventDefault();
+            const heartIcon = event.currentTarget.querySelector('.fa-heart');
+            const productId = parseInt(event.currentTarget.dataset.productId);
+
+            // Kiểm tra xem người dùng đã đăng nhập hay chưa
+            const isUserLoggedIn = @json(Auth::check());
+
+            if (!isUserLoggedIn) {
+                // Hiển thị thông báo lỗi khi chưa đăng nhập
+                alert('Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích!');
+                return;
+            }
+
+            if (isProductFavorited(productId)) {
+                // Xóa sản phẩm khỏi danh sách yêu thích (đổi màu thành xanh)
+                heartIcon.style.color = 'blue';
+            } else {
+                // Thêm sản phẩm vào danh sách yêu thích (đổi màu thành đỏ)
+                heartIcon.style.color = 'red';
+            }
+
+            // Gửi yêu cầu AJAX đến route 'wish_lish_show' để thêm/xóa sản phẩm khỏi danh sách yêu thích
+            fetch(event.currentTarget.href)
+                .then(response => response.json())
+                .then(data => {
+                    // Cập nhật mảng favoritedProducts dựa trên phản hồi từ server
+                    if (data.isFavorited) {
+                        favoritedProducts.push(productId);
+                    } else {
+                        const index = favoritedProducts.indexOf(productId);
+                        if (index !== -1) {
+                            favoritedProducts.splice(index, 1);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi khi xử lý yêu thích sản phẩm:', error);
+                });
+        }
+
+        // Lấy danh sách các sản phẩm yêu thích từ model YeuThich
+        const favoritedProducts = @json($favoritedProducts);
+
+        // Lắng nghe sự kiện nhấn chuột vào các liên kết yêu thích
+        const wishlistLinks = document.querySelectorAll('.wishlist-link');
+        wishlistLinks.forEach(link => {
+            link.addEventListener('click', handleWishlistClick);
+            const productId = parseInt(link.dataset.productId);
+            if (isProductFavorited(productId)) {
+                // Nếu sản phẩm đã được yêu thích (có trong mảng favoritedProducts), đổi màu thành đỏ
+                link.querySelector('.fa-heart').style.color = 'red';
+            }
+        });
+    </script>
 </body>
 
 </html>
