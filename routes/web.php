@@ -93,7 +93,7 @@ use \App\Http\Controllers\BlogController;
 
     //Yêu thích
     Route::get('wish-list/{id}',[ShopController::class,'wish_lish_show'])->name('wish_lish_show');
-    //Route::get('wish-list-count/{id}',[ShopController::class,'wish_lish_show_count'])->name('wish_lish_show_count');
+    Route::get('/wish-list-count/{id}',[ShopController::class, 'wish_list_count']);
 
     // Route::get('/login', function () {
     //     return view('front-end.login.login');

@@ -78,18 +78,16 @@
                             </div>
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                    <a data-toggle="collapse" data-target="#collapseThree">Khoảng giá</a>
                                 </div>
                                 <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__price">
-                                            <ul>
-                                                <li><a href="#">$0.00 - $50.00</a></li>
-                                                <li><a href="#">$50.00 - $100.00</a></li>
-                                                <li><a href="#">$100.00 - $150.00</a></li>
-                                                <li><a href="#">$150.00 - $200.00</a></li>
-                                                <li><a href="#">$200.00 - $250.00</a></li>
-                                                <li><a href="#">250.00+</a></li>
+                                            <ul id="price">
+                                                <li><a href="{{Request::url()}}?sort_by=1000">Dưới 1,000,000đ</a></li>
+                                                <li><a href="{{Request::url()}}?sort_by=1000_2000">Từ 1,000,000đ - 2,000,000đ</a></li>
+                                                <li><a href="{{Request::url()}}?sort_by=2000_3000">Từ 2,000,000đ - 3,000,000đ</a></li>
+                                                <li><a href="{{Request::url()}}?sort_by=3000">Trên 3,000,000đ</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -281,6 +279,17 @@
 <!-- Shop Section End -->
 
 @include('front-end.pages.footer')
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#price').on('change',function (){
+            var url = $(this).val();
+            if(url){
+                window.location = url;
+            }
+            return false;
+        });
+    });
+</script>
 @if(session()->has('success_message'))
     <style>
         .my-custom-icon {

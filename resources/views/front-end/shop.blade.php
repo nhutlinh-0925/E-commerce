@@ -79,18 +79,16 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                        <a data-toggle="collapse" data-target="#collapseThree">Khoảng giá</a>
                                     </div>
                                     <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
-                                                <ul>
-                                                    <li><a href="#">$0.00 - $50.00</a></li>
-                                                    <li><a href="#">$50.00 - $100.00</a></li>
-                                                    <li><a href="#">$100.00 - $150.00</a></li>
-                                                    <li><a href="#">$150.00 - $200.00</a></li>
-                                                    <li><a href="#">$200.00 - $250.00</a></li>
-                                                    <li><a href="#">250.00+</a></li>
+                                                <ul id="price">
+                                                    <li><a href="{{Request::url()}}?sort_by=1000">Dưới 1,000,000đ</a></li>
+                                                    <li><a href="{{Request::url()}}?sort_by=1000_2000">Từ 1,000,000đ - 2,000,000đ</a></li>
+                                                    <li><a href="{{Request::url()}}?sort_by=2000_3000">Từ 2,000,000đ - 3,000,000đ</a></li>
+                                                    <li><a href="{{Request::url()}}?sort_by=3000">Trên 3,000,000đ</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -199,14 +197,25 @@
 {{--                                </div>--}}
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
+                                <form>
                                 <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
-                                    <select>
-                                        <option value="">Low To High</option>
-                                        <option value="">$0 - $55</option>
-                                        <option value="">$55 - $100</option>
+                                    <p>Sắp xếp theo:</p>
+
+                                    @csrf
+                                    <select name="sort" id="loc">
+                                            <option value="{{Request::url()}}?sort_by=none">Lọc theo</option>
+                                            <option value="{{Request::url()}}?sort_by=tang_dan">Giá: Tăng dần</option>
+                                            <option value="{{Request::url()}}?sort_by=giam_dan">Giá: Giảm dần</option>
+                                            <option value="{{Request::url()}}?sort_by=kytu_az">Tên: A->Z</option>
+                                            <option value="{{Request::url()}}?sort_by=kytu_za">Tên: Z->A</option>
+                                            <option value="{{Request::url()}}?sort_by=cu_nhat">Cũ nhất</option>
+                                            <option value="{{Request::url()}}?sort_by=moi_nhat">Mới nhất</option>
+                                            <option value="{{Request::url()}}?sort_by=ban_chay">Bán chạy nhất</option>
+                                            <option value="{{Request::url()}}?sort_by=ton_kho">Tồn kho giảm dần</option>
                                     </select>
+
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -274,6 +283,30 @@
     <!-- Shop Section End -->
 
     @include('front-end.pages.footer')
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $('#loc').on('change',function (){
+                var url = $(this).val();
+                if(url){
+                    window.location = url;
+                }
+                return false;
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $('#price').on('change',function (){
+                var url = $(this).val();
+                if(url){
+                    window.location = url;
+                }
+                return false;
+            });
+        });
+    </script>
+
     @if(session()->has('success_message'))
         <style>
             .my-custom-icon {
@@ -386,6 +419,9 @@
             }
         });
     </script>
+    <script src="/template/front-end/js/bootstrap.min.js"></script>
+
+
 
 </body>
 

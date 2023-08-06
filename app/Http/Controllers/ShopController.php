@@ -23,7 +23,7 @@ class ShopController extends Controller
         $this->cartService = $cartService;
     }
 
-    public function shop() {
+    public function shop(Request $request) {
         if(Auth::check()){
             $id_tk = Auth::user()->id;
             //dd($id_kh);8
@@ -34,9 +34,72 @@ class ShopController extends Controller
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
 //            $product_all = SanPham::all();
-            $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
 
 
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == 'giam_dan') {
+                    $products = SanPham::orderBy('sp_Gia', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'tang_dan') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'kytu_za') {
+                    $products = SanPham::orderBy('sp_TenSanPham', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'kytu_az') {
+                    $products = SanPham::orderBy('sp_TenSanPham', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'none') {
+                    $products = SanPham::orderBy('id', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'cu_nhat') {
+                    $products = SanPham::orderBy('id', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'moi_nhat') {
+                    $products = SanPham::orderBy('id', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'ban_chay') {
+                    $products = SanPham::orderBy('sp_SoLuongBan', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'ton_kho') {
+                    $products = SanPham::orderBy('sp_SoLuongHang', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '1000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '1000_2000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
+            }
             $tags = SanPham::pluck('sp_Tag')->all();
             //dd($tags);
             // Khởi tạo mảng trống để chứa kết quả
@@ -96,7 +159,70 @@ class ShopController extends Controller
             $limitedArray = array_slice($mergedArray, 0, 8);
             //dd($limitedArray);
 
-            $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == 'giam_dan') {
+                    $products = SanPham::orderBy('sp_Gia', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'tang_dan') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'kytu_za') {
+                    $products = SanPham::orderBy('sp_TenSanPham', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'kytu_az') {
+                    $products = SanPham::orderBy('sp_TenSanPham', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'none') {
+                    $products = SanPham::orderBy('id', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'cu_nhat') {
+                    $products = SanPham::orderBy('id', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'moi_nhat') {
+                    $products = SanPham::orderBy('id', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'ban_chay') {
+                    $products = SanPham::orderBy('sp_SoLuongBan', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == 'ton_kho') {
+                    $products = SanPham::orderBy('sp_SoLuongHang', 'desc')
+                        ->where('sp_TrangThai', 1)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '1000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '1000_2000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $products = SanPham::orderBy('sp_Gia', 'asc')
+                        ->where('sp_TrangThai', 1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $products = SanPham::orderBy('id', 'desc')->where('sp_TrangThai',1)->paginate(9);
+            }
 
             $carts = $this->cartService->getProduct();
             // dd($carts);
@@ -201,11 +327,43 @@ class ShopController extends Controller
             //dd($limitedArray);
 
             $id_dm = $id;
-            $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
-                ->where('sp_TrangThai',1)
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-            //dd($sp);
+
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == '1000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+
+                } elseif ($sort_by == '1000_2000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                    ->where('sp_TrangThai',1)
+                    ->orderBy('id', 'desc')
+                    ->paginate(9);
+            }
 
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
@@ -250,11 +408,43 @@ class ShopController extends Controller
             //dd($limitedArray);
 
             $id_dm = $id;
-            $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
-                         ->where('sp_TrangThai',1)
-                         ->orderBy('id', 'desc')
-                         ->paginate(9);
-            //dd($sp);
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == '1000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+
+                } elseif ($sort_by == '1000_2000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $sp = SanPham::where('danh_muc_san_pham_id',$id_dm)
+                    ->where('sp_TrangThai',1)
+                    ->orderBy('id', 'desc')
+                    ->paginate(9);
+            }
+
             $favoritedProducts = [];
             return view('front-end.danhmuc_sanpham', [
                 'cate_pro' => $cate_pro,
@@ -304,11 +494,43 @@ class ShopController extends Controller
             //dd($limitedArray);
 
             $id_th = $id;
-            $sp = SanPham::where('thuong_hieu_id',$id_th)
-                ->where('sp_TrangThai',1)
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-            //dd($sp);
+
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == '1000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+
+                } elseif ($sort_by == '1000_2000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $sp = SanPham::where('thuong_hieu_id',$id_th)
+                    ->where('sp_TrangThai',1)
+                    ->orderBy('id', 'desc')
+                    ->paginate(9);
+            }
 
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
@@ -352,11 +574,43 @@ class ShopController extends Controller
             //dd($limitedArray);
 
             $id_th = $id;
-            $sp = SanPham::where('thuong_hieu_id',$id_th)
-                ->where('sp_TrangThai',1)
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-            //dd($sp);
+
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == '1000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+
+                } elseif ($sort_by == '1000_2000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $sp = SanPham::where('thuong_hieu_id',$id_th)
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $sp = SanPham::where('thuong_hieu_id',$id_th)
+                    ->where('sp_TrangThai',1)
+                    ->orderBy('id', 'desc')
+                    ->paginate(9);
+            }
 
             $favoritedProducts = [];
             return view('front-end.thuonghieu_sanpham', [
@@ -404,12 +658,45 @@ class ShopController extends Controller
             //dd($limitedArray);
 
             $tag = str_replace("-"," ",$product_tag);
-            $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
-                ->orWhere('sp_Tag','like','%'.$tag.'%')
-                ->where('sp_TrangThai',1)
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-            //dd($product_tag);
+
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == '1000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+
+                } elseif ($sort_by == '1000_2000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
+                    ->orWhere('sp_Tag','like','%'.$tag.'%')
+                    ->where('sp_TrangThai',1)
+                    ->orderBy('id', 'desc')
+                    ->paginate(9);
+            }
+
             $carts = $this->cartService->getProduct();
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
@@ -452,12 +739,44 @@ class ShopController extends Controller
 
             $tag = str_replace("-"," ",$product_tag);
             //dd($tag);
-            $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
-                ->orWhere('sp_Tag','like','%'.$tag.'%')
-                ->where('sp_TrangThai',1)
-                ->orderBy('id', 'desc')
-                ->paginate(9);
-            //dd($product_tag);
+            if(isset($_GET['sort_by'])) {
+                $sort_by = $_GET['sort_by'];
+                if ($sort_by == '1000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '<=', 1000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+
+                } elseif ($sort_by == '1000_2000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 1000000)
+                        ->where('sp_Gia', '<=', 2000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '2000_3000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 2000000)
+                        ->where('sp_Gia', '<=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                } elseif ($sort_by == '3000') {
+                    $product_tag = DB::table('san_phams')->where('sp_Tag','like','%'.$tag.'%')
+                        ->where('sp_TrangThai',1)
+                        ->where('sp_Gia', '>=', 3000000)
+                        ->orderBy('sp_Gia', 'asc')
+                        ->paginate(9)->appends(request()->query());
+                }
+            }else{
+                $product_tag = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$tag.'%')
+                    ->orWhere('sp_Tag','like','%'.$tag.'%')
+                    ->where('sp_TrangThai',1)
+                    ->orderBy('id', 'desc')
+                    ->paginate(9);
+            }
+
             $carts = $this->cartService->getProduct();
             // dd($carts);
             $favoritedProducts = [];
