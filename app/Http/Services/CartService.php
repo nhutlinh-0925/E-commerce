@@ -188,11 +188,11 @@ class CartService
             DB::beginTransaction();
             $total = 0;
             $carts = Session::get('carts');
-//            dd($carts);
+            //dd($carts);
             $coupons = Session::get('coupon');
             //dd($coupons);
             $productId = array_keys($carts);
-//            dd($productId);
+            //dd($productId);
 
             // Lấy thông tin sản phẩm từ giỏ hàng
             foreach ($carts as $product_id => $quantity_purchased) {
@@ -219,13 +219,13 @@ class CartService
             session()->put('carts', $carts);
 
             // Hiển thị giỏ hàng sau khi đã cập nhật
-//            dd($carts);
+            //dd($carts);
 
             $products =  SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien', 'sp_SoLuongHang', 'sp_SoLuongBan')
             ->where('sp_TrangThai', 1)
             ->whereIn('id', $productId)
             ->get();
-//             dd($products);
+             //dd($products);
 
 
             // $name = 'Nhựt Linh';
@@ -243,7 +243,7 @@ class CartService
                 $price = $product->sp_Gia;
                 $priceEnd = $price * $carts[$product->id];
                 $total += $priceEnd;
-//                dd($total);
+                //dd($total);
             }
 
             // Đặt múi giờ

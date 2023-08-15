@@ -294,6 +294,8 @@ class BlogController extends Controller
             //dd($id_kh);
 
             $post = BaiViet::find($id);
+            $post->bv_LuotXem = $post->bv_LuotXem + 1;
+            $post->save();
 
             $id_bv = $post->id;
             $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->get();
@@ -316,6 +318,8 @@ class BlogController extends Controller
         }else{
             $post = BaiViet::find($id);
             //dd($post);
+            $post->bv_LuotXem = $post->bv_LuotXem + 1;
+            $post->save();
 
             $id_bv = $post->id;
             $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->get();

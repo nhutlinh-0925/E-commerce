@@ -251,6 +251,8 @@ class ShopController extends Controller
             //dd($id_kh);
 
             $product = SanPham::find($id);
+            $product->sp_LuotXem = $product->sp_LuotXem + 1;
+            $product->save();
             $category_product = DanhMucSanPham::all();
             $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
             // dd($product_related);
@@ -273,6 +275,8 @@ class ShopController extends Controller
             ]);
         }else{
             $product = SanPham::find($id);
+            $product->sp_LuotXem = $product->sp_LuotXem + 1;
+            $product->save();
             $category_product = DanhMucSanPham::all();
             $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
             //dd($product_related);
