@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Services\CartService;
 use App\Models\PhiVanChuyen;
+use App\Models\PhuongThucThanhToan;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -127,6 +128,8 @@ class CartController extends Controller
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
             //dd($wish_count);
 
+            $payments = PhuongThucThanhToan::all();
+
             return view('front-end.checkout', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
@@ -136,7 +139,8 @@ class CartController extends Controller
                 'address' => $address,
 //                'dc_md' => $dc_md,
 //                'pvc' => session()->get('pvc'),
-                'wish_count' => $wish_count
+                'wish_count' => $wish_count,
+                'payments' => $payments
             ]);
         }else{
             Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
@@ -174,13 +178,13 @@ class CartController extends Controller
             'kh_Ten' => 'required',
             'kh_SoDienThoai' => 'required',
             'dc_DiaChi' => 'required',
-            'pdh_PhuongThucThanhToan' => 'required',
+            'phuong_thuc_thanh_toan_id' => 'required',
         ],
             [
                 'kh_Ten.required' => 'Vui lòng nhập tên ',
                 'kh_SoDienThoai.required' => 'Vui lòng nhập số điện thoại',
                 'dc_DiaChi.required' => 'Vui lòng chọn địa chỉ',
-                'pdh_PhuongThucThanhToan.required' => 'Vui lòng chọn phương thức thanh toán',
+                'phuong_thuc_thanh_toan_id.required' => 'Vui lòng chọn phương thức thanh toán',
             ]);
         $this->cartService->getCart($request);
         return redirect()->back();

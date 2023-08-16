@@ -204,17 +204,16 @@
 
                                     <h5 class="order__title">PHƯƠNG THỨC THANH TOÁN</h5>
                                     <div class="form-group">
-                                        <label for="pdh_PhuongThucThanhToan"><b>Phương thức thanh toán</b></label>
-                                        <select name="pdh_PhuongThucThanhToan" id="pdh_PhuongThucThanhToan" class="form-control" required>
+                                        <label for="phuong_thuc_thanh_toan_id"><b>Phương thức thanh toán</b></label>
+                                        <select name="phuong_thuc_thanh_toan_id" id="phuong_thuc_thanh_toan_id" class="form-control" required>
                                             <option value="" selected>Chọn phương thức thanh toán</option>
-                                            <option value="0">Thanh toán khi nhận hàng</option>
-                                            <option value="1">Paypal</option>
-                                            <option value="2">VNPay</option>
-                                            <option value="3">OnePal</option>
+                                            @foreach ($payments as $payment)
+                                                <option value="{{ $payment->id }}" >{{ $payment->pttt_MoTa }}</option>
+                                            @endforeach
                                         </select>
 
                                     </div>
-                                    @error ('pdh_PhuongThucThanhToan')
+                                    @error ('phuong_thuc_thanh_toan_id')
                                     <span style="color: red;">{{ $message }}</span>
                                     @enderror
                                     <br><br><br>

@@ -75,19 +75,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->pdh_PhuongThucThanhToan == 0)
-                                            <a href=""><button
-                                                    class="btn btn-success" style="width: 100%">Nhận hàng trả tiền</button></a>
-                                        @elseif ($item->pdh_PhuongThucThanhToan == 1)
-                                            <a href=""><button
-                                                    class="btn btn-success" style="width: 100%">Thanh toán PayPay</button></a>
-                                        @elseif ($item->pdh_PhuongThucThanhToan == 2)
-                                            <a href=""><button
-                                                    class="btn btn-success" style="width: 100%">Thanh toán qua VNPay</button></a>
-                                        @elseif ($item->pdh_PhuongThucThanhToan == 3)
-                                            <a href=""><button
-                                                    class="btn btn-success" style="width: 100%">Thanh toán qua OnePay</button></a>
-                                        @endif
+                                        <a href="">
+                                            <button class="btn btn-success" style="width: 100%">{{ $item->phuongthucthanhtoan->pttt_MoTa }}</button>
+                                        </a>
                                     </td>
                                     <td>
                                         @if ($item->nhan_vien_id == '')

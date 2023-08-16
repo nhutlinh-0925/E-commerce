@@ -18,10 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('khach_hang_id');
             $table->unsignedBigInteger('nhan_vien_id')->nullable();
             $table->unsignedBigInteger('ma_giam_gia_id')->nullable();
+            $table->unsignedBigInteger('phuong_thuc_thanh_toan_id')->nullable();
             $table->string('pdh_DiaChiGiao')->nullable();
             $table->string('pdh_GhiChu')->nullable();
             $table->integer('pdh_TrangThai');
-            $table->integer('pdh_PhuongThucThanhToan')->nullable();
+            //$table->integer('pdh_PhuongThucThanhToan')->nullable();
             $table->date('pdh_NgayDat')->nullable();
             $table->integer('pdh_TongTien');
             $table->foreign('khach_hang_id')
@@ -35,6 +36,10 @@ return new class extends Migration
             $table->foreign('ma_giam_gia_id')
                 ->references('id')
                 ->on('ma_giam_gias')
+                ->onDelete('cascade');
+            $table->foreign('phuong_thuc_thanh_toan_id')
+                ->references('id')
+                ->on('phuong_thuc_thanh_toans')
                 ->onDelete('cascade');
             $table->timestamps();
         });

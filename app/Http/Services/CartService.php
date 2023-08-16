@@ -288,7 +288,7 @@ class CartService
                 $cart->pdh_NgayDat = $today;
                 $cart->pdh_TongTien = $tien_end;
                 $cart->pdh_TrangThai = 1;
-                $cart->pdh_PhuongThucThanhToan = $request->pdh_PhuongThucThanhToan;
+                $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                 $cart->save();
                 //dd($cart);
             }else{
@@ -302,7 +302,7 @@ class CartService
                 $cart->pdh_NgayDat = $today;
                 $cart->pdh_TongTien = $tien_end;
                 $cart->pdh_TrangThai = 1;
-                $cart->pdh_PhuongThucThanhToan = $request->pdh_PhuongThucThanhToan;
+                $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                 $cart->save();
                 //dd($cart);
             }

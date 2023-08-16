@@ -62,31 +62,23 @@
                                                                     <p>{{ $kh->kh_SoDienThoai }}</p>
                                                                 </div>
                                                                 <div class="col-3">
-                                                                    <label><b>Hình thức thanh toán </b></label>
+                                                                    <label><b>Hình thức thanh toán: </b></label>
                                                                 </div>
                                                                 <div class="col-3">
-                                                                    @if ($pdh->pdh_PhuongThucThanhToan == 0)
-                                                                        <p class="text-success">Nhận hàng trả tiền</p>
-                                                                    @elseif ($pdh->pdh_PhuongThucThanhToan == 1)
-                                                                        <p class="text-success">Thanh toán PayPay</p>
-                                                                    @elseif ($pdh->pdh_PhuongThucThanhToan == 2)
-                                                                        <p class="text-success">Thanh toán VNPay</p>
-                                                                    @elseif ($pdh->pdh_PhuongThucThanhToan == 3)
-                                                                        <p class="text-success">Thanh toán OnePay</p>
-                                                                    @endif
+                                                                    <p class="text-success">{{ $pdh->phuongthucthanhtoan->pttt_MoTa }}</p>
                                                                 </div>
 
                                                                 <div class="col-3">
                                                                     <label><b>Thời gian đặt hàng : </b></label>
                                                                 </div>
                                                                 <div class="col-3">
-                                                                    <p>{{ $pdh->created_at }}</p>
+                                                                    <p>{{ $pdh->created_at->format('H:i:s d/m/Y') }}</p>
                                                                 </div>
                                                                 <div class="col-3">
                                                                     <label><b>Cập nhật gần nhất : </b></label>
                                                                 </div>
                                                                 <div class="col-3">
-                                                                    <p>{{ $pdh->updated_at }}</p>
+                                                                    <p>{{ $pdh->updated_at->format('H:i:s d/m/Y') }}</p>
                                                                 </div>
 
                                                                 <div class="col-3">
@@ -107,7 +99,7 @@
                                                         <h4 class="card-title" style="font-size: 25px; color: blue">Thông tin sản phẩm</h4>
                                                         <div class="row">
                                                             <table class="table table-bordered" style="">
-                                                                <thead>
+                                                                <thead style="text-align: center;">
                                                                 <tr role="row" style="background-color: #1E90FF; color: white">
                                                                     <th>STT</th>
                                                                     <th>Tên sản phẩm</th>
@@ -150,7 +142,7 @@
                                                                                         <option value="2">Đã duyệt</option>
                                                                                         <option value="3">Đang vận chuyển</option>
                                                                                         <option value="4">Giao hàng thành công</option>
-                                                                                        <option value="5">Đã hủy đơn</option>
+                                                                                        <option value="5">Hủy đơn</option>
                                                                                     </select>
                                                                                     <input type="submit" value="Xác nhận" class="btn btn-primary">
                                                                                 </div>

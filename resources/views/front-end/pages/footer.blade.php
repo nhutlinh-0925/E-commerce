@@ -111,7 +111,7 @@
 <script type="text/javascript">
     $(function () {
         @if (Auth::check())
-        var userId = {{ Auth::user()->id }};
+        var userId = {{ $khachhang->id }};
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
@@ -135,14 +135,14 @@
                         var formattedAmount = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
                         return formattedAmount;
                     }},
-                {data: 'pdh_PhuongThucThanhToan', name: 'pdh_PhuongThucThanhToan', render: function(data, type, row) {
-                        if (data == 0) {
+                {data: 'phuong_thuc_thanh_toan_id', name: 'phuong_thuc_thanh_toan_id', render: function(data, type, row) {
+                        if (data == 1) {
                             return '<p>Nhận hàng trả tiền</p>';
-                        } else if (data == 1) {
-                            return '<p>Thanh toán qua PayPay</p>';
                         } else if (data == 2) {
-                            return '<p>Thanh toán qua VNPay</p>';
+                            return '<p>Thanh toán qua PayPay</p>';
                         } else if (data == 3) {
+                            return '<p>Thanh toán qua VNPay</p>';
+                        } else if (data == 4) {
                             return '<p>Thanh toán qua OnePal</p>';
                         } else {
                             return '';

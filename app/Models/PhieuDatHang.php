@@ -12,12 +12,14 @@ class PhieuDatHang extends Model
     protected $fillable = [
         'khach_hang_id',
         'nhan_vien_id',
+        'ma_giam_gia_id',
+        'phuong_thuc_thanh_toan_id',
         'pdh_DiaChiGiao',
-        'thuong_hieu_id',
+        //'thuong_hieu_id',
         'pdh_GhiChu',
         'pdh_GiamGia',
         'pdh_TrangThai',
-        'pdh_PhuongThucThanhToan',
+        //'pdh_PhuongThucThanhToan',
         'pdh_NgayDat',
         'pdh_TongTien',
     ];
@@ -32,6 +34,12 @@ class PhieuDatHang extends Model
     {
         return $this->hasOne(NhanVien::class, 'id', 'nhan_vien_id')
             ->withDefault(['nv_Ten' => '']);
+    }
+
+    public function phuongthucthanhtoan()
+    {
+        return $this->hasOne(PhuongThucThanhToan::class, 'id', 'phuong_thuc_thanh_toan_id')
+            ->withDefault(['pttt_MoTa' => '']);
     }
 
 }
