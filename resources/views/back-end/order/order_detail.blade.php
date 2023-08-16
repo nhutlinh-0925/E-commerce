@@ -170,6 +170,12 @@
                                                                                     </select>
                                                                                     <input type="submit" value="Xác nhận" class="btn btn-primary">
                                                                                 </div>
+                                                                            @elseif( $pdh->pdh_TrangThai == 5 )
+                                                                                <div class="form-group">
+                                                                                    <select name="pdh_TrangThai" class="form-control" style="width: 150px; margin-right: 10px;">
+                                                                                        <option value="">Đơn đã hủy</option>
+                                                                                    </select>
+                                                                                </div>
                                                                             @endif
                                                                         </form>
                                                                     </td>

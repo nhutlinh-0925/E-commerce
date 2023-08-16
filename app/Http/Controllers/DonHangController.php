@@ -91,8 +91,32 @@ class DonHangController extends Controller
     public function order_update(Request $request, $id){
         $order = PhieuDatHang::find($id);
         //dd($order);
-        $order->pdh_TrangThai = $request->input('pdh_TrangThai');
-        $order->save();
+
+        $newStatus = $request->input('pdh_TrangThai');
+
+        if($newStatus == 5){
+            foreach ($order->chitietphieudathang as $detail) {
+                $product = $detail->sanpham;
+                //dd($product);
+                if ($product) {
+                    $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
+                    $product->save();
+                }
+            }
+            //$order->save();
+            $order->pdh_TrangThai = $newStatus;
+            $order->save();
+        }else{
+            if(Auth::check()){
+                $id_tk = Auth::user()->id;
+                $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
+                //dd($nhanvien);
+                $id_nv = $nhanvien->id;
+            }
+            $order->nhan_vien_id = $id_nv;
+            $order->save();
+        }
+
         Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
         return redirect()->back();
     }

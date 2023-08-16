@@ -15,4 +15,8 @@ class ChiTietPhieuDatHang extends Model
         'ctpdh_SoLuong',
         'ctpdh_Gia',
     ];
+
+    public function sanpham() {
+        return $this->belongsTo(SanPham::class, 'san_pham_id');
+    }
 }

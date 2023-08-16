@@ -39,7 +39,11 @@ class PhieuDatHang extends Model
     public function phuongthucthanhtoan()
     {
         return $this->hasOne(PhuongThucThanhToan::class, 'id', 'phuong_thuc_thanh_toan_id')
-            ->withDefault(['pttt_MoTa' => '']);
+            ->withDefault(['pttt_MoTa' => '','pttt_TenPhuongThucThanhToan']);
+    }
+
+    public function chitietphieudathang() {
+        return $this->hasMany(ChiTietPhieuDatHang::class, 'phieu_dat_hang_id');
     }
 
 }

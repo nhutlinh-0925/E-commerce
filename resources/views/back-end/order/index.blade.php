@@ -66,7 +66,7 @@
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 4)
                                             <a href="">
-                                                <button class="btn btn-success" style="width: 100%">Giao hàng thành công <i class="bi bi-bus-front-fill"></i></button>
+                                                <button class="btn btn-success" style="width: 100%">Giao hàng thành công</button>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 5)
                                             <a href="">
@@ -76,7 +76,7 @@
                                     </td>
                                     <td>
                                         <a href="">
-                                            <button class="btn btn-success" style="width: 100%">{{ $item->phuongthucthanhtoan->pttt_MoTa }}</button>
+                                            <button class="btn btn-success" style="width: 70%;">{{ $item->phuongthucthanhtoan->pttt_TenPhuongThucThanhToan }}</button>
                                         </a>
                                     </td>
                                     <td>
@@ -90,7 +90,7 @@
 
                                     <td style="display: flex">
                                         <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}">
-                                            <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật thương hiệu"><i class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa thương hiệu'
