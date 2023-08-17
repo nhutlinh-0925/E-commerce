@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ChiTietPhieuDatHang;
 use App\Models\KhachHang;
 use App\Models\MaGiamGia;
+use App\Models\SanPham;
+use App\Models\ThongKe;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -89,8 +92,18 @@ class DonHangController extends Controller
     }
 
     public function order_update(Request $request, $id){
+        $data = $request->all();
         $order = PhieuDatHang::find($id);
         //dd($order);
+
+        $order_date = $order->pdh_NgayDat;
+        $thongke = ThongKe::where('tk_Ngay',$order_date)->get();
+
+        if($thongke){
+            $thongke_dem = $thongke->count();
+        }else{
+            $thongke_dem = 0;
+        }
 
         $newStatus = $request->input('pdh_TrangThai');
 
@@ -106,6 +119,44 @@ class DonHangController extends Controller
             //$order->save();
             $order->pdh_TrangThai = $newStatus;
             $order->save();
+        }elseif($newStatus == 4) {
+            $total_order = 0; //tong so luong don
+            $sales = 0; //doanh thu
+            $profit = 0; //loi nhuan
+            $quantity = 0; //so luong
+
+            foreach ($order->chitietphieudathang as $detail){
+                $product = $detail->sanpham;
+                //dd($product);
+                $quantity += $detail->ctpdh_SoLuong;
+                //dd($quantity);
+                $sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
+                //dd($sales);
+                $profit = $sales - 100000;
+            }
+            $total_order += 1;
+
+            if($thongke_dem > 0){
+                $thongke_capnhat = ThongKe::where('tk_Ngay',$order_date)->first();
+                $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TogTien + $sales;
+                $thongke_capnhat->tk_LoiNhuan = $thongke_capnhat->tk_LoiNhuan + $profit;
+                $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
+                $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;
+                $thongke_capnhat->save();
+            }else{
+                $thongke_moi = new ThongKe();
+                $thongke_moi->tk_Ngay = $order_date;
+                $thongke_moi->tk_SoLuong = $quantity;
+                $thongke_moi->tk_TongTien = $sales;
+                $thongke_moi->tk_LoiNhuan = $profit;
+                $thongke_moi->tk_TongDonHang = $total_order;
+                $thongke_moi->save();
+            }
+
+            $order->pdh_TrangThai = $newStatus;
+            $order->save();
+
+
         }else{
             if(Auth::check()){
                 $id_tk = Auth::user()->id;
@@ -114,6 +165,7 @@ class DonHangController extends Controller
                 $id_nv = $nhanvien->id;
             }
             $order->nhan_vien_id = $id_nv;
+            $order->pdh_TrangThai = $newStatus;
             $order->save();
         }
 

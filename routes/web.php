@@ -270,6 +270,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/users2',[KhachHangController::class,'index1']);
         Route::get('/user1',[KhachHangController::class,'index2']);
 
+        Route::post('/days-order',[AdminController::class,'days_order']);
+        Route::post('/dashboard-filter',[AdminController::class,'dashboard_filter']);
+        Route::post('/filter-by-date',[AdminController::class,'filter_by_date']);
+
 
 
         Route::get('/logout',[AdminController::class, 'logout'])->name('logout');

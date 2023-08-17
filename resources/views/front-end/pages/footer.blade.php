@@ -120,13 +120,15 @@
                 {data: 'id', name: 'id'},
                 {data: 'pdh_TrangThai', name: 'pdh_TrangThai', render: function(data, type, row) {
                         if (data == 1) {
-                            return '<p>Chờ xử lý</p>';
+                            return '<p>Chờ duyệt</p>';
                         } else if (data == 2) {
-                            return '<p>Đang được giao</p>';
+                            return '<p>Đã duyệt</p>';
                         } else if (data == 3) {
-                            return '<p>Hoàn thành</p>';
+                            return '<p>Đang vận chuyê</p>';
                         } else if (data == 4) {
-                            return '<p>Đã bị huỷ</p>';
+                            return '<p>Giao thành công</p>';
+                        } else if (data == 5) {
+                            return '<p>Hủy đơn</p>';
                         } else {
                             return '';
                         }

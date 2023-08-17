@@ -66,7 +66,7 @@
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 4)
                                             <a href="">
-                                                <button class="btn btn-success" style="width: 100%">Giao hàng thành công</button>
+                                                <button class="btn btn-success" style="width: 100%">Giao thành công</button>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 5)
                                             <a href="">
