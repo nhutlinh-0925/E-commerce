@@ -347,7 +347,7 @@ class CartService
             }
 
             DB::commit();
-            session()->flash('flash_message', 'Đặt hàng thành công');
+            //session()->flash('flash_message', 'Đặt hàng thành công');
             session()->forget('carts');
 
         } catch (\Exception $err){

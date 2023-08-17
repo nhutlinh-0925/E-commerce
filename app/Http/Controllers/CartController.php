@@ -187,7 +187,9 @@ class CartController extends Controller
                 'phuong_thuc_thanh_toan_id.required' => 'Vui lòng chọn phương thức thanh toán',
             ]);
         $this->cartService->getCart($request);
-        return redirect()->back();
+        Session::flash('flash_message_checkout', 'Đặt hàng thành công!');
+        return redirect('/shop');
+        //return redirect()->back();
     }
 
     public function check_coupon(Request $request){
