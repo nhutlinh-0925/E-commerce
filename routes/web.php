@@ -14,6 +14,7 @@ use \App\Http\Controllers\NhanVienController;
 use \App\Http\Controllers\DanhMucBaiVietController;
 use \App\Http\Controllers\BaiVietController;
 use \App\Http\Controllers\BinhLuanController;
+use \App\Http\Controllers\NhaCungCapController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
@@ -266,10 +267,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('unactive/{id}', [BinhLuanController::class, 'unactive']);
         });
 
+        //Nhà cung cấp
+        Route::prefix('/suppliers')->group(function () {
+            Route::get('/', [NhaCungCapController::class, 'index']);
+            Route::get('add', [NhaCungCapController::class, 'create']);
+            Route::post('add', [NhaCungCapController::class, 'store']);
+            Route::get('edit/{id}', [NhaCungCapController::class, 'edit']);
+            Route::post('edit/{id}', [NhaCungCapController::class, 'update']);
+        });
+
 
         Route::get('/users2',[KhachHangController::class,'index1']);
         Route::get('/user1',[KhachHangController::class,'index2']);
 
+        //Thống kê
         Route::post('/days-order',[AdminController::class,'days_order']);
         Route::post('/dashboard-filter',[AdminController::class,'dashboard_filter']);
         Route::post('/filter-by-date',[AdminController::class,'filter_by_date']);

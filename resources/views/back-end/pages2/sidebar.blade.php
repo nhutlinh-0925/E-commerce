@@ -282,6 +282,21 @@
                 <hr>
                 @elseif ($permission->q_TenQuyen == 'nhapkho')
                 <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-bar-chart"></i><span>Nhà cung cấp</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="supplier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/suppliers/add">
+                                <i class="bi bi-circle"></i><span>Thêm nhà cung cấp</span>
+                            </a>
+                            <a href="/admin/suppliers">
+                                <i class="bi bi-circle"></i><span>Danh sách nhà cung cấp</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#warehouse-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-bar-chart"></i><span>Nhập kho</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
