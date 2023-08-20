@@ -302,8 +302,13 @@
                     </a>
                     <ul id="warehouse-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="">
-                                <i class="bi bi-circle"></i><span>Nhập kho</span>
+                            <a href="/admin/warehouses/add">
+                                <i class="bi bi-circle"></i><span>Thêm phiếu nhập</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/warehouses">
+                                <i class="bi bi-circle"></i><span>Danh sách phiếu nhập</span>
                             </a>
                         </li>
                     </ul>

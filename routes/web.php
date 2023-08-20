@@ -15,6 +15,7 @@ use \App\Http\Controllers\DanhMucBaiVietController;
 use \App\Http\Controllers\BaiVietController;
 use \App\Http\Controllers\BinhLuanController;
 use \App\Http\Controllers\NhaCungCapController;
+use \App\Http\Controllers\NhapKhoController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
@@ -274,6 +275,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('add', [NhaCungCapController::class, 'store']);
             Route::get('edit/{id}', [NhaCungCapController::class, 'edit']);
             Route::post('edit/{id}', [NhaCungCapController::class, 'update']);
+        });
+
+        //Nhập kho
+        Route::prefix('/warehouses')->group(function () {
+            Route::get('/', [NhapKhoController::class, 'index']);
+            Route::get('add', [NhapKhoController::class, 'create']);
+            Route::post('autocomplete-ajax', [NhapKhoController::class, 'autocomplete_ajax']);
+            Route::post('add', [NhapKhoController::class, 'store']);
+            Route::get('show/{id}', [NhapKhoController::class, 'show']);
+            Route::get('active/{id}', [NhapKhoController::class, 'active']);
+            Route::DELETE('destroy/{id}', [NhapKhoController::class, 'destroy']);
         });
 
 
