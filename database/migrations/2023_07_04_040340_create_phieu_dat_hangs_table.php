@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('pdh_DiaChiGiao')->nullable();
             $table->string('pdh_GhiChu')->nullable();
             $table->integer('pdh_TrangThai');
-            //$table->integer('pdh_PhuongThucThanhToan')->nullable();
             $table->date('pdh_NgayDat')->nullable();
             $table->integer('pdh_TongTien');
             $table->foreign('khach_hang_id')

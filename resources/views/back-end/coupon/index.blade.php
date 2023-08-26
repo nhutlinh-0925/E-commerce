@@ -64,18 +64,53 @@
                                             <p style="color: red">{{ $item->mgg_GiaTri }} %</p>
                                         @endif
                                     </td>
-                                    <td>a</td>
+                                    <td>
+                                        @if($item->mgg_SoLuongMa <= 0)
+                                            <p style="color: red"><b>Hết mã</b></p>
+                                        @elseif($item->mgg_SoLuongMa > 0)
+                                            @if (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) > \Carbon\Carbon::now())
+                                                <p style="color: green"><b>Khả dụng</b></p>
+                                            @else (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) < \Carbon\Carbon::now())
+                                                <p style="color: red"><b>Hết hạn</b></p>
+                                            @endif
+                                        @endif
+                                    </td>
                                     <td style="display: flex">
-                                        <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
-                                            <a href="{{ url('/admin/coupons/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật mã giảm giá"><i class="bi bi-pencil-square"></i></a>
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa mã giảm giá'
-                                                    data-toggle = 'tooltip'
-                                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>
+                                        @if($item->mgg_SoLuongMa <= 0)
+                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa mã giảm giá'
+                                                        data-toggle = 'tooltip'
+                                                        onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                            </form>
+                                        @elseif($item->mgg_SoLuongMa > 0)
+                                            @if (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) > \Carbon\Carbon::now())
+                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
+                                                <a href="{{ url('/admin/coupons/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật mã giảm giá"><i class="bi bi-pencil-square"></i></a>
+                                                <a href="{{ url('/admin/coupons/show/' . $item->id ) }}" class="btn btn-warning btn-sm" title="Gửi mã giảm giá"><i class="bi bi-ticket-perforated-fill"></i></a>
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa mã giảm giá'
+                                                        data-toggle = 'tooltip'
+                                                        onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                            </form>
+                                            @else
+                                                <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa mã giảm giá'
+                                                            data-toggle = 'tooltip'
+                                                            onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

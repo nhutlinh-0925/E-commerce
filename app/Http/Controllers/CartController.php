@@ -19,6 +19,7 @@ use App\Models\MaGiamGia;
 
 use App\Models\DiaChi;
 use App\Models\YeuThich;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -194,8 +195,11 @@ class CartController extends Controller
 
     public function check_coupon(Request $request){
     //dd($request);
+        $now = \Carbon\Carbon::now('Asia/Ho_Chi_Minh');
         $data = $request->all();
-        $coupon = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])->first();
+        $coupon = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])
+                            ->where(\DB::raw('DATE(mgg_NgayKetThuc)'), '>=', $now->toDateString())
+                           ->first();
         //dd($coupon);
         if($coupon){
             $count_coupon = $coupon->count();
@@ -209,6 +213,7 @@ class CartController extends Controller
                         $cou[] = array(
                             'id' => $coupon->id,
                             'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
+                            'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
                             'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
                             'mgg_GiaTri' => $coupon->mgg_GiaTri,
                         );
@@ -219,6 +224,7 @@ class CartController extends Controller
                     $cou[] = array(
                         'id' => $coupon->id,
                         'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
+                        'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
                         'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
                         'mgg_GiaTri' => $coupon->mgg_GiaTri,
                     );
@@ -232,7 +238,7 @@ class CartController extends Controller
             }
 
         }else{
-            Session::flash('flash_message_error', 'Mã giảm giá không đúng');
+            Session::flash('flash_message_error', 'Mã giảm giá không đúng hoặc hết hạn');
             return redirect()->back();
         }
     }

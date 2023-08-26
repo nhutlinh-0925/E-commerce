@@ -19,7 +19,6 @@ class PhieuDatHang extends Model
         'pdh_GhiChu',
         'pdh_GiamGia',
         'pdh_TrangThai',
-        //'pdh_PhuongThucThanhToan',
         'pdh_NgayDat',
         'pdh_TongTien',
     ];

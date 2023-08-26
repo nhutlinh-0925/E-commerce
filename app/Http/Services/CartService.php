@@ -16,6 +16,7 @@ use Mail;
 use Illuminate\Support\Facades\Session;
 
 use Carbon\Carbon;
+use App\Models\MaGiamGia;
 class CartService
 {
     //Hàm tạo giỏ hàng
@@ -291,6 +292,13 @@ class CartService
                 $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                 $cart->save();
                 //dd($cart);
+
+                // Cập nhật trường mgg_SoLuongMa
+                $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
+                //dd($newSoLuongMa);
+                MaGiamGia::where('id', $cou['id'])
+                    ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
+
             }else{
                 $tien_end = $total + $phi;
                 //dd($tien_end);

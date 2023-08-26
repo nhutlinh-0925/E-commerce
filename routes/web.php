@@ -190,9 +190,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [MaGiamGiaController::class, 'index']);
             Route::get('add', [MaGiamGiaController::class, 'create']);
             Route::post('add', [MaGiamGiaController::class, 'store']);
-//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
-//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
-//            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
+            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
+            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
+            Route::get('show/{id}', [MaGiamGiaController::class, 'show']);
+            Route::get('send_coupon_all/{id}', [MaGiamGiaController::class, 'send_coupon_all']);
+            Route::get('send_coupon_vip/{id}', [MaGiamGiaController::class, 'send_coupon_vip']);
+            Route::get('send_coupon/{id}', [MaGiamGiaController::class, 'send_coupon']);
+            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
         });
 
         //Phí vận chuyển
