@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -178,6 +179,7 @@ class DanhMucSanPhamController extends Controller
             ->update(
                 ['dmsp_TrangThai' => 0],
         );
+        $product_status = SanPham::where('danh_muc_san_pham_id', $id)->update(['sp_TrangThai' => 0]);
         Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
         return redirect('/admin/category-products');
     }
@@ -188,6 +190,7 @@ class DanhMucSanPhamController extends Controller
             ->update(
                 ['dmsp_TrangThai' => 1],
         );
+        $product_status = SanPham::where('danh_muc_san_pham_id', $id)->update(['sp_TrangThai' => 1]);
         Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
         return redirect('/admin/category-products');
     }
