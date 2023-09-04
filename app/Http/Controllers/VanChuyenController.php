@@ -7,6 +7,7 @@ use App\Models\PhiVanChuyen;
 use Illuminate\Http\Request;
 use App\Models\TinhThanhPho;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class VanChuyenController extends Controller
@@ -67,4 +68,61 @@ class VanChuyenController extends Controller
         Session::flash('flash_message', 'Thêm phí vận chuyển thành công!');
         return redirect('/admin/deliveries');
     }
+
+    public function edit($id)
+    {
+        if(Auth::check()){
+            $id_nv = Auth::user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
+            // dd($nhanvien);
+        }
+
+        $delivery = PhiVanChuyen::find($id);
+        $cities = TinhThanhPho::all();
+
+        return view('back-end.delivery.edit',[
+            'delivery' => $delivery,
+            'nhanvien' => $nhanvien,
+            'cities' => $cities
+        ]);
+    }
+
+    public function update(Request $request, $id){
+        //dd($request);
+        $this -> validate($request, [
+            'pvc_PhiVanChuyen' => 'required',
+        ],
+            [
+                'pvc_PhiVanChuyen.required' => 'Vui lòng nhập phí vận chuyển',
+            ]);
+
+        $delivery = PhiVanChuyen::find($id);
+        //dd($delivery);
+
+        $delivery->thanh_pho_id = $delivery->thanh_pho_id;
+        $delivery->pvc_ThanhPho = $delivery->pvc_ThanhPho;
+        $delivery->pvc_PhiVanChuyen = $request->pvc_PhiVanChuyen;
+        $delivery->save();
+        //dd($delivery);
+
+        Session::flash('flash_message', 'Cập nhật phí vận chuyển thành công !');
+        return redirect('/admin/deliveries');
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            PhiVanChuyen::destroy($id);
+            DB::commit();
+            Session::flash('flash_message', 'Xoá phí vận chuyển thành công!');
+            return redirect('/admin/deliveries');
+        } catch (Exception $e) {
+            DB::rollback();
+            Session::flash('flash_message_error', 'Xóa phí vận chuyển thất bại!');
+            return redirect()->back();
+        }
+    }
+
+
 }
