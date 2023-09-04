@@ -1,9 +1,21 @@
-{{-- them san pham --}}
 @extends('back-end.main2')
 
   @section('head')
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
 <link rel="stylesheet" href="/template/back-end2/css/bootstrap-tagsinput.css">
+@endsection
+
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Sản phẩm</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/products">Sản phẩm</a></li>
+                <li class="breadcrumb-item active"><a href="/admin/products/add">Thêm sản phẩm</a></li>
+            </ol>
+        </nav>
+    </div>
 @endsection
 
 

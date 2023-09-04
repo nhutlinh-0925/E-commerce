@@ -4,6 +4,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 @endsection
 
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Phiếu nhập kho</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/warehouses">Phiếu nhập kho</a></li>
+                <li class="breadcrumb-item active"><a href="">Chi tiết phiếu nhập kho</a></li>
+            </ol>
+        </nav>
+    </div>
+@endsection
+
 @section('content')
     @if(Session::has('flash_message'))
         <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">

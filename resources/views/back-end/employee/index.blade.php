@@ -3,6 +3,18 @@
 {{--@section('head')--}}
 {{--@endsection--}}
 
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Nhân viên</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/admin/employees">Nhân viên</a></li>
+            </ol>
+        </nav>
+    </div>
+@endsection
+
 @section('content')
     @if(Session::has('flash_message'))
         <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show text-center" role="alert">

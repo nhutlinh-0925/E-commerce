@@ -2,6 +2,17 @@
 
 {{--@section('head')--}}
 {{--@endsection--}}
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Khách hàng</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/admin/customers">Khách hàng</a></li>
+            </ol>
+        </nav>
+    </div>
+@endsection
 
 @section('content')
     @if(Session::has('flash_message'))
@@ -53,7 +64,7 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->kh_Ten }}</td>
-                                    <td><img src="{{ url('/storage/images/avatar/customers/'.$item->taikhoan->avatar) }}" height="50px" width="50px" class="rounded-circle"></td>
+                                    <td><img src="{{asset('/storage/images/avatar/customers/'.$item->taikhoan->avatar) }}" height="50px" width="50px" class="rounded-circle"></td>
                                     <td>{{ $item->kh_SoDienThoai }}</td>
                                     <td>
                                         <select style="width: 180px;">

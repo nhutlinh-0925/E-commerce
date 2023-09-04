@@ -104,24 +104,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#producer-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Nhà sản xuất</span><i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
-                    <ul id="producer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="">
-                                <i class="bi bi-circle"></i><span>Thêm nhà sản xuất</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="bi bi-circle"></i><span>Danh sách nhà sản xuất</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#brands-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-journal-text"></i><span>Thương hiệu sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>

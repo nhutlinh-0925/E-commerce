@@ -9,6 +9,19 @@
     <link rel="stylesheet" type="text/css" href="/template/back-end/vendors/quill/quill.bubble.css">
 @endsection  --}}
 
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Phí vận chuyển</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/deliveries">Phí vận chuyển</a></li>
+                <li class="breadcrumb-item active"><a href="">Thêm phí vận chuyển</a></li>
+            </ol>
+        </nav>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="card">

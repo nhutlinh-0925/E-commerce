@@ -1,5 +1,16 @@
 @extends('back-end.main2')
 
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/admin/home">Dashboard</a></li>
+            </ol>
+        </nav>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="row">

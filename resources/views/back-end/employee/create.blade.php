@@ -1,5 +1,18 @@
 @extends('back-end.main2')
 
+@section('breadcrumb')
+    <div class="pagetitle">
+        <h1>Nhân viên</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/employees">Nhân viên</a></li>
+                <li class="breadcrumb-item active"><a href="">Thêm nhân viên</a></li>
+            </ol>
+        </nav>
+    </div>
+@endsection
+
 @section('content')
         <div class="card">
             <div class="card-body">
