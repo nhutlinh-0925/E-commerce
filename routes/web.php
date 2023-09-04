@@ -204,10 +204,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [VanChuyenController::class, 'index']);
             Route::get('add', [VanChuyenController::class, 'create']);
             Route::post('add', [VanChuyenController::class, 'store']);
-            // Route::get('show/{doctor}', [ThuongHieuController::class, 'show']);
-//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
-//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
-//            Route::DELETE('destroy/{id}', [MaGiamGiaController::class, 'destroy']);
+            Route::get('edit/{id}', [VanChuyenController::class, 'edit']);
+            Route::post('edit/{id}', [VanChuyenController::class, 'update']);
+            Route::DELETE('destroy/{id}', [VanChuyenController::class, 'destroy']);
         });
         //Đơn hàng
         Route::get('/orders', [DonHangController::class, 'index']);
