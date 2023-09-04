@@ -120,10 +120,24 @@ class DanhMucSanPhamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requestData = $request->all();
         //dd($requestData);
+        $this -> validate($request, [
+            'dmsp_TenDanhMuc' => 'required',
+            'dmsp_MoTa' => 'required',
+            'dmsp_TrangThai' => 'required',
+        ],
+            [
+                'dmsp_TenDanhMuc.required' => 'Vui lòng nhập tên danh mục',
+                'dmsp_MoTa.required' => 'Vui lòng nhập mô tả',
+                'dmsp_TrangThai.required' => 'Vui lòng chọn trạng thái',
+            ]);
         $categoty_product = DanhMucSanPham::find($id);
-        $categoty_product->update($requestData);
+
+        $categoty_product->dmsp_TenDanhMuc = $request->dmsp_TenDanhMuc;
+        $categoty_product->dmsp_MoTa = $request->dmsp_MoTa;
+        $categoty_product->dmsp_TrangThai = $request->dmsp_TrangThai;
+        $categoty_product->save();
+
         Session::flash('flash_message', 'Cập nhật danh mục thành công !');
         return redirect('/admin/category-products');
     }

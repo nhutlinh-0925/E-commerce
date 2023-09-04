@@ -85,10 +85,24 @@ class DanhMucBaiVietController extends Controller
 
     public function update(Request $request, $id)
     {
-        $requestData = $request->all();
-        //dd($requestData);
+        $this -> validate($request, [
+            'dmbv_TenDanhMuc' => 'required',
+            'dmbv_MoTa' => 'required',
+            'dmbv_TrangThai' => 'required',
+        ],
+            [
+                'dmbv_TenDanhMuc.required' => 'Vui lòng nhập tên danh mục',
+                'dmbv_MoTa.required' => 'Vui lòng nhập mô tả',
+                'dmbv_TrangThai.required' => 'Vui lòng chọn trạng thái',
+            ]);
+
         $categoty_post = DanhMucBaiViet::find($id);
-        $categoty_post->update($requestData);
+
+        $categoty_post->dmbv_TenDanhMuc = $request->dmbv_TenDanhMuc;
+        $categoty_post->dmbv_MoTa = $request->dmbv_MoTa;
+        $categoty_post->dmbv_TrangThai = $request->dmbv_TrangThai;
+        $categoty_post->save();
+
         Session::flash('flash_message', 'Cập nhật danh mục thành công !');
         return redirect('/admin/category-posts');
     }

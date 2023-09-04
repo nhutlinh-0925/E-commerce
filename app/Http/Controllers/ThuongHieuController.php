@@ -119,10 +119,25 @@ class ThuongHieuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requestData = $request->all();
-        //dd($requestData);
+        $this -> validate($request, [
+            'thsp_TenThuongHieu' => 'required',
+            'thsp_MoTa' => 'required',
+            'thsp_TrangThai' => 'required',
+        ],
+            [
+                'thsp_TenThuongHieu.required' => 'Vui lòng nhập tên thương hiệu',
+                'thsp_MoTa.required' => 'Vui lòng nhập mô tả',
+                'thsp_TrangThai.required' => 'Vui lòng chọn trạng thái',
+            ]);
+
+
         $brand = ThuongHieu::find($id);
-        $brand->update($requestData);
+
+        $brand->thsp_TenThuongHieu = $request->thsp_TenThuongHieu;
+        $brand->thsp_MoTa = $request->thsp_MoTa;
+        $brand->thsp_TrangThai = $request->thsp_TrangThai;
+        $brand->save();
+
         Session::flash('flash_message', 'Cập nhật thương hiệu thành công!');
         return redirect('/admin/brands');
     }
