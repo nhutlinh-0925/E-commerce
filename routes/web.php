@@ -108,6 +108,11 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('/doLogin',[LoginController::class, 'doLogin'])->name('doLogin');
         Route::view('/register', 'front-end.login.register')->name('register');
         Route::post ('/register', [LoginController::class, 'doRegister'])->name('doRegister');
+
+        Route::get('/forgot_password',[LoginController::class, 'forgot_password'])->name('forgot_password');
+        Route::post('/forgot_password',[LoginController::class, 'post_forget_password'])->name('do_Forgot_password');
+        Route::get('/reset_password/{token}',[LoginController::class, 'reset_password'])->name('reset_password');
+        Route::post('/reset_password',[LoginController::class, 'post_reset_password'])->name('do_Reset_password');
     // });
 
     // Đã đăng nhập thành công

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BaiViet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\KhachHang;
@@ -13,7 +12,12 @@ use App\Http\Services\CartService;
 use App\Social;
 //use Laravel\Socialite\Facades\Socialite;
 //use Socialite;
+use Illuminate\Support\Facades\Hash;
 use Socialite;
+
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Mail;
 
 class LoginController extends Controller
 {
@@ -206,4 +210,70 @@ class LoginController extends Controller
             dd($e->getMessage());
         }
     }
+
+    public function forgot_password(){
+        return view('front-end.login.forgot_password');
+    }
+
+    public function post_forget_password(Request $request){
+        $request->validate([
+            'email' => 'required|exists:tai_khoans',
+        ],
+            [
+                'email.required' => 'Vui lòng nhập email',
+                'email.exists' => 'Email không tồn tại trên hệ thống',
+            ]);
+
+        $email = $request->email;
+
+
+        $token = Str::random(64);
+        //dd($token);
+        $today = Carbon::now();
+
+        $update_token = TaiKhoan::where('email',$email)
+            ->update([
+                'email_verified_at' => $today,
+                'email_verified_code' => $token
+            ]);
+
+        Mail::send('front-end.login.email_reset_password', ['token' => $token], function ($email) use ($request){
+            $email->subject('Đặt lại mật khẩu');
+            $email->to($request->email);
+        });
+
+        return redirect()->to(route('user.forgot_password'))
+               ->with('success','Vui lòng kiểm tra email của bạn để đặt lại mật khẩu');
+
+    }
+
+    public function reset_password($token){
+        return view('front-end.login.reset_password',[
+            'token' => $token
+        ]);
+    }
+
+    public function post_reset_password(Request $request){
+        $request->validate([
+            'email' => 'required|email|exists:tai_khoans',
+            'password' => 'required|min:6|max:15',
+            're_password' => 'required|same:password'
+        ],
+            [
+                'email.required' => 'Vui lòng nhập email',
+                'email.email' => 'Không đúng định dạng email',
+                'email.unique' => 'Email đã được đăng kí',
+                'email.exists' => 'Email không tồn tại trên hệ thống',
+                'password.min' => 'Mật khẩu ít nhất 5 kí tự',
+                're_password.required'=> 'Vui lòng nhập lại password',
+                're_password.same' => 'Mật khẩu không giống nhau',
+            ]);
+
+        TaiKhoan::where('email',$request->email)
+            ->update(['password' => Hash::make($request->password)]);
+
+        return redirect()->to(route('user.login'))
+            ->with('success','Mật khẩu đã được cập nhật');
+    }
+
 }

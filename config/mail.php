@@ -92,7 +92,7 @@ return [
 
     'from' => [
         'address' => 'trannhutlinh0925@gmail.com',
-        'name' => 'Cảm ơn đã mua hàng',
+        'name' => 'Cảm ơn bạn',
     ],
 
 //    'from' => [

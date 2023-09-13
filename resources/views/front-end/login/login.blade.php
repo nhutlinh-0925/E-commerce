@@ -58,6 +58,20 @@
           <p>Vui lòng đăng nhập để quá trình thanh toán nhanh hơn</p>
         </div>
       </div>
+
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert" style="color:red;">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success" role="alert" style="color: green">
+                {{ session('success') }}
+            </div>
+        @endif
+
+
       <div class="row margin">
         <div class="input-field col s12">
           <label class="center-align">Email</label>
@@ -85,7 +99,7 @@
         <div class="col s9 m9 l9">
           <p>
             <label>
-              <input type="checkbox">
+              <input type="checkbox" name="remember" id="remember">
               <span>Ghi nhớ tôi</span>
             </label>
           </p>
@@ -117,11 +131,9 @@
           <p class="margin medium-small"><a href="{{  route('user.register')}}">Đăng kí ngay!</a></p>
         </div>
         <div class="input-field col s6 m6 l6">
-          <p class="margin right-align medium-small"><a href="user-forgot-password.html">Quên mật khẩu ?</a></p>
+          <p class="margin right-align medium-small"><a href="/user/forgot_password">Quên mật khẩu ?</a></p>
         </div>
       </div>
-
-
 
       @csrf
     </form>
