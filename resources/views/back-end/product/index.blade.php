@@ -51,9 +51,10 @@
                   <th scope="col"><p style="text-align: center;">Tên sản phẩm</p></th>
                   <th scope="col"><p style="text-align: center;">Hình</p></th>
                   <th scope="col"><p style="text-align: center;">Giá</p></th>
-                  <th scope="col"><p style="text-align: center;">Danh mục sản phẩm<p></th>
-                  <th scope="col"><p style="text-align: center;">Số lượng hàng</p></th>
+                  <th scope="col"><p style="text-align: center;">Danh mục<p></th>
+                  <th scope="col"><p style="text-align: center;">Số lượng</p></th>
                   <th scope="col"><p style="text-align: center;">Thương hiệu</p></th>
+                  <th scope="col"><p style="text-align: center;">Trạng thái</p></th>
                   <th scope="col"><p style="text-align: center;">Tùy biến</p></th>
                 </tr>
               </thead>
@@ -70,30 +71,21 @@
                     <td><p style="text-align: center;">{{ $item->sp_SoLuongHang }}</p></td>
                     <td><p style="text-align: center;">{{ $item->thuonghieu->thsp_TenThuongHieu }}</p></td>
 {{--                    <td><p style="width: 100px">{{ $item->sp_MoTa }}</p></td>--}}
-
-                    <td style="display: flex">
-{{--                        <form method="post" action="{{ url('/admin/products/destroy/' .$item->id  ) }}">--}}
-{{--                            <a href="" class="btn btn-primary btn-sm" title="Xem thông tin sản phẩm"><i class="bi bi-eye-fill"></i></a>--}}
+                    <td>
+                        @if ($item->sp_TrangThai == 0)
+                            <p style="color: red"><b>Ẩn</b></p>
+                        @elseif($item->sp_TrangThai == 1)
+                            <p style="color: green"><b>Hiện</b></p>
+                        @endif
+                    </td>
+                    <td style="display: flex;">
+                        @if ($item->sp_TrangThai == 1)
                             <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
-{{--                            @method('delete')--}}
-{{--                            @csrf--}}
-{{--                        <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa sản phẩm'--}}
-{{--                                 data-toggle = 'tooltip'--}}
-{{--                                 onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>--}}
-{{--                                 <i class="bi bi-trash-fill"></i>--}}
-{{--                        </button>--}}
-{{--                      </form>--}}
-{{--                        <form method="post" action="{{ url('/admin/products/destroy/' .$item->id  ) }}">--}}
-{{--                            <a href="" class="btn btn-primary btn-sm" title="Xem thông tin sản phẩm"><i class="bi bi-eye-fill"></i></a>--}}
-{{--                            <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>--}}
-{{--                            @method('delete')--}}
-{{--                            @csrf--}}
-{{--                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa sản phẩm'--}}
-{{--                                    data-toggle = 'tooltip'--}}
-{{--                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>--}}
-{{--                                <i class="bi bi-trash-fill"></i>--}}
-{{--                            </button>--}}
-{{--                        </form>--}}
+                            <a href="/admin/products/unactive/{{ $item->id }}" class="btn btn-primary btn-sm" title="Ẩn sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn ẩn sản phẩm?")'><span class="bi bi-eye-slash"></span></a>
+                        @elseif ($item->sp_TrangThai == 0)
+                            <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
+                            <a href="/admin/products/active/{{ $item->id }}" class="btn btn-danger btn-sm" title="Hiện sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn hiện sản phẩm?")'><span class="bi bi-eye"></span></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

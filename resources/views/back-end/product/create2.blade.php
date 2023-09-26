@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="col-md-9">
                         <label for="inputNanme4" class="form-label"><strong>Tên sản phẩm <span class="text-danger">(*)</span></strong></label>
-                        <input type="text" class="form-control" id="sp_TenSanPham" name="sp_TenSanPham" placeholder="Nhập tên sản phẩm"  >
+                        <input autocomplete="off" type="text" class="form-control" id="sp_TenSanPham" name="sp_TenSanPham" placeholder="Nhập tên sản phẩm"  >
                         @error ('sp_TenSanPham')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -279,17 +279,21 @@
                 </h1>
                 <p class="text-center" style="font-size: 12px">Vui lòng kiểm tra kỹ thông tin trước khi thêm</p>
             </div>
-            <div class="col-12">
 
-            </div>
-             <div class="col-12">
-
+              <div class="col-12 text-center">
+                  <input class="form-check-input" type="checkbox" id="checkbox" name="checbox">
+                  <label>
+                      <b>Đã kiểm tra kỹ thông tin</b>
+                  </label>
+                  <br>
+                  <b class="form-text text-danger" id="checkboxError"></b>
               </div>
-             <div class="field btns">
-                <button class="prev-3 prev">QUAY LẠI</button>
-                <button type="submit" class="submit">XÁC NHẬN</button>
-             </div>
-          </div>
+
+              <div class="fieldd btns">
+                  <button class="prev-3 prev">QUAY LẠI</button>
+                  <button type="submit" class="submit">XÁC NHẬN</button>
+              </div>
+            </div>
           @csrf
        </form>
     </div>

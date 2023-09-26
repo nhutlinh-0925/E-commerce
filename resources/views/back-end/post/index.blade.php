@@ -51,7 +51,7 @@
                                 <th scope="col">Tiêu đề</th>
                                 <th scope="col">Hình</th>
                                 <th scope="col">Lượt xem</th>
-                                <th scope="col">Nội dung ngắn</th>
+{{--                                <th scope="col">Nội dung ngắn</th>--}}
                                 <th scope="col">Tình trạng</th>
                                 <th scope="col">Người đăng</th>
                                 <th scope="col">Ngày đăng</th>
@@ -65,7 +65,7 @@
                                     <td>{{ $item->bv_TieuDeBaiViet }}</td>
                                     <td><img src="{{asset('/storage/images/posts/'.$item->bv_AnhDaiDien) }}" height="100px" width="100px"></td>
                                     <td>{{ $item->bv_LuotXem }}</td>
-                                    <td><p>{{ $item->bv_NoiDungNgan }}</p>
+{{--                                    <td><p>{{ $item->bv_NoiDungNgan }}</p>--}}
                                     </td>
                                     <td>
                                         @if ($item->bv_TrangThai == 0)

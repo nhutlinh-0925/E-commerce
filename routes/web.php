@@ -188,7 +188,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('add', [SanPhamController::class, 'store']);
             Route::get('edit/{id}', [SanPhamController::class, 'edit']);
             Route::post('edit/{id}', [SanPhamController::class, 'update']);
-            // Route::DELETE('destroy/{doctor}', [AdminController::class, 'destroy']);
+            Route::get('active/{id}', [SanPhamController::class, 'active']);
+            Route::get('unactive/{id}', [SanPhamController::class, 'unactive']);
         });
         //Mã giảm giá
         Route::prefix('/coupons')->group(function () {

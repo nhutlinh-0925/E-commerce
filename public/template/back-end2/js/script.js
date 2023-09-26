@@ -109,16 +109,36 @@ nextBtnThird.addEventListener("click", function(event) {
 });
 
 //Button Xác Nhận
-submitBtn.addEventListener("click", function(){
-  bullet[current - 1].classList.add("active");
-  progressCheck[current - 1].classList.add("active");
-  progressText[current - 1].classList.add("active");
-  current += 1;
-  setTimeout(function(){
-    alert("Bạn đã chắc chắn kiểm tra các bước ");
-    // location.reload();
-  },800);
+submitBtn.addEventListener("click", function(event){
+    if ($('#checkbox').is(':checked')) { // Kiểm tra xem ô đánh dấu đã được kiểm tra hay chưa
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+        // setTimeout(function(){
+        //     alert("Bạn đã chắc chắn kiểm tra các bước");
+        //     // location.reload();
+        // },800);
+    } else {
+        event.preventDefault();
+        $('#checkboxError').html('');
+        $('#checkboxError').html('Vui lòng xác nhận thông tin');
+    }
 });
+
+
+// //Button Xác Nhận
+// submitBtn.addEventListener("click", function(){
+//     bullet[current - 1].classList.add("active");
+//     progressCheck[current - 1].classList.add("active");
+//     progressText[current - 1].classList.add("active");
+//     current += 1;
+//     setTimeout(function(){
+//         alert("Bạn đã chắc chắn kiểm tra các bước ");
+//         // location.reload();
+//     },800);
+// });
+
 //Button Quay Lại bước 2
 prevBtnSec.addEventListener("click", function(event){
   event.preventDefault();

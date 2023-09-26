@@ -212,6 +212,26 @@ class SanPhamController extends Controller
         return redirect('/admin/products');
     }
 
+    public function active($id)
+    {
+        $product = SanPham::find($id)
+            ->update(
+                ['sp_TrangThai' => 1],
+            );
+        Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
+        return redirect('/admin/products');
+    }
+
+    public function unactive($id)
+    {
+        $product = SanPham::find($id)
+            ->update(
+                ['sp_TrangThai' => 0],
+            );
+        Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
+        return redirect('/admin/products');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

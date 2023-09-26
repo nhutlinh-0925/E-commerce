@@ -73,10 +73,10 @@
                                         @if ($item->pnh_TrangThai == 0)
                                         <form method="post" action="{{ url('/admin/warehouses/destroy/' .$item->id  ) }}">
                                             <a href="{{ url('/admin/warehouses/show/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem phiếu nhập"><i class="bi bi-eye"></i></a>
-                                            <a href="/admin/warehouses/active/{{ $item->id }}" class="btn btn-success btn-sm" onclick ='return confirm("Bạn chắc chắn muốn duyệt phiếu nhâp không?")'><span class="bi bi-check2-circle" style="font-size: 15px;color: white; font-weight: bold"></span></a>
+                                            <a href="/admin/warehouses/active/{{ $item->id }}" class="btn btn-success btn-sm" onclick ='return confirm("Bạn chắc chắn muốn duyệt phiếu nhâp không?")' title = 'Duyệt phiếu nhập'><span class="bi bi-check2-circle" style="font-size: 15px;color: white; font-weight: bold"></span></a>
                                             @method('delete')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa thương hiệu'
+                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa phiếu nhập'
                                                     data-toggle = 'tooltip'
                                                     onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
                                                 <i class="bi bi-trash-fill"></i>

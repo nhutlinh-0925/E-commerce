@@ -137,7 +137,7 @@
                         <div class="inline-block-container">
                             <form action="/search" style="display: inline-block; margin-right:40px;" method="POST">
                                 @csrf
-                                <input type="text" placeholder="Tìm kiếm sản phẩm" style="width: 240px;" name="keywords_submit" id="keywords">
+                                <input autocomplete="off" type="text" placeholder="Tìm kiếm sản phẩm" style="width: 240px;" name="keywords_submit" id="keywords">
 
                                 <button type="submit" ><i class="fa fa-search"></i></button>
                                 <div id="search-ajax"></div>

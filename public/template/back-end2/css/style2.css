@@ -284,6 +284,33 @@ form .page .field button{
   text-transform: uppercase;
   transition: 0.5s ease;
 }
+
+
+/*thu*/
+.form-outer form .page .fieldd{
+    width: 100%; /* Để nó căn giữa theo chiều ngang */
+    display: flex;
+    justify-content: center; /* Để căn giữa theo chiều ngang */
+    align-items: center; /* Để căn giữa theo chiều dọc */
+    margin: 45px 0;
+    position: relative;
+}
+
+form .page .fieldd button{
+    width: 150px;
+    height: 50px;
+    border: none;
+    background: #d33f8d;
+    margin-top: -20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
 form .page .field button:hover{
   background: #000;
 }
@@ -362,8 +389,6 @@ form .page .btns button.next{
 
 
 
-
-
 .progress-bar .step .bullet:before,
 .progress-bar .step .bullet:after{
   position: absolute;
@@ -375,6 +400,14 @@ form .page .btns button.next{
   right: -172px; /* Giá trị mới */
   width: 172px; /* Giá trị mới */
 }
+
+.progress-bar .step .bullet:before.expanded,
+.progress-bar .step .bullet:after.expanded {
+    right: -300px; /* Thay đổi giá trị right thành -250px khi lớp 'expanded' được áp dụng */
+    width: 300px; /* Thay đổi giá trị width thành 250px khi lớp 'expanded' được áp dụng */
+}
+
+
 
 
 
