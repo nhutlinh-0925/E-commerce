@@ -39,47 +39,78 @@ class NhapKhoController extends Controller
         }
 
         $suppliers = NhaCungCap::where('ncc_TrangThai', 1)->get();
+        $products = SanPham::where('SP_TrangThai', 1)->get();
         return view('back-end.warehouse.create',[
             'nhanvien' => $nhanvien,
-            'suppliers' => $suppliers
+            'suppliers' => $suppliers,
+            'products' => $products
         ]);
     }
 
-    public function autocomplete_ajax(Request $request){
-        $data = $request->all();
+//    public function autocomplete_ajax(Request $request){
+//        //dd($request);
+//        $data = $request->all();
+//
+//        if($data['query']) {
+//            $product = SanPham::where('sp_TrangThai', 1)
+//                ->where('sp_TenSanPham', 'LIKE', '%'. $data['query'].'%')->get();
+//            $output = '<ul class="dropdown-menu search-results" style="display:block; width: 50%;">';
+//            foreach ($product as $key => $val) {
+//                $imagePath = asset('/storage/images/products/' . $val->sp_AnhDaiDien);
+//                $formattedPrice = number_format($val->sp_Gia, 0, '', '.');
+//
+//                $output .= '
+//                    <li style="display: flex; align-items: center; justify-content: space-between;">
+//                    <div style="display: flex; align-items: center;">
+//                        <img src="' . $imagePath . '" width="50px" height="50px" style="margin-right: 10px;">
+//                        <div>
+//                            <span style="font-weight: bold;color: black">' . $val->sp_TenSanPham . '</span><br>
+//                            <span style="color: red;font-weight: bold;">' . $formattedPrice . ' đ</span>
+//                        </div>
+//                        </div>
+//                        <button type="button" class="btn btn-primary btn-add-product"
+//                                data-product-id="' . $val->id . '"
+//                                data-product-name="' . $val->sp_TenSanPham . '"
+//                                data-product-image="' . $val->sp_AnhDaiDien . '"
+//                        >
+//                            Thêm
+//                        </button>
+//                    </li>
+//                ';
+//
+//            }
+//            $output .= '</ul>';
+//            echo $output;
+//        }
+//    }
 
-        if($data['query']) {
-            $product = SanPham::where('sp_TrangThai', 1)
-                ->where('sp_TenSanPham', 'LIKE', '%'. $data['query'].'%')->get();
-            $output = '<ul class="dropdown-menu search-results" style="display:block; width: 50%;">';
-            foreach ($product as $key => $val) {
-                $imagePath = asset('/storage/images/products/' . $val->sp_AnhDaiDien);
-                $formattedPrice = number_format($val->sp_Gia, 0, '', '.');
+    public function getProducts()
+    {
+        $products = SanPham::where('sp_TrangThai', 1)->get();
 
-                $output .= '
-                    <li style="display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center;">
-                        <img src="' . $imagePath . '" width="50px" height="50px" style="margin-right: 10px;">
-                        <div>
-                            <span style="font-weight: bold;color: black">' . $val->sp_TenSanPham . '</span><br>
-                            <span style="color: red;font-weight: bold;">' . $formattedPrice . ' đ</span>
-                        </div>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-add-product"
-                                data-product-id="' . $val->id . '"
-                                data-product-name="' . $val->sp_TenSanPham . '"
-                                data-product-image="' . $val->sp_AnhDaiDien . '"
-                        >
-                            Thêm
-                        </button>
-                    </li>
-                ';
+        $output = '<option value="">Sản phẩm</option>';
 
-            }
-            $output .= '</ul>';
-            echo $output;
+        foreach ($products as $key => $val) {
+            $imagePath = asset('/storage/images/products/' . $val->sp_AnhDaiDien);
+            $formattedPrice = number_format($val->sp_Gia, 0, '', '.');
+
+            $output .= '
+            <option value="' . $val->id . '" data-image="' . $imagePath . '" data-price="' . $formattedPrice . '">
+                ' . '#' . $val->id . ' - ' . $val->sp_TenSanPham . ' - ' . $formattedPrice . ' đ
+            </option>';
+
         }
+
+        return $output;
     }
+
+
+
+
+
+
+
+
 
 
     public function store(Request $request){

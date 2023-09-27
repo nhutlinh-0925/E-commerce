@@ -91,16 +91,21 @@
                                                         <div class="row">
                                                             <div style="display: flex; justify-content: flex-start; align-items: center;">
                                                                 <div style="display: flex; align-items: center;">
-                                                                    <button class="text-success" type="button"><b>Sản phẩm</b></button>
-                                                                    <input autocomplete="off" type="text" style="width: 290px" placeholder="Tìm kiếm sản phẩm" id="keywords">
-                                                                    <button type="button" id="clear-input"><i class="fa fa-times"></i></button>
+{{--                                                                    <button class="text-success" type="button"><b>Sản phẩm</b></button>--}}
+                                                                    <select id="productSelect" style="width: 500px;">
+                                                                        <option value="" >Sản phẩm</option>
+                                                                    </select>
+
+{{--                                                                    <input autocomplete="off" type="text" style="width: 290px" placeholder="Tìm kiếm sản phẩm" id="keywords">--}}
+{{--                                                                    <button type="button" id="clear-input"><i class="fa fa-times"></i></button>--}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div style="display: flex; align-items: center;">
-                                                        <div id="search-ajax"></div>
-                                                    </div>
+{{--                                                    <div style="display: flex; align-items: center;">--}}
+{{--                                                        <div id="search-ajax"></div>--}}
+{{--                                                        <div id="select-ajax"></div>--}}
+{{--                                                    </div>--}}
                                                 </div>
 
                                                 <div class="card">
@@ -133,7 +138,7 @@
                                                 </div>
 
                                                 <div class="text-center">
-                                                    <button type="submit" class="btn btn-primary" style="width: 10%;">Thêm</button>
+                                                    <button type="submit" class="btn btn-primary" style="width: 10%;">Lưu</button>
                                                     <a href="/admin/warehouses" class="btn btn-danger">Quay lại</a>
                                                 </div>
 

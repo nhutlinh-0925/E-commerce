@@ -290,7 +290,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('/warehouses')->group(function () {
             Route::get('/', [NhapKhoController::class, 'index']);
             Route::get('add', [NhapKhoController::class, 'create']);
-            Route::post('autocomplete-ajax', [NhapKhoController::class, 'autocomplete_ajax']);
+            //Route::post('autocomplete-ajax', [NhapKhoController::class, 'autocomplete_ajax']);
+            Route::get('getProducts', [NhapKhoController::class, 'getProducts']);
             Route::post('add', [NhapKhoController::class, 'store']);
             Route::get('show/{id}', [NhapKhoController::class, 'show']);
             Route::get('active/{id}', [NhapKhoController::class, 'active']);
