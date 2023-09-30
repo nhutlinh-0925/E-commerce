@@ -26,7 +26,7 @@
     <!-- Template Main CSS File -->
     <link href="/template/back-end2/css/style.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="/template/back-end2/css/style2.css">
+
     {{--  <link rel="stylesheet" href="style.css">  --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
       <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"/>
