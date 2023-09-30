@@ -58,6 +58,9 @@ class DonHangController extends Controller
         $id_kh = $pdh->khach_hang_id;
         $kh = KhachHang::find($id_kh);
 
+        $id_nv = $pdh->nhan_vien_id;
+        $nv = NhanVien::find($id_nv);
+
         $dc = PhieuDatHang::join('khach_hangs', 'khach_hangs.id', '=', 'phieu_dat_hangs.khach_hang_id')
             ->join('dia_chis','khach_hangs.id','=', 'dia_chis.khach_hang_id')
             ->select('dia_chis.*')
@@ -80,11 +83,11 @@ class DonHangController extends Controller
             ->get();
         //dd($cart_id);
 
-
-        return view('back-end.order.order_detail',[
+        return view('back-end.order.order_detail2',[
             'nhanvien' => $nhanvien,
             'pdh' => $pdh,
             'kh' => $kh,
+             'nv' => $nv,
              'cart_id' => $cart_id,
             'mgg' => $mgg,
             'phi' => $phi
@@ -168,8 +171,8 @@ class DonHangController extends Controller
             $order->pdh_TrangThai = $newStatus;
             $order->save();
         }
-
-        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
+        Session::flash('success_message', 'Cập nhật trạng thái thành công!');
+//        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
         return redirect()->back();
     }
 }
