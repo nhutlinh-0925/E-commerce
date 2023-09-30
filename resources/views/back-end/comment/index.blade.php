@@ -61,13 +61,15 @@
                                     <td>{{ $item->bl_NoiDung }}</td>
                                     <td>
                                         @if ($item->bl_TrangThai == 0)
-                                            <button class="btn btn-warning" style="width: 80%">Chờ duyệt</button>
+                                            <p style="color: grey;width: 85px"><b>Chờ duyệt</b></p>
+{{--                                            <button class="btn btn-warning" style="width: 80%">Chờ duyệt</button>--}}
                                         @elseif($item->bl_TrangThai == 1)
-                                            <button class="btn btn-success" style="width: 80%">Đã duyệt</button>
+                                            <p style="color: green;width: 80px"><b>Đã duyệt</b></p>
+{{--                                            <button class="btn btn-success" style="width: 80%">Đã duyệt</button>--}}
                                         @endif
                                     </td>
                                     <td style="display: flex">
-                                        <form method="post" action="{{ url('/admin/comments/destroy/' .$item->id  ) }}">
+                                        <form method="post" action="{{ url('/admin/comments/destroy/' .$item->id  ) }}" style="width: 80px">
                                             @if ($item->bl_TrangThai == 0)
                                                 <a href="{{ url('/admin/comments/unactive/' . $item->id ) }}" class="btn btn-primary btn-sm" onclick ='return confirm("Bạn chắc chắn muốn duyệt bình luận?")' title="Duyệt"><i class="bi bi-check2-circle"></i></a>
                                             @elseif($item->bl_TrangThai == 1)

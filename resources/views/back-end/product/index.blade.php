@@ -79,6 +79,7 @@
                         @endif
                     </td>
                     <td style="display: flex;">
+                        <p style="width: 70px">
                         @if ($item->sp_TrangThai == 1)
                             <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
                             <a href="/admin/products/unactive/{{ $item->id }}" class="btn btn-primary btn-sm" title="Ẩn sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn ẩn sản phẩm?")'><span class="bi bi-eye-slash"></span></a>
@@ -86,6 +87,7 @@
                             <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
                             <a href="/admin/products/active/{{ $item->id }}" class="btn btn-danger btn-sm" title="Hiện sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn hiện sản phẩm?")'><span class="bi bi-eye"></span></a>
                         @endif
+                        </p>
                     </td>
                 </tr>
                 @endforeach

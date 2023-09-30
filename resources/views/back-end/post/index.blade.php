@@ -75,10 +75,10 @@
                                         @endif
                                     </td>
                                     <td>{{ $item->nguoidang->nv_Ten }}</td>
-                                    <td>{{ date("d-m-Y", strtotime($item->bv_NgayTao)) }}</td>
+                                    <td><p style="width: 100px">{{ date("d-m-Y", strtotime($item->bv_NgayTao)) }}</p></td>
 
                                     <td style="display: flex">
-                                          <form method="post" action="{{ url('/admin/posts/destroy/' .$item->id  ) }}">
+                                          <form method="post" action="{{ url('/admin/posts/destroy/' .$item->id  ) }}" style="width: 80px">
                                           <a href="{{ url('/admin/posts/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật bài viết"><i class="bi bi-pencil-square"></i></a>
                                         @method('delete')
                                         @csrf

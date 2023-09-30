@@ -62,33 +62,35 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td><b>{{ $item->khachhang->kh_Ten }}</b></td>
-                                    <td><b style="color: red">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></td>
+                                    <td><p style="width: 90px"><b style="color: red;">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></p></td>
                                     <td>
+                                        <p style="width: 110px">
                                         @if ($item->pdh_TrangThai == 1)
-                                            <a href="">
-                                                <button class="btn btn-info" style="width: 100%">Đang chờ duyệt <i class="bi bi-clock-fill"></i></button>
+                                            <a href="#" class="btn btn-info" style=" font-size: 10px;">
+                                               Chờ duyệt <i class="bi bi-clock-fill"></i>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 2)
-                                            <a href="">
-                                                <button class="btn btn-primary" style="width: 100%">Đơn đã duyệt <i class="bi bi-check-circle-fill"></i></button>
+                                            <a href="#" class="btn btn-primary" style=" font-size: 10px;">
+                                               Đã duyệt <i class="bi bi-check-circle-fill"></i>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 3)
-                                            <a href="">
-                                                <button class="btn btn-warning" style="width: 100%">Đang vận chuyển <i class="bi bi-bus-front-fill"></i></button>
+                                            <a href="#" class="btn btn-warning" style=" font-size: 10px;">
+                                                Đang vận chuyển <i class="bi bi-bus-front-fill"></i>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 4)
-                                            <a href="">
-                                                <button class="btn btn-success" style="width: 100%">Giao thành công</button>
+                                            <a href="#" class="btn btn-success" style=" font-size: 10px;">
+                                                Giao thành công <i class=""></i>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 5)
-                                            <a href="">
-                                                <button class="btn btn-danger" style="width: 100%">Đơn bị hủy <i class="bi bi-x-circle-fill"></i></button>
+                                            <a href="#" class="btn btn-danger" style=" font-size: 10px;">
+                                                Đơn bị hủy <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         @endif
+                                        </p>
                                     </td>
                                     <td>
-                                        <a href="">
-                                            <button class="btn btn-success" style="width: 70%;">{{ $item->phuongthucthanhtoan->pttt_TenPhuongThucThanhToan }}</button>
+                                        <a href="#" class="btn btn-success" style="width: 70%; font-size: 10px;">
+                                            {{ $item->phuongthucthanhtoan->pttt_TenPhuongThucThanhToan }}
                                         </a>
                                     </td>
                                     <td>
@@ -98,10 +100,10 @@
                                             <b>{{ $item->nhanvien->nv_Ten }}</b>
                                         @endif
                                     </td>
-                                    <td>{{ date("d-m-Y", strtotime($item->pdh_NgayDat)) }}</td>
+                                    <td><p style="width: 100px"> {{ date("d-m-Y", strtotime($item->pdh_NgayDat)) }}</p></td>
 
                                     <td style="display: flex">
-                                        <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}">
+                                        <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}" style="width: 80px">
                                             <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
                                             @method('delete')
                                             @csrf

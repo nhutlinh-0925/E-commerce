@@ -71,19 +71,19 @@
                                         @endif
                                     </td>
                                     <td>@if ($item->mgg_LoaiGiamGia == 1)
-                                            <p style="color: red">{{ number_format($item->mgg_GiaTri, 0, '', '.') }} đ</p>
+                                            <p style="color: red;width: 80px">{{ number_format($item->mgg_GiaTri, 0, '', '.') }} đ</p>
                                         @elseif ($item->mgg_LoaiGiamGia == 2)
-                                            <p style="color: red">{{ $item->mgg_GiaTri }} %</p>
+                                            <p style="color: red;">{{ $item->mgg_GiaTri }} %</p>
                                         @endif
                                     </td>
                                     <td>
                                         @if($item->mgg_SoLuongMa <= 0)
-                                            <p style="color: red"><b>Hết mã</b></p>
+                                            <p style="color: red;width: 70px"><b>Hết mã</b></p>
                                         @elseif($item->mgg_SoLuongMa > 0)
                                             @if (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) > \Carbon\Carbon::now())
-                                                <p style="color: green"><b>Khả dụng</b></p>
+                                                <p style="color: green;width: 80px"><b>Khả dụng</b></p>
                                             @else (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) < \Carbon\Carbon::now())
-                                                <p style="color: red"><b>Hết hạn</b></p>
+                                                <p style="color: red;width: 70px"><b>Hết hạn</b></p>
                                             @endif
                                         @endif
                                     </td>
@@ -100,7 +100,7 @@
                                             </form>
                                         @elseif($item->mgg_SoLuongMa > 0)
                                             @if (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) > \Carbon\Carbon::now())
-                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
+                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}" style="width: 120px">
                                                 <a href="{{ url('/admin/coupons/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật mã giảm giá"><i class="bi bi-pencil-square"></i></a>
                                                 <a href="{{ url('/admin/coupons/show/' . $item->id ) }}" class="btn btn-warning btn-sm" title="Gửi mã giảm giá"><i class="bi bi-ticket-perforated-fill"></i></a>
                                                 @method('delete')
