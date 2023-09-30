@@ -141,11 +141,11 @@
                         if (data == 1) {
                             return '<p>Nhận hàng trả tiền</p>';
                         } else if (data == 2) {
-                            return '<p>Thanh toán qua PayPay</p>';
+                            return '<p>Thanh toán qua PayPal</p>';
                         } else if (data == 3) {
                             return '<p>Thanh toán qua VNPay</p>';
                         } else if (data == 4) {
-                            return '<p>Thanh toán qua OnePal</p>';
+                            return '<p>Thanh toán qua OnePay</p>';
                         } else {
                             return '';
                         }

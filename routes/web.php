@@ -64,7 +64,7 @@ use \App\Http\Controllers\BlogController;
     //Trang đơn hàng
     Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
     Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
-    //Route::get('/purchase_order/{id}', [CartController::class, 'user'])->name('users.index');
+    Route::post('/purchase_order/order_detail/{id}', [CartController::class, 'order_update']);
 
     //Khi mua hàng gửi email
     Route::get('email',[CartController::class, 'email']);
