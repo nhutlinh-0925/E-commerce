@@ -35,17 +35,20 @@
         <thead>
         <tr style="background-color: red;color: white">
             <th>ID</th>
+            <th>Địa chỉ giao hàng</th>
             <th>Trạng thái đơn hàng</th>
             <th>Tổng tiền</th>
             <th>Phương thức thanh toán</th>
-            <th>Thời gian đặt hàng</th>
-            <th style="width: 100px">Tùy biến</th>
+            <th style="width: 80px">Thời gian đặt hàng</th>
+            <th style="width: 80px">Cập nhật trạng thái</th>
+            <th style="width: 10px">Tùy biến</th>
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
 </div>
+<br><br>
 
 @include('front-end.pages.footer')
 </body>

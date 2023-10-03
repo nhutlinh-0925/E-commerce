@@ -5,6 +5,9 @@
 	<!-- head -->
 	@include('front-end.pages.head')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{{--    <script src="https://www.paypal.com/sdk/js?client-id=AWFAg8kchI1mIZgePx33BVQu3_iLcR1LxI84fIqTsR3lFPtECaybaXLkzVALnuvmUN_tvCVJv17gP73b"></script>--}}
+
+
 </head>
 
 <body>
@@ -104,10 +107,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p><b>Họ và tên</b><span>*</span></p>
-                                        <input type="text" name="kh_Ten" style="color: black" placeholder="Nhập họ tên của bạn" value="{{ old('kh_Ten', $khachhang->kh_Ten ?? '') }}" required>
-                                        @error ('kh_Ten')
-                                        <span style="color: red;">{{ $message }}</span>
-                                        @enderror
+                                        <input type="text" name="kh_Ten" style="color: black" placeholder="Nhập họ tên của bạn" value="{{ $khachhang->kh_Ten }}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -124,7 +124,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p><b>Số điện thoại</b><span>*</span></p>
-                                        <input type="text" name="kh_SoDienThoai" style="color: black" placeholder="Nhập số điện thoại của bạn" value="{{ old('kh_SoDienThoai', $khachhang->kh_SoDienThoai ?? '') }}" required>
+                                        <input type="text" name="kh_SoDienThoai" style="color: black" placeholder="Nhập số điện thoại của bạn" value="{{ old('kh_SoDienThoai', $khachhang->kh_SoDienThoai ?? '') }}" >
                                         @error ('kh_SoDienThoai')
                                         <span style="color: red;">{{ $message }}</span>
                                         @enderror
@@ -185,6 +185,11 @@
                                                 <div class="checkout__order__products">Mã giảm được <span style="color: red"><b>{{ number_format($total_coupon, 0, '', '.') }} đ</b></span></div>
                                                 <div class="checkout__order__products">Tổng tiền được giảm <span class="total_coupon" style="color: red;font-weight: bold;">{{ number_format($total_coupon, 0, '', '.') }} đ</span></div><hr style="Border: solid 1px black;">
                                                 <div class="checkout__order__products">Tiền thanh toán<span class="total_payment" style="color: red;font-weight: bold;">{{ number_format($total - $total_coupon + 25000, 0, '', '.') }} đ</span></div>
+                                                @php
+                                                    $vnd_to_usd = ($total - (($total * $cou['mgg_GiaTri'])/100) + 25000)/23990 ;
+                                                    $total_paypal = round($vnd_to_usd,2);
+                                                    Session::put('total_paypal',$total_paypal);
+                                                @endphp
                                             @elseif($cou['mgg_LoaiGiamGia'] == 1)
                                                 <div class="checkout__order__products">Mã giảm: <span style="color: red"><b>{{ number_format($cou['mgg_GiaTri'], 0, '', '.') }} đ</b></span></div>
                                                 @php
@@ -192,23 +197,34 @@
                                                 @endphp
                                                 <div class="checkout__order__products">Tổng tiền được giảm <span class="total_coupon" style="color: red;font-weight: bold;">{{ number_format($cou['mgg_GiaTri'] , 0, '', '.') }} đ</span></div><hr style="Border: solid 1px black;">
                                                 <div class="checkout__order__products">Tiền thanh toán<span class="total_payment" style="color: red;font-weight: bold;">{{ number_format($total_coupon + 25000, 0, '', '.') }} đ</span></div>
+                                                @php
+                                                    $vnd_to_usd = ((($total * $cou['mgg_GiaTri'])/100) + 25000)/23990 ;
+                                                    $total_paypal = round($vnd_to_usd,2);
+                                                    Session::put('total_paypal',$total_paypal);
+                                                @endphp
                                             @endif
                                         @endforeach
                                 @else
                                     <div class="checkout__order__products">Mã giảm : <span style="color: red"><b>0</b></span></div>
                                     <div class="checkout__order__products">Tổng tiền được giảm <span style="color: red"><b>0</b></span></div><hr style="Border: solid 1px black;">
                                     <div class="checkout__order__products">Tiền thanh toán<span class="total_payment" style="color: red;font-weight: bold;">{{ number_format($total+25000, 0, '', '.') }} đ</span></div>
+                                    @php
+                                        $vnd_to_usd = ($total + 25000)/23990 ;
+                                        $total_paypal = round($vnd_to_usd,2);
+                                        Session::put('total_paypal',$total_paypal);
+                                    @endphp
                                 @endif
                                     </div>
-
 
                                     <h5 class="order__title">PHƯƠNG THỨC THANH TOÁN</h5>
                                     <div class="form-group">
                                         <label for="phuong_thuc_thanh_toan_id"><b>Phương thức thanh toán</b></label>
-                                        <select name="phuong_thuc_thanh_toan_id" id="phuong_thuc_thanh_toan_id" class="form-control" required>
+                                        <input type="hidden" id="vnd_to_usd" value="{{round($vnd_to_usd,2) }}">
+                                        <input type="hidden" name="total_vnpay" id="total_vnpay">
+                                        <select name="phuong_thuc_thanh_toan_id" id="phuong_thuc_thanh_toan_id" class="form-control" >
                                             <option value="" selected>Chọn phương thức thanh toán</option>
                                             @foreach ($payments as $payment)
-                                                <option value="{{ $payment->id }}" >{{ $payment->pttt_MoTa }}</option>
+                                                <option value="{{ $payment->id }}" data-payment-method="{{ $payment->pttt_TenPhuongThucThanhToan }}">{{ $payment->pttt_MoTa }}</option>
                                             @endforeach
                                         </select>
 
@@ -219,7 +235,7 @@
                                     <br><br><br>
                                     <a href="" ><img src="/template/front-end/img/payment.png" alt="" width="300px"></a>
                                     <br><br>
-                                <button class="site-btn">Đặt hàng</button>
+                                <button class="site-btn" type="submit">Xử lý đặt hàng</button>
                             </div>
                         </div>
                     </div>
@@ -364,6 +380,8 @@
 
                         $(".total_coupon").html(formattedTotalCoupon);
                         $(".total_payment").html(formattedTotalPayment);
+
+                        $("#total_vnpay").val(total_payment);
                     },
                     error: function () {
                         // Xử lý lỗi (nếu có)

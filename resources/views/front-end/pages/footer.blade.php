@@ -118,41 +118,91 @@
             ajax: "/purchase_order/" + userId,
             columns: [
                 {data: 'id', name: 'id'},
+                {data: 'pdh_DiaChiGiao', name: 'pdh_DiaChiGiao'},
                 {data: 'pdh_TrangThai', name: 'pdh_TrangThai', render: function(data, type, row) {
                         if (data == 1) {
-                            return '<p>Chờ duyệt</p>';
+                            return '<p class="btn btn-info" style="width: 160px">Chờ duyệt <i class="fa fa-clock-o"></i></p>';
                         } else if (data == 2) {
-                            return '<p>Đã duyệt</p>';
+                            return '<p class="btn btn-primary" style="width: 160px">Đã duyệt <i class="fa fa-check-circle-o"></i></p>';
                         } else if (data == 3) {
-                            return '<p>Đang vận chuyê</p>';
+                            return '<p class="btn btn-warning" style="width: 160px">Đang vận chuyển <i class="fa fa-bus"></i></p>';
                         } else if (data == 4) {
-                            return '<p>Giao thành công</p>';
+                            return '<p class="btn btn-success" style="width: 160px">Giao thành công <i class="fa fa-calendar-check-o"></i></p>';
                         } else if (data == 5) {
-                            return '<p>Hủy đơn</p>';
+                            return '<p class="btn btn-danger" style="width: 160px">Hủy đơn <i class="fa fa-times-circle"></i></p>';
                         } else {
                             return '';
                         }
                     }},
                 {data: 'pdh_TongTien', name: 'pdh_TongTien', render: function(data, type, row) {
                         var formattedAmount = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
-                        return formattedAmount;
+                        return '<span style="color: red; font-weight: bold;">' + formattedAmount + '</span>';
                     }},
                 {data: 'phuong_thuc_thanh_toan_id', name: 'phuong_thuc_thanh_toan_id', render: function(data, type, row) {
                         if (data == 1) {
-                            return '<p>Nhận hàng trả tiền</p>';
+                            return '<p style="color:green;"><b>Nhận hàng trả tiền</b></p>';
                         } else if (data == 2) {
-                            return '<p>Thanh toán qua PayPal</p>';
+                            return '<p style="color:green;"><b>Thanh toán qua PayPal</b></p>';
                         } else if (data == 3) {
-                            return '<p>Thanh toán qua VNPay</p>';
+                            return '<p style="color:green;"><b>Thanh toán qua VNPay</b></p>';
                         } else if (data == 4) {
-                            return '<p>Thanh toán qua OnePay</p>';
+                            return '<p style="color:green;"><b>Thanh toán qua OnePay</b></p>';
                         } else {
                             return '';
                         }
                     }},
-                {data: 'created_at', name: 'created_at'},
+                {
+                    data: 'created_at',
+                    name: 'created_at',
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            // Chuyển đổi dữ liệu ngày tháng thành đối tượng Date
+                            var date = new Date(data);
+
+                            // Lấy thông tin về giờ, phút, giây, ngày, tháng, năm
+                            var hours = date.getHours();
+                            var minutes = date.getMinutes();
+                            var seconds = date.getSeconds();
+                            var day = date.getDate();
+                            var month = date.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1
+                            var year = date.getFullYear();
+
+                            // Định dạng thành chuỗi 'H:i:s d/m/Y'
+                            var formattedDate = day + '-' + month + '-' + year + ',' + ' '+ hours + ':' + minutes + ':' + seconds + ' ' ;
+                            return formattedDate;
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+
+                {
+                    data: 'updated_at',
+                    name: 'updated_at',
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            // Chuyển đổi dữ liệu ngày tháng thành đối tượng Date
+                            var date = new Date(data);
+
+                            // Lấy thông tin về giờ, phút, giây, ngày, tháng, năm
+                            var hours = date.getHours();
+                            var minutes = date.getMinutes();
+                            var seconds = date.getSeconds();
+                            var day = date.getDate();
+                            var month = date.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1
+                            var year = date.getFullYear();
+
+                            // Định dạng thành chuỗi 'H:i:s d/m/Y'
+                            var formattedDate = day + '-' + month + '-' + year + ',' + ' '+ hours + ':' + minutes + ':' + seconds + ' ' ;
+                            return formattedDate;
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+
                 {data: null, name: 'actions', render: function(data, type, row) {
-                        return '<a class="btn btn-info text-center" href="/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
+                        return '<a class="btn btn-secondary" text-center" style="font-size: 10px" href="/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
                     }},
             ]
         });

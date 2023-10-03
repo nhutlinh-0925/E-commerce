@@ -15,7 +15,7 @@ class KhachHang extends Model
     	'tai_khoan_id',
         'kh_Ten',
         'kh_SoDienThoai',
-        'kh_SoTienDaMua',
+        'kh_TongTienDaMua',
     ];
 
     public function taikhoan()

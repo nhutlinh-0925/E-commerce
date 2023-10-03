@@ -37,10 +37,10 @@ use \App\Http\Controllers\BlogController;
 // Front-end - Trang người dùng
 
     //Trang chủ
-    Route::get('/',[HomeController::class, 'home']);
+    Route::get('/',[HomeController::class, 'home'])->name('home');
 
     //Trang shop
-    Route::get('/shop',[ShopController::class, 'shop']);
+    Route::get('/shop',[ShopController::class, 'shop'])->name('shop');
     Route::get('/product/{id}',[ShopController::class, 'product_detail']);
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
@@ -54,9 +54,13 @@ use \App\Http\Controllers\BlogController;
     Route::get('carts',[CartController::class, 'show']);
     Route::post('update-cart',[CartController::class, 'update']);
     Route::get('carts/delete/{id}',[CartController::class, 'remove']);
-    Route::get('checkout',[CartController::class, 'showcheckout']);
-    Route::post('/carts/checkout',[CartController::class, 'getCart']);
+    Route::get('checkout',[CartController::class, 'showcheckout'])->name('showcheckout');
+    Route::post('/carts/checkout',[CartController::class, 'getCart'])->name('checkout');
 
+    Route::get('success-transaction', [CartController::class, 'successTransaction'])->name('successTransaction');
+    Route::get('cancel-transaction', [CartController::class, 'cancelTransaction'])->name('cancelTransaction');
+
+    Route::get('vnpay-callback',[CartController::class, 'handleVnPayCallback']);
     //Mã giảm giá
     Route::post('/check_coupon',[CartController::class, 'check_coupon']);
     Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
