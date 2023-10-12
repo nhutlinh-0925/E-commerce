@@ -37,6 +37,19 @@
                   </div>
               <div class="card-body">
                 <form action="{{ route('admin.doLogin') }}" method="POST" >
+
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <div class="mb-3">
                         <label>Vui lòng nhập email <span class="text-danger">(*)</span></label>
                         <input type="email" name="email" class="form-control" placeholder="Nhập email" value="{{ old('email', $request->email ?? '') }}">
@@ -56,17 +69,17 @@
 
 
                   <div class="form-check form-check-info text-start">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                     Lưu đăng nhập
                     </label>
-                    <a>Quên mật khẩu</a>
+{{--                    <a>Quên mật khẩu</a>--}}
                   </div>
 
                   <div class="text-center">
                     <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Đăng nhập</button>
                   </div>
-                  </div>
+
                   @csrf
                 </form>
               </div>

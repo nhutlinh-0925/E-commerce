@@ -53,6 +53,16 @@ class LoginController extends Controller
             'password' => $request->input(key: 'password'),
             'loai' => 2
         ], $request->input(key: 'remember'))){
+            $user = Auth::user();
+
+            // Kiểm tra giá trị trangthai của người dùng
+            if ($user->trangthai == 0) {
+                //dd('12345');
+                // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
+                Auth::logout();
+                session()->flash('error', 'Tài khoản của bạn đã bị khóa');
+                return redirect()->back();
+            }
             return redirect()->route('user.home');
 
         }

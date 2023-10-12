@@ -27,7 +27,7 @@ class AdminController extends Controller
         [
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Không đúng định dạng email',
-            'email.unique' => 'Email đã được đăng kí',
+//            'email.unique' => 'Email đã được đăng kí',
             'password.required' => 'Vui lòng nhập passwod',
             'password.min' => 'Mật khẩu ít nhất 5 kí tự',
         ]);
@@ -39,14 +39,37 @@ class AdminController extends Controller
         //     return redirect()->back()->with('error','dang nhap that bai');
         // }
 
-        if (Auth::attempt([
-            'email' => $request->input(key: 'email'),
-            'password' => $request->input(key: 'password'),
-            'loai' => 0
-        ], $request->input(key: 'remember'))){
-            return redirect()->route('admin.home');
+//        if (Auth::attempt([
+//            'email' => $request->input(key: 'email'),
+//            'password' => $request->input(key: 'password'),
+//            'loai' => 0
+//        ], $request->input(key: 'remember'))){
+//            return redirect()->route('admin.home');
+//
+//        }
+//        session()->flash('error', 'Email hoặc password không đúng !!!');
+//        return redirect()->back();
 
+        if (Auth::attempt([
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'loai' => 0
+        ], $request->input('remember'))) {
+            $user = Auth::user();
+
+            // Kiểm tra giá trị trangthai của người dùng
+            if ($user->trangthai == 0) {
+                // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
+                Auth::logout();
+                session()->flash('error', 'Tài khoản của bạn đã bị khóa');
+                return redirect()->back();
+            }
+
+            // Người dùng đăng nhập thành công và trangthai != 0, chuyển hướng đến route 'admin.home'
+            return redirect()->route('admin.home');
         }
+
+        // Người dùng đăng nhập không thành công
         session()->flash('error', 'Email hoặc password không đúng !!!');
         return redirect()->back();
 
