@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="col-6">
-                                <label><b>Mã giảm giá :</b>{{ $coupon->mgg_MaGiamGia }}</label>
+                                <label><b>Mã giảm giá :</b> {{ $coupon->mgg_MaGiamGia }}</label>
                             </div>
                             <div class="col-6">
                                 <label><b>Số lượng mã: </b>{{ $coupon->mgg_SoLuongMa }}</label>

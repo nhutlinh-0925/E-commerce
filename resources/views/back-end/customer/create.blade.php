@@ -153,7 +153,7 @@
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="width: 10%;">Thêm</button>
-                        <button type="reset" class="btn btn-danger" style="width: 10%;">Hủy</button>
+                        <a href="/admin/customers" class="btn btn-danger">Quay lại</a>
                     </div>
                     @csrf
                 </form><!-- Vertical Form -->

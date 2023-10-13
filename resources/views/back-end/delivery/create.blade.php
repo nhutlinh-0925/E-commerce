@@ -51,7 +51,7 @@
                     <input type="hidden" name="pvc_ThanhPho">
                     <div class="col-md-6">
                         <label for="inputNanme4" class="form-label"><strong>Phí vận chuyển <span class="text-danger">(*)</span></strong></label>
-                        <input type="number" class="form-control" id="pvc_PhiVanChuyen" name="pvc_PhiVanChuyen" placeholder="Nhập phí vận chuyển" value="{{ old('pvc_PhiVanChuyen', $request->pvc_PhiVanChuyen ?? '') }}">
+                        <input type="number" class="form-control" id="pvc_PhiVanChuyen" name="pvc_PhiVanChuyen" placeholder="Nhập phí vận chuyển" value="{{ old('pvc_PhiVanChuyen', $request->pvc_PhiVanChuyen ?? '') }}" min="0" max="100000">
                         @error ('pvc_PhiVanChuyen')
                         <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -60,7 +60,7 @@
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary" style="width: 10%;">Thêm</button>
-                    <button type="reset" class="btn btn-danger" style="width: 10%;">Hủy</button>
+                    <a href="/admin/deliveries" class="btn btn-danger">Quay lại</a>
                 </div>
                 @csrf
             </form><!-- Vertical Form -->

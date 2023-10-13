@@ -56,7 +56,8 @@
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Địa chỉ</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Trạng thái</th>
+{{--                                <th scope="col">Trạng thái</th>--}}
+                                <th scope="col">Tùy biến</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -74,13 +75,26 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td>{{ $item->taikhoan->email }}</td>
                                     <td>
+
+                                        {{ $item->taikhoan->email }}
+
+                                    </td>
+{{--                                    <td>--}}
+{{--                                        @if ($item->taikhoan->trangtha == 0)--}}
+{{--                                            <p style="color: green;width: 50px"><b>Hoạt động</b></p>--}}
+{{--                                        @elseif($item->taikhoan->trangthai == 1)--}}
+{{--                                            <p style="color: red;width: 50px"><b>Khóa</b></p>--}}
+{{--                                        @endif--}}
+{{--                                    </td>--}}
+                                    <td>
+                                        <p style="width: 30px">
                                         @if ($item->taikhoan->trangthai == 1)
-                                            <a href="/admin/customers/unactive/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn khóa tài khoản?")'><span class="bi bi-unlock" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
+                                            <a href="/admin/customers/unactive/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn khóa tài khoản?")' title="Khóa tài khoản"><span class="bi bi-unlock" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
                                         @elseif ($item->taikhoan->trangthai == 0)
-                                            <a href="/admin/customers/active/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn mở khóa tài khoản?")'><span class="bi bi-lock" style="font-size: 25px;color: red; font-weight: bold"></span></a>
+                                            <a href="/admin/customers/active/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn mở khóa tài khoản?")' title="Mở tài khoản"><span class="bi bi-lock" style="font-size: 25px;color: red; font-weight: bold"></span></a>
                                         @endif
+                                        </p>
                                     </td>
                                 </tr>
                             @endforeach

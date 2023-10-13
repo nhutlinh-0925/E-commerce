@@ -44,7 +44,7 @@
                     <input type="hidden" name="thanh_pho_id">
                     <div class="col-md-6">
                         <label for="inputNanme4" class="form-label"><strong>Phí vận chuyển <span class="text-danger">(*)</span></strong></label>
-                        <input type="number" class="form-control" id="pvc_PhiVanChuyen" name="pvc_PhiVanChuyen" placeholder="Nhập phí vận chuyển" value="{{ old('pvc_PhiVanChuyen', $delivery->pvc_PhiVanChuyen ?? '') }}">
+                        <input type="number" class="form-control" id="pvc_PhiVanChuyen" name="pvc_PhiVanChuyen" placeholder="Nhập phí vận chuyển" value="{{ old('pvc_PhiVanChuyen', $delivery->pvc_PhiVanChuyen ?? '') }}" min="0" max="100000">
                         @error ('pvc_PhiVanChuyen')
                         <span style="color: red;">{{ $message }}</span>
                         @enderror

@@ -94,13 +94,16 @@
                     </div>
                 </div>
 
-                <div class="col-12">
-                    <label for="validationDefault04" class="form-label"><strong>Giá trị <span class="text-danger">(*)</span></strong></label>
-                    <input type="number" class="form-control" id="mgg_GiaTri" name="mgg_GiaTri" placeholder="Nhập giá trị giảm" value="{{ old('mgg_GiaTri', $coupon->mgg_GiaTri ?? '') }}">
-                    @error ('mgg_GiaTri')
-                    <span style="color: red;">{{ $message }}</span>
-                    @enderror
+                <div class="row">
+                    <div class="col-12">
+                        <label for="validationDefault04" class="form-label"><strong>Giá trị <span class="text-danger">(*)</span></strong></label>
+                        <input type="number" class="form-control" id="mgg_GiaTri" name="mgg_GiaTri" placeholder="Nhập giá trị giảm" value="{{ old('mgg_GiaTri', $coupon->mgg_GiaTri ?? '') }}">
+                        @error ('mgg_GiaTri')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
+
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary" style="width: 12%;">Cập nhật</button>
                     <a href="/admin/coupons" class="btn btn-danger" style="width: 12%;">Quay lại</a>

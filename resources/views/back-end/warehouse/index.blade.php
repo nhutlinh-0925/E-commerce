@@ -60,8 +60,14 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td><p class="text-center">{{ $item->nguoinhap->nv_Ten }}</p></td>
-                                    <td>{{ $item->created_at->format('H:i:s d/m/Y') }}</td>
-                                    <td>{{ $item->pnh_NgayXacNhan }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->pnh_NgayLapPhieu)->format('d-m-Y H:i:s') }}</td>
+                                    <td>
+                                        @if ($item->pnh_NgayXacNhan == '')
+                                            <p><i>*Chưa xác định*</i></p>
+                                        @else
+                                        {{ \Carbon\Carbon::parse($item->pnh_NgayXacNhan)->format('d-m-Y H:i:s') }}
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($item->pnh_TrangThai == 0)
                                             <p style="color: #9e9d24"><b>Chờ duyệt</b></p>
@@ -71,7 +77,7 @@
                                     </td>
                                     <td style="display: flex">
                                         @if ($item->pnh_TrangThai == 0)
-                                        <form method="post" action="{{ url('/admin/warehouses/destroy/' .$item->id  ) }}" style="width: 120px">
+                                        <form method="post" action="{{ url('/admin/warehouses/destroy/' .$item->id  ) }}" style="width: 120px; text-align: center; margin: 0 auto;">
                                             <a href="{{ url('/admin/warehouses/show/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem phiếu nhập"><i class="bi bi-eye"></i></a>
                                             <a href="/admin/warehouses/active/{{ $item->id }}" class="btn btn-success btn-sm" onclick ='return confirm("Bạn chắc chắn muốn duyệt phiếu nhâp không?")' title = 'Duyệt phiếu nhập'><span class="bi bi-check2-circle" style="font-size: 15px;color: white; font-weight: bold"></span></a>
                                             @method('delete')
@@ -83,7 +89,10 @@
                                             </button>
                                         </form>
                                         @elseif($item->pnh_TrangThai == 1)
-                                            <a href="{{ url('/admin/warehouses/show/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem phiếu nhập"><i class="bi bi-eye"></i></a>
+                                            <p style="text-align: center">
+                                                <a href="{{ url('/admin/warehouses/show/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem phiếu nhập"><i class="bi bi-eye"></i></a>
+                                            </p>
+
                                         @endif
 
                                     </td>

@@ -37,7 +37,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#order-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Đơn hàng</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-layout-text-window-reverse" style="color: green"></i><span>Đơn hàng</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="order-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -51,7 +51,7 @@
                 @elseif ($permission->q_TenQuyen == 'sanpham')
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#products-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-handbag-fill" style="color: red"></i><span>Sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="products-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -69,7 +69,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#evaluate-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Đánh giá</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-chat-square" style="color: #005cbf"></i><span>Đánh giá</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="evaluate-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -87,7 +87,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#category-products-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Danh mục sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-grid-3x2-gap-fill" style="color: grey"></i><span>Danh mục sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="category-products-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -105,7 +105,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#brands-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-journal-text"></i><span>Thương hiệu sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-slack" style="color: #8f5d00"></i><span>Thương hiệu sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="brands-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -123,7 +123,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#coupon-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Mã giảm giá</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-ticket-perforated-fill" style="color: #9e9d24"></i><span>Mã giảm giá</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="coupon-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -141,7 +141,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#delivery-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Phí vận chuyển</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-cursor-fill" style="color: #11cdef"></i><span>Phí vận chuyển</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="delivery-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -160,7 +160,7 @@
                 @elseif ($permission->q_TenQuyen == 'nhansu')
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#customer-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-gem"></i><span>Khách hàng</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-person-fill" style="color: #0f6674"></i><span>Khách hàng</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -193,7 +193,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#employee-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Nhân viên</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-person-fill-check" style="color: #0f6674"></i><span>Nhân viên</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="employee-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -217,7 +217,7 @@
                 @elseif ($permission->q_TenQuyen == 'baiviet')
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#category-posts-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Danh mục bài viết</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-list-ul" style="color: grey"></i><span>Danh mục bài viết</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="category-posts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -234,7 +234,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#posts-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Bài viết</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-file-post" style="color: #4cae4c"></i><span>Bài viết</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="posts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -251,7 +251,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#comments-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Bình luận</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-chat-square-fill" style="color: #005cbf"></i><span>Bình luận</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="comments-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -265,7 +265,7 @@
                 @elseif ($permission->q_TenQuyen == 'nhapkho')
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Nhà cung cấp</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-bookmark-plus-fill" style="color: #004d40"></i><span>Nhà cung cấp</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="supplier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -280,7 +280,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#warehouse-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bar-chart"></i><span>Nhập kho</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-house-add-fill" style="color: #8b1014"></i><span>Nhập kho</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="warehouse-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>

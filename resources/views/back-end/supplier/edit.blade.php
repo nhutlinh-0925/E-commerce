@@ -26,12 +26,14 @@
             </div>
             <!-- Vertical Form -->
             <form class="row g-3" method="POST">
-                <div class="col-12">
-                    <label for="inputNanme4" class="form-label"><strong>Tên nhà cung cấp <span class="text-danger">(*)</span></strong></label>
-                    <input type="text" class="form-control" id="inputNanme4" name="ncc_TenNhaCungCap" placeholder="Nhập tên" value="{{ old('ncc_TenNhaCungCap', $supplier->ncc_TenNhaCungCap ?? '') }}">
-                    @error ('ncc_TenNhaCungCap')
-                    <span style="color: red;">{{ $message }}</span>
-                    @enderror
+                <div class="row">
+                    <div class="col-12">
+                        <label for="inputNanme4" class="form-label"><strong>Tên nhà cung cấp <span class="text-danger">(*)</span></strong></label>
+                        <input type="text" class="form-control" id="inputNanme4" name="ncc_TenNhaCungCap" placeholder="Nhập tên" value="{{ old('ncc_TenNhaCungCap', $supplier->ncc_TenNhaCungCap ?? '') }}">
+                        @error ('ncc_TenNhaCungCap')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="row">
@@ -53,28 +55,29 @@
                     </div>
                 </div>
 
-
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label"><strong>Địa chỉ <span class="text-danger">(*)</span></strong></label>
-                    <input type="text" class="form-control" id="" name="ncc_DiaChi" placeholder="Nhập địa chỉ" value="{{ old('ncc_DiaChi', $supplier->ncc_DiaChi ?? '') }}">
-                    @error ('ncc_DiaChi')
-                    <span style="color: red;">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-12">
-                    <label for="validationDefault04" class="form-label"><strong>Trạng thái <span class="text-danger">(*)</span></strong></label>
-                    <select class="form-select" name="ncc_TrangThai" id="validationDefault04" >
-                        <option selected disabled value="">Lựa chọn</option>
-                        <option value="1" {{ $supplier->ncc_TrangThai == '1' ? 'selected' : '' }}>
-                            Đang hợp tác
-                        </option>
-                        <option value="0" {{ $supplier->ncc_TrangThai == '0' ? 'selected' : '' }}>
-                            Ngừng hợp tác
-                        </option>
-                    </select>
-                    @error ('ncc_TrangThai')
-                    <span style="color: red;">{{ $message }}</span>
-                    @enderror
+                <div class="row">
+                    <div class="col-12">
+                        <label for="inputAddress" class="form-label"><strong>Địa chỉ <span class="text-danger">(*)</span></strong></label>
+                        <input type="text" class="form-control" id="" name="ncc_DiaChi" placeholder="Nhập địa chỉ" value="{{ old('ncc_DiaChi', $supplier->ncc_DiaChi ?? '') }}">
+                        @error ('ncc_DiaChi')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-12">
+                        <label for="validationDefault04" class="form-label"><strong>Trạng thái <span class="text-danger">(*)</span></strong></label>
+                        <select class="form-select" name="ncc_TrangThai" id="validationDefault04" >
+                            <option selected disabled value="">Lựa chọn</option>
+                            <option value="1" {{ $supplier->ncc_TrangThai == '1' ? 'selected' : '' }}>
+                                Đang hợp tác
+                            </option>
+                            <option value="0" {{ $supplier->ncc_TrangThai == '0' ? 'selected' : '' }}>
+                                Ngừng hợp tác
+                            </option>
+                        </select>
+                        @error ('ncc_TrangThai')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary" style="width: 11%;">Cập nhật</button>

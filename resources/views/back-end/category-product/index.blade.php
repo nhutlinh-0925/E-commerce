@@ -212,7 +212,7 @@
                     @endif
                   </td>
                   <td style="display: flex">
-                    <form method="post" action="{{ url('/admin/category-products/destroy/' .$item->id  ) }}">
+                    <form method="post" action="{{ url('/admin/category-products/destroy/' .$item->id  ) }}" style="text-align: center; margin: 0 auto;">
                       <a href="{{ url('/admin/category-products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật danh mục"><i class="bi bi-pencil-square"></i></a>
                         @method('delete')
                         @csrf

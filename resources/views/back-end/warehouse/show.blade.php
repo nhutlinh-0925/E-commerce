@@ -55,7 +55,7 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <label for="inputNanme4" class="form-label"><strong>Người lập phiếu <span class="text-danger">(*)</span></strong></label>
-                                                                <input type="text" class="form-control" id="" name="" value="{{ $nhanvien->nv_Ten }}" disabled>
+                                                                <input type="text" class="form-control" id="" name="" value="{{ $warehouse->nguoinhap->nv_Ten }}" disabled>
                                                             </div>
 
                                                             <div class="col-md-6">

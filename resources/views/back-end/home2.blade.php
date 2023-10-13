@@ -28,7 +28,7 @@
                 <div class="icon">
                     <i class="fas fa-briefcase-medical"></i>
                 </div>
-                <a href="/admin/patients" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/admin/patients" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                 <div class="icon">
                     <i class="fas fa-user-nurse"></i>
                 </div>
-                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                 <div class="icon">
                     <i class="fas fa-user-nurse"></i>
                 </div>
-                <a href="/admin/all-patients" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/admin/all-patients" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -82,7 +82,7 @@
                 <div class="icon">
                     <i class="fas fa-user-nurse"></i>
                 </div>
-                <a href="/admin/all-patients" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/admin/all-patients" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
@@ -101,6 +101,10 @@
             </div>
 
             <div class="col-3">
+                <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm" value="Lọc kết quả">
+            </div>
+
+            <div class="col-3">
                 <p>Lọc theo:
                     <select class="dashboard-filter">
                         <option>--Chọn--</option>
@@ -110,10 +114,6 @@
 {{--                        <option value="365ngayqua">365 ngày qua</option>--}}
                     </select>
                 </p>
-            </div>
-
-            <div class="col-3">
-                <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm" value="Lọc kết quả">
             </div>
         </form>
 {{--        </div>--}}
@@ -158,9 +158,9 @@
 {{--    </table>--}}
 {{--</div>--}}
 
-<div class="row">
+<div class="row" style="background-color: #11cdef">
     <div class="col-md-4 col-xs-12">
-        <h5 class="text-center" style="font-weight: bold">Thống kê số lượng</h5>
+        <h5 class="text-center" style="font-weight: bold;color: white">Thống kê số lượng</h5>
         <div id="donut" class="morris-donut-inverse"></div>
     </div>
 
@@ -168,18 +168,18 @@
         <style type="text/css">
             ol.list_views {
                 margin: 10px 0;
-                color: #fff;
+                color: black;
             }
             ol.list_views a {
-                color: orange;
+                color: black;
                 font-weight: 400;
             }
         </style>
-        <h5 class="text-center" style="font-weight: bold">Sản phẩm xem nhiều</h5>
+        <h5 class="text-center" style="font-weight: bold;color: white">Sản phẩm xem nhiều</h5>
         <ol class="list_views">
             @foreach($product_views as $key => $pro)
                 <li>
-                    <a href="#">{{ $pro->sp_TenSanPham }} | <span style="color: black">{{ $pro->sp_LuotXem }}</span> </a>
+                    <a href="#"><b>{{ $pro->sp_TenSanPham }} </b></a>
                 </li>
             @endforeach
         </ol>
@@ -189,18 +189,18 @@
         <style type="text/css">
             ol.list_views {
                 margin: 10px 0;
-                color: #61a1ce;
+                color: black;
             }
             ol.list_views a {
-                color: orange;
+                color: black;
                 font-weight: 400;
             }
         </style>
-        <h5 class="text-center" style="font-weight: bold">Bài viết xem nhiều</h5>
+        <h5 class="text-center" style="font-weight: bold;color: white">Bài viết xem nhiều</h5>
         <ol class="list_views">
             @foreach($post_views as $key => $pos)
                 <li>
-                    <a href="#">{{ $pos->bv_TieuDeBaiViet }} | <span style="color: black">{{ $pos->bv_LuotXem }}</span> </a>
+                    <a href="#"><b>{{ $pos->bv_TieuDeBaiViet }} </b></a>
                 </li>
             @endforeach
         </ol>

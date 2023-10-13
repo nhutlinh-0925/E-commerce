@@ -69,9 +69,9 @@
                                     </td>
                                     <td>
                                         @if ($item->bv_TrangThai == 0)
-                                            Ẩn
+                                            <p style="color: red"><b>Ẩn</b></p>
                                         @elseif($item->bv_TrangThai == 1)
-                                            Hiển thị
+                                            <p style="color: green"><b>Hiển thị</b></p>
                                         @endif
                                     </td>
                                     <td>{{ $item->nguoidang->nv_Ten }}</td>

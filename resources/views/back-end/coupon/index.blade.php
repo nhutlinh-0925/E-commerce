@@ -89,7 +89,7 @@
                                     </td>
                                     <td style="display: flex">
                                         @if($item->mgg_SoLuongMa <= 0)
-                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
+                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}" style="text-align: center; margin: 0 auto;">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa mã giảm giá'
@@ -100,7 +100,7 @@
                                             </form>
                                         @elseif($item->mgg_SoLuongMa > 0)
                                             @if (\Carbon\Carbon::parse($item->mgg_NgayKetThuc) > \Carbon\Carbon::now())
-                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}" style="width: 120px">
+                                            <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}" style="width: 120px; text-align: center; margin: 0 auto;">
                                                 <a href="{{ url('/admin/coupons/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật mã giảm giá"><i class="bi bi-pencil-square"></i></a>
                                                 <a href="{{ url('/admin/coupons/show/' . $item->id ) }}" class="btn btn-warning btn-sm" title="Gửi mã giảm giá"><i class="bi bi-ticket-perforated-fill"></i></a>
                                                 @method('delete')
@@ -112,7 +112,7 @@
                                                 </button>
                                             </form>
                                             @else
-                                                <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}">
+                                                <form method="post" action="{{ url('/admin/coupons/destroy/' .$item->id  ) }}" style="text-align: center; margin: 0 auto;">
                                                     @method('delete')
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa mã giảm giá'

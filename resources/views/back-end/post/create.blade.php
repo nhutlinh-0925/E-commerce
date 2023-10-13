@@ -84,14 +84,13 @@
                 </div>
                 <br><br>
 
-                    <div class="col-12">
-                        <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label>
-                        <input type="text" class="form-control" data-role="tagsinput" id="" name="bv_Tag" value="{{ old('bv_Tag', $request->bv_Tag ?? '') }}">
-
-                    </div>
-                    @error ('bv_Tag')
-                    <span style="color: red;">{{ $message }}</span>
-                    @enderror
+                <div class="col-12">
+                    <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label>
+                    <input type="text" class="form-control" data-role="tagsinput" id="" name="bv_Tag" value="{{ old('bv_Tag', $request->bv_Tag ?? '') }}">
+                </div>
+                @error ('bv_Tag')
+                <span style="color: red;">{{ $message }}</span>
+                @enderror
 
                 <div class="row">
                     <div class="col-6">
@@ -111,7 +110,7 @@
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary" style="width: 10%;">Thêm</button>
-                    <button type="reset" class="btn btn-danger" style="width: 10%;">Hủy</button>
+                    <a href="/admin/posts" class="btn btn-danger">Quay lại</a>
                 </div>
                 @csrf
             </form><!-- Vertical Form -->
