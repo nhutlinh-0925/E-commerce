@@ -33,15 +33,13 @@ class HomeController extends Controller
             // dd($carts);
 
             $bestseller = SanPham::orderBy('sp_SoLuongBan', 'desc')->limit(8)->get();
-            //dd($bestseller);
             $new_arrivals = SanPham::orderBy('id', 'desc')->limit(8)->get();
             $most_views = SanPham::orderBy('sp_LuotXem', 'desc')->limit(8)->get();
 
             $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
-            //dd($posts);
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
+
             return view('front-end.home',[
                 'khachhang' => $khachhang,
                 'carts' => $carts,
@@ -57,13 +55,10 @@ class HomeController extends Controller
             $carts = $this->cartService->getProduct();
 
             $bestseller = SanPham::orderBy('sp_SoLuongBan', 'desc')->limit(8)->get();
-            //dd($bestseller);
             $new_arrivals = SanPham::orderBy('id', 'desc')->limit(8)->get();
             $most_views = SanPham::orderBy('sp_LuotXem', 'desc')->limit(8)->get();
-            //dd($most_views);
 
             $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
-            //dd($posts);
             $favoritedProducts = [];
 
             return view('front-end.home',[
@@ -233,6 +228,93 @@ class HomeController extends Controller
             'gh' => session()->get('carts'),
         ]);
     }
+
+    public function search_Microphone(Request $request)
+    {
+        if(Auth::check()){
+            $id_tk = Auth::user()->id;
+            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
+            $id_kh = $khachhang->id;
+
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+
+            $keywords = $request->keywork;
+            $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            $carts = $this->cartService->getProduct();
+            $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+
+            return view('front-end.search',[
+                'category_product' => $category_product,
+                'brand' => $brand,
+                'khachhang' => $khachhang,
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'search_product' => $search_product,
+                'keywords' => $keywords,
+                'limitedArray' => $limitedArray,
+                'favoritedProducts' => $favoritedProducts,
+                'wish_count' => $wish_count
+            ]);
+        }else{
+            $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
+            $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
+
+            $tags = SanPham::pluck('sp_Tag')->all();
+            // Khởi tạo mảng trống để chứa kết quả
+            $mergedArray = [];
+            // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
+            foreach ($tags as $item) {
+                if (!is_null($item)) {
+                    $tags = explode(',', $item);
+                    $mergedArray = array_merge($mergedArray, $tags);
+                }
+            }
+            // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
+            $mergedArray = array_unique($mergedArray);
+            // Giới hạn mảng chỉ còn tối đa 8 phần tử
+            $limitedArray = array_slice($mergedArray, 0, 8);
+            //dd($limitedArray);
+
+            $keywords = $request->keywork;
+            $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
+                ->where('sp_TrangThai',1)
+                ->orderBy('id', 'desc')
+                ->paginate(9);
+            $carts = $this->cartService->getProduct();
+            $favoritedProducts = [];
+        }
+        return view('front-end.search',[
+            'category_product' => $category_product,
+            'brand' => $brand,
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+            'search_product' => $search_product,
+            'keywords' => $keywords,
+            'limitedArray' => $limitedArray,
+            'favoritedProducts' => $favoritedProducts,
+        ]);
+    }
+
 
 
 }

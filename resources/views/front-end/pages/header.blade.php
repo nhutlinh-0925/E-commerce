@@ -113,52 +113,70 @@
                     </nav>
                 </div>
 
-                {{--  <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <form action="#" style="width: 100px">
-                            <input type="text" placeholder="Search..." style="width: 100px">
-                            <button type="submit"><span class="icon_search"></span></button>
-                        </form>
-                        <a href="#" class="search-switch"><img src="/template/front-end/img/icon/heart.png" alt=""></a>
-                        <div class="js-show-cart"
-                            data-notify="{{ !is_null(\Illuminate\Support\Facades\Session::get('carts')) ? count(\Illuminate\Support\Facades\Session::get('carts')) : 0 }}">
-                            <i class="fa fa-facebook"></i>
-                        </div>
-                    </div>
-                </div>  --}}
-
                 <div class="col-5">
-                    <div class="header__nav__option">
-                        <div class="inline-block-container">
-                            <form action="/search" style="display: inline-block; margin-right:40px;" method="POST">
-                                @csrf
-                                <input autocomplete="off" type="text" placeholder="Tìm kiếm sản phẩm" style="width: 240px;" name="keywords_submit" id="keywords">
+                    <div class="header__nav__option d-flex align-items-center">
+                        <!-- Form search 1 -->
+                        <form action="/search" style="margin-right: 20px;" method="POST">
+                            @csrf
+                            <input autocomplete="off" type="text" placeholder="Tìm kiếm sản phẩm" style="width: 240px;" name="keywords_submit" id="keywords">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                            <div id="search-ajax"></div>
+                        </form>
 
-                                <button type="submit" ><i class="fa fa-search"></i></button>
-                                <div id="search-ajax"></div>
-                            </form>
-                            @if (Auth::check())
-                            <div class="js-show-wish icon-header-noti-yt"
-                                 data-notify="{{ count($wish_count) }}"><a href="/wish-list-count/{{ $khachhang->id }}">
-                                    <i class="fa fa-heart" style="color: black"></i></a>
+                        <!-- Form search 2 -->
+                        @if (Auth::check())
+                        <form id="search-form" action="{{ url('/user/search_microphone')}}" method="get" >
+                            <div class="btn btn-white input-group-text border-0" type="submit" id="">
+                                <div style="display:none">
+                                    <input id="search-input" name="keywork" type="text">
+                                </div>
+                                <span class="microphone">
+                                    <i class="fa fa-microphone"></i>
+                                    <span class="recording-icon"></span>
+                                </span>
                             </div>
+                        </form>
+                        @else()
+                            <form id="search-form" action="{{ url('/search_microphone')}}" method="get" >
+                                <div class="btn btn-white input-group-text border-0" type="submit" id="">
+                                    <div style="display:none">
+                                        <input id="search-input" name="keywork" type="text">
+                                    </div>
+                                    <span class="microphone">
+                                    <i class="fa fa-microphone"></i>
+                                    <span class="recording-icon"></span>
+                                </span>
+                                </div>
+                            </form>
+                        @endif
+
+                        <!-- Wishlist and Cart icons -->
+                        <div class="d-flex align-items-center ml-auto">
+                            @if (Auth::check())
+                                <div class="js-show-wish icon-header-noti-yt" data-notify="{{ count($wish_count) }}" style="margin-right: 30px;">
+                                    <a href="/user/wish-list-count/{{ $khachhang->id }}">
+                                        <i class="fa fa-heart" style="color: black; font-size: 24px"></i>
+                                    </a>
+                                </div>
                             @else()
-                                <div class="js-show-wish icon-header-noti-yt"
-                                     data-notify="0"><a href="" onclick ='return confirm("Bạn cần đăng nhập để xem danh sách sản phẩm yêu thích !!!")'>
-                                        <i class="fa fa-heart" style="color: black"></i></a>
+                                <div class="js-show-wish icon-header-noti-yt" data-notify="0" style="margin-right: 30px;">
+                                    <a href="" onclick='return confirm("Bạn cần đăng nhập để xem danh sách sản phẩm yêu thích !!!")'>
+                                        <i class="fa fa-heart" style="color: black; font-size: 24px"></i>
+                                    </a>
                                 </div>
                             @endif
 
-                            <div class="js-show-cart icon-header-noti"
-                                data-notify="{{ !is_null(\Illuminate\Support\Facades\Session::get('carts')) ? count(\Illuminate\Support\Facades\Session::get('carts')) : 0 }}">
-                                <i class="fa fa-cart-plus"></i>
+                            <div class="js-show-cart icon-header-noti" data-notify="{{ !is_null(\Illuminate\Support\Facades\Session::get('carts')) ? count(\Illuminate\Support\Facades\Session::get('carts')) : 0 }}">
+                                <i class="fa fa-cart-plus" style="color: black; font-size: 24px"></i>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
+
             </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+{{--            <div class="canvas__open"><i class="fa fa-bars"></i></div>--}}
         </div>
 
     </header>

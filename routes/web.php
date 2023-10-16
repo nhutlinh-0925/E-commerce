@@ -98,9 +98,8 @@ use \App\Http\Controllers\BlogController;
     //Thanh toán ONEPAY
     //Route::post('onepay_payment', [PayPalController::class, 'onepay_payment']);
 
-    // Route::get('/login', function () {
-    //     return view('front-end.login.login');
-    // });
+    Route::get('/search_microphone', [HomeController::class, 'search_Microphone']);
+
 
 //Khách hàng chưa đăng nhập
 Route::prefix('user')->name('user.')->group(function () {
@@ -158,6 +157,7 @@ Route::prefix('user')->name('user.')->group(function () {
 
         Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 
+        Route::get('/search_microphone', [HomeController::class, 'search_Microphone']);
 
     });
 

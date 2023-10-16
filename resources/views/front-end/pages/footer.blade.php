@@ -235,4 +235,46 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<script type="text/javascript">
+    var message = document.querySelector('#message');
+
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+
+    var grammar = '#JSGF V1.0;'
+
+    var recognition = new SpeechRecognition();
+    var speechRecognitionList = new SpeechGrammarList();
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
+    recognition.lang = 'vi-VN';
+    recognition.interimResult = false;
+
+    recognition.continuous = true;
+
+    recognition.onresult = function(event) {
+        var lastResult = event.results.length - 1;
+        var content = event.results[lastResult][0].transcript
+        // console.log(content);
+        document.getElementById('search-input').value = content;
+        document.getElementById('search-form').submit();
+    }
+
+    recognition.onspeeched = function() {
+        recognition.stop();
+    }
+
+    recognition.onerror = function() {
+        console.log(event.error);
+        const microphone = document.querySelector('.microphone');
+        microphone.classList.remove('recording')
+    }
+
+    document.querySelector('.microphone').addEventListener('click', function() {
+        recognition.start();
+        const microphone = document.querySelector('.microphone');
+        microphone.classList.add('recording');
+    })
+</script>
     @yield('footer')
