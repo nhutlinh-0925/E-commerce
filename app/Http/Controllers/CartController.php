@@ -899,7 +899,7 @@ class CartController extends Controller
                 ->get();
         }
 
-        return view('front-end.detail_order',[
+        return view('front-end.detail_order2',[
             'khachhang' => $khachhang,
             'carts' => $carts,
             'gh' => session()->get('carts'),
@@ -936,6 +936,7 @@ class CartController extends Controller
                 //dd($product);
                 if ($product) {
                     $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
+                    $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
                     $product->save();
                 }
             }
@@ -979,10 +980,97 @@ class CartController extends Controller
             $order->pdh_TrangThai = $newStatus;
             $order->save();
 
+            $id_kh = $order->khach_hang_id;
+            $tien_hang = $order->pdh_TongTien;
+            $customer = KhachHang::find($id_kh);
+            $tien = $customer->kh_TongTienDaMua;
+            $customer->kh_TongTienDaMua = $tien + $tien_hang;
+            $customer->save();
+
 
         }else{
 
         }
+        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
+        return redirect()->back();
+    }
+
+    public function cancel(Request $request, $id){
+        $order = PhieuDatHang::find($id);
+            foreach ($order->chitietphieudathang as $detail) {
+                $product = $detail->sanpham;
+                //dd($product);
+                if ($product) {
+                    $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
+                    $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
+                    $product->save();
+                }
+            }
+            $order->pdh_TrangThai = 5;
+            $order->save();
+        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
+        return redirect()->back();
+    }
+
+    public function success(Request $request, $id){
+        $order = PhieuDatHang::find($id);
+        //dd($order);
+
+        $order_date = $order->pdh_NgayDat;
+        $thongke = ThongKe::where('tk_Ngay',$order_date)->get();
+
+        if($thongke){
+            $thongke_dem = $thongke->count();
+        }else{
+            $thongke_dem = 0;
+        }
+
+        $total_order = 0; //tong so luong don
+        $sales = 0; //doanh thu
+        $profit = 0; //loi nhuan
+        $quantity = 0; //so luong
+
+        foreach ($order->chitietphieudathang as $detail){
+            $product = $detail->sanpham;
+            //dd($product);
+            $quantity += $detail->ctpdh_SoLuong;
+            //dd($quantity);
+            $sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
+            //dd($sales);
+            $profit = $sales - 100000;
+        }
+        $total_order += 1;
+
+        if($thongke_dem > 0){
+            $thongke_capnhat = ThongKe::where('tk_Ngay',$order_date)->first();
+            $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TogTien + $sales;
+            $thongke_capnhat->tk_LoiNhuan = $thongke_capnhat->tk_LoiNhuan + $profit;
+            $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
+            $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;
+            $thongke_capnhat->save();
+            //dd($thongke_capnhat);
+        }else{
+            $thongke_moi = new ThongKe();
+            $thongke_moi->tk_Ngay = $order_date;
+            $thongke_moi->tk_SoLuong = $quantity;
+            $thongke_moi->tk_TongTien = $sales;
+            $thongke_moi->tk_LoiNhuan = $profit;
+            $thongke_moi->tk_TongDonHang = $total_order;
+            $thongke_moi->save();
+            //dd($thongke_moi);
+        }
+
+        $order->pdh_TrangThai = 4;
+        $order->save();
+
+        $id_kh = $order->khach_hang_id;
+        $tien_hang = $order->pdh_TongTien;
+        $customer = KhachHang::find($id_kh);
+        $tien = $customer->kh_TongTienDaMua;
+        $customer->kh_TongTienDaMua = $tien + $tien_hang;
+        //dd($customer);
+        $customer->save();
+
         Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
         return redirect()->back();
     }

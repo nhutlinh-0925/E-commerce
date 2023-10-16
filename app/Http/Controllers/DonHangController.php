@@ -18,6 +18,7 @@ use App\Models\NhanVien;
 
 use App\Models\DiaChi;
 use App\Models\PhiVanChuyen;
+use Mail;
 
 class DonHangController extends Controller
 {
@@ -116,6 +117,7 @@ class DonHangController extends Controller
                 //dd($product);
                 if ($product) {
                     $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
+                    $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
                     $product->save();
                 }
             }
@@ -128,7 +130,7 @@ class DonHangController extends Controller
             $profit = 0; //loi nhuan
             $quantity = 0; //so luong
 
-            foreach ($order->chitietphieudathang as $detail){
+            foreach ($order->chitietphieudathang as $detail) {
                 $product = $detail->sanpham;
                 //dd($product);
                 $quantity += $detail->ctpdh_SoLuong;
@@ -139,14 +141,14 @@ class DonHangController extends Controller
             }
             $total_order += 1;
 
-            if($thongke_dem > 0){
-                $thongke_capnhat = ThongKe::where('tk_Ngay',$order_date)->first();
+            if ($thongke_dem > 0) {
+                $thongke_capnhat = ThongKe::where('tk_Ngay', $order_date)->first();
                 $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TogTien + $sales;
                 $thongke_capnhat->tk_LoiNhuan = $thongke_capnhat->tk_LoiNhuan + $profit;
                 $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
                 $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;
                 $thongke_capnhat->save();
-            }else{
+            } else {
                 $thongke_moi = new ThongKe();
                 $thongke_moi->tk_Ngay = $order_date;
                 $thongke_moi->tk_SoLuong = $quantity;
@@ -159,8 +161,14 @@ class DonHangController extends Controller
             $order->pdh_TrangThai = $newStatus;
             $order->save();
 
+            $id_kh = $order->khach_hang_id;
+            $tien_hang = $order->pdh_TongTien;
+            $customer = KhachHang::find($id_kh);
+            $tien = $customer->kh_TongTienDaMua;
+            $customer->kh_TongTienDaMua = $tien + $tien_hang;
+            $customer->save();
 
-        }else{
+        }elseif($newStatus == 2){
             if(Auth::check()){
                 $id_tk = Auth::user()->id;
                 $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
@@ -170,7 +178,26 @@ class DonHangController extends Controller
             $order->nhan_vien_id = $id_nv;
             $order->pdh_TrangThai = $newStatus;
             $order->save();
+
+            $name = "Nhựt Linh";
+            Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
+                $email->subject('Balo');
+                $email->to('trannhutlinh0925@gmail.com', $name);
+            });
+
+
         }
+//        else{
+//            if(Auth::check()){
+//                $id_tk = Auth::user()->id;
+//                $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
+//                //dd($nhanvien);
+//                $id_nv = $nhanvien->id;
+//            }
+//            $order->nhan_vien_id = $id_nv;
+//            $order->pdh_TrangThai = $newStatus;
+//            $order->save();
+//        }
         Session::flash('success_message', 'Cập nhật trạng thái thành công!');
 //        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
         return redirect()->back();
