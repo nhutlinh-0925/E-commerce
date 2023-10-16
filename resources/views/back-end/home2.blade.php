@@ -110,8 +110,12 @@
                         <option>--Chọn--</option>
                         <option value="7ngay">7 ngày qua</option>
                         <option value="thangtruoc">Tháng trước</option>
-                        <option value="thangnay">Tháng này</option>
-{{--                        <option value="365ngayqua">365 ngày qua</option>--}}
+                        <option value="thangnay">Tháng này
+                        <option value="quy1">Quý 1</option>
+                        <option value="quy2">Quý 2</option>
+                        <option value="quy3">Quý 3</option>
+                        <option value="quy4">Quý 4</option>
+                        {{--                        <option value="365ngayqua">365 ngày qua</option>--}}
                     </select>
                 </p>
             </div>
