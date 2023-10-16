@@ -140,6 +140,7 @@ class BlogController extends Controller
                 ->paginate(9);
             //dd($blog_tag);
             $carts = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
             return view('front-end.blog_tag',[
                 'category_post' => $category_post,
                 'khachhang' => $khachhang,
@@ -148,6 +149,7 @@ class BlogController extends Controller
                 'blog_tag' => $blog_tag,
                 'tag' => $tag,
                 'limitedArray' => $limitedArray,
+                'wish_count' => $wish_count
             ]);
         }else{
             $category_post = DanhMucBaiViet::all()->where('dmbv_TrangThai',1)->sortByDesc("id");
@@ -339,10 +341,12 @@ class BlogController extends Controller
 
     public function add_comment(Request $request){
         $this -> validate($request, [
-            'bl_NoiDung' => 'required',
+            'bl_NoiDung' => 'required|min:3|max:255',
         ],
             [
                 'bl_NoiDung.required' => 'Vui lòng nhập nội dung bình luận',
+                'bl_NoiDung.min' => 'Bình luận phải lớn hơn 3 kí tự',
+                'bl_NoiDung.max' => 'Bình luận phải nhỏ hơn 255 kí tự',
             ]);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         if(Auth::check()){

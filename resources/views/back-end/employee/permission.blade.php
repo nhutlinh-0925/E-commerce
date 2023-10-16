@@ -174,15 +174,16 @@
                                         @endif
                                     </td>
 
-
-                                    <td class="text-center">
+                                    <td>
+                                        <p style="width: 100px;text-align: center">
                                         @if ($item->taikhoan->loai == 0 && $item->taikhoan->vip == 1)
-                                            <a href="">
-                                                <button class="btn btn-danger" style="width: 100%">Senior Manager</button>
+                                            <a href="#" class="btn btn-danger" style="font-size: 10px">
+                                                Senior Manager
                                             </a>
                                         @elseif ($item->taikhoan->loai == 0 && $item->taikhoan->vip == 0)
                                             <a href="{{ url('/admin/employees/permissions/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Thay đổi quyền"><i class="bi bi-pencil-square"></i></a>
                                         @endif
+                                        </p>
                                     </td>
                                 </tr>
                             @endforeach

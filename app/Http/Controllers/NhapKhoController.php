@@ -104,15 +104,6 @@ class NhapKhoController extends Controller
         return $output;
     }
 
-
-
-
-
-
-
-
-
-
     public function store(Request $request){
         //dd($request);
         if(Auth::check()){
@@ -125,22 +116,19 @@ class NhapKhoController extends Controller
                 ]);
 
             $now = Carbon::now();
-            $formattedDateTime = $now->format('Y-m-d H:i:s');
+            //$formattedDateTime = $now->format('Y-m-d H:i:s');
 
             $id_tk = $request->user()->id;
-            //dd($id_tk);
             $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
-            //dd($nhanvien);
             $id_nv = $nhanvien->id;
 
             $pnh = new PhieuNhapHang();
             $pnh->nhan_vien_id = $id_nv;
             $pnh->nha_cung_cap_id = $request->nha_cung_cap_id;
-            $pnh->pnh_NgayLapPhieu = $formattedDateTime;
+            $pnh->pnh_NgayLapPhieu = $now;
             $pnh->pnh_TongTien = $request->pnh_TongTien;
             $pnh->pnh_GhiChu = $request->pnh_GhiChu;
             $pnh->pnh_TrangThai = 0;
-            //dd($pnh);
             $pnh->save();
 
             // Lấy id của phiếu nhập hàng mới tạo
@@ -198,12 +186,12 @@ class NhapKhoController extends Controller
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $now = Carbon::now();
-        $formattedDateTime = $now->format('Y-m-d H:i:s');
+        //$formattedDateTime = $now->format('Y-m-d H:i:s');
         //dd($formattedDateTime);
         $warehouse = PhieuNhapHang::find($id)
             ->update([
                 'pnh_TrangThai' => 1,
-                'pnh_NgayXacNhan' => $formattedDateTime,
+                'pnh_NgayXacNhan' => $now,
             ]);
         //dd($warehouse);
 
