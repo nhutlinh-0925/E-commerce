@@ -258,7 +258,7 @@
 
                                                 <div class="text-center">
                                                     <button type="submit" class="btn btn-primary">Cập nhật</button>
-                                                    <a href="{{ route('purchase_order', ['id' => $id_kh]) }}" class="btn btn-danger">Quay lại</a>
+                                                    <a href="{{ route('user.purchase_order', ['id' => $id_kh]) }}" class="btn btn-danger">Quay lại</a>
                                                 </div>
                                             </form>
                                         </div>

@@ -33,6 +33,17 @@ use \App\Http\Controllers\BlogController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//PayPal
+//      trannhutlinh@business.example.com
+//      linh_paypal
+
+
+//VNPAY
+//Ngân hàng: NCB
+//Số thẻ:           9704198526191432198
+//Tên chủ thẻ:      NGUYEN VAN A
+//Ngày phát hành:   07/15
+//Mật khẩu OTP:     123456
 
 // Front-end - Trang người dùng
 
@@ -54,24 +65,10 @@ use \App\Http\Controllers\BlogController;
     Route::get('carts',[CartController::class, 'show']);
     Route::post('update-cart',[CartController::class, 'update']);
     Route::get('carts/delete/{id}',[CartController::class, 'remove']);
-    Route::get('checkout',[CartController::class, 'showcheckout'])->name('showcheckout');
-    Route::post('/carts/checkout',[CartController::class, 'getCart'])->name('checkout');
 
-    Route::get('success-transaction', [CartController::class, 'successTransaction'])->name('successTransaction');
-    Route::get('cancel-transaction', [CartController::class, 'cancelTransaction'])->name('cancelTransaction');
-
-    Route::get('vnpay-callback',[CartController::class, 'handleVnPayCallback']);
     //Mã giảm giá
     Route::post('/check_coupon',[CartController::class, 'check_coupon']);
     Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
-
-    //Trang đơn hàng
-    Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
-    Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
-    Route::post('/purchase_order/order_detail/{id}', [CartController::class, 'order_update']);
-
-    //Khi mua hàng gửi email
-    Route::get('email',[CartController::class, 'email']);
 
     //Đăng nhập facebook
     //Route::get('user/login/facebook', [LoginController::class, 'login_facebook']);
@@ -97,9 +94,9 @@ use \App\Http\Controllers\BlogController;
     //Liên hệ
     Route::get('contact',[HomeController::class,'contact']);
 
-    //Yêu thích
-    Route::get('wish-list/{id}',[ShopController::class,'wish_lish_show'])->name('wish_lish_show');
-    Route::get('/wish-list-count/{id}',[ShopController::class, 'wish_list_count']);
+
+    //Thanh toán ONEPAY
+    //Route::post('onepay_payment', [PayPalController::class, 'onepay_payment']);
 
     // Route::get('/login', function () {
     //     return view('front-end.login.login');
@@ -124,6 +121,29 @@ Route::prefix('user')->name('user.')->group(function () {
     // Route::middleware(['auth:web'])->group(function () {
     Route::middleware(['auth','isCus'])->group(function () {
         Route::get('/',[HomeController::class, 'home'])->name('home');
+
+        //Trang shop
+
+        //Trang cart
+        Route::get('checkout',[CartController::class, 'showcheckout'])->name('showcheckout');
+        Route::post('/carts/checkout',[CartController::class, 'getCart'])->name('checkout');
+
+        Route::get('success-transaction', [CartController::class, 'successTransaction'])->name('successTransaction');
+        Route::get('cancel-transaction', [CartController::class, 'cancelTransaction'])->name('cancelTransaction');
+
+        Route::get('vnpay-callback',[CartController::class, 'handleVnPayCallback']);
+
+        //Trang đơn hàng cua toi
+        Route::get('/purchase_order/{id}',[CartController::class, 'show_DonHang'])->name('purchase_order');
+        Route::get('/purchase_order/order_detail/{id}',[CartController::class, 'show_ChitietDonhang']);
+        //Route::post('/purchase_order/order_detail/{id}', [CartController::class, 'order_update']);
+
+        Route::get('/purchase_order/order_detail/status_confirmed_cancel/{id}', [CartController::class, 'cancel']);
+        Route::get('/purchase_order/order_detail/status_confirmed_success/{id}', [CartController::class, 'success']);
+
+        //Yêu thích
+        Route::get('/wish-list/{id}',[ShopController::class,'wish_lish_show'])->name('wish_lish_show');
+        Route::get('/wish-list-count/{id}',[ShopController::class, 'wish_list_count']);
 
         //Trang cài đặt
         Route::get('/setting/{id}',[SettingController::class, 'setting']);

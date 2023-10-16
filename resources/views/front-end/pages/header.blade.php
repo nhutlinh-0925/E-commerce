@@ -67,7 +67,7 @@
                                 <ul>
                                     @if (Auth::check())
 {{--                                        <a class="dropdown-item" href="">Mục cài đặt</a>--}}
-                                        <a class="dropdown-item" href="/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
+                                        <a class="dropdown-item" href="/user/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
                                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                                     @else
                                         <a class="dropdown-item" href="{{  route('user.login')}}" style="font-weight: bold;">Đăng nhập</a>
@@ -101,19 +101,14 @@
 
         <div class="container">
             <div class="row">
-{{--                <div class="col-lg-1">--}}
-{{--                    <div class="header__logo">--}}
-{{--                        <a href="/"><img src="/template/front-end/img/logo.png" alt=""></a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
                 <div class="col-7">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active"><a href="/">Trang chủ</a></li>
-                            <li ><a href="/shop">Cửa hàng</a></li>
-                            <li ><a href="/blog">Tin tức</a></li>
+                            <li><a href="/shop">Cửa hàng</a></li>
+                            <li><a href="/blog">Tin tức</a></li>
                             <li><a href="#">Về Chúng tôi</a></li>
-                            <li ><a href="/contact">Liên lạc</a></li>
+                            <li><a href="/contact">Liên lạc</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -165,6 +160,7 @@
             </div>
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
+
     </header>
     <!-- Header Section End -->
 

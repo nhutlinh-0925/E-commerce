@@ -215,7 +215,7 @@
                                         <a href="/product/{{ $product->sanpham->id }}">
                                             <img src="{{asset('/storage/images/products/'.$product->sanpham->sp_AnhDaiDien) }}"></a>
                                         <ul class="product__hover">
-                                            <li><a href="{{ route('wish_lish_show',$product->sanpham->id) }}" class="wishlist-link" data-product-id="{{ $product->sanpham->id }}">
+                                            <li><a href="{{ route('user.wish_lish_show',$product->sanpham->id) }}" class="wishlist-link" data-product-id="{{ $product->sanpham->id }}">
                                                     <i class="fa fa-heart" style="color: blue;"></i>
                                                 </a>
                                             </li>

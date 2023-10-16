@@ -164,18 +164,18 @@
                                     </div>
                                 </div>
                                 {{--  <a href="#"  class="primary-btn">add to cart</a>  --}}
-                                <button type="submit"  class="primary-btn">add to cart</button>
+                                <button type="submit"  class="primary-btn">Thêm vào giỏ hàng </button>
                                 <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
                             </div>
                             <div class="product__details__btns__option">
-                                <a href="{{ route('wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
+                                <a href="{{ route('user.wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
                                     <i class="fa fa-heart" style="color: blue;"></i>
-                                    Add to wishlist
+                                    Yêu thích
                                 </a>
-                                <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
+                                <a href="#"><i class="fa fa-exchange"></i> So sánh</a>
                             </div>
                             <div class="product__details__last__option">
-                                <h5><span>Guaranteed Safe Checkout</span></h5>
+                                <h5><span>Đảm bảo thanh toán an toàn</span></h5>
                                 <img src="/template/front-end/img/shop-details/details-payment.png" alt="">
                                 <ul>
 {{--                                    <li><span>SKU:</span> #000{{ $product->id }}</li>--}}
@@ -319,7 +319,7 @@
                             <a href="/product/{{ $product_relate->id }}">
                                 <img src="{{asset('/storage/images/products/'.$product_relate->sp_AnhDaiDien) }}">
                             <ul class="product__hover">
-                                <li><a href="{{ route('wish_lish_show',$product_relate->id) }}" class="wishlist-link" data-product-id="{{ $product_relate->id }}">
+                                <li><a href="{{ route('user.wish_lish_show',$product_relate->id) }}" class="wishlist-link" data-product-id="{{ $product_relate->id }}">
                                         <i class="fa fa-heart" style="color: blue;"></i>
                                     </a>
                                 </li>

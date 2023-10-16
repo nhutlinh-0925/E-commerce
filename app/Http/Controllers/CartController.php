@@ -337,11 +337,11 @@ class CartController extends Controller
                     ]);
                 }
 
-                $name = "Nhựt Linh";
-                Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-                    $email->subject('Balo');
-                    $email->to('trannhutlinh0925@gmail.com', $name);
-                });
+//                $name = "Nhựt Linh";
+//                Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
+//                    $email->subject('Balo');
+//                    $email->to('trannhutlinh0925@gmail.com', $name);
+//                });
 
                 if ($coupons == true) {
                     Session::forget('coupon');
@@ -361,8 +361,8 @@ class CartController extends Controller
                 $response = $provider->createOrder([
                     "intent" => "CAPTURE",
                     "application_context" => [
-                        "return_url" => route('successTransaction'),
-                        "cancel_url" => route('cancelTransaction'),
+                        "return_url" => route('user.successTransaction'),
+                        "cancel_url" => route('user.cancelTransaction'),
                     ],
                     "purchase_units" => [
                         [
@@ -385,12 +385,12 @@ class CartController extends Controller
                         }
 
                         return redirect()
-                            ->route('checkout')
+                            ->route('user.checkout')
                             ->with('flash_message_error', 'Lỗi thanh toán.');
 
                     } else {
                         return redirect()
-                            ->route('checkout')
+                            ->route('user.checkout')
                             ->with('flash_message_error', $response['message'] ?? 'Lỗi thanh toán.');
                     }
             } elseif ($submitButtonName === 'redirect') {
@@ -405,7 +405,7 @@ class CartController extends Controller
                 // Chuyển đổi mảng thông tin thành query string
                 $queryString = http_build_query($queryData);
                 // Cập nhật biến $vnp_Returnurl bằng cách thêm query string vào URL
-                $vnp_Returnurl = "http://127.0.0.1:8000/vnpay-callback?" . $queryString;
+                $vnp_Returnurl = "http://127.0.0.1:8000/user/vnpay-callback?" . $queryString;
                 //$vnp_Returnurl = "http://127.0.0.1:8000/vnpay-callback";
                 $vnp_TmnCode = "JZXSHR5X";//Mã website tại VNPAY
                 $vnp_HashSecret = "TQWUZAKGSAQBBWMNDTMZXINTWDJYXPBA"; //Chuỗi bí mật
@@ -470,7 +470,7 @@ class CartController extends Controller
                     die();
                     //return redirect()->away($vnp_Url);
                 } else {
-                    return redirect()->route('showcheckout');
+                    return redirect()->route('user.showcheckout');
                     //echo json_encode($returnData);
                 }
 
@@ -603,11 +603,11 @@ class CartController extends Controller
                 ]);
             }
 
-            $name = "Nhựt Linh";
-            Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-                $email->subject('Balo');
-                $email->to('trannhutlinh0925@gmail.com', $name);
-            });
+//            $name = "Nhựt Linh";
+//            Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
+//                $email->subject('Balo');
+//                $email->to('trannhutlinh0925@gmail.com', $name);
+//            });
 
             if ($coupons == true) {
                 Session::forget('coupon');
@@ -619,7 +619,7 @@ class CartController extends Controller
             session()->forget('data_get');
         } else {
             return redirect()
-                ->route('checkout')
+                ->route('user.checkout')
                 ->with('flash_message_error', $response['message'] ?? 'Lỗi thanh toán.');
         }
 
@@ -628,7 +628,7 @@ class CartController extends Controller
     }
 
     public function cancelTransaction(Request $request){
-        return redirect()->route('showcheckout');
+        return redirect()->route('user.showcheckout');
     }
 
     public function handleVnPayCallback(Request $request){
@@ -740,11 +740,11 @@ class CartController extends Controller
                     ]);
                 }
 
-                $name = "Nhựt Linh";
-                Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-                    $email->subject('Balo');
-                    $email->to('trannhutlinh0925@gmail.com', $name);
-                });
+//                $name = "Nhựt Linh";
+//                Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
+//                    $email->subject('Balo');
+//                    $email->to('trannhutlinh0925@gmail.com', $name);
+//                });
 
                 if ($coupons == true) {
                     Session::forget('coupon');

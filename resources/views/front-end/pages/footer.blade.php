@@ -115,7 +115,7 @@
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "/purchase_order/" + userId,
+            ajax: "/user/purchase_order/" + userId,
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'pdh_DiaChiGiao', name: 'pdh_DiaChiGiao'},
@@ -202,7 +202,7 @@
                 },
 
                 {data: null, name: 'actions', render: function(data, type, row) {
-                        return '<a class="btn btn-secondary" text-center" style="font-size: 10px" href="/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
+                        return '<a class="btn btn-secondary" text-center" style="font-size: 10px" href="/user/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
                     }},
             ]
         });

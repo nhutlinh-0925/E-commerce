@@ -204,7 +204,7 @@
                                 @endif
                             </li>
                         </ul>
-                        <a href="/checkout"  class="primary-btn">Thanh toán</a>
+                        <a href="/user/checkout"  class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>

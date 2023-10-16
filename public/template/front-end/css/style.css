@@ -172,7 +172,7 @@ ol {
 	font-size: 14px;
 	color: #ffffff;
 	background: #111111;
-	font-weight: 700;
+	font-weight: 900;
 	border: none;
 	text-transform: uppercase;
 	display: inline-block;
@@ -2958,6 +2958,7 @@ ol {
 
 .checkout__order .site-btn {
 	width: 100%;
+    color: #b1dfbb;
 	margin-top: 8px;
 }
 

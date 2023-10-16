@@ -98,7 +98,7 @@
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <form action="/carts/checkout" method="post">
+                <form action="/user/carts/checkout" method="post">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <h3 style="color: red">Thanh toán đơn hàng của ở đây</h3>
