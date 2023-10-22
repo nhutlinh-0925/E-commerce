@@ -73,12 +73,7 @@
                     </a>
                     <ul id="evaluate-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="">
-                                <i class="bi bi-circle"></i><span>Thêm đánh giá</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
+                            <a href="/admin/reviews">
                                 <i class="bi bi-circle"></i><span>Danh sách đánh giá</span>
                             </a>
                         </li>

@@ -98,13 +98,17 @@
                     <div class="col-lg-8">
                         <div class="product__details__text">
                             <h4>{{ $product->sp_TenSanPham }}</h4>
+
+
                             <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <span> - 5 Reviews</span>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $rating_round)
+                                        <span class="fa fa-star " style="color: #ff9705;"></span>
+                                    @else
+                                        <span class="fa fa-star " style="color: #ccc;"></span>
+                                    @endif
+                                @endfor
+                                <span> - {{ $review->count() }} Đánh giá</span>
                             </div>
                             @php
                                 $price_reduced = 0;
@@ -122,41 +126,41 @@
                                     @endif
                                 </p>
                             </h3>
-                            <div class="product__details__option">
-                                <div class="product__details__option__size">
-                                    <span>Size:</span>
-                                    <label for="xxl">xxl
-                                        <input type="radio" id="xxl">
-                                    </label>
-                                    <label class="active" for="xl">xl
-                                        <input type="radio" id="xl">
-                                    </label>
-                                    <label for="l">l
-                                        <input type="radio" id="l">
-                                    </label>
-                                    <label for="sm">s
-                                        <input type="radio" id="sm">
-                                    </label>
-                                </div>
-                                <div class="product__details__option__color">
-                                    <span>Color:</span>
-                                    <label class="c-1" for="sp-1">
-                                        <input type="radio" id="sp-1">
-                                    </label>
-                                    <label class="c-2" for="sp-2">
-                                        <input type="radio" id="sp-2">
-                                    </label>
-                                    <label class="c-3" for="sp-3">
-                                        <input type="radio" id="sp-3">
-                                    </label>
-                                    <label class="c-4" for="sp-4">
-                                        <input type="radio" id="sp-4">
-                                    </label>
-                                    <label class="c-9" for="sp-9">
-                                        <input type="radio" id="sp-9">
-                                    </label>
-                                </div>
-                            </div>
+{{--                            <div class="product__details__option">--}}
+{{--                                <div class="product__details__option__size">--}}
+{{--                                    <span>Size:</span>--}}
+{{--                                    <label for="xxl">xxl--}}
+{{--                                        <input type="radio" id="xxl">--}}
+{{--                                    </label>--}}
+{{--                                    <label class="active" for="xl">xl--}}
+{{--                                        <input type="radio" id="xl">--}}
+{{--                                    </label>--}}
+{{--                                    <label for="l">l--}}
+{{--                                        <input type="radio" id="l">--}}
+{{--                                    </label>--}}
+{{--                                    <label for="sm">s--}}
+{{--                                        <input type="radio" id="sm">--}}
+{{--                                    </label>--}}
+{{--                                </div>--}}
+{{--                                <div class="product__details__option__color">--}}
+{{--                                    <span>Color:</span>--}}
+{{--                                    <label class="c-1" for="sp-1">--}}
+{{--                                        <input type="radio" id="sp-1">--}}
+{{--                                    </label>--}}
+{{--                                    <label class="c-2" for="sp-2">--}}
+{{--                                        <input type="radio" id="sp-2">--}}
+{{--                                    </label>--}}
+{{--                                    <label class="c-3" for="sp-3">--}}
+{{--                                        <input type="radio" id="sp-3">--}}
+{{--                                    </label>--}}
+{{--                                    <label class="c-4" for="sp-4">--}}
+{{--                                        <input type="radio" id="sp-4">--}}
+{{--                                    </label>--}}
+{{--                                    <label class="c-9" for="sp-9">--}}
+{{--                                        <input type="radio" id="sp-9">--}}
+{{--                                    </label>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <div class="product__details__cart__option">
                                 <div class="quantity">
                                     <div class="pro-qty">
@@ -206,7 +210,7 @@
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">Mô tả</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Đánh giá(5)</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Đánh giá({{ $review->count() }})</a>
                                 </li>
                                 {{--  <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Thông tin thêm</a>
@@ -229,69 +233,120 @@
                                 <div class="tab-pane" id="tabs-6" role="tabpanel">
                                     <div class="product__details__tab__content">
                                         <div class="product__details__tab__content__item">
-                                            {{--  <h5>Products Infomation</h5>
-                                            <p>
-                                                A Pocket PC is a handheld computer, which features many of the same
-                                                capabilities as a modern PC. These handy little devices allow
-                                                individuals to retrieve and store e-mail messages, create a contact
-                                                file, coordinate appointments, surf the internet, exchange text messages
-                                                and more. Every product that is labeled as a Pocket PC must be
-                                                accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.
-                                            </p>
-                                            <p>As is the case with any new technology product, the cost of a Pocket PC
-                                                was substantial during it’s early release. For approximately $700.00,
-                                                consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                                These days, customers are finding that prices have become much more
-                                                reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>  --}}
-                                        </div>
-                                        <div class="product__details__tab__content__item">
-                                            {{--  <h5>Material used</h5>
-                                            <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                                                from synthetic materials, not natural like wool. Polyester suits become
-                                                creased easily and are known for not being breathable. Polyester suits
-                                                tend to have a shine to them compared to wool and cotton suits, this can
-                                                make the suit look cheap. The texture of velvet is luxurious and
-                                                breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>  --}}
+                                            <div class="row">
+                                                <div class="component_rating_content" style="display: flex;align-items: center;border-radius: 5px;border: 1px solid #dedede">
+                                                    <div class="rating_item" style="width: 10%; position: relative; display: grid; text-align: center;">
+                                                        <span class="fa fa-star" style="font-size: 100px; color: #ff9705;"></span>
+                                                        <b style="color: red; font-size: 20px;">{{ $roundedRating }}</b>
+                                                    </div>
+
+                                                    <?php
+                                                    $ratingCounts = [0, 0, 0, 0, 0]; // Mảng đếm số lượng đánh giá cho mỗi số sao (1-5)
+                                                    foreach ($rating_products as $rating_product) {
+                                                        $ratingCounts[$rating_product->dg_SoSao - 1]++;
+                                                    }
+                                                    $totalRatings = count($rating_products);
+                                                    $percentageRatings = [];
+                                                    for ($i = 0; $i < 5; $i++) {
+                                                        $percentage = ($totalRatings > 0) ? ($ratingCounts[$i] / $totalRatings) * 100 : 0;
+                                                        $percentageRatings[] = $percentage;
+                                                    }
+                                                    ?>
+
+
+                                                    <div class="list_rating" style="width: 100%;padding: 20px">
+                                                        @for($i = 5; $i >= 1; $i--)
+                                                        <div class="item_rating" style="display: flex;align-items: center">
+                                                            <div style="width: 4%;font-size: 14px">
+                                                                {{ $i }} <span class="fa fa-star" style="color: #ff9705;"></span>
+                                                            </div>
+                                                            <div style="width: 100%;margin: 0 20px">
+                                                                <span style="width: 100%;height: 8px;display: block;border: 1px solid #dedede;border-radius: 5px;background-color: #dedede">
+                                                                    <b style="width: {{ $percentageRatings[$i-1] }}%;background-color: #f25800;
+                                                                              display: block;border-radius: 5px;
+                                                                              height: 100%">
+                                                                    </b>
+                                                                </span>
+                                                            </div>
+                                                            <div style="width: 5%">
+                                                                <p>{{ round($percentageRatings[$i-1]) }} %</p>
+                                                            </div>
+                                                        </div>
+                                                        @endfor
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                            @foreach($review as $rv)
+                                            <div class="row">
+                                                <div class="row cm">
+                                                    <div class="col-1">
+                                                        <div class="blog__details__author__pic custom-avatar" style="width: 55px">
+                                                            <img src="{{ asset('/storage/images/avatar/customers/'.$rv->khachhang->taikhoan->avatar) }}" class="rounded-circle">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-11">
+                                                        <div class="blog__details__author__text">
+                                                            <h5>{{ $rv->khachhang->kh_Ten }}</h5>
+                                                            <p>Lúc {{ $rv->created_at->format('H:i:s d/m/Y') }}</p><br>
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                @if ($i <= $rv->dg_SoSao)
+                                                                    <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                                @else
+                                                                    <span class="fa fa-star " style="color: #ccc;"></span>
+                                                                @endif
+                                                            @endfor
+                                                            <br><p>{{ $rv->dg_MucDanhGia }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+
+                                            <h5>Đánh giá mới</h5>
+                                            <p>Chỉ những ai mua sản phẩm mới có thể đánh giá sản phẩm</p>
+
+                                            <div class="rating-container">
+                                                <div class="blog__details__comment">
+                                                    <form action="/product/{{ $product->id }}/add_review" method="POST">
+                                                        <div class="row">
+                                                            <ul class="list-inline rating" title="Average Rating">
+                                                                @for($count = 1; $count <= 5; $count++)
+                                                                    <li title="Đánh giá sao"
+                                                                        id="{{ $product_id }}-{{ $count }}"
+                                                                        data-index="{{ $count }}"
+                                                                        data-product_id="{{ $product_id }}"
+                                                                        data-rating="{{ $rating }}"
+                                                                        data-dg-value="{{ $count }}"
+                                                                        class="rating"
+                                                                        style="cursor: pointer;font-size: 30px; display: inline-block; margin-right: 5px;">
+                                                                        &#9733;
+                                                                    </li>
+                                                                @endfor
+                                                            </ul>
+                                                            <div class="col-lg-12 text-center">
+                                                                <input type="hidden" name="id_sp" value="{{$product->id}}">
+                                                                <input type="hidden" name="dg_SoSao" id="dg_SoSao">
+                                                                <textarea name="dg_MucDanhGia" placeholder="Viết đánh giá của bạn" style="color: black"></textarea>
+                                                                @error ('dg_MucDanhGia')
+                                                                <span style="color: red;">{{ $message }}</span>
+                                                                @enderror
+                                                                <br>
+                                                                <button type="submit" class="site-btn">Gửi đánh giá</button>
+                                                            </div>
+                                                        </div>
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
-                                {{--  <div class="tab-pane" id="tabs-7" role="tabpanel">
-                                    <div class="product__details__tab__content">
-                                        <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                                            solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                                            ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.</p>
-                                        <div class="product__details__tab__content__item">
-                                            <h5>Products Infomation</h5>
-                                            <p>A Pocket PC is a handheld computer, which features many of the same
-                                                capabilities as a modern PC. These handy little devices allow
-                                                individuals to retrieve and store e-mail messages, create a contact
-                                                file, coordinate appointments, surf the internet, exchange text messages
-                                                and more. Every product that is labeled as a Pocket PC must be
-                                                accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.</p>
-                                            <p>As is the case with any new technology product, the cost of a Pocket PC
-                                                was substantial during it’s early release. For approximately $700.00,
-                                                consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                                These days, customers are finding that prices have become much more
-                                                reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>
-                                        </div>
-                                        <div class="product__details__tab__content__item">
-                                            <h5>Material used</h5>
-                                            <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                                                from synthetic materials, not natural like wool. Polyester suits become
-                                                creased easily and are known for not being breathable. Polyester suits
-                                                tend to have a shine to them compared to wool and cotton suits, this can
-                                                make the suit look cheap. The texture of velvet is luxurious and
-                                                breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>
-                                        </div>
-                                    </div>
-                                </div>  --}}
+
                             </div>
                         </div>
                     </div>
@@ -311,6 +366,10 @@
             </div>
             <div class="row">
                 @foreach ($product_related as $product_relate)
+                    @php
+                        $avgRating = \App\Models\ĐanhGia::where('san_pham_id', $product_relate->id)->avg('dg_SoSao');
+                        $roundedAvgRating = ceil($avgRating);
+                    @endphp
                 <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
                     <form action="/add-cart-shop" method="post">
                     @csrf
@@ -331,11 +390,13 @@
                             <h6 class="text-center">{{ $product_relate->sp_TenSanPham }}</h6>
                             <a href="#" class="add-cart">Xem nhanh</a>
                             <div class="text-center rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $roundedAvgRating)
+                                        <span class="fa fa-star " style="color: #ff9705;"></span>
+                                    @else
+                                        <span class="fa fa-star " style="color: #ccc;"></span>
+                                    @endif
+                                @endfor
                             </div>
                             <h5 class="text-center">{{ number_format($product_relate->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
                             <input type="hidden" name="product_id" id="product_id" value="{{$product_relate->id}}">
@@ -405,6 +466,78 @@
                 icon: 'success', // Icon của thông báo (success, error, warning, info, question)
                 showConfirmButton: false, // Không hiển thị nút xác nhận
                 timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+                showCloseButton: true, // Hiển thị nút X để tắt thông báo
+                customClass: {
+                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+                },
+                // background: '#ff0000', // Màu nền của thông báo
+                padding: '3rem', // Khoảng cách lề bên trong thông báo
+                borderRadius: '10px' // Độ cong của góc thông báo
+            });
+        </script>
+    @elseif(session()->has('success_message_review'))
+        <style>
+            .my-custom-icon {
+                color: #ff0000; /* Màu đỏ */
+                font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+            }
+        </style>
+
+        <script>
+            Swal.fire({
+                title: 'Cảm ơn bạn!!!', // Tiêu đề của thông báo
+                text: 'Đã thêm đánh giá cho sản phẩm!', // Nội dung của thông báo
+                icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+                showConfirmButton: false, // Không hiển thị nút xác nhận
+                timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+                showCloseButton: true, // Hiển thị nút X để tắt thông báo
+                customClass: {
+                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+                },
+                // background: '#ff0000', // Màu nền của thông báo
+                padding: '3rem', // Khoảng cách lề bên trong thông báo
+                borderRadius: '10px' // Độ cong của góc thông báo
+            });
+        </script>
+{{--    @elseif(session()->has('flash_message_error_review1'))--}}
+{{--        <style>--}}
+{{--            .my-custom-icon {--}}
+{{--                color: #ff0000; /* Màu đỏ */--}}
+{{--                font-size: 5px; /* Kích thước nhỏ hơn (16px) */--}}
+{{--            }--}}
+{{--        </style>--}}
+
+{{--        <script>--}}
+{{--            Swal.fire({--}}
+{{--                title: 'Rất tiết!!!', // Tiêu đề của thông báo--}}
+{{--                text: 'Bạn phải mua sản phẩm trước khi đánh giá!', // Nội dung của thông báo--}}
+{{--                icon: 'success', // Icon của thông báo (success, error, warning, info, question)--}}
+{{--                showConfirmButton: false, // Không hiển thị nút xác nhận--}}
+{{--                timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)--}}
+{{--                showCloseButton: true, // Hiển thị nút X để tắt thông báo--}}
+{{--                customClass: {--}}
+{{--                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon--}}
+{{--                },--}}
+{{--                // background: '#ff0000', // Màu nền của thông báo--}}
+{{--                padding: '3rem', // Khoảng cách lề bên trong thông báo--}}
+{{--                borderRadius: '10px' // Độ cong của góc thông báo--}}
+{{--            });--}}
+{{--        </script>--}}
+    @elseif(session()->has('flash_message_error_review2'))
+        <style>
+            .my-custom-icon {
+                color: #ff0000; /* Màu đỏ */
+                font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+            }
+        </style>
+
+        <script>
+            Swal.fire({
+                title: 'Rất tiết!!!', // Tiêu đề của thông báo
+                html: 'Bạn cần <a href="/user/login">đăng nhập</a> để thêm đánh giá cho sản phẩm!', // Nội dung của thông báo với đường liên kết
+                icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+                showConfirmButton: false, // Không hiển thị nút xác nhận
+                timer: 6500, // Thời gian hiển thị thông báo (tính theo milliseconds)
                 showCloseButton: true, // Hiển thị nút X để tắt thông báo
                 customClass: {
                     icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon

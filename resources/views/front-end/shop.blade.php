@@ -94,6 +94,52 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-toggle="collapse" data-target="#collapseThree">Mức đánh giá</a>
+                                    </div>
+                                    <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="shop__sidebar__price">
+                                                <div class="shop__sidebar__review">
+                                                    <ul>
+                                                        <a href="{{Request::url()}}?sort_by=5sao">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= 5)
+                                                                <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                            @endif
+                                                        @endfor</a><br>
+
+                                                        <a href="{{Request::url()}}?sort_by=4sao">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= 4)
+                                                                <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                            @endif
+                                                        @endfor</a><br>
+                                                        <a href="{{Request::url()}}?sort_by=3sao">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                @if ($i <= 3)
+                                                                    <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                                @endif
+                                                            @endfor</a><br>
+                                                                <a href="{{Request::url()}}?sort_by=2sao">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                @if ($i <= 2)
+                                                                    <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                                @endif
+                                                                    @endfor</a><br>
+                                                                <a href="{{Request::url()}}?sort_by=1sao">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                @if ($i <= 1)
+                                                                    <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                                @endif
+                                                                    @endfor</a>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{--  <div class="card">
                                     <div class="card-heading">
                                         <a data-toggle="collapse" data-target="#collapseFour">Size</a>
@@ -221,6 +267,10 @@
                     </div>
                     <div class="row">
                         @foreach ($products as $product)
+                            @php
+                                $avgRating = \App\Models\ĐanhGia::where('san_pham_id', $product->id)->avg('dg_SoSao');
+                                $roundedAvgRating = ceil($avgRating);
+                            @endphp
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <form action="/add-cart-shop" method="post">
                             @csrf
@@ -242,11 +292,13 @@
                                     <h6 class="text-center">{{ $product->sp_TenSanPham }}</h6>
                                     <a href="#" class="add-cart">Xem nhanh</a>
                                     <div class="text-center rating">
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $roundedAvgRating)
+                                            <span class="fa fa-star " style="color: #ff9705;"></span>
+                                        @else
+                                            <span class="fa fa-star " style="color: #ccc;"></span>
+                                        @endif
+                                    @endfor
                                     </div>
                                     <h5 class="text-center">{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
                                     <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">

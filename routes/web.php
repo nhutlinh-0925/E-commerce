@@ -16,6 +16,7 @@ use \App\Http\Controllers\BaiVietController;
 use \App\Http\Controllers\BinhLuanController;
 use \App\Http\Controllers\NhaCungCapController;
 use \App\Http\Controllers\NhapKhoController;
+use \App\Http\Controllers\ĐanhGiaController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
@@ -55,6 +56,8 @@ use \App\Http\Controllers\BlogController;
     Route::get('/product/{id}',[ShopController::class, 'product_detail']);
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
+
+    Route::post('/product/{id}/add_review',[ShopController::class, 'add_review']);
 
     //Tag
     Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
@@ -155,9 +158,10 @@ Route::prefix('user')->name('user.')->group(function () {
         //Chọn địa chỉ ra phí ship
         Route::post('/get_ship', [CartController::class, 'get_ship']);
 
-        Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
-
         Route::get('/search_microphone', [HomeController::class, 'search_Microphone']);
+
+
+        Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 
     });
 
@@ -322,6 +326,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::DELETE('destroy/{id}', [NhapKhoController::class, 'destroy']);
         });
 
+        //Đánh giá
+        Route::prefix('/reviews')->group(function () {
+            Route::get('/', [ĐanhGiaController::class, 'index']);
+            Route::get('add', [ĐanhGiaController::class, 'create']);
+            Route::post('add', [ĐanhGiaController::class, 'store']);
+            Route::get('active/{id}', [ĐanhGiaController::class, 'active']);
+            Route::get('unactive/{id}', [ĐanhGiaController::class, 'unactive']);
+            Route::DELETE('destroy/{id}', [ĐanhGiaController::class, 'destroy']);
+        });
 
         Route::get('/users2',[KhachHangController::class,'index1']);
         Route::get('/user1',[KhachHangController::class,'index2']);
@@ -330,8 +343,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/days-order',[AdminController::class,'days_order']);
         Route::post('/dashboard-filter',[AdminController::class,'dashboard_filter']);
         Route::post('/filter-by-date',[AdminController::class,'filter_by_date']);
-
-
 
         Route::get('/logout',[AdminController::class, 'logout'])->name('logout');
 

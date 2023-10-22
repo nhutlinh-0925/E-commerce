@@ -216,6 +216,10 @@
 
                 <div class="row">
                     @foreach ($product_tag as $product)
+                        @php
+                            $avgRating = \App\Models\ĐanhGia::where('san_pham_id', $product->id)->avg('dg_SoSao');
+                            $roundedAvgRating = ceil($avgRating);
+                        @endphp
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <form action="/add-cart-shop" method="post">
                             @csrf
@@ -237,11 +241,13 @@
                                     <h6 class="text-center">{{ $product->sp_TenSanPham }}</h6>
                                     <a href="#" class="add-cart">Xem nhanh</a>
                                     <div class="text-center rating">
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $roundedAvgRating)
+                                                <span class="fa fa-star " style="color: #ff9705;"></span>
+                                            @else
+                                                <span class="fa fa-star " style="color: #ccc;"></span>
+                                            @endif
+                                        @endfor
                                     </div>
                                     <h5 class="text-center">{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
                                     <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">

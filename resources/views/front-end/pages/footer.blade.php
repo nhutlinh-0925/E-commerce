@@ -277,4 +277,59 @@
         microphone.classList.add('recording');
     })
 </script>
+
+<script type="text/javascript">
+    // Xử lý khi hover chuột vào ngôi sao
+    $(document).on('mouseenter', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data('product_id');
+
+        // Loại bỏ màu nền của tất cả các sao
+        remove_background(product_id);
+
+        // Đặt màu nền cho các sao được hover
+        for (var count = 1; count <= index; count++) {
+            $('#' + product_id + '-' + count).css('color', '#ffcc00');
+        }
+
+        // Cập nhật giá trị dg_SoSao
+        $('#dg_SoSao').val(index);
+    });
+
+    // Xử lý khi rời chuột khỏi ngôi sao
+    $(document).on('mouseleave', '.rating', function () {
+        var product_id = $(this).data('product_id');
+
+        // Đặt màu nền dựa trên giá trị dg_SoSao
+        for (var count = 1; count <= $('#dg_SoSao').val(); count++) {
+            $('#' + product_id + '-' + count).css('color', '#ffcc00');
+        }
+    });
+
+    // Xử lý khi click vào ngôi sao
+    $(document).on('click', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data('product_id');
+
+        // Đặt màu nền cho các sao được click
+        for (var count = 1; count <= index; count++) {
+            $('#' + product_id + '-' + count).css('color', '#ffcc00');
+        }
+
+        // Loại bỏ màu nền của các sao không được click
+        for (var count = index + 1; count <= 5; count++) {
+            $('#' + product_id + '-' + count).css('color', '#ccc');
+        }
+
+
+    });
+
+    // Hàm loại bỏ màu nền của tất cả các sao
+    function remove_background(product_id) {
+        for (var count = 1; count <= 5; count++) {
+            $('#' + product_id + '-' + count).css('color', '#ccc');
+        }
+    }
+
+</script>
     @yield('footer')

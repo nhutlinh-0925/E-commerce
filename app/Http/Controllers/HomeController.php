@@ -85,10 +85,8 @@ class HomeController extends Controller
 
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
-            //$product_all = SanPham::all();
 
             $tags = SanPham::pluck('sp_Tag')->all();
-            //dd($tags);
             // Khởi tạo mảng trống để chứa kết quả
             $mergedArray = [];
             // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
@@ -100,10 +98,8 @@ class HomeController extends Controller
             }
             // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
             $mergedArray = array_unique($mergedArray);
-            //dd($mergedArray);
             // Giới hạn mảng chỉ còn tối đa 8 phần tử
             $limitedArray = array_slice($mergedArray, 0, 8);
-            //dd($limitedArray);
 
             $keywords = $request->keywords_submit;
             $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
@@ -113,11 +109,10 @@ class HomeController extends Controller
             $carts = $this->cartService->getProduct();
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
+
             return view('front-end.search',[
                 'category_product' => $category_product,
                 'brand' => $brand,
-                //'product_all' => $product_all,
                 'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
@@ -130,10 +125,8 @@ class HomeController extends Controller
         }else{
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
-            //$product_all = SanPham::all();
 
             $tags = SanPham::pluck('sp_Tag')->all();
-            //dd($tags);
             // Khởi tạo mảng trống để chứa kết quả
             $mergedArray = [];
             // Lặp qua mảng ban đầu và gộp các chuỗi vào mảng kết quả
@@ -145,25 +138,21 @@ class HomeController extends Controller
             }
             // Xóa các phần tử trùng lặp trong mảng kết quả (nếu muốn)
             $mergedArray = array_unique($mergedArray);
-            //dd($mergedArray);
             // Giới hạn mảng chỉ còn tối đa 8 phần tử
             $limitedArray = array_slice($mergedArray, 0, 8);
-            //dd($limitedArray);
 
             $keywords = $request->keywords_submit;
             $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
                 ->where('sp_TrangThai',1)
                 ->orderBy('id', 'desc')
                 ->paginate(9);
-            //dd($search_product);
+
             $carts = $this->cartService->getProduct();
-            // dd($carts);
             $favoritedProducts = [];
         }
         return view('front-end.search',[
             'category_product' => $category_product,
             'brand' => $brand,
-            //'product_all' => $product_all,
             'carts' => $carts,
             'gh' => session()->get('carts'),
             'search_product' => $search_product,
