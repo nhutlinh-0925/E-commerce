@@ -17,6 +17,7 @@ use \App\Http\Controllers\BinhLuanController;
 use \App\Http\Controllers\NhaCungCapController;
 use \App\Http\Controllers\NhapKhoController;
 use \App\Http\Controllers\ĐanhGiaController;
+use \App\Http\Controllers\PhanHoiController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
@@ -142,6 +143,7 @@ Route::prefix('user')->name('user.')->group(function () {
 
         Route::get('/purchase_order/order_detail/status_confirmed_cancel/{id}', [CartController::class, 'cancel']);
         Route::get('/purchase_order/order_detail/status_confirmed_success/{id}', [CartController::class, 'success']);
+        Route::post('/purchase_order/order_detail/add_feedback/{id}', [CartController::class, 'add_feedback']);
 
         //Yêu thích
         Route::get('/wish-list/{id}',[ShopController::class,'wish_lish_show'])->name('wish_lish_show');
@@ -253,8 +255,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [KhachHangController::class, 'index']);
             Route::get('add', [KhachHangController::class, 'create']);
             Route::post('add', [KhachHangController::class, 'store']);
-//            Route::get('edit/{id}', [MaGiamGiaController::class, 'edit']);
-//            Route::post('edit/{id}', [MaGiamGiaController::class, 'update']);
             Route::get('active/{id}', [KhachHangController::class, 'active']);
             Route::get('unactive/{id}', [KhachHangController::class, 'unactive']);
             Route::post('/select_city', [KhachHangController::class, 'select_city']);
@@ -334,6 +334,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('active/{id}', [ĐanhGiaController::class, 'active']);
             Route::get('unactive/{id}', [ĐanhGiaController::class, 'unactive']);
             Route::DELETE('destroy/{id}', [ĐanhGiaController::class, 'destroy']);
+        });
+
+        //Đánh giá
+        Route::prefix('/feedbacks')->group(function () {
+            Route::get('/', [PhanHoiController::class, 'index']);
+            Route::get('add', [PhanHoiController::class, 'create']);
+            Route::post('add', [PhanHoiController::class, 'store']);
+            Route::get('active/{id}', [PhanHoiController::class, 'active']);
+            Route::get('unactive/{id}', [PhanHoiController::class, 'unactive']);
+            Route::DELETE('destroy/{id}', [PhanHoiController::class, 'destroy']);
         });
 
         Route::get('/users2',[KhachHangController::class,'index1']);

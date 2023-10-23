@@ -68,13 +68,26 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#evaluate-nav" data-bs-toggle="collapse" href="#">
+                    <a class="nav-link collapsed" data-bs-target="#review-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-chat-square" style="color: #005cbf"></i><span>Đánh giá</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
-                    <ul id="evaluate-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <ul id="review-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
                             <a href="/admin/reviews">
                                 <i class="bi bi-circle"></i><span>Danh sách đánh giá</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#feedback-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-briefcase-fill" style="color: #0a53be"></i><span>Phản hồi</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="feedback-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/feedbacks">
+                                <i class="bi bi-circle"></i><span>Danh sách phản hồi</span>
                             </a>
                         </li>
                     </ul>

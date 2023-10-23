@@ -20,6 +20,7 @@ use App\Models\MaGiamGia;
 
 use App\Models\DiaChi;
 use App\Models\YeuThich;
+use App\Models\PhanHoi;
 use Carbon\Carbon;
 use Mail;
 use App\Models\ThongKe;
@@ -838,7 +839,7 @@ class CartController extends Controller
                  $khach_hang_id = $id;
                  $data = DB::table('phieu_dat_hangs')
                      ->where('khach_hang_id','=',$khach_hang_id)
-//                     ->orderby('id','asc')
+//                     ->orderby('id','desc')
                      ->get();
                  //dd($data);
                  return Datatables::of($data)
@@ -1073,6 +1074,37 @@ class CartController extends Controller
 
         Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
         return redirect()->back();
+    }
+
+    public function add_feedback(Request $request, $id){
+        //dd($request);
+
+        $this -> validate($request, [
+            'ph_MucPhanHoi' => 'required|max:255',
+        ],
+            [
+                'ph_MucPhanHoi.required' => 'Vui lòng nhập nội dung phản hồi',
+//                'dg_MucDanhGia.min' => 'Đánh giá phải lớn hơn 1 kí tự',
+                'ph_MucPhanHoi.max' => 'Phản hồi phải nhỏ hơn 255 kí tự',
+            ]);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            //dd($id);
+            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
+            $id_kh = $khachhang->id;
+
+            $ph = new PhanHoi();
+            $ph->khach_hang_id = $id_kh;
+            $ph->phieu_dat_hang_id = $request->id_pdh;
+            $ph->ph_MucPhanHoi = $request->ph_MucPhanHoi;
+            $ph->ph_TrangThai = 1;
+            $ph->save();
+            //dd($ph);
+
+            Session::flash('success_message_feedback', 'Thêm phản hồi thành công!');
+            return redirect()->back();
+        }
     }
 
 
