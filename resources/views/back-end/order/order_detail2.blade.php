@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
     <div class="pagetitle">
-        <h1>Sản phẩm</h1>
+        <h1>Đơn hàng</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
@@ -111,10 +111,10 @@
 
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label"><strong>Nhân viên giao hàng: <span class="text-danger">(*)</span></strong></label>
-                        @if ($nv == '')
+                        @if ($pdh->nguoi_giao_hang_id == '')
                             <input type="text" class="form-control" value="*Chưa xác định*" disabled>
                         @else
-                            <input type="text" class="form-control" value="{{ $nv->nv_Ten }}" disabled>
+                            <input type="text" class="form-control" value="{{ $pdh->nguoigiaohang->ngh_Ten }}" disabled>
                         @endif
                     </div>
 
@@ -251,7 +251,7 @@
                             @if( $pdh->pdh_TrangThai == 1)
                                 <div class="form-group text-center">
                                     <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
-                                        <option value="1">Đang chờ duyệt</option>
+{{--                                        <option value="1">Đang chờ duyệt</option>--}}
                                         <option value="2">Đã duyệt</option>
                                         <option value="3">Đang vận chuyển</option>
                                         <option value="4">Giao hàng thành công</option>
@@ -260,28 +260,28 @@
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 2 )
                                 <div class="form-group text-center">
-                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 150px;">
-                                        <option value="2">Đã duyệt</option>
+                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
+{{--                                        <option value="2">Đã duyệt</option>--}}
                                         <option value="3">Đang vận chuyển</option>
                                         <option value="4">Giao hàng thành công</option>
                                     </select>
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 3 )
                                 <div class="form-group text-center">
-                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 150px;">
-                                        <option value="3">Đang vận chuyển</option>
+                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
+{{--                                        <option value="3">Đang vận chuyển</option>--}}
                                         <option value="4">Giao hàng thành công</option>
                                     </select>
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 4 )
                                 <div class="form-group text-center">
-                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 150px;">
+                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
                                         <option value="4">Giao hàng thành công</option>
                                     </select>
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 5 )
                                 <div class="form-group text-center">
-                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 150px;">
+                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
                                         <option value="5">Đơn đã hủy</option>
                                     </select>
                                 </div>

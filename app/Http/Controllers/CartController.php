@@ -6,6 +6,7 @@ use App\Models\PhieuDatHang;
 use App\Models\PhiVanChuyen;
 use App\Models\PhuongThucThanhToan;
 use App\Models\SanPham;
+use App\Models\TaiKhoan;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -1071,6 +1072,24 @@ class CartController extends Controller
         $customer->kh_TongTienDaMua = $tien + $tien_hang;
         //dd($customer);
         $customer->save();
+
+        $pdh = PhieuDatHang::find($id);
+        $id_kh = $pdh->khach_hang_id;
+//        $kh = KhachHang::find($id_kh);
+        $id_tk = $customer->tai_khoan_id;
+        $tk = TaiKhoan::find($id_tk);
+        $email = $tk->email;
+        $title_mail = "Thông báo giao hàng thành công";
+
+        $mailData = [
+            'id_pdh' => $pdh->id,
+            'kh_Ten' => $customer->kh_Ten,
+        ];
+
+        Mail::send('front-end.email_delivery', [$email,'mailData' => $mailData], function ($message) use ($email,$title_mail) {
+            $message->to($email)->subject($title_mail);
+            $message->from($email, $title_mail);
+        });
 
         Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
         return redirect()->back();

@@ -192,7 +192,7 @@
                 <div class="breadcrumb__text">
                     <div class="breadcrumb__links">
                         <a href="/">Trang chủ</a>
-                        <a href="/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
+                        <a href="/user/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
                         <span>Chi tiết đơn hàng</span>
                     </div>
                 </div>
@@ -415,6 +415,26 @@
                                         </table>
                                     </div>
 
+                                    @if($pdh->pdh_TrangThai == 4)
+                                        <form action="/user/purchase_order/order_detail/add_feedback/{{ $pdh->id}}" method="POST">
+                                            <div class="text-start">
+                                                <div class="row">
+                                                    <label><strong>Phản hồi của bạn :</strong></label>
+                                                    <input type="hidden" name="id_pdh" value="{{$pdh->id}}">
+                                                    <textarea name="ph_MucPhanHoi" placeholder="Viết phản hồi của bạn" style="color: black;width: 1050px;height: 100px"></textarea>
+                                                    @error ('ph_MucPhanHoi')
+                                                    <span style="color: red;">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <br>
+                                                <button type="submit" class="btn btn-sm btn-success justify-content-end" style="color: white;font-size: 18px;float: right;">
+                                                    <i class="fa fa-paper-plane"></i> Gửi phản hồi</button>
+                                            </div>
+                                        @csrf
+                                        </form>
+                                    @endif
+
                                     <div class="text-start">
                                         <a href="/user/purchase_order/{{ $khachhang->id }}" class="btn btn-sm btn-warning justify-content-end " style="color: white;font-size: 18px">
                                             <i class="fa fa-chevron-left"></i> QUAY VỀ
@@ -432,6 +452,31 @@
 </section>
 
 @include('front-end.pages.footer')
+@if(session()->has('success_message_feedback'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Cảm ơn bạn!!!', // Tiêu đề của thông báo
+            text: 'Đã thêm phản hồi cho đơn hàng!', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@endif
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>

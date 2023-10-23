@@ -204,7 +204,8 @@
                 {data: null, name: 'actions', render: function(data, type, row) {
                         return '<a class="btn btn-secondary" text-center" style="font-size: 10px" href="/user/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
                     }},
-            ]
+            ],
+            order: [[0, 'desc']]
         });
         @endif
     });

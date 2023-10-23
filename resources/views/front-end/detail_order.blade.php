@@ -21,7 +21,7 @@
                     <h4>Chi tiết đơn hàng</h4>
                     <div class="breadcrumb__links">
                         <a href="/">Trang chủ</a>
-                        <a href="/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
+                        <a href="user/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
                         <span>Chi tiết đơn hàng</span>
                     </div>
                 </div>

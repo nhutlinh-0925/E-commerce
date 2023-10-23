@@ -6,6 +6,7 @@ use App\Models\ChiTietPhieuDatHang;
 use App\Models\KhachHang;
 use App\Models\MaGiamGia;
 use App\Models\SanPham;
+use App\Models\TaiKhoan;
 use App\Models\ThongKe;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -96,7 +97,8 @@ class DonHangController extends Controller
     }
 
     public function order_update(Request $request, $id){
-        $data = $request->all();
+//        $data = $request->all();
+//        dd($data);
         $order = PhieuDatHang::find($id);
         //dd($order);
 
@@ -168,6 +170,24 @@ class DonHangController extends Controller
             $customer->kh_TongTienDaMua = $tien + $tien_hang;
             $customer->save();
 
+            $pdh = PhieuDatHang::find($id);
+            $id_kh = $pdh->khach_hang_id;
+            $kh = KhachHang::find($id_kh);
+            $id_tk = $kh->tai_khoan_id;
+            $tk = TaiKhoan::find($id_tk);
+            $email = $tk->email;
+            $title_mail = "Thông báo giao hàng thành công";
+
+            $mailData = [
+                'id_pdh' => $pdh->id,
+                'kh_Ten' => $kh->kh_Ten,
+            ];
+
+            Mail::send('front-end.email_delivery', [$email,'mailData' => $mailData], function ($message) use ($email,$title_mail) {
+                $message->to($email)->subject($title_mail);
+                $message->from($email, $title_mail);
+            });
+
         }elseif($newStatus == 2){
             if(Auth::check()){
                 $id_tk = Auth::user()->id;
@@ -178,11 +198,38 @@ class DonHangController extends Controller
             $order->nhan_vien_id = $id_nv;
             $order->pdh_TrangThai = $newStatus;
             $order->save();
+            //dd($order);
 
-            $name = "Nhựt Linh";
-            Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-                $email->subject('Balo');
-                $email->to('trannhutlinh0925@gmail.com', $name);
+            $pdh = PhieuDatHang::find($id);
+            $id_kh = $pdh->khach_hang_id;
+            $kh = KhachHang::find($id_kh);
+
+            $id_tk = $kh->tai_khoan_id;
+            $tk = TaiKhoan::find($id_tk);
+
+            $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
+                ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
+                ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*')
+                ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
+                ->get();
+
+            $title_mail = "Đơn hàng của bạn";
+            $email = $tk->email;
+
+            $mailData = [
+                'id_pdh' => $pdh->id,
+                'kh_Ten' => $kh->kh_Ten,
+                'kh_SoDienThoai' => $kh->kh_SoDienThoai,
+                'pdh_DiaChiGiao' => $pdh->pdh_DiaChiGiao,
+                'pdh_created_at' => $pdh->created_at,
+                'pdh_pttt' => $pdh->phuong_thuc_thanh_toan_id,
+                'pdh_TongTien' => $pdh->pdh_TongTien,
+                'cart_id' => $cart_id
+            ];
+
+            Mail::send('front-end.email_order', [$email,'mailData' => $mailData], function ($message) use ($email,$title_mail) {
+                $message->to($email)->subject($title_mail);
+                $message->from($email, $title_mail);
             });
 
 
