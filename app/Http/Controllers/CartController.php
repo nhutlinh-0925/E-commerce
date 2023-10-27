@@ -894,6 +894,9 @@ class CartController extends Controller
             $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->first();
             $phi = $phiVanChuyen->pvc_PhiVanChuyen;
 
+            $feedback = PhanHoi::where('phieu_dat_hang_id',$pdh->id)->first();
+            //dd($feedback);
+
             $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
                 ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
                 ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*')
@@ -912,7 +915,8 @@ class CartController extends Controller
             'cart_id' => $cart_id,
             'mgg' => $mgg,
             'phi' => $phi,
-            'id_kh' => $id_kh
+            'id_kh' => $id_kh,
+            'feedback' => $feedback
         ]);
     }
 

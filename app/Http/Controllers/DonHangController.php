@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChiTietPhieuDatHang;
 use App\Models\KhachHang;
 use App\Models\MaGiamGia;
+use App\Models\PhanHoi;
 use App\Models\SanPham;
 use App\Models\TaiKhoan;
 use App\Models\ThongKe;
@@ -92,7 +93,8 @@ class DonHangController extends Controller
              'nv' => $nv,
              'cart_id' => $cart_id,
             'mgg' => $mgg,
-            'phi' => $phi
+            'phi' => $phi,
+            //'shippers' => $shippers
         ]);
     }
 
@@ -188,6 +190,17 @@ class DonHangController extends Controller
                 $message->from($email, $title_mail);
             });
 
+        }elseif($newStatus == 3){
+            if(Auth::check()){
+                $id_tk = Auth::user()->id;
+                $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
+                //dd($nhanvien);
+                $id_nv = $nhanvien->id;
+            }
+            $order->nhan_vien_id = $id_nv;
+            $order->pdh_TrangThai = $newStatus;
+            $order->save();
+
         }elseif($newStatus == 2){
             if(Auth::check()){
                 $id_tk = Auth::user()->id;
@@ -234,19 +247,10 @@ class DonHangController extends Controller
 
 
         }
-//        else{
-//            if(Auth::check()){
-//                $id_tk = Auth::user()->id;
-//                $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
-//                //dd($nhanvien);
-//                $id_nv = $nhanvien->id;
-//            }
-//            $order->nhan_vien_id = $id_nv;
-//            $order->pdh_TrangThai = $newStatus;
-//            $order->save();
-//        }
+
         Session::flash('success_message', 'Cập nhật trạng thái thành công!');
 //        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
-        return redirect()->back();
+//        return redirect()->back();
+        return redirect('/admin/orders');
     }
 }

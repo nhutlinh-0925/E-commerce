@@ -22,7 +22,7 @@
         </tr>
 
         <tr>
-            <th><p style="float: left;">Phương thức thanh toán :</p></th>
+            <th><p style="float: left;">Phương thức thanh toán</p></th>
             <td>
                 @if ($mailData['pdh_pttt'] == 1)
                     <p style="color: green"><b>Nhận hàng trả tiền</b></p>

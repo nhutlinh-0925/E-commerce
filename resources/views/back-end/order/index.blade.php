@@ -127,3 +127,37 @@
         </div>
     </section>
 @endsection
+
+@section('footer')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/template/back-end2/js/script_admin_ctdh.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+    @if(session()->has('success_message'))
+        <style>
+            .my-custom-icon {
+                color: #ff0000; /* Màu đỏ */
+                font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+            }
+        </style>
+
+        <script>
+            Swal.fire({
+                title: 'Đã xong !!!', // Tiêu đề của thông báo
+                text: 'Đã thay đổi trạng thái đơn hàng thành công!', // Nội dung của thông báo
+                icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+                showConfirmButton: false, // Không hiển thị nút xác nhận
+                timer: 6500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+                showCloseButton: true, // Hiển thị nút X để tắt thông báo
+                customClass: {
+                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+                },
+                // background: '#ff0000', // Màu nền của thông báo
+                padding: '3rem', // Khoảng cách lề bên trong thông báo
+                borderRadius: '10px' // Độ cong của góc thông báo
+            });
+        </script>
+    @endif
+
+@endsection

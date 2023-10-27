@@ -414,8 +414,14 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    @php
+                                        $ph_hoan_thanh = false; // Mặc định đơn hàng chưa hoàn thành
+                                        // Kiểm tra xem đã có phản hồi cho đơn hàng này hay chưa
+                                        $ph_hoan_thanh = \App\Models\PhanHoi::where('phieu_dat_hang_id', $pdh->id)
+                                                        ->where('ph_TrangThai',1)->exists();
+                                    @endphp
 
-                                    @if($pdh->pdh_TrangThai == 4)
+                                    @if($pdh->pdh_TrangThai == 4 && !$ph_hoan_thanh)
                                         <form action="/user/purchase_order/order_detail/add_feedback/{{ $pdh->id}}" method="POST">
                                             <div class="text-start">
                                                 <div class="row">
@@ -425,6 +431,7 @@
                                                     @error ('ph_MucPhanHoi')
                                                     <span style="color: red;">{{ $message }}</span>
                                                     @enderror
+
                                                 </div>
 
                                                 <br>
@@ -433,6 +440,14 @@
                                             </div>
                                         @csrf
                                         </form>
+                                    @else
+                                        <div class="text-start">
+                                            <div class="row">
+                                                <label><strong>Phản hồi của bạn :</strong></label>
+                                                <textarea placeholder="Viết phản hồi của bạn" style="color: black;width: 1050px;height: 100px" disabled>{{ $feedback->ph_MucPhanHoi }}</textarea>
+                                            </div>
+                                            <br>
+                                        </div>
                                     @endif
 
                                     <div class="text-start">
