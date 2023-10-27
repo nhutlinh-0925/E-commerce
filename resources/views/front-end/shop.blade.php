@@ -457,9 +457,19 @@
             if (isProductFavorited(productId)) {
                 // Xóa sản phẩm khỏi danh sách yêu thích (đổi màu thành xanh)
                 heartIcon.style.color = 'blue';
+
+                // Giảm giá trị data-notify đi 1
+                const notifyElement = document.querySelector('.js-show-wish');
+                const currentNotifyValue = parseInt(notifyElement.getAttribute('data-notify'));
+                notifyElement.setAttribute('data-notify', currentNotifyValue - 1);
             } else {
                 // Thêm sản phẩm vào danh sách yêu thích (đổi màu thành đỏ)
                 heartIcon.style.color = 'red';
+
+                // Tăng giá trị data-notify lên 1
+                const notifyElement = document.querySelector('.js-show-wish');
+                const currentNotifyValue = parseInt(notifyElement.getAttribute('data-notify'));
+                notifyElement.setAttribute('data-notify', currentNotifyValue + 1);
             }
 
             // Gửi yêu cầu AJAX đến route 'wish_lish_show' để thêm/xóa sản phẩm khỏi danh sách yêu thích
