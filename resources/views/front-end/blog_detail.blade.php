@@ -164,8 +164,8 @@
 
     <script>
         Swal.fire({
-            title: 'Đã thêm bình luận thành công!!!', // Tiêu đề của thông báo
-            text: 'Hãy chờ chúng tôi duyệt bình luận của bạn', // Nội dung của thông báo
+            title: 'Cảm ơn bạn đã đọc bài viết ', // Tiêu đề của thông báo
+            text: 'Đã thêm bình luận thành công!!!', // Nội dung của thông báo
             icon: 'success', // Icon của thông báo (success, error, warning, info, question)
             showConfirmButton: false, // Không hiển thị nút xác nhận
             timer: 4500, // Thời gian hiển thị thông báo (tính theo milliseconds)

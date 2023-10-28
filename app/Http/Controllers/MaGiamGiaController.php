@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KhachHang;
 use App\Models\NhanVien;
 use App\Models\MaGiamGia;
-use App\Models\TaiKhoan;
+//use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -16,29 +17,15 @@ class MaGiamGiaController extends Controller
 {
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-
         $coupons = MaGiamGia::all()->sortByDesc("id");
         return view('back-end.coupon.index',[
             'coupons' => $coupons,
-            'nhanvien' => $nhanvien,
         ]);
     }
 
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        return view('back-end.coupon.create',[
-            'nhanvien' => $nhanvien
-        ]);
+        return view('back-end.coupon.create');
     }
 
     public function store(Request $request)
@@ -93,16 +80,10 @@ class MaGiamGiaController extends Controller
 
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $coupon = MaGiamGia::find($id);
         //dd($coupon);
         return view('back-end.coupon.edit',[
             'coupon' => $coupon,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -159,22 +140,15 @@ class MaGiamGiaController extends Controller
 
     public function show($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-
         $coupon = MaGiamGia::find($id);
 
         return view('back-end.coupon.show',[
-            'nhanvien' => $nhanvien,
             'coupon' => $coupon,
         ]);
     }
 
     public function send_coupon_all($id){
-        $customer = TaiKhoan::where('loai',2)->where('vip', '!=', 3)->get();
+        $customer = KhachHang::where('vip', '!=', 3)->get();
         //dd($customer);
         $title_mail = "Mã khuyến mãi shop BALO VIỆT";
 
@@ -182,11 +156,8 @@ class MaGiamGiaController extends Controller
         foreach ($customer as $vip){
             $data['email'][] = $vip->email;
         }
-        //dd($data);
 
         $coupon = MaGiamGia::find($id);
-        //dd($coupon);
-
         $mailData = [
             'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
             'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
@@ -206,20 +177,15 @@ class MaGiamGiaController extends Controller
     }
 
     public function send_coupon_vip($id){
-        $customer_vip = TaiKhoan::where('loai',2)->where('vip','=',1)->get();
-        //dd($customer_vip);
-        //$now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
+        $customer_vip = KhachHang::where('vip','=',1)->get();
         $title_mail = "Mã khuyến mãi shop BALO VIỆT";
 
         $data = [];
         foreach ($customer_vip as $vip){
             $data['email'][] = $vip->email;
         }
-        //dd($data);
 
         $coupon = MaGiamGia::find($id);
-        //dd($coupon);
-
         $mailData = [
             'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
             'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
@@ -239,7 +205,7 @@ class MaGiamGiaController extends Controller
     }
 
     public function send_coupon($id){
-        $customer_tt = TaiKhoan::where('loai',2)->where('vip','=','0')->get();
+        $customer_tt = KhachHang::where('vip','=','0')->get();
         //dd($customer_tt);
 
         $title_mail = "Mã khuyến mãi shop BALO VIỆT";
@@ -248,11 +214,8 @@ class MaGiamGiaController extends Controller
         foreach ($customer_tt as $vip){
             $data['email'][] = $vip->email;
         }
-        //dd($data);
 
         $coupon = MaGiamGia::find($id);
-        //dd($coupon);
-
         $mailData = [
             'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
             'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,

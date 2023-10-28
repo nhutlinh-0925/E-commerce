@@ -23,12 +23,7 @@ class HomeController extends Controller
 
     public function home(){
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
             $carts = $this->cartService->getProduct();
             // dd($carts);
 
@@ -41,7 +36,6 @@ class HomeController extends Controller
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
 
             return view('front-end.home',[
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'bestseller' => $bestseller,
@@ -76,12 +70,7 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
@@ -113,7 +102,6 @@ class HomeController extends Controller
             return view('front-end.search',[
                 'category_product' => $category_product,
                 'brand' => $brand,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'search_product' => $search_product,
@@ -192,18 +180,12 @@ class HomeController extends Controller
 
     public function contact(){
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $carts = $this->cartService->getProduct();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
             //dd($wish_count);
             return view('front-end.contact',[
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'wish_count' => $wish_count
@@ -221,9 +203,7 @@ class HomeController extends Controller
     public function search_Microphone(Request $request)
     {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            $id_kh = $khachhang->id;
+            $id_kh = Auth('web')->user()->id;
 
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
@@ -255,7 +235,6 @@ class HomeController extends Controller
             return view('front-end.search',[
                 'category_product' => $category_product,
                 'brand' => $brand,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'search_product' => $search_product,

@@ -65,7 +65,7 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->kh_Ten }}</td>
-                                    <td><img src="{{asset('/storage/images/avatar/customers/'.$item->taikhoan->avatar) }}" height="50px" width="50px" class="rounded-circle"></td>
+                                    <td><img src="{{asset('/storage/images/avatar/customers/'.$item->avatar) }}" height="50px" width="50px" class="rounded-circle"></td>
                                     <td>{{ $item->kh_SoDienThoai }}</td>
                                     <td>
                                         <select style="width: 180px;">
@@ -76,22 +76,14 @@
                                         </select>
                                     </td>
                                     <td>
-
-                                        {{ $item->taikhoan->email }}
-
+                                        {{ $item->email }}
                                     </td>
-{{--                                    <td>--}}
-{{--                                        @if ($item->taikhoan->trangtha == 0)--}}
-{{--                                            <p style="color: green;width: 50px"><b>Hoạt động</b></p>--}}
-{{--                                        @elseif($item->taikhoan->trangthai == 1)--}}
-{{--                                            <p style="color: red;width: 50px"><b>Khóa</b></p>--}}
-{{--                                        @endif--}}
-{{--                                    </td>--}}
+
                                     <td>
                                         <p style="width: 30px">
-                                        @if ($item->taikhoan->trangthai == 1)
+                                        @if ($item->trangthai == 1)
                                             <a href="/admin/customers/unactive/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn khóa tài khoản?")' title="Khóa tài khoản"><span class="bi bi-unlock" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
-                                        @elseif ($item->taikhoan->trangthai == 0)
+                                        @elseif ($item->trangthai == 0)
                                             <a href="/admin/customers/active/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn mở khóa tài khoản?")' title="Mở tài khoản"><span class="bi bi-lock" style="font-size: 25px;color: red; font-weight: bold"></span></a>
                                         @endif
                                         </p>

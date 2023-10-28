@@ -12,29 +12,15 @@ class NhaCungCapController extends Controller
 {
     public function index()
     {
-        // return 123;
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $suppliers = NhaCungCap::all()->sortByDesc("id");
         return view('back-end.supplier.index',[
             'suppliers' => $suppliers,
-            'nhanvien' => $nhanvien
         ]);
     }
 
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        return view('back-end.supplier.create',[
-            'nhanvien' => $nhanvien
-        ]);
+        return view('back-end.supplier.create');
     }
 
     public function store(Request $request)
@@ -69,16 +55,9 @@ class NhaCungCapController extends Controller
 
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $supplier = NhaCungCap::find($id);
-//         dd($categoty_product);
         return view('back-end.supplier.edit',[
             'supplier' => $supplier,
-            'nhanvien' => $nhanvien
         ]);
     }
 

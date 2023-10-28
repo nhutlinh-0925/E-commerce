@@ -26,4 +26,33 @@
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/template/front-end/css/sweetalert.css" type="text/css">
+
+        <!-- Thay thế phiên bản 5 bằng phiên bản 4 -->
+{{--        <link rel="stylesheet" href="/template/front-end/font-awesome-4.7.0/css/font-awesome.min.css">--}}
+{{--<style>--}}
+{{--    a {--}}
+{{--        text-decoration: none;--}}
+{{--    }--}}
+
+{{--    .microphone {--}}
+{{--        cursor: pointer;--}}
+{{--    }--}}
+
+{{--    .microphone .recording-icon {--}}
+{{--        display: none;--}}
+{{--        width: 10px;--}}
+{{--        height: 10px;--}}
+{{--        background-color: brown;--}}
+{{--        border-radius: 50%;--}}
+{{--        animation: pulse 50s infinite linear;--}}
+{{--    }--}}
+
+{{--    .microphone.recording.recording-icon {--}}
+{{--        display: none;--}}
+{{--    }--}}
+
+{{--    .microphone.recording.fa-microphone {--}}
+{{--        display: none;--}}
+{{--    }--}}
+{{--</style>--}}
     @yield('head')

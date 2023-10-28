@@ -26,11 +26,7 @@ class ShopController extends Controller
 
     public function shop(Request $request) {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
+            $id_kh = Auth('web')->user()->id;
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
 
@@ -207,7 +203,6 @@ class ShopController extends Controller
                 'category_product' => $category_product,
                 'brand' => $brand,
                 'products' => $products,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'limitedArray' => $limitedArray,
@@ -401,12 +396,7 @@ class ShopController extends Controller
 
     public function product_detail($id) {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $product = SanPham::find($id);
             $product->sp_LuotXem = $product->sp_LuotXem + 1;
@@ -431,7 +421,6 @@ class ShopController extends Controller
                 'product' => $product,
                 'category_product' => $category_product,
                 'product_related' => $product_related,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'favoritedProducts' => $favoritedProducts,
@@ -481,12 +470,7 @@ class ShopController extends Controller
 
     public function danhmuc_sanpham($id) {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $cate_pro = DanhMucSanPham::find($id);
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
@@ -639,7 +623,6 @@ class ShopController extends Controller
                 'cate_pro' => $cate_pro,
                 'category_product' => $category_product,
                 'brand' => $brand,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'sp' => $sp,
@@ -810,12 +793,7 @@ class ShopController extends Controller
 
     public function thuonghieu_sanpham($id) {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $bra = ThuongHieu::find($id);
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
@@ -968,7 +946,6 @@ class ShopController extends Controller
                 'bra' => $bra,
                 'category_product' => $category_product,
                 'brand' => $brand,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'sp' => $sp,
@@ -1137,12 +1114,7 @@ class ShopController extends Controller
 
     public function tag(Request $request, $product_tag){
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
@@ -1295,7 +1267,6 @@ class ShopController extends Controller
             return view('front-end.product_tag',[
                 'category_product' => $category_product,
                 'brand' => $brand,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'product_tag' => $product_tag,
@@ -1467,10 +1438,7 @@ class ShopController extends Controller
     {
         //nếu đã đăng nhập
         if (Auth::check()) {
-            $id_tk = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            $id_kh = $khachhang->id;
-
+            $id_kh = Auth('web')->user()->id;
             $wish = YeuThich::where('san_pham_id', $product_id)->where('khach_hang_id', $id_kh)->first();
 
             //nếu sản phẩm đã đc yêu thích
@@ -1487,12 +1455,7 @@ class ShopController extends Controller
 
     public function wish_list_count($id) {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
 
             $category_product = DanhMucSanPham::all()->where('dmsp_TrangThai',1)->sortByDesc("id");
             $brand = ThuongHieu::all()->where('thsp_TrangThai',1)->sortByDesc("id");
@@ -1523,7 +1486,6 @@ class ShopController extends Controller
             return view('front-end.wish_count', [
                 'category_product' => $category_product,
                 'brand' => $brand,
-                'khachhang' => $khachhang,
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'limitedArray' => $limitedArray,
@@ -1548,11 +1510,7 @@ class ShopController extends Controller
             ]);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         if(Auth::check()){
-            $id = Auth::user()->id;
-            //dd($id);
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            $id_kh = $khachhang->id;
-
+            $id_kh = Auth('web')->user()->id;
 //            $userHasPurchasedProduct = $this->checkIfUserHasPurchasedProduct($id_kh, $request->id_sp);
 //            if ($userHasPurchasedProduct) {
                 $dg = new ĐanhGia();

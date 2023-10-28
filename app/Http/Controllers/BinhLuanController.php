@@ -13,15 +13,9 @@ class BinhLuanController extends Controller
 {
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $comments = BinhLuan::all()->sortByDesc("id");
         return view('back-end.comment.index',[
             'comments' => $comments,
-            'nhanvien' => $nhanvien
         ]);
     }
 

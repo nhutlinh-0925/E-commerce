@@ -13,15 +13,9 @@ class ĐanhGiaController extends Controller
 {
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $reviews = ĐanhGia::all()->sortByDesc("id");
         return view('back-end.review.index',[
             'reviews' => $reviews,
-            'nhanvien' => $nhanvien
         ]);
     }
 

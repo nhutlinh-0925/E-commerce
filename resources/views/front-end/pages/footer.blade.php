@@ -111,7 +111,7 @@
 <script type="text/javascript">
     $(function () {
         @if (Auth::check())
-        var userId = {{ $khachhang->id }};
+        var userId = {{ Auth('web')->user()->id }};
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
@@ -130,6 +130,8 @@
                             return '<p class="btn btn-success" style="width: 160px">Giao thành công <i class="fa fa-calendar-check-o"></i></p>';
                         } else if (data == 5) {
                             return '<p class="btn btn-danger" style="width: 160px">Hủy đơn <i class="fa fa-times-circle"></i></p>';
+                        } else if (data == 6) {
+                            return '<p class="btn btn-danger" style="width: 160px">Giao thất bại <i class="fa fa-times-circle"></i></p>';
                         } else {
                             return '';
                         }

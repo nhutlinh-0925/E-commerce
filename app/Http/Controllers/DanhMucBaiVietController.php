@@ -14,29 +14,15 @@ class DanhMucBaiVietController extends Controller
 {
     public function index()
     {
-        // return 123;
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $categoty_posts = DanhMucBaiViet::all()->sortByDesc("id");
         return view('back-end.category-post.index',[
             'categoty_posts' => $categoty_posts,
-            'nhanvien' => $nhanvien
         ]);
     }
 
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        return view('back-end.category-post.create',[
-            'nhanvien' => $nhanvien
-        ]);
+        return view('back-end.category-post.create');
     }
 
     public function store(Request $request)
@@ -70,16 +56,9 @@ class DanhMucBaiVietController extends Controller
 
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $categoty_post = DanhMucBaiViet::find($id);
-//         dd($categoty_post);
         return view('back-end.category-post.edit',[
             'categoty_post' => $categoty_post,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -110,7 +89,7 @@ class DanhMucBaiVietController extends Controller
     public function destroy($id)
     {
         $categoty_post = DanhMucBaiViet::find($id);
-        // dd($categoty_post);
+
         try {
             DB::beginTransaction();
 
@@ -137,7 +116,7 @@ class DanhMucBaiVietController extends Controller
             ->update(
                 ['dmbv_TrangThai' => 0],
             );
-//        dd($categoty_post);
+
         $post_status = BaiViet::where('danh_muc_bai_viet_id', $id)->update(['bv_TrangThai' => 0]);
         Session::flash('flash_message', 'Thay đổi trạng thái thành công!');
         return redirect('/admin/category-posts');

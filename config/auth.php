@@ -17,10 +17,10 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
-    // 'admin' => [
-    //     'driver' => 'eloquent',
-    //     'model' => App\Models\NhanVien::class,
-    // ],
+     'admin' => [
+         'driver' => 'eloquent',
+         'model' => App\Models\NhanVien::class,
+     ],
 
     /*
     |--------------------------------------------------------------------------
@@ -51,10 +51,15 @@ return [
             'hash' => false,
         ],
 
-        // 'admin' => [
-        //     'driver' => 'session',
-        //     'provider' => 'admins'
-        // ],
+         'admin' => [
+             'driver' => 'session',
+             'provider' => 'admins'
+         ],
+
+        'shipper' => [
+            'driver' => 'session',
+            'provider' => 'shippers'
+        ],
     ],
 
     /*
@@ -77,13 +82,18 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\TaiKhoan::class,
+            'model' => App\Models\KhachHang::class,
         ],
 
-        // 'admins' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\NhanVien::class,
-        // ],
+         'admins' => [
+             'driver' => 'eloquent',
+             'model' => App\Models\NhanVien::class,
+         ],
+
+        'shippers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\NguoiGiaoHang::class,
+        ],
 
     //    // 'users' => [
     //    //     'driver' => 'database',
@@ -114,10 +124,15 @@ return [
             'throttle' => 60,
         ],
 
-        // 'admins' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\NhanVien::class,
-        // ],
+         'admins' => [
+             'driver' => 'eloquent',
+             'model' => App\Models\NhanVien::class,
+         ],
+
+        'shippers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\NguoiGiaoHang::class,
+        ],
     ],
 
     /*

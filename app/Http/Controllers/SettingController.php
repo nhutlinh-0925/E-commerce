@@ -30,22 +30,14 @@ class SettingController extends Controller
     public function setting($id)
     {
         if (Auth::check()) {
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
+            $khachhang = KhachHang::find($id_kh);
+
             $carts = $this->cartService->getProduct();
-            // dd($carts);
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
-            $account = TaiKhoan::find($id_tk);
-            //dd($account);
             $address = DiaChi::where('khach_hang_id', $id_kh)->get();
-            //dd($address);
             $dc_md = DiaChi::where('khach_hang_id', $id)->where('dc_TrangThai', 1)->get();
-            //dd($dc_md);
+
             $cities = TinhThanhPho::all();
             $districts = QuanHuyen::all();
             $wards = XaPhuongThiTran::all();
@@ -55,7 +47,6 @@ class SettingController extends Controller
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
                 'wish_count' => $wish_count,
-                'account' => $account,
                 'address' => $address,
                 'dc_md' => $dc_md,
                 'cities' => $cities,
@@ -69,13 +60,8 @@ class SettingController extends Controller
     {
 //        dd($request);
         if (Auth::check()) {
-            $id_tk = Auth::user()->id;
-            //dd($id_tk);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);3
-            $id_kh = $khachhang->id;
-
-            $account = TaiKhoan::find($id_tk);
+            $id_kh = Auth('web')->user()->id;
+            $kh = KhachHang::find($id_kh);
 
             $input = $request->all();
 
@@ -93,7 +79,7 @@ class SettingController extends Controller
                 ]);
 
             if ($request->hasFile('avatar')) {
-                $destination = 'public/images/avatar/customers' . $account->avatar;
+                $destination = 'public/images/avatar/customers' . $kh->avatar;
                 if (File::exists($destination)) {
                     File::delete($destination);
                 }
@@ -105,32 +91,19 @@ class SettingController extends Controller
 
                 $avatar = $image_name; // Gán giá trị mới cho biến $avatar
             } else {
-                $avatar = $account->avatar; // Giữ nguyên giá trị của avatar hiện tại
+                $avatar = $kh->avatar; // Giữ nguyên giá trị của avatar hiện tại
             }
 
             // Chuẩn bị mảng dữ liệu cần cập nhật
             $updateData = [
                 'email' => $request->email,
                 'avatar' => $avatar,
+                'kh_Ten' => $request->kh_Ten,
+                'kh_SoDienThoai' => $request->kh_SoDienThoai
             ];
 
             // Cập nhật thông tin vào Model TaiKhoan
-            $account->update($updateData);
-
-            // Cập nhật thông tin vào Model KhachHang
-            $kh = KhachHang::find($id_kh);
-            //dd($kh);
-            $kh->update([
-                'kh_Ten' => $request->kh_Ten,
-                'kh_SoDienThoai' => $request->kh_SoDienThoai,
-            ]);
-
-//            $address = DiaChi::where('khach_hang_id', $id)->get();
-            //dd($address);
-//            foreach ($address as $ad) {
-//                $ad->dc_TrangThai = ($ad->id == $request->dc_DiaChi) ? 1 : 0;
-//                $ad->save();
-//            }
+            $kh->update($updateData);
 
             Session::flash('flash_message', 'Cập nhật hồ sơ thành công!');
             return redirect()->route('user.setting', ['id' => $id_kh]);
@@ -141,10 +114,7 @@ class SettingController extends Controller
     {
 //        dd($request);
         if (Auth::check()) {
-            $id = Auth::user()->id;
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
             $request->validate([
                 'city' => 'required',
                 'province' => 'required',
@@ -166,10 +136,9 @@ class SettingController extends Controller
             $dc->dc_DiaChi = $request->dc_DiaChi;
             //$dc->dc_TrangThai = 0;
             $dc->save();
-            //dd($dc);
 
             Session::flash('flash_message', 'Thêm địa chỉ thành công!');
-            return redirect()->route('user.setting', ['id' => $id]);
+            return redirect()->route('user.setting', ['id' => $id_kh]);
         }
     }
 

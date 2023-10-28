@@ -42,41 +42,30 @@ class LoginController extends Controller
             'password.min' => 'Mật khẩu ít nhất 5 kí tự',
         ]);
 
-        // $check = $request->only('email','password');
-        // if(Auth::guard('web')->attempt($check)){
-        //     return redirect()->route('user.home')->with('success','welcom to dashboard');
-        // }else{
-        //     return redirect()->route('user.login')->with('error','dang nhap that bai');
-        // }
-        if(Auth::attempt([
-            'email' => $request->input(key: 'email'),
-            'password' => $request->input(key: 'password'),
-            'loai' => 2
-        ], $request->input(key: 'remember'))){
-            $user = Auth::user();
-
+         if(Auth::guard('web')->attempt([
+             'email' => $request->input(key: 'email'),
+             'password' => $request->input(key: 'password'),
+         ], $request->input(key: 'remember'))){
+             $user = Auth::guard('web')->user();
             // Kiểm tra giá trị trangthai của người dùng
             if ($user->trangthai == 0) {
-                //dd('12345');
                 // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
-                Auth::logout();
+                Auth::guard('web')->user()->logout();
                 session()->flash('error', 'Tài khoản của bạn đã bị khóa');
                 return redirect()->back();
             }
-            return redirect()->route('user.home');
-
-        }
+             return redirect()->route('user.home');
+         }
         session()->flash('error', 'Email hoặc password không đúng !!!');
         return redirect()->back();
-
-    }
+         }
 
     public function doRegister(Request $request)
     {
         // dd($request);
         $request->validate([
             'kh_Ten' => 'required',
-            'email' => 'required|email|unique:tai_khoans',
+            'email' => 'required|email|unique:khach_hangs',
             'password' => 'required|min:6|max:15',
             're_password' => 'required|same:password'
         ],
@@ -91,45 +80,28 @@ class LoginController extends Controller
             're_password.same' => 'Mật khẩu không giống nhau',
         ]);
 
-        $taikhoan = TaiKhoan::create([
+        $khachhang = KhachHang::create([
+            'kh_Ten' => $request->kh_Ten,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'loai' => 2,
+//            'loai' => 2,
             'trangthai' => 1,
             'vip' => 0
         ]);
 
-        $kh = KhachHang::create([
-            'tai_khoan_id' =>$taikhoan->id,
-            'kh_Ten' => $request->kh_Ten,
-        ]);
-
-        if ($taikhoan->id)
+        if ($khachhang->id)
         {
             return redirect()->route('user.login');
         }
 
         return redirect()->back();
-
-
-
-
-
     }
-
-
-    // public function logout() {
-
-    //     Auth::guard('web')->logout();
-    //     return  ;
-
-    // }
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        Auth::guard('web')->logout();
+//        $request->session()->invalidate();
+//        $request->session()->regenerateToken();
         return redirect('/user/login');
     }
 
@@ -185,7 +157,7 @@ class LoginController extends Controller
 
             $user = Socialite::driver('google')->stateless()->user();
 //            dd($user);
-            $finduser = TaiKhoan::where('provider_id', $user->id)->first();
+            $finduser = KhachHang::where('provider_id', $user->id)->first();
 
             if($finduser){
 
@@ -194,22 +166,15 @@ class LoginController extends Controller
                 return redirect()->route('user.home');
 
             }else{
-                $newUser = TaiKhoan::create([
+                $newUser = KhachHang::create([
+                    'kh_Ten' => $user->name,
                     'email' => $user->email,
                     'provider' => 'Google',
                     'provider_id'=> $user->id,
                     'password' => encrypt('google123'),
-                    'loai' => 2,
                     'trangthai' => 1,
                     'vip' => 0
                 ]);
-//                dd($newUser);
-
-                $kh = KhachHang::create([
-                    'tai_khoan_id' => $newUser->id,
-                    'kh_Ten' => $user->name,
-                ]);
-//                dd($kh);
 
                 Auth::login($newUser);
 
@@ -227,7 +192,7 @@ class LoginController extends Controller
 
     public function post_forget_password(Request $request){
         $request->validate([
-            'email' => 'required|exists:tai_khoans',
+            'email' => 'required|exists:khach_hangs',
         ],
             [
                 'email.required' => 'Vui lòng nhập email',
@@ -241,7 +206,7 @@ class LoginController extends Controller
         //dd($token);
         $today = Carbon::now();
 
-        $update_token = TaiKhoan::where('email',$email)
+        $update_token = KhachHang::where('email',$email)
             ->update([
                 'email_verified_at' => $today,
                 'email_verified_code' => $token
@@ -279,7 +244,7 @@ class LoginController extends Controller
                 're_password.same' => 'Mật khẩu không giống nhau',
             ]);
 
-        TaiKhoan::where('email',$request->email)
+        KhachHang::where('email',$request->email)
             ->update(['password' => Hash::make($request->password)]);
 
         return redirect()->to(route('user.login'))

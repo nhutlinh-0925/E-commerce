@@ -13,15 +13,9 @@ class PhanHoiController extends Controller
 {
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $feedbacks = PhanHoi::all()->sortByDesc("id");
         return view('back-end.feedback.index',[
             'feedbacks' => $feedbacks,
-            'nhanvien' => $nhanvien
         ]);
     }
 

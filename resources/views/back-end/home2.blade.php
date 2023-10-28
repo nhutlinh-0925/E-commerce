@@ -115,7 +115,7 @@
                         <option value="quy2">Quý 2</option>
                         <option value="quy3">Quý 3</option>
                         <option value="quy4">Quý 4</option>
-                        {{--                        <option value="365ngayqua">365 ngày qua</option>--}}
+{{--                        <option value="365ngayqua">365 ngày qua</option>--}}
                     </select>
                 </p>
             </div>

@@ -20,15 +20,9 @@ class ThuongHieuController extends Controller
      */
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $brands = ThuongHieu::all()->sortByDesc("id");
         return view('back-end.brand.index',[
             'brands' => $brands,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -39,14 +33,7 @@ class ThuongHieuController extends Controller
      */
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        return view('back-end.brand.create',[
-        'nhanvien' => $nhanvien
-        ]);
+        return view('back-end.brand.create');
     }
 
     /**
@@ -98,16 +85,9 @@ class ThuongHieuController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $brand = ThuongHieu::find($id);
-        // dd($brand);
         return view('back-end.brand.edit',[
             'brand' => $brand,
-            'nhanvien' => $nhanvien
         ]);
     }
 

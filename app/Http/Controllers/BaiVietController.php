@@ -17,15 +17,9 @@ class BaiVietController extends Controller
 {
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $posts = BaiViet::all()->sortByDesc("id");
         return view('back-end.post.index',[
             'posts' => $posts,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -36,16 +30,9 @@ class BaiVietController extends Controller
      */
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $category_posts = DanhMucBaiViet::all();
-        // dd($category_posts);
         $data = [
             'category_posts' => $category_posts,
-            'nhanvien' => $nhanvien
         ];
 
         return view('back-end.post.create', $data);
@@ -60,8 +47,6 @@ class BaiVietController extends Controller
     public function store(Request $request)
     {
         if(Auth::check()){
-//            $id_nv = Auth::user()->id;
-            //        dd($request);
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $this -> validate($request, [
                 'bv_TieuDeBaiViet' => 'required',
@@ -81,7 +66,6 @@ class BaiVietController extends Controller
                 ]);
 
             $today =  Carbon::now()->toDateString();
-
             $input = $request->all();
 
             if($request->hasFile('bv_AnhDaiDien'))
@@ -93,11 +77,8 @@ class BaiVietController extends Controller
 
                 $input['bv_AnhDaiDien'] = $image_name;
             }
-            $id_tk = $request->user()->id;
-            //dd($id_tk);
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
-            //dd($nhanvien);
-            $id_nv = $nhanvien->id;
+
+            $id_nv = Auth('web')->user()->id;
 
             $input['nhan_vien_id'] = $id_nv;
             $input['bv_LuotXem'] = 0;
@@ -129,17 +110,11 @@ class BaiVietController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $post = BaiViet::find($id);
         $category_posts = DanhMucBaiViet::all();
         return view('back-end.post.edit',[
             'post' => $post,
             'category_posts' => $category_posts,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -152,8 +127,6 @@ class BaiVietController extends Controller
      */
     public function update(Request $request, $id)
     {
-//         dd($request);
-//        dd($id);
         $post = BaiViet::find($id);
         $input = $request->all();
         if($request->hasFile('bv_AnhDaiDien'))

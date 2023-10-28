@@ -1,4 +1,4 @@
-@extends('back-end.main2')
+@extends('back-end.main_shipper')
 
 @section('head')
     <link rel="stylesheet" href="/template/back-end2/css/style3_admin_ctdh.css">
@@ -180,9 +180,9 @@
                                             <br>
                                             <label style="float: right;">{{ $mgg->mgg_GiaTri }} %</label>
                                             <label>Mã giảm : </label>
-                                                @php
-                                                    $total_coupon = ($total * $mgg->mgg_GiaTri)/100;
-                                                @endphp
+                                            @php
+                                                $total_coupon = ($total * $mgg->mgg_GiaTri)/100;
+                                            @endphp
 
                                             <br>
                                             <label style="float: right;">{{ number_format($total_coupon, 0, '', '.') }} đ</label>
@@ -199,9 +199,9 @@
                                             <br>
                                             <label style="float: right;">{{ number_format($mgg->mgg_GiaTri, 0, '', '.') }} đ</label>
                                             <label>Mã giảm : </label>
-                                                @php
-                                                    $total_coupon = $total - $mgg->mgg_GiaTri;
-                                                @endphp
+                                            @php
+                                                $total_coupon = $total - $mgg->mgg_GiaTri;
+                                            @endphp
 
                                             <br>
                                             <label style="float: right;">{{ number_format($mgg->mgg_GiaTri, 0, '', '.') }} đ</label>
@@ -213,15 +213,15 @@
                                         @endif
                                     @else
                                         <br>
-                                            <label style="float: right;">0 đ</label>
-                                            <label>Mã giảm : </label>
+                                        <label style="float: right;">0 đ</label>
+                                        <label>Mã giảm : </label>
                                         <br>
-                                            <label style="float: right;">0 đ</label>
-                                            <label>Tổng tiền được giảm : </label>
-                                            <hr style="border: solid 1px black;">
+                                        <label style="float: right;">0 đ</label>
+                                        <label>Tổng tiền được giảm : </label>
+                                        <hr style="border: solid 1px black;">
 
-                                            <label style="float: right;color: red"><b>{{ number_format($total + $phi, 0, '', '.') }} đ</b></label>
-                                            <label>Tiền thanh toán : </label>
+                                        <label style="float: right;color: red"><b>{{ number_format($total + $phi, 0, '', '.') }} đ</b></label>
+                                        <label>Tiền thanh toán : </label>
                                     @endif
                                 </td>
                             </tr>
@@ -247,85 +247,31 @@
 
                     <div class="col-12 text-center">
                         <label for="inputNanme4" class="form-label"><strong>Trạng thái đơn hàng: <span class="text-danger">(*)</span></strong></label>
-                            @csrf
-                            @if( $pdh->pdh_TrangThai == 1)
-                                <div class="form-group text-center">
-                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
-                                        <option value="2">Đã duyệt</option>
-{{--                                        <option value="3">Đang vận chuyển</option>--}}
-{{--                                        <option value="4">Giao hàng thành công</option>--}}
-                                        <option value="5">Hủy đơn</option>
-                                    </select>
-                                </div>
-                            @elseif( $pdh->pdh_TrangThai == 2 )
-                                <div class="form-group text-center">
-                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">
-                                        <option value="2">Đã duyệt</option>
-{{--                                        <option value="3">Đang vận chuyển</option>--}}
-{{--                                        <option value="4">Giao hàng thành công</option>--}}
-                                    </select>
-                                </div>
-                            @elseif( $pdh->pdh_TrangThai == 3 )
-                                <div class="form-group text-center">
-{{--                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">--}}
-{{--                                        <option value="3">Đang vận chuyển</option>--}}
-{{--                                        <option value="4">Giao hàng thành công</option>--}}
-{{--                                    </select>--}}
-                                    <p>Đang vận chuyển</p>
-                                </div>
-                            @elseif( $pdh->pdh_TrangThai == 4 )
-                                <div class="form-group text-center">
-{{--                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">--}}
-{{--                                        <option value="4">Giao hàng thành công</option>--}}
-                                        <p>Giao hàng thành công</p>
-{{--                                    </select>--}}
-                                </div>
-                            @elseif( $pdh->pdh_TrangThai == 5 )
-                                <div class="form-group text-center">
-{{--                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">--}}
-{{--                                        <option value="5">Đơn đã hủy</option>--}}
-                                        <p>Đơn đã hủy</p>
-{{--                                    </select>--}}
-                                </div>
-                            @endif
+                        @csrf
+                        @if( $pdh->pdh_TrangThai == 2 )
+                            <div class="form-group text-center">
+                                <select name="pdh_TrangThaiGiaoHang" class="form-control mx-auto" style="width: 200px;">
+                                    <option value="1">Nhận đơn</option>
+                                    <option value="0">Từ chối giao hàng</option>
+                                </select>
+                            </div>
+                        @elseif( $pdh->pdh_TrangThai == 3 )
+                            <div class="form-group text-center">
+                                <select name="pdh_TrangThaiGiaoHang" class="form-control mx-auto" style="width: 200px;">
+                                    <option value="2">Giao hàng thành công</option>
+                                    <option value="3">Giao hàng thất bại</option>
+                                </select>
+                            </div>
+                        @elseif( $pdh->pdh_TrangThai == 4 )
+                            <div class="form-group text-center">
+                                <p>Giao hàng thành công</p>
+                            </div>
+                        @elseif( $pdh->pdh_TrangThai == 5 )
+                            <div class="form-group text-center">
+                                <p>Đơn đã hủy</p>
+                            </div>
+                        @endif
                     </div>
-
-                    @if($pdh->pdh_TrangThai == 1)
-                    <div class="col-md-3">
-                        <label for="inputNanme4" class="form-label"><strong>Shipper giao hàng: <span class="text-danger">(*)</span></strong></label>
-                        <select class="form-control" name="nguoi_giao_hang_id" id="nguoi_giao_hang_id">
-                            <option value="">--- Chọn Shipper ---</option>
-                            @foreach ($shippers as $shipper)
-                                <option value="{{ $shipper->id }}" >{{ $shipper->ngh_Ten }}</option>
-                            @endforeach
-
-                        </select>
-                        <b class="form-text text-danger" id="shipperError"></b>
-
-                    </div>
-                    @elseif($pdh->pdh_TrangThai == 2 && $pdh->nguoi_giao_hang_id == '')
-                        <div class="col-md-3">
-                            <label for="inputNanme4" class="form-label"><strong>Shipper giao hàng: <span class="text-danger">(*)</span></strong></label>
-                            <select class="form-control" name="nguoi_giao_hang_id" id="nguoi_giao_hang_id">
-                                <option value="">--- Chọn Shipper ---</option>
-                                @foreach ($shippers as $shipper)
-                                    <option value="{{ $shipper->id }}" >{{ $shipper->ngh_Ten }}</option>
-                                @endforeach
-
-                            </select>
-                            <b class="form-text text-danger" id="shipperError"></b>
-
-                        </div>
-                    @endif
-{{--                    <br>--}}
-
-{{--                    <div class="col-12 text-center">--}}
-{{--                        <input class="form-check-input" type="checkbox"  name="checbox">--}}
-{{--                        <label>--}}
-{{--                            <b>Đã kiểm tra kỹ thông tin</b>--}}
-{{--                        </label>--}}
-{{--                        <br>--}}
-{{--                    </div>--}}
 
                     <div class="fieldd btns">
                         <button class="prev-2 prev">QUAY LẠI</button>

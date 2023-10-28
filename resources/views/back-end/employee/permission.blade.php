@@ -57,7 +57,7 @@
                             @foreach($employees as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->taikhoan->email }}</td>
+                                    <td>{{ $item->email }}</td>
                                     <td>
                                         @php $donhangQuyen = false @endphp
                                         @foreach ($item->chitietquyen as $chitietquyen)
@@ -176,11 +176,11 @@
 
                                     <td>
                                         <p style="width: 100px;text-align: center">
-                                        @if ($item->taikhoan->loai == 0 && $item->taikhoan->vip == 1)
+                                        @if ($item->loai == 1)
                                             <a href="#" class="btn btn-danger" style="font-size: 10px">
                                                 Senior Manager
                                             </a>
-                                        @elseif ($item->taikhoan->loai == 0 && $item->taikhoan->vip == 0)
+                                        @elseif ($item->loai == 0 )
                                             <a href="{{ url('/admin/employees/permissions/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Thay đổi quyền"><i class="bi bi-pencil-square"></i></a>
                                         @endif
                                         </p>

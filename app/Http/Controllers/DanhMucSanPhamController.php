@@ -20,16 +20,9 @@ class DanhMucSanPhamController extends Controller
      */
     public function index()
     {
-        // return 123;
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $categoty_products = DanhMucSanPham::all()->sortByDesc("id");
         return view('back-end.category-product.index',[
             'categoty_products' => $categoty_products,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -40,14 +33,7 @@ class DanhMucSanPhamController extends Controller
      */
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        return view('back-end.category-product.create2',[
-            'nhanvien' => $nhanvien
-        ]);
+        return view('back-end.category-product.create2');
     }
 
     /**
@@ -99,16 +85,10 @@ class DanhMucSanPhamController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $categoty_product = DanhMucSanPham::find($id);
-//         dd($categoty_product);
+
         return view('back-end.category-product.edit',[
             'categoty_product' => $categoty_product,
-            'nhanvien' => $nhanvien
         ]);
     }
 
@@ -152,7 +132,7 @@ class DanhMucSanPhamController extends Controller
     public function destroy($id)
     {
         $categoty_product = DanhMucSanPham::find($id);
-        // dd($categoty_product);
+
         try {
             DB::beginTransaction();
 

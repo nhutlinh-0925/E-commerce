@@ -22,31 +22,19 @@ use Illuminate\Support\Facades\Storage;
 class KhachhangController extends Controller
 {
     public function index(){
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $customers = KhachHang::all()->sortByDesc("id");
 
         return view('back-end.customer.index',[
             'customers' => $customers,
-            'nhanvien' => $nhanvien
         ]);
     }
 
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $cities = TinhThanhPho::all();
         $districts = QuanHuyen::all();
         $wards = XaPhuongThiTran::all();
         return view('back-end.customer.create',[
-            'nhanvien' => $nhanvien,
             'cities' => $cities,
             'districts' => $districts,
             'wards' => $wards
@@ -87,29 +75,22 @@ class KhachhangController extends Controller
                 'avatar.required' => 'Vui lòng chọn avatar',
             ]);
 
-        $taikhoan = TaiKhoan::create([
+        $khachhang = KhachHang::create([
+            'kh_Ten' => $request->kh_Ten,
+            'kh_SoDienThoai' => $request->kh_SoDienThoai,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'loai' => 2,
             'trangthai' => $request->trangthai,
             'vip' => 0
         ]);
 
-        $kh = KhachHang::create([
-            'tai_khoan_id' =>$taikhoan->id,
-            'kh_Ten' => $request->kh_Ten,
-            'kh_SoDienThoai' => $request->kh_SoDienThoai,
-        ]);
-
         $dc = DiaChi::create([
-            'khach_hang_id' => $kh->id,
+            'khach_hang_id' => $khachhang->id,
             'tinh_thanh_pho_id' => $request->city,
             'quan_huyen_id' => $request->province,
             'xa_phuong_thi_tran_id' => $request->wards,
             'dc_DiaChi' => $request->dc_DiaChi,
         ]);
-
-        $account = TaiKhoan::find($taikhoan->id);
 
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
@@ -124,12 +105,12 @@ class KhachhangController extends Controller
         } else {
             // Không có hình ảnh được tải lên, giữ nguyên giá trị của trường avatar
             $updateData = [
-                'avatar' => $account->avatar,
+                'avatar' => $khachhang->avatar,
             ];
         }
 
         // Cập nhật thông tin vào Model TaiKhoan
-        $account->update($updateData);
+        $khachhang->update($updateData);
 
         Session::flash('flash_message', 'Thêm khách hàng thành công!');
         return redirect('/admin/customers');
@@ -138,7 +119,7 @@ class KhachhangController extends Controller
     public function active($id)
     {
         //        dd($id);
-        $account = TaiKhoan::find($id)
+        $customer = KhachHang::find($id)
             ->update(
                 ['trangthai' => 1],
             );
@@ -149,7 +130,7 @@ class KhachhangController extends Controller
     public function unactive($id)
     {
 //        dd($id);
-        $account = TaiKhoan::find($id)
+        $customer = KhachHang::find($id)
             ->update(
                 ['trangthai' => 0],
             );
@@ -181,11 +162,6 @@ class KhachhangController extends Controller
         }
 
     }
-
-
-
-
-
 
     public function index1(){
         if(Auth::check()){

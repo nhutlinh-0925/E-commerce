@@ -52,7 +52,7 @@
                                                         <div class="row mb-3">
                                                             <label for="" class="col-lg-3 col-form-label"><b>Email:</b></label>
                                                             <div class="col-lg-9">
-                                                                <input name="" type="" class="form-control" id="" value="{{ $taikhoan->email }}" disabled>
+                                                                <input name="" type="" class="form-control" id="" value="{{$id_nv = Auth('admin')->user()->email}}" disabled>
                                                             </div>
                                                         </div>
 

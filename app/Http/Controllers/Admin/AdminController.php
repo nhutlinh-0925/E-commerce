@@ -32,69 +32,37 @@ class AdminController extends Controller
             'password.min' => 'Mật khẩu ít nhất 5 kí tự',
         ]);
 
-        // $check = $request->only('email','password');
-        // if(Auth::guard('admin')->attempt($check)){
-        //     return redirect()->route('admin.home')->with('success','welcom to admin');
-        // }else{
-        //     return redirect()->back()->with('error','dang nhap that bai');
-        // }
-
-//        if (Auth::attempt([
-//            'email' => $request->input(key: 'email'),
-//            'password' => $request->input(key: 'password'),
-//            'loai' => 0
-//        ], $request->input(key: 'remember'))){
-//            return redirect()->route('admin.home');
-//
-//        }
-//        session()->flash('error', 'Email hoặc password không đúng !!!');
-//        return redirect()->back();
-
-        if (Auth::attempt([
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'loai' => 0
-        ], $request->input('remember'))) {
-            $user = Auth::user();
-
-            // Kiểm tra giá trị trangthai của người dùng
-            if ($user->trangthai == 0) {
-                // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
-                Auth::logout();
-                session()->flash('error', 'Tài khoản của bạn đã bị khóa');
-                return redirect()->back();
-            }
-
-            // Người dùng đăng nhập thành công và trangthai != 0, chuyển hướng đến route 'admin.home'
-            return redirect()->route('admin.home');
-        }
-
-        // Người dùng đăng nhập không thành công
+         if(Auth::guard('admin')->attempt([
+             'email' => $request->input(key: 'email'),
+             'password' => $request->input(key: 'password'),
+         ], $request->input(key: 'remember'))){
+             $user = Auth::guard('admin')->user();
+             // Kiểm tra giá trị trangthai của người dùng
+             if ($user->trangthai == 0) {
+                 // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
+                 Auth::guard('admin')->user()->logout();
+                 session()->flash('error', 'Tài khoản của bạn đã bị khóa');
+                 return redirect()->back();
+             }
+             return redirect()->route('admin.home');
+         }
         session()->flash('error', 'Email hoặc password không đúng !!!');
         return redirect()->back();
-
     }
 
-    // public function logout() {
-
-    //     Auth::guard('admin')->logout();
-    //     return redirect('/admin/login');
-
-    // }
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        Auth::guard('admin')->logout();
+//        $request->session()->invalidate();
+//        $request->session()->regenerateToken();
         return redirect('/admin/login');
     }
 
     public function getUser(){
         if(Auth::check()){
-            $id = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id)->first();
-            // dd($nhanvien);
+            $id_nv = Auth('admin')->user()->id;
+            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
             $product_tk = SanPham::all()->count();
             $product_views = SanPham::orderBy('sp_LuotXem','desc')->take(10)->get();
             $post_tk = BaiViet::all()->count();
@@ -114,6 +82,7 @@ class AdminController extends Controller
             'customer_tk' => $customer_tk
         ]);
     }
+
     public function days_order(Request $request){
         $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(30)->toDateString();
 
@@ -185,26 +154,6 @@ class AdminController extends Controller
         echo $data = json_encode($chart_data);
 //        return response()->json($chart_data);
     }
-
-//    public function filter_by_date(Request $request){
-//        $data = $request->all();
-//        $from_date = $data['from_date'];
-//        $to_date = $data['to_date'];
-//
-//        $get = ThongKe::whereBetween('tk_Ngay',[$from_date,$to_date])->orderBy('tk_Ngay','asc')->get();
-//
-//        foreach ($get as $key => $val){
-//            $chart_data1[] = array(
-//                'period' => $val->tk_Ngay,
-//                'order' => $val->tk_TongDonHang,
-//                'sales' => $val->tk_TongTien,
-//                'profit' => $val->tk_LoiNhuan,
-//                'quantity' => $val->tk_SoLuong
-//            );
-//        }
-//        echo $data = json_encode($chart_data1);
-////        return response()->json($chart_data);
-//    }
 
     public function filter_by_date(Request $request){
         $data = $request->all();

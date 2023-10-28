@@ -30,15 +30,23 @@ nextBtnSec.addEventListener("click", function(event){
 });
 
 // Button Xác Nhận
-submitBtn.addEventListener("click", function(){
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-    setTimeout(function(){
-        alert("Bạn đã chắc chắn kiểm tra các bước ");
-        // location.reload();
-    },800);
+submitBtn.addEventListener("click", function(event){
+    if($('#nguoi_giao_hang_id').val() == ''){
+        event.preventDefault();
+        $('#shipperError').html('');
+        $('#shipperError').html('Vui lòng chọn shipper');
+        return false;
+    }
+    else {
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+        setTimeout(function () {
+            alert("Bạn đã chắc chắn kiểm tra các bước ");
+            // location.reload();
+        }, 800);
+    }
 });
 
 // Button Quay Lại bước 1

@@ -126,41 +126,41 @@
                                     @endif
                                 </p>
                             </h3>
-{{--                            <div class="product__details__option">--}}
-{{--                                <div class="product__details__option__size">--}}
-{{--                                    <span>Size:</span>--}}
-{{--                                    <label for="xxl">xxl--}}
-{{--                                        <input type="radio" id="xxl">--}}
-{{--                                    </label>--}}
-{{--                                    <label class="active" for="xl">xl--}}
-{{--                                        <input type="radio" id="xl">--}}
-{{--                                    </label>--}}
-{{--                                    <label for="l">l--}}
-{{--                                        <input type="radio" id="l">--}}
-{{--                                    </label>--}}
-{{--                                    <label for="sm">s--}}
-{{--                                        <input type="radio" id="sm">--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                                <div class="product__details__option__color">--}}
-{{--                                    <span>Color:</span>--}}
-{{--                                    <label class="c-1" for="sp-1">--}}
-{{--                                        <input type="radio" id="sp-1">--}}
-{{--                                    </label>--}}
-{{--                                    <label class="c-2" for="sp-2">--}}
-{{--                                        <input type="radio" id="sp-2">--}}
-{{--                                    </label>--}}
-{{--                                    <label class="c-3" for="sp-3">--}}
-{{--                                        <input type="radio" id="sp-3">--}}
-{{--                                    </label>--}}
-{{--                                    <label class="c-4" for="sp-4">--}}
-{{--                                        <input type="radio" id="sp-4">--}}
-{{--                                    </label>--}}
-{{--                                    <label class="c-9" for="sp-9">--}}
-{{--                                        <input type="radio" id="sp-9">--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            <div class="product__details__option">
+                                <div class="product__details__option__size">
+                                    <span>Size:</span>
+                                    <label for="xxl">xxl
+                                        <input type="radio" id="xxl">
+                                    </label>
+                                    <label class="active" for="xl">xl
+                                        <input type="radio" id="xl">
+                                    </label>
+                                    <label for="l">l
+                                        <input type="radio" id="l">
+                                    </label>
+                                    <label for="sm">s
+                                        <input type="radio" id="sm">
+                                    </label>
+                                </div>
+                                <div class="product__details__option__color">
+                                    <span>Color:</span>
+                                    <label class="c-1" for="sp-1">
+                                        <input type="radio" id="sp-1">
+                                    </label>
+                                    <label class="c-2" for="sp-2">
+                                        <input type="radio" id="sp-2">
+                                    </label>
+                                    <label class="c-3" for="sp-3">
+                                        <input type="radio" id="sp-3">
+                                    </label>
+                                    <label class="c-4" for="sp-4">
+                                        <input type="radio" id="sp-4">
+                                    </label>
+                                    <label class="c-9" for="sp-9">
+                                        <input type="radio" id="sp-9">
+                                    </label>
+                                </div>
+                            </div>
                             <div class="product__details__cart__option">
                                 <div class="quantity">
                                     <div class="pro-qty">
@@ -404,17 +404,17 @@
                             <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
                                 + Thêm giỏ hàng
                             </button>
-{{--                            <div class="product__color__select">--}}
-{{--                                <label for="pc-1">--}}
-{{--                                    <input type="radio" id="pc-1">--}}
-{{--                                </label>--}}
-{{--                                <label class="active black" for="pc-2">--}}
-{{--                                    <input type="radio" id="pc-2">--}}
-{{--                                </label>--}}
-{{--                                <label class="grey" for="pc-3">--}}
-{{--                                    <input type="radio" id="pc-3">--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
+                            <div class="product__color__select">
+                                <label for="pc-1">
+                                    <input type="radio" id="pc-1">
+                                </label>
+                                <label class="active black" for="pc-2">
+                                    <input type="radio" id="pc-2">
+                                </label>
+                                <label class="grey" for="pc-3">
+                                    <input type="radio" id="pc-3">
+                                </label>
+                            </div>
                         </div>
                     </div>
                     </form>

@@ -24,17 +24,9 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $products = SanPham::all()->sortByDesc("id");
-        // $categoty_products = DanhMucSanPham::all()->sortByDesc("id");
         return view('back-end.product.index',[
             'products' => $products,
-            'nhanvien' => $nhanvien
-            // 'categoty_products' => $categoty_products
         ]);
     }
 
@@ -45,18 +37,11 @@ class SanPhamController extends Controller
      */
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $category_products = DanhMucSanPham::where('dmsp_TrangThai',1)->get();
-//         dd($category_products);
         $brands = ThuongHieu::where('thsp_TrangThai',1)->get();
         $data = [
             'category_products' => $category_products,
             'brands' => $brands,
-            'nhanvien' => $nhanvien
         ];
 
         return view('back-end.product.create2', $data);
@@ -123,21 +108,14 @@ class SanPhamController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $product = SanPham::find($id);
         $category_products = DanhMucSanPham::where('dmsp_TrangThai',1)->get();
-//         dd($category_products);
         $brands = ThuongHieu::where('thsp_TrangThai',1)->get();
         $images = $product->hinhanh; // Lấy các hình ảnh liên quan đến sản phẩm
         return view('back-end.product.edit',[
             'product' => $product,
             'category_products' => $category_products,
             'brands' => $brands,
-            'nhanvien' => $nhanvien,
             'images' => $images
         ]);
     }

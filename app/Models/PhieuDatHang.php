@@ -12,6 +12,7 @@ class PhieuDatHang extends Model
     protected $fillable = [
         'khach_hang_id',
         'nhan_vien_id',
+        'nguoi_giao_hang_id',
         'ma_giam_gia_id',
         'phuong_thuc_thanh_toan_id',
         'pdh_DiaChiGiao',
@@ -19,6 +20,7 @@ class PhieuDatHang extends Model
         'pdh_GhiChu',
         'pdh_GiamGia',
         'pdh_TrangThai',
+        'pdh_TrangThaiGiaoHang',
         'pdh_NgayDat',
         'pdh_TongTien',
     ];
@@ -33,6 +35,12 @@ class PhieuDatHang extends Model
     {
         return $this->hasOne(NhanVien::class, 'id', 'nhan_vien_id')
             ->withDefault(['nv_Ten' => '']);
+    }
+
+    public function nguoigiaohang()
+    {
+        return $this->hasOne(NguoiGiaoHang::class, 'id', 'nguoi_giao_hang_id')
+            ->withDefault(['ngh_Ten' => '']);
     }
 
     public function phuongthucthanhtoan()

@@ -64,11 +64,7 @@ class CartController extends Controller
     public function show()
     {
         if(Auth::check()){
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
+            $id_kh = Auth('web')->user()->id;
             //dd($id_kh);
             $products = $this->cartService->getProduct();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
@@ -77,7 +73,6 @@ class CartController extends Controller
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
                 'carts' => session()->get('carts'),
-                'khachhang' => $khachhang,
                 'coupons' => session()->get('coupon'),
                 'wish_count' => $wish_count
             ]);
@@ -121,19 +116,12 @@ class CartController extends Controller
     {
 //        dd($request);
         if(Auth::check()){
-            $id = Auth::user()->id;
-            //dd($id);
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            $id_kh = $khachhang->id;
-
+            $id_kh = Auth('web')->user()->id;
+            $khachhang = KhachHang::find($id_kh);
             $products = $this->cartService->getProduct();
 
             $address = DiaChi::where('khach_hang_id', $id_kh)->get();
-            //dd($address);
-            //$dc_md = DiaChi::where('khach_hang_id', $id)->where('dc_TrangThai', 1)->get();
-            //dd($dc_md);
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
 
             $payments = PhuongThucThanhToan::all();
 
@@ -144,8 +132,6 @@ class CartController extends Controller
                 'khachhang' => $khachhang,
                 'coupons' => session()->get('coupon'),
                 'address' => $address,
-//                'dc_md' => $dc_md,
-//                'pvc' => session()->get('pvc'),
                 'wish_count' => $wish_count,
                 'payments' => $payments
             ]);
@@ -160,7 +146,6 @@ class CartController extends Controller
     {
         // Lấy id địa chỉ từ yêu cầu AJAX
         $addressId = $request->input('address_id');
-        //dd($addressId);
         $address = DiaChi::find($addressId);
 
         if ($address) {
@@ -242,9 +227,7 @@ class CartController extends Controller
             // Đặt múi giờ
             date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-            $id_tk = $request->user()->id;
-            $id_kh = KhachHang::where('tai_khoan_id', $id_tk)->get();
-            $id = $id_kh->first()->id;
+            $id_kh = Auth('web')->user()->id;
 
             $id_dc = $request->dc_DiaChi;
             $dc = DiaChi::find($id_dc);
@@ -284,13 +267,11 @@ class CartController extends Controller
                         if ($cou['mgg_LoaiGiamGia'] == 2) {
                             $total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
                             $tien_end = $total - $total_coupon + $phi;
-                            //dd($tien_end);
                         } elseif ($cou['mgg_LoaiGiamGia'] == 1) {
                             $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
-                            //dd($tien_end);
                         }
                     $cart = new PhieuDatHang;
-                    $cart->khach_hang_id = $id;
+                    $cart->khach_hang_id = $id_kh;
                     $cart->ma_giam_gia_id = $coupons[0]['id'];
                     $cart->pdh_GhiChu = $request->pdh_GhiChu;
                     $cart->pdh_GiamGia = $coupons[0]['mgg_MaGiamGia'];
@@ -300,11 +281,9 @@ class CartController extends Controller
                     $cart->pdh_TrangThai = 1;
                     $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                     $cart->save();
-                    //dd($cart);
 
                     // Cập nhật trường mgg_SoLuongMa
                     $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
-                    //dd($newSoLuongMa);
                     MaGiamGia::where('id', $cou['id'])
                         ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
 
@@ -312,7 +291,7 @@ class CartController extends Controller
                     $tien_end = $total + $phi;
 
                     $cart = new PhieuDatHang;
-                    $cart->khach_hang_id = $id;
+                    $cart->khach_hang_id = $id_kh;
                     $cart->pdh_GhiChu = $request->pdh_GhiChu;
                     $cart->pdh_DiaChiGiao = $pdh_DiaChiGiao;
                     $cart->pdh_NgayDat = $today;
@@ -320,14 +299,10 @@ class CartController extends Controller
                     $cart->pdh_TrangThai = 1;
                     $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                     $cart->save();
-                    //dd($cart);
                 }
 
-                $customer = KhachHang::find($id);
-                //$customer->kh_Ten = $customer->kh_Ten;
+                $customer = KhachHang::find($id_kh);
                 $customer->kh_SoDienThoai = $request->kh_SoDienThoai;
-                //$tien = $customer->kh_TongTienDaMua;
-                //$customer->kh_TongTienDaMua = $tien + $tien_end;
                 $customer->save();
 
                 foreach ($products as $product) {
@@ -338,12 +313,6 @@ class CartController extends Controller
                         'ctpdh_Gia' => $product->sp_Gia
                     ]);
                 }
-
-//                $name = "Nhựt Linh";
-//                Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-//                    $email->subject('Balo');
-//                    $email->to('trannhutlinh0925@gmail.com', $name);
-//                });
 
                 if ($coupons == true) {
                     Session::forget('coupon');
@@ -534,10 +503,7 @@ class CartController extends Controller
 
             // Đặt múi giờ
             date_default_timezone_set('Asia/Ho_Chi_Minh');
-
-            $id_tk = $request->user()->id;
-            $id_kh = KhachHang::where('tai_khoan_id', $id_tk)->get();
-            $id = $id_kh->first()->id;
+            $id_kh = Auth('web')->user()->id;
 
             $dc = DiaChi::find($data_get['dc_DiaChi']);
             $pdh_DiaChiGiao = $dc->dc_DiaChi;
@@ -557,7 +523,7 @@ class CartController extends Controller
                         $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
                     }
                 $cart = new PhieuDatHang;
-                $cart->khach_hang_id = $id;
+                $cart->khach_hang_id = $id_kh;
                 $cart->ma_giam_gia_id = $coupons[0]['id'];
                 $cart->pdh_GhiChu = $data_get['pdh_GhiChu'];
                 $cart->pdh_GiamGia = $coupons[0]['mgg_MaGiamGia'];
@@ -567,7 +533,6 @@ class CartController extends Controller
                 $cart->pdh_TrangThai = 1;
                 $cart->phuong_thuc_thanh_toan_id = $data_get['phuong_thuc_thanh_toan_id'];
                 $cart->save();
-                //dd($cart);
 
                 // Cập nhật trường mgg_SoLuongMa
                 $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
@@ -578,7 +543,7 @@ class CartController extends Controller
                 $tien_end = $total + $phi;
 
                 $cart = new PhieuDatHang;
-                $cart->khach_hang_id = $id;
+                $cart->khach_hang_id = $id_kh;
                 $cart->pdh_GhiChu = $data_get['pdh_GhiChu'];
                 $cart->pdh_DiaChiGiao = $pdh_DiaChiGiao;
                 $cart->pdh_NgayDat = $today;
@@ -586,14 +551,10 @@ class CartController extends Controller
                 $cart->pdh_TrangThai = 1;
                 $cart->phuong_thuc_thanh_toan_id = $data_get['phuong_thuc_thanh_toan_id'];
                 $cart->save();
-                //dd($cart);
             }
 
-            $customer = KhachHang::find($id);
-            //$customer->kh_Ten = $customer->kh_Ten;
+            $customer = KhachHang::find($id_kh);
             $customer->kh_SoDienThoai = $data_get['kh_SoDienThoai'];
-            //$tien = $customer->kh_TongTienDaMua;
-            //$customer->kh_TongTienDaMua = $tien + $tien_end;
             $customer->save();
 
             foreach ($products as $product) {
@@ -604,12 +565,6 @@ class CartController extends Controller
                     'ctpdh_Gia' => $product->sp_Gia
                 ]);
             }
-
-//            $name = "Nhựt Linh";
-//            Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-//                $email->subject('Balo');
-//                $email->to('trannhutlinh0925@gmail.com', $name);
-//            });
 
             if ($coupons == true) {
                 Session::forget('coupon');
@@ -668,10 +623,7 @@ class CartController extends Controller
         }
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-
-        $id_tk = $request->user()->id;
-        $id_kh = KhachHang::where('tai_khoan_id', $id_tk)->get();
-        $id = $id_kh->first()->id;
+        $id_kh = Auth('web')->user()->id;
 
         $id_dc = $postData['dc_DiaChi'];
         $dc = DiaChi::find($id_dc);
@@ -697,7 +649,7 @@ class CartController extends Controller
                             $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
                         }
                     $cart = new PhieuDatHang;
-                    $cart->khach_hang_id = $id;
+                    $cart->khach_hang_id = $id_kh;
                     $cart->ma_giam_gia_id = $coupons[0]['id'];
                     $cart->pdh_GhiChu = $request->pdh_GhiChu;
                     $cart->pdh_GiamGia = $coupons[0]['mgg_MaGiamGia'];
@@ -717,7 +669,7 @@ class CartController extends Controller
                     $tien_end = $total + $phi;
 
                     $cart = new PhieuDatHang;
-                    $cart->khach_hang_id = $id;
+                    $cart->khach_hang_id = $id_kh;
                     $cart->pdh_GhiChu = $request->pdh_GhiChu;
                     $cart->pdh_DiaChiGiao = $pdh_DiaChiGiao;
                     $cart->pdh_NgayDat = $today;
@@ -726,11 +678,8 @@ class CartController extends Controller
                     $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                     $cart->save();
                 }
-                $customer = KhachHang::find($id);
-                //$customer->kh_Ten = $customer->kh_Ten;
+                $customer = KhachHang::find($id_kh);
                 $customer->kh_SoDienThoai = $request->kh_SoDienThoai;
-                //$tien = $customer->kh_TongTienDaMua;
-                //$customer->kh_TongTienDaMua = $tien + $tien_end;
                 $customer->save();
 
                 foreach ($products as $product) {
@@ -741,12 +690,6 @@ class CartController extends Controller
                         'ctpdh_Gia' => $product->sp_Gia
                     ]);
                 }
-
-//                $name = "Nhựt Linh";
-//                Mail::send('front-end.email_order', compact('name'), function ($email) use ($name) {
-//                    $email->subject('Balo');
-//                    $email->to('trannhutlinh0925@gmail.com', $name);
-//                });
 
                 if ($coupons == true) {
                     Session::forget('coupon');
@@ -774,13 +717,11 @@ class CartController extends Controller
         $coupon = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])
                             ->where(\DB::raw('DATE(mgg_NgayKetThuc)'), '>=', $now->toDateString())
                            ->first();
-        //dd($coupon);
+
         if($coupon){
             $count_coupon = $coupon->count();
-            //dd($count_coupon);
             if($count_coupon>0){
                 $coupon_session = Session::get('coupon');
-                //dd($coupon_session);
                 if($coupon_session == true){
                     $is_avaiable = 0;
                     if($is_avaiable==0){
@@ -829,9 +770,7 @@ class CartController extends Controller
      public function show_DonHang(Request $request, $id){
 //        dd($request);
          if(Auth::check()){
-             $id_kh = Auth::user()->id;
-             $khachhang = KhachHang::where('tai_khoan_id', $id_kh)->first();
-             $id_kh = $khachhang->id;
+             $id_kh = Auth('web')->user()->id;
              $carts = $this->cartService->getProduct();
              $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
 
@@ -840,19 +779,16 @@ class CartController extends Controller
                  $khach_hang_id = $id;
                  $data = DB::table('phieu_dat_hangs')
                      ->where('khach_hang_id','=',$khach_hang_id)
-//                     ->orderby('id','desc')
                      ->get();
-                 //dd($data);
+
                  return Datatables::of($data)
                      ->addIndexColumn()
                      ->make(true);
              }
 
              return view('front-end.purchase_order',[
-                 'khachhang' => $khachhang,
                  'carts' => $carts,
                  'gh' => session()->get('carts'),
-//                 'get_cart' => $get_cart,
                  'wish_count' => $wish_count,
              ]);
          }
@@ -862,24 +798,15 @@ class CartController extends Controller
 
     public function show_ChitietDonhang($id){
         if(Auth::check()) {
-            $id_tk = Auth::user()->id;
-            //dd($id_kh);8
-            $khachhang = KhachHang::where('tai_khoan_id', $id_tk)->first();
-            //dd($khachhang);
-            $id_kh = $khachhang->id;
-            //dd($id_kh);
+            $id_kh = Auth('web')->user()->id;
+
             $carts = $this->cartService->getProduct();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
 
             $pdh = PhieuDatHang::find($id);
-
             $kh = KhachHang::find($id_kh);
-
             $id_mgg = $pdh->ma_giam_gia_id;
-            //dd($id_mgg);
             $mgg = MaGiamGia::find($id_mgg);
-            //dd($mgg);
 
             $dc = PhieuDatHang::join('khach_hangs', 'khach_hangs.id', '=', 'phieu_dat_hangs.khach_hang_id')
                 ->join('dia_chis','khach_hangs.id','=', 'dia_chis.khach_hang_id')
@@ -887,15 +814,12 @@ class CartController extends Controller
                 ->where('phieu_dat_hangs.khach_hang_id', '=', $id_kh)
                 ->whereColumn('phieu_dat_hangs.pdh_DiaChiGiao', '=', 'dia_chis.dc_DiaChi')
                 ->get();
-            //dd($dc);
 
             $id_tp = $dc[0]['tinh_thanh_pho_id'];
-            //dd($id_tp);
             $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->first();
             $phi = $phiVanChuyen->pvc_PhiVanChuyen;
 
             $feedback = PhanHoi::where('phieu_dat_hang_id',$pdh->id)->first();
-            //dd($feedback);
 
             $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
                 ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
@@ -905,11 +829,9 @@ class CartController extends Controller
         }
 
         return view('front-end.detail_order2',[
-            'khachhang' => $khachhang,
             'carts' => $carts,
             'gh' => session()->get('carts'),
             'wish_count' => $wish_count,
-
             'pdh' => $pdh,
             'kh' => $kh,
             'cart_id' => $cart_id,
@@ -920,92 +842,10 @@ class CartController extends Controller
         ]);
     }
 
-    public function order_update(Request $request, $id){
-        $data = $request->all();
-        $order = PhieuDatHang::find($id);
-        //dd($order);
-
-        $order_date = $order->pdh_NgayDat;
-        $thongke = ThongKe::where('tk_Ngay',$order_date)->get();
-
-        if($thongke){
-            $thongke_dem = $thongke->count();
-        }else{
-            $thongke_dem = 0;
-        }
-
-        $newStatus = $request->input('pdh_TrangThai');
-
-        if($newStatus == 5){
-            foreach ($order->chitietphieudathang as $detail) {
-                $product = $detail->sanpham;
-                //dd($product);
-                if ($product) {
-                    $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
-                    $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
-                    $product->save();
-                }
-            }
-            //$order->save();
-            $order->pdh_TrangThai = $newStatus;
-            $order->save();
-        }elseif($newStatus == 4) {
-            $total_order = 0; //tong so luong don
-            $sales = 0; //doanh thu
-            $profit = 0; //loi nhuan
-            $quantity = 0; //so luong
-
-            foreach ($order->chitietphieudathang as $detail){
-                $product = $detail->sanpham;
-                //dd($product);
-                $quantity += $detail->ctpdh_SoLuong;
-                //dd($quantity);
-                $sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
-                //dd($sales);
-                $profit = $sales - 100000;
-            }
-            $total_order += 1;
-
-            if($thongke_dem > 0){
-                $thongke_capnhat = ThongKe::where('tk_Ngay',$order_date)->first();
-                $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TogTien + $sales;
-                $thongke_capnhat->tk_LoiNhuan = $thongke_capnhat->tk_LoiNhuan + $profit;
-                $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
-                $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;
-                $thongke_capnhat->save();
-            }else{
-                $thongke_moi = new ThongKe();
-                $thongke_moi->tk_Ngay = $order_date;
-                $thongke_moi->tk_SoLuong = $quantity;
-                $thongke_moi->tk_TongTien = $sales;
-                $thongke_moi->tk_LoiNhuan = $profit;
-                $thongke_moi->tk_TongDonHang = $total_order;
-                $thongke_moi->save();
-            }
-
-            $order->pdh_TrangThai = $newStatus;
-            $order->save();
-
-            $id_kh = $order->khach_hang_id;
-            $tien_hang = $order->pdh_TongTien;
-            $customer = KhachHang::find($id_kh);
-            $tien = $customer->kh_TongTienDaMua;
-            $customer->kh_TongTienDaMua = $tien + $tien_hang;
-            $customer->save();
-
-
-        }else{
-
-        }
-        Session::flash('flash_message', 'Cập nhật trạng thái thành công!');
-        return redirect()->back();
-    }
-
     public function cancel(Request $request, $id){
         $order = PhieuDatHang::find($id);
             foreach ($order->chitietphieudathang as $detail) {
                 $product = $detail->sanpham;
-                //dd($product);
                 if ($product) {
                     $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
                     $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
@@ -1020,7 +860,6 @@ class CartController extends Controller
 
     public function success(Request $request, $id){
         $order = PhieuDatHang::find($id);
-        //dd($order);
 
         $order_date = $order->pdh_NgayDat;
         $thongke = ThongKe::where('tk_Ngay',$order_date)->get();
@@ -1038,11 +877,8 @@ class CartController extends Controller
 
         foreach ($order->chitietphieudathang as $detail){
             $product = $detail->sanpham;
-            //dd($product);
             $quantity += $detail->ctpdh_SoLuong;
-            //dd($quantity);
             $sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
-            //dd($sales);
             $profit = $sales - 100000;
         }
         $total_order += 1;
@@ -1054,7 +890,6 @@ class CartController extends Controller
             $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
             $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;
             $thongke_capnhat->save();
-            //dd($thongke_capnhat);
         }else{
             $thongke_moi = new ThongKe();
             $thongke_moi->tk_Ngay = $order_date;
@@ -1063,7 +898,6 @@ class CartController extends Controller
             $thongke_moi->tk_LoiNhuan = $profit;
             $thongke_moi->tk_TongDonHang = $total_order;
             $thongke_moi->save();
-            //dd($thongke_moi);
         }
 
         $order->pdh_TrangThai = 4;
@@ -1074,15 +908,11 @@ class CartController extends Controller
         $customer = KhachHang::find($id_kh);
         $tien = $customer->kh_TongTienDaMua;
         $customer->kh_TongTienDaMua = $tien + $tien_hang;
-        //dd($customer);
         $customer->save();
 
         $pdh = PhieuDatHang::find($id);
         $id_kh = $pdh->khach_hang_id;
-//        $kh = KhachHang::find($id_kh);
-        $id_tk = $customer->tai_khoan_id;
-        $tk = TaiKhoan::find($id_tk);
-        $email = $tk->email;
+        $email = $customer->email;
         $title_mail = "Thông báo giao hàng thành công";
 
         $mailData = [
@@ -1112,10 +942,7 @@ class CartController extends Controller
             ]);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         if(Auth::check()){
-            $id = Auth::user()->id;
-            //dd($id);
-            $khachhang = KhachHang::where('tai_khoan_id', $id)->first();
-            $id_kh = $khachhang->id;
+            $id_kh = Auth('web')->user()->id;
 
             $ph = new PhanHoi();
             $ph->khach_hang_id = $id_kh;
@@ -1123,14 +950,10 @@ class CartController extends Controller
             $ph->ph_MucPhanHoi = $request->ph_MucPhanHoi;
             $ph->ph_TrangThai = 1;
             $ph->save();
-            //dd($ph);
 
             Session::flash('success_message_feedback', 'Thêm phản hồi thành công!');
             return redirect()->back();
         }
     }
-
-
-
 
 }

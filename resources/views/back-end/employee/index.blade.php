@@ -65,15 +65,15 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->nv_Ten }}</td>
-                                    <td><img src="{{ url('/storage/images/avatar/employees/'.$item->taikhoan->avatar) }}" height="50px" width="50px" class="rounded-circle"></td>
+                                    <td><img src="{{ url('/storage/images/avatar/employees/'.$item->avatar) }}" height="50px" width="50px" class="rounded-circle"></td>
                                     <td>{{ $item->nv_SoDienThoai }}</td>
                                     <td>{{ $item->nv_DiaChi }}</td>
-                                    <td>{{ $item->taikhoan->email }}</td>
+                                    <td>{{ $item->email }}</td>
                                     <td>
-                                        @if ($item->taikhoan->trangthai == 1)
-                                            <a href="/admin/employees/unactive/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn khóa tài khoản?")'><span class="bi bi-unlock" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
-                                        @elseif ($item->taikhoan->trangthai == 0)
-                                            <a href="/admin/employees/active/{{ $item->taikhoan->id }}" onclick ='return confirm("Bạn chắc chắn muốn mở khóa tài khoản?")'><span class="bi bi-lock" style="font-size: 25px;color: red; font-weight: bold"></span></a>
+                                        @if ($item->trangthai == 1)
+                                            <a href="/admin/employees/unactive/{{ $item->id }}" onclick ='return confirm("Bạn chắc chắn muốn khóa tài khoản?")'><span class="bi bi-unlock" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
+                                        @elseif ($item->trangthai == 0)
+                                            <a href="/admin/employees/active/{{ $item->id }}" onclick ='return confirm("Bạn chắc chắn muốn mở khóa tài khoản?")'><span class="bi bi-lock" style="font-size: 25px;color: red; font-weight: bold"></span></a>
                                         @endif
                                     </td>
                                 </tr>

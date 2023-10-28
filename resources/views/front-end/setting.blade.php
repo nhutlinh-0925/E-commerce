@@ -57,8 +57,8 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    <img src="{{ url('/storage/images/avatar/customers/'.$account->avatar) }}" alt="Profile" class="rounded-circle">
-                    <h2>{{ $khachhang->kh_Ten }}</h2>
+                    <img src="{{ url('/storage/images/avatar/customers/'.$khachhang->avatar) }}" alt="Profile" class="rounded-circle">
+                    <h2>{{ Auth('web')->user()->kh_Ten }}</h2>
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="inputNanme4" class="form-label"><strong>Email</strong></label>
-                                        <input type="text" class="form-control" disabled value="{{ $account->email }}">
+                                        <input type="text" class="form-control" disabled value="{{ Auth('web')->user()->email }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputNanme4" class="form-label"><strong>Tổng số tiền bạn đã mua</strong></label>
@@ -105,11 +105,11 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="inputNanme4" class="form-label"><strong>Họ và tên</strong></label>
-                                        <input type="text" class="form-control" disabled  value="{{ $khachhang->kh_Ten }}">
+                                        <input type="text" class="form-control" disabled  value="{{ Auth('web')->user()->kh_Ten }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="inputNanme4" class="form-label"><strong>Số điện thoại</strong></label>
-                                        <input type="text" class="form-control" disabled value="{{ $khachhang->kh_SoDienThoai }}">
+                                        <input type="text" class="form-control" disabled value="{{ Auth('web')->user()->kh_SoDienThoai }}">
                                     </div>
                                 </div>
 
@@ -147,10 +147,10 @@
                                 <div class="row mb-3">
                                     <label for="profileImage" class="col-lg-4 col-form-label">Ảnh đại diện</label>
                                     <div class="col-lg-8">
-                                        <img id="output" src="{{ url('/storage/images/avatar/customers/'.$account->avatar) }}">
+                                        <img id="output" src="{{ url('/storage/images/avatar/customers/'.$khachhang->avatar) }}">
                                         <br><br>
                                         <input type="file" class="form-control" id="avatar" name="avatar" onchange="loadFile(event)">
-                                        <input type="hidden" name="avatar" value="{{ old('avatar', $account->avatar ?? '') }}">
+                                        <input type="hidden" name="avatar" value="{{ old('avatar', $khachhang->avatar ?? '') }}">
                                         @error ('avatar')
                                         <span style="color: red;">{{ $message }}</span>
                                         @enderror
@@ -170,7 +170,7 @@
                                 <div class="row mb-3">
                                     <label for="Email" class="col-lg-4 col-form-label">Email : </label>
                                     <div class="col-lg-8">
-                                        <input name="email" type="email" class="form-control" id="" value="{{ old('email', $account->email ?? '') }}">
+                                        <input name="email" type="email" class="form-control" id="" value="{{ old('email', $khachhang->email ?? '') }}">
                                         @error ('email')
                                         <span style="color: red;">{{ $message }}</span>
                                         @enderror

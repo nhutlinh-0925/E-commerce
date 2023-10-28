@@ -192,7 +192,7 @@
                 <div class="breadcrumb__text">
                     <div class="breadcrumb__links">
                         <a href="/">Trang chủ</a>
-                        <a href="/user/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
+                        <a href="/user/purchase_order/{{ Auth('web')->user()->id }}">Đơn hàng</a>
                         <span>Chi tiết đơn hàng</span>
                     </div>
                 </div>
@@ -440,7 +440,7 @@
                                             </div>
                                         @csrf
                                         </form>
-                                    @else
+                                    @elseif($pdh->pdh_TrangThai == 4 && $ph_hoan_thanh)
                                         <div class="text-start">
                                             <div class="row">
                                                 <label><strong>Phản hồi của bạn :</strong></label>
@@ -451,7 +451,7 @@
                                     @endif
 
                                     <div class="text-start">
-                                        <a href="/user/purchase_order/{{ $khachhang->id }}" class="btn btn-sm btn-warning justify-content-end " style="color: white;font-size: 18px">
+                                        <a href="/user/purchase_order/{{ Auth('web')->user()->id }}" class="btn btn-sm btn-warning justify-content-end " style="color: white;font-size: 18px">
                                             <i class="fa fa-chevron-left"></i> QUAY VỀ
                                         </a>
                                     </div>

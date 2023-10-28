@@ -17,31 +17,17 @@ class NhapKhoController extends Controller
 {
     public function index()
     {
-        // return 123;
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $warehouses = PhieuNhapHang::all()->sortByDesc("id");
         return view('back-end.warehouse.index',[
             'warehouses' => $warehouses,
-            'nhanvien' => $nhanvien
         ]);
     }
 
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            //dd($nhanvien);
-        }
-
         $suppliers = NhaCungCap::where('ncc_TrangThai', 1)->get();
         $products = SanPham::where('SP_TrangThai', 1)->get();
         return view('back-end.warehouse.create',[
-            'nhanvien' => $nhanvien,
             'suppliers' => $suppliers,
             'products' => $products
         ]);
@@ -116,11 +102,7 @@ class NhapKhoController extends Controller
                 ]);
 
             $now = Carbon::now();
-            //$formattedDateTime = $now->format('Y-m-d H:i:s');
-
-            $id_tk = $request->user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_tk)->first();
-            $id_nv = $nhanvien->id;
+            $id_nv = Auth('admin')->user()->id;
 
             $pnh = new PhieuNhapHang();
             $pnh->nhan_vien_id = $id_nv;
@@ -136,7 +118,6 @@ class NhapKhoController extends Controller
 
             // Lấy danh sách sản phẩm từ request
             $productPrices = $request->product_price;
-            //dd($productPrices);
             $productQuantities = $request->product_quantity;
 
             // Duyệt qua danh sách sản phẩm và tạo chi tiết phiếu nhập hàng
@@ -144,7 +125,6 @@ class NhapKhoController extends Controller
                 $quantity = $productQuantities[$productId];
                 // Loại bỏ dấu phẩy và chuyển đổi thành số nguyên
                 $price = $productPrices[$productId];
-                //dd($price);
                 $priceWithoutComma = str_replace('.', '', $price);
 
                 // Tạo chi tiết phiếu nhập hàng và lưu vào cơ sở dữ liệu
@@ -152,9 +132,7 @@ class NhapKhoController extends Controller
                 $chiTietPhieuNhap->phieu_nhap_hang_id = $phieuNhapHangId;
                 $chiTietPhieuNhap->san_pham_id = $productId;
                 $chiTietPhieuNhap->ctpnh_SoLuongNhap = $quantity;
-                //dd($chiTietPhieuNhap);
                 $chiTietPhieuNhap->ctpnh_GiaNhap = $priceWithoutComma;
-                //dd($chiTietPhieuNhap);
                 $chiTietPhieuNhap->save();
             }
 
@@ -164,19 +142,12 @@ class NhapKhoController extends Controller
     }
 
     public function show($id){
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-
         $warehouse = PhieuNhapHang::find($id);
         $detail_warehouses = ChiTietPhieuNhapHang::with('sanpham')
                            ->where('phieu_nhap_hang_id', $id)
                            ->get();
-        //dd($detail_warehouses);
+
         return view('back-end.warehouse.show',[
-            'nhanvien' => $nhanvien,
             'warehouse' => $warehouse,
             'detail_warehouses' => $detail_warehouses
         ]);
@@ -186,19 +157,16 @@ class NhapKhoController extends Controller
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $now = Carbon::now();
-        //$formattedDateTime = $now->format('Y-m-d H:i:s');
-        //dd($formattedDateTime);
         $warehouse = PhieuNhapHang::find($id)
             ->update([
                 'pnh_TrangThai' => 1,
                 'pnh_NgayXacNhan' => $now,
             ]);
-        //dd($warehouse);
 
         $detail_warehouses = ChiTietPhieuNhapHang::with('sanpham')
             ->where('phieu_nhap_hang_id', $id)
             ->get();
-        //dd($detail_warehouses);
+
         // Cập nhật số lượng hàng trong bảng san_phams
         foreach ($detail_warehouses as $detail_warehouse) {
             $sp = $detail_warehouse->sanpham;

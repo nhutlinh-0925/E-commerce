@@ -11,7 +11,7 @@
                 <span>Tài khoản <i class="arrow_carrot-down"></i></span>
                 <ul>
                      @if (Auth::check())
-                        <a class="dropdown-item" href="">Xin chào {{ $khachhang->kh_Ten }}</a>
+                        <a class="dropdown-item" href="">Xin chào {{ Auth('web')->user()->kh_Ten }}</a>
                         {{--  <a class="dropdown-item" href="/purchase_order/{{Auth::user()->id}}">Đơn hàng</a>  --}}
                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                     @else
@@ -60,14 +60,14 @@
                         <div class="header__top__right">
                             <div class="header__top__hover">
                                 @if (Auth::check())
-                                <span>Tài khoản : {{ $khachhang->kh_Ten }}<i class="arrow_carrot-down"></i></span>
+                                <span>Tài khoản : {{ Auth('web')->user()->kh_Ten }}<i class="arrow_carrot-down"></i></span>
                                 @else
                                     <span>Tài khoản <i class="arrow_carrot-down"></i></span>
                                 @endif
                                 <ul>
                                     @if (Auth::check())
 {{--                                        <a class="dropdown-item" href="">Mục cài đặt</a>--}}
-                                        <a class="dropdown-item" href="/user/purchase_order/{{ $khachhang->id }}">Đơn hàng</a>
+                                        <a class="dropdown-item" href="/user/purchase_order/{{ Auth('web')->user()->id }}">Đơn hàng</a>
                                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                                     @else
                                         <a class="dropdown-item" href="{{  route('user.login')}}" style="font-weight: bold;">Đăng nhập</a>
@@ -77,7 +77,7 @@
                             </div>
                             @if (Auth::check())
                             <div class="header__top__links">
-                                <a href="/user/setting/{{ $khachhang->id }}">Cài đặt</a>
+                                <a href="/user/setting/{{ Auth('web')->user()->id }}">Cài đặt</a>
                             </div>
                             @else
                                 <div class="header__top__links">
@@ -154,7 +154,7 @@
                         <div class="d-flex align-items-center ml-auto">
                             @if (Auth::check())
                                 <div class="js-show-wish icon-header-noti-yt" data-notify="{{ count($wish_count) }}" style="margin-right: 30px;">
-                                    <a href="/user/wish-list-count/{{ $khachhang->id }}">
+                                    <a href="/user/wish-list-count/{{ Auth('web')->user()->id }}">
                                         <i class="fa fa-heart" style="color: black; font-size: 24px"></i>
                                     </a>
                                 </div>

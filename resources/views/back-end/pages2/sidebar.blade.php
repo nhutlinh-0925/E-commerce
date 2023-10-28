@@ -5,9 +5,9 @@
         @php
             if(Auth::check()){
                 // Lấy id của người dùng đăng nhập
-                $id_nv = Auth::user()->id;
+                $id_nv = Auth('admin')->user()->id;
                 // Tìm nhân viên tương ứng với id người dùng đăng nhập
-                $nhanvien = App\Models\NhanVien::where('tai_khoan_id', $id_nv)->first();
+                $nhanvien = App\Models\NhanVien::find($id_nv);
                 // Kiểm tra xem người dùng có tương ứng với nhân viên không
                 if($nhanvien){
                     // Nếu có, lấy id của nhân viên để lấy quyền từ bảng chi_tiet_quyens và quyens

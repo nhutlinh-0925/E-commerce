@@ -15,29 +15,16 @@ use Illuminate\Support\Facades\DB;
 class NhanVienController extends Controller
 {
     public function index(){
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
         $employees = NhanVien::all()->sortByDesc("id");
 
         return view('back-end.employee.index',[
             'employees' => $employees,
-            'nhanvien' => $nhanvien
         ]);
     }
 
     public function create()
     {
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        return view('back-end.employee.create',[
-            'nhanvien' => $nhanvien,
-        ]);
+        return view('back-end.employee.create');
     }
 
     public function store(Request $request)
@@ -67,30 +54,23 @@ class NhanVienController extends Controller
                 'avatar.required' => 'Vui lòng chọn avatar',
             ]);
 
-        $taikhoan = TaiKhoan::create([
+        $nhanvien = NhanVien::create([
+            'nv_Ten' => $request->nv_Ten,
+            'nv_SoDienThoai' => $request->nv_SoDienThoai,
+            'nv_DiaChi' => $request->nv_DiaChi,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'loai' => 0,
             'trangthai' => $request->trangthai,
-            'vip' => 0
-        ]);
-
-        $nv = NhanVien::create([
-            'tai_khoan_id' =>$taikhoan->id,
-            'nv_Ten' => $request->nv_Ten,
-            'nv_SoDienThoai' => $request->nv_SoDienThoai,
-            'nv_DiaChi' => $request->nv_DiaChi,
         ]);
 
         for ($quyenId = 1; $quyenId <= 5; $quyenId++) {
             ChiTietQuyen::create([
                 'quyen_id' => $quyenId,
-                'nhan_vien_id' => $nv->id,
+                'nhan_vien_id' => $nhanvien->id,
                 'ctq_CoQuyen' => 0,
             ]);
         }
-
-        $account = TaiKhoan::find($taikhoan->id);
 
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
@@ -105,12 +85,12 @@ class NhanVienController extends Controller
         } else {
             // Không có hình ảnh được tải lên, giữ nguyên giá trị của trường avatar
             $updateData = [
-                'avatar' => $account->avatar,
+                'avatar' => $nhanvien->avatar,
             ];
         }
 
         // Cập nhật thông tin vào Model TaiKhoan
-        $account->update($updateData);
+        $nhanvien->update($updateData);
 
         Session::flash('flash_message', 'Thêm nhân viên thành công!');
         return redirect('/admin/employees');
@@ -118,8 +98,7 @@ class NhanVienController extends Controller
 
     public function active($id)
     {
-        //        dd($id);
-        $account = TaiKhoan::find($id)
+        $nhanvien = NhanVien::find($id)
             ->update(
                 ['trangthai' => 1],
             );
@@ -129,8 +108,7 @@ class NhanVienController extends Controller
 
     public function unactive($id)
     {
-//        dd($id);
-        $account = TaiKhoan::find($id)
+        $nhanvien = NhanVien::find($id)
             ->update(
                 ['trangthai' => 0],
             );
@@ -139,52 +117,26 @@ class NhanVienController extends Controller
     }
 
     public function permissions(){
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-
         $employees = NhanVien::all()->sortByDesc("id");
 
         return view('back-end.employee.permission',[
             'employees' => $employees,
-            'nhanvien' => $nhanvien
         ]);
     }
 
     public function edit_permission($id){
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        //dd($id);
-        //$ctq = ChiTietQuyen::find($id);
-        //$id_nv = $ctq->nhan_vien_id;
-
         $employee = NhanVien::find($id);
-        //dd($employee);
-        $id_nv = $employee->tai_khoan_id;
-        //dd($id_nv);
-        $taikhoan = TaiKhoan::find($id_nv);
-        //dd($taikhoan);
         $permission = ChiTietQuyen::find($id);
-        //dd($permission);
 
         return view('back-end.employee.edit_permission',[
             'permission' => $permission,
-            'nhanvien' => $nhanvien,
             'employee' => $employee,
-            'taikhoan' => $taikhoan
         ]);
     }
 
     public function auth($id)
     {
-        //dd($id);
         $quyen = ChiTietQuyen::find($id);
-        //dd($quyen);
         $id_nv = $quyen->nhan_vien_id;
 
         $quyen = ChiTietQuyen::find($id)
@@ -198,9 +150,7 @@ class NhanVienController extends Controller
 
     public function unauth($id)
     {
-        //dd($id);
         $quyen = ChiTietQuyen::find($id);
-        //dd($quyen);
         $id_nv = $quyen->nhan_vien_id;
         $quyen = ChiTietQuyen::find($id)
             ->update(

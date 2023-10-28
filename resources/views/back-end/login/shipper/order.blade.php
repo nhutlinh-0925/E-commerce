@@ -1,12 +1,12 @@
-@extends('back-end.main2')
+@extends('back-end.main_shipper')
 
 @section('breadcrumb')
     <div class="pagetitle">
         <h1>Đơn hàng</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="/admin/orders">Đơn hàng</a></li>
+                <li class="breadcrumb-item"><a href="/shipper">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/shipper/orders">Đơn hàng</a></li>
             </ol>
         </nav>
     </div>
@@ -39,9 +39,6 @@
                             </h1>
 
                         </div>
-{{--                        <section>--}}
-{{--                            <a href="{{ url('/admin/brands/add') }}" class="btn btn-primary btn-sm"> <i class="bi bi-plus-lg"></i>Thêm thương hiệu</a>--}}
-{{--                        </section>--}}
 
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
@@ -65,31 +62,31 @@
                                     <td><p style="width: 90px"><b style="color: red;">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></p></td>
                                     <td>
                                         <p style="width: 110px">
-                                        @if ($item->pdh_TrangThai == 1)
-                                            <a href="#" class="btn btn-info" style=" font-size: 10px;">
-                                               Chờ duyệt <i class="bi bi-clock-fill"></i>
-                                            </a>
-                                        @elseif ($item->pdh_TrangThai == 2)
-                                            <a href="#" class="btn btn-primary" style=" font-size: 10px;">
-                                               Đã duyệt <i class="bi bi-check-circle-fill"></i>
-                                            </a>
-                                        @elseif ($item->pdh_TrangThai == 3)
-                                            <a href="#" class="btn btn-warning" style=" font-size: 10px;">
-                                                Đang vận chuyển <i class="bi bi-bus-front-fill"></i>
-                                            </a>
-                                        @elseif ($item->pdh_TrangThai == 4)
-                                            <a href="#" class="btn btn-success" style=" font-size: 10px;">
-                                                Giao thành công <i class=""></i>
-                                            </a>
-                                        @elseif ($item->pdh_TrangThai == 5)
-                                            <a href="#" class="btn btn-danger" style=" font-size: 10px;">
-                                                Đơn bị hủy <i class="bi bi-x-circle-fill"></i>
-                                            </a>
-                                        @elseif ($item->pdh_TrangThai == 6)
-                                            <a href="#" class="btn btn-danger" style=" font-size: 10px;">
-                                                Giao thất bại <i class="bi bi-x-circle-fill"></i>
-                                            </a>
-                                        @endif
+                                            @if ($item->pdh_TrangThai == 1)
+                                                <a href="#" class="btn btn-info" style=" font-size: 10px;">
+                                                    Chờ duyệt <i class="bi bi-clock-fill"></i>
+                                                </a>
+                                            @elseif ($item->pdh_TrangThai == 2)
+                                                <a href="#" class="btn btn-primary" style=" font-size: 10px;">
+                                                    Đã duyệt <i class="bi bi-check-circle-fill"></i>
+                                                </a>
+                                            @elseif ($item->pdh_TrangThai == 3)
+                                                <a href="#" class="btn btn-warning" style=" font-size: 10px;">
+                                                    Đang vận chuyển <i class="bi bi-bus-front-fill"></i>
+                                                </a>
+                                            @elseif ($item->pdh_TrangThai == 4)
+                                                <a href="#" class="btn btn-success" style=" font-size: 10px;">
+                                                    Giao thành công <i class=""></i>
+                                                </a>
+                                            @elseif ($item->pdh_TrangThai == 5)
+                                                <a href="#" class="btn btn-danger" style=" font-size: 10px;">
+                                                    Đơn bị hủy <i class="bi bi-x-circle-fill"></i>
+                                                </a>
+                                            @elseif ($item->pdh_TrangThai == 6)
+                                                <a href="#" class="btn btn-danger" style=" font-size: 10px;">
+                                                    Giao thất bại <i class="bi bi-x-circle-fill"></i>
+                                                </a>
+                                            @endif
                                         </p>
                                     </td>
                                     <td>
@@ -107,8 +104,8 @@
                                     <td><p style="width: 100px"> {{ date("d-m-Y", strtotime($item->pdh_NgayDat)) }}</p></td>
 
                                     <td style="display: flex">
-                                        <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}" style="width: 80px">
-                                            <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                                        <form method="post" action="{{ url('/shipper/brands/destroy/' .$item->id  ) }}" style="width: 80px">
+                                            <a href="{{ url('/shipper/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa thương hiệu'
@@ -165,3 +162,4 @@
     @endif
 
 @endsection
+

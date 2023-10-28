@@ -19,41 +19,46 @@ class NhanVien extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // protected $guard = 'admin';
+     protected $guard = 'admin';
 
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
+//     protected $fillable = [
+//         'name',
+//         'email',
+//         'password',
+//     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    // protected $hidden = [
-    //     'password',
-    //     'remember_token',
-    // ];
+     protected $hidden = [
+         'password',
+         'remember_token',
+     ];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
+     protected $casts = [
+         'email_verified_at' => 'datetime',
+     ];
 
     protected $primaryKey = 'id';
     protected $table ='nhan_viens';
 
     protected $fillable = [
-    	'tai_khoan_id',
+//    	'tai_khoan_id',
         'nv_Ten',
         'nv_SoDienThoai',
         'nv_DiaChi',
+        'email',
+        'password',
+        'trangthai',
+        'loai',
+        'avatar'
     ];
 
     public function taikhoan()

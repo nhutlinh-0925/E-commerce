@@ -12,16 +12,33 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
+//    protected function redirectTo($request)
+//    {
+//        if (! $request->expectsJson()) {
+//            if ($request->routeIs('admin.*')) {
+//                return route('admin.login');
+//            }
+//            elseif ($request->routeIs('user.*')){
+//                return route('user.login');
+//            }
+//            elseif ($request->routeIs('shipper.*')){
+//                return route('shipper.login_shipper');
+//            }
+//            // return route('user.login');
+//        }
+//    }
+
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
             if ($request->routeIs('admin.*')) {
                 return route('admin.login');
-            }
-            elseif ($request->routeIs('user.*')){
+            } elseif ($request->routeIs('shipper.*')){
+                return route('shipper.login');
+            } elseif ($request->routeIs('user.*')){
                 return route('user.login');
             }
-            // return route('user.login');
+//            return route('user.login');
         }
     }
 }
