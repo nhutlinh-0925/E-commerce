@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ChiTietPhieuDatHang;
+//use App\Models\ChiTietPhieuDatHang;
 use App\Models\KhachHang;
 use App\Models\MaGiamGia;
-use App\Models\PhanHoi;
-use App\Models\SanPham;
-use App\Models\TaiKhoan;
+//use App\Models\PhanHoi;
+//use App\Models\SanPham;
+//use App\Models\TaiKhoan;
+use App\Models\SanPhamKichThuoc;
 use App\Models\ThongKe;
-use Carbon\Carbon;
+//use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ use App\Models\PhieuDatHang;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NhanVien;
 
-use App\Models\DiaChi;
+//use App\Models\DiaChi;
 use App\Models\PhiVanChuyen;
 use Mail;
 use App\Models\NguoiGiaoHang;
@@ -58,7 +59,8 @@ class DonHangController extends Controller
 
         $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
             ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
-            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*')
+            ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*','kich_thuocs.*')
             ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
             ->get();
 
@@ -92,9 +94,20 @@ class DonHangController extends Controller
             foreach ($order->chitietphieudathang as $detail) {
                 $product = $detail->sanpham;
                 if ($product) {
-                    $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
                     $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
                     $product->save();
+
+                    // Truy vấn dữ liệu trong bảng san_pham_kich_thuocs
+                    $spkt = SanPhamKichThuoc::where('san_pham_id', $product->id)
+                        ->where('kich_thuoc_id', $detail->kichthuoc->id) // Thay kichthuoc bằng tên quan hệ trong model PhieuDatHang
+                        ->first();
+
+                    if ($spkt) {
+                        // Cập nhật spkt_SoLuongHang bằng cách trừ đi ctpdh_SoLuong
+                        $spkt->spkt_soLuongHang += $detail->ctpdh_SoLuong;
+                        $spkt->save();
+                        //dd($spkt);
+                    }
                 }
             }
             $order->pdh_TrangThai = $newStatus;
@@ -105,6 +118,7 @@ class DonHangController extends Controller
                 $order->nguoi_giao_hang_id = $request->nguoi_giao_hang_id;
                 $order->nhan_vien_id = $id_nv;
                 $order->pdh_TrangThai = $newStatus;
+                $order->pdh_TrangThaiGiaoHang = 1;
                 $order->save();
                 //dd($order);
 
@@ -114,7 +128,8 @@ class DonHangController extends Controller
 
                 $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
                     ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
-                    ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*')
+                    ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+                    ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*','kich_thuocs.*')
                     ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
                     ->get();
 
@@ -139,6 +154,7 @@ class DonHangController extends Controller
             }elseif($order->nhan_vien_id != '' && $order->nguoi_giao_hang == ''){
                 $order->nguoi_giao_hang_id = $request->nguoi_giao_hang_id;
                 $order->pdh_TrangThai = $newStatus;
+                $order->pdh_TrangThaiGiaoHang = 1;
                 $order->save();
                 //dd($order);
             }

@@ -88,7 +88,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="inputNanme4" class="form-label"><strong>Giá sản phẩm <span class="text-danger">(*)</span></strong></label>
-                        <input type="number" class="form-control" id="sp_Gia" name="sp_Gia" placeholder="Nhập giá">
+                        <input type="number" class="form-control" id="sp_Gia" name="sp_Gia" placeholder="Nhập giá" min="1">
                         @error ('sp_Gia')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -102,9 +102,6 @@
                 <div class="col-md-6">
                     <label for="inputNanme4" class="form-label"><strong>Số lượng sản phẩm <span class="text-danger">(*)</span></strong></label>
                     <input type="text" class="form-control" id="" name="" placeholder="Số lượng sản phẩm tăng khi nhập kho" disabled>
-                    @error ('sp_SoLuongHang')
-                        <span style="color: red;">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="col-md-3">
@@ -138,8 +135,6 @@
                      <b class="form-text text-danger" id="brandError"></b>
                 </div>
                 </div>
-
-
 
                 <div class="col-12">
                     <label for="inputAddress" class="form-label"><strong>Mô tả tóm tắt sản phẩm <span class="text-danger">(*)</span></strong></label>
@@ -181,37 +176,24 @@
             </div><br>
 
             <div class="row">
-              <div class="col-12">
-                  <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label>
+              <div class="col-6">
+                  <label for="inputAddress" class="form-label"><strong>Tags <span class="text-danger">(*)</span></strong></label><br>
                   <input type="text" class="form-control" data-role="tagsinput" id="sp_Tag" name="sp_Tag">
-
+                  <b class="form-text text-danger" id="tagError"></b>
               </div>
-                <b class="form-text text-danger" id="tagError"></b>
-            </div>
 
-{{--            <div class="row">--}}
-{{--                <div class="col-sm">--}}
-{{--                    <label for="inputNanme4" class="form-label"><strong>Màu sắc <span class="text-danger">(*)</span></strong></label>--}}
-{{--                    <input type="text" class="form-control" id="inputNanme4" name="sp_MauSac" placeholder="Nhập màu" value="{{ old('sp_MauSac', $request->sp_MauSac ?? '') }}">--}}
-{{--                      @error ('sp_MauSac')--}}
-{{--                          <span style="color: red;">{{ $message }}</span>--}}
-{{--                      @enderror--}}
-{{--                </div>--}}
-{{--                <div class="col-sm">--}}
-{{--                    <label for="inputNanme4" class="form-label"><strong>Kích cở <span class="text-danger">(*)</span></strong></label>--}}
-{{--                    <input type="text" class="form-control" id="inputNanme4" name="sp_KichCo" placeholder="Nhập kích cở" value="{{ old('sp_KichCo', $request->sp_KichCo ?? '') }}">--}}
-{{--                      @error ('sp_KichCo')--}}
-{{--                          <span style="color: red;">{{ $message }}</span>--}}
-{{--                      @enderror--}}
-{{--                </div>--}}
-{{--                <div class="col-sm">--}}
-{{--                    <label for="inputNanme4" class="form-label"><strong>Tag <span class="text-danger">(*)</span></strong></label>--}}
-{{--                    <input type="text" class="form-control" id="inputNanme4" name="sp_Tag" placeholder="Nhập tên" value="{{ old('sp_Tag', $request->sp_Tag ?? '') }}">--}}
-{{--                      @error ('sp_Tag')--}}
-{{--                          <span style="color: red;">{{ $message }}</span>--}}
-{{--                      @enderror--}}
-{{--                </div>--}}
-{{--            </div>--}}
+              <div class="col-6">
+                  <label for="inputNanme4" class="form-label"><strong>Kích cở <span class="text-danger">(*)</span></strong></label>
+{{--                  <select class="form-control select2" name="kich_thuoc_id[]" id="kich_thuoc_id" disabled>--}}
+{{--                      <option value="">--- Chọn Kích Thước ---</option>--}}
+{{--                      @foreach ($sizes as $size)--}}
+{{--                          <option value="{{ $size->id }}" >{{ $size->kt_TenKichThuoc }}</option>--}}
+{{--                      @endforeach--}}
+{{--                  </select>--}}
+                  <input type="text" class="form-control" id="" name="" placeholder="Size sản phẩm nhập khi nhập kho" disabled>
+{{--                  <b class="form-text text-danger" id="sizeError"></b>--}}
+              </div>
+            </div>
 
             <div class="row">
                 <div class="col-6">
@@ -320,5 +302,11 @@
     </script>
 {{--    <script rel="javascript" type="text/javascript" href="js/jquery-1.11.3.min.js"></script>--}}
     <script src="/template/back-end2/js/bootstrap-tagsinput.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#kich_thuoc_id').select2();
+        });
+    </script>
 
 @endsection

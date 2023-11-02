@@ -15,18 +15,13 @@ return new class extends Migration
     {
         Schema::create('nguoi_giao_hangs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tai_khoan_id')->nullable();
             $table->string('ngh_Ten');
             $table->string('ngh_SoDienThoai');
             $table->string('ngh_DiaChi');
-
-            $table->string('email')->unique()->nullable();
-            $table->string('password')->nullable();
-
-            $table->foreign('tai_khoan_id')
-                ->references('id')
-                ->on('tai_khoans')
-                ->onDelete('cascade');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->integer('trangthai');
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

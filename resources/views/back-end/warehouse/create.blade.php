@@ -50,15 +50,15 @@
                                 <div class="box-header with-border">
                                     <div class="row">
                                         <form class="row g-3" method="POST">
-                                        <div class="col-md-12">
-                                            <div class="col-12">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title" style="font-size: 25px; color: blue">Thông tin phiếu nhập</h4>
+                                            <div class="col-md-12">
+                                                <div class="col-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title" style="font-size: 25px; color: blue">Thông tin phiếu nhập</h4>
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="inputNanme4" class="form-label"><strong>Người lập phiếu <span class="text-danger">(*)</span></strong></label>
-                                                                    <input type="text" class="form-control" id="" name="" value="{{ $nhanvien->nv_Ten }}" disabled>
+                                                                    <input type="text" class="form-control" id="" name="" value="{{ Auth('admin')->user()->nv_Ten }}" disabled>
                                                                 </div>
 
                                                                 <div class="col-md-6">
@@ -91,21 +91,21 @@
                                                         <div class="row">
                                                             <div style="display: flex; justify-content: flex-start; align-items: center;">
                                                                 <div style="display: flex; align-items: center;">
-{{--                                                                    <button class="text-success" type="button"><b>Sản phẩm</b></button>--}}
+                                                                    {{--                                                                    <button class="text-success" type="button"><b>Sản phẩm</b></button>--}}
                                                                     <select id="productSelect" style="width: 500px;">
                                                                         <option value="" >Sản phẩm</option>
                                                                     </select>
 
-{{--                                                                    <input autocomplete="off" type="text" style="width: 290px" placeholder="Tìm kiếm sản phẩm" id="keywords">--}}
-{{--                                                                    <button type="button" id="clear-input"><i class="fa fa-times"></i></button>--}}
+                                                                    {{--                                                                    <input autocomplete="off" type="text" style="width: 290px" placeholder="Tìm kiếm sản phẩm" id="keywords">--}}
+                                                                    {{--                                                                    <button type="button" id="clear-input"><i class="fa fa-times"></i></button>--}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-{{--                                                    <div style="display: flex; align-items: center;">--}}
-{{--                                                        <div id="search-ajax"></div>--}}
-{{--                                                        <div id="select-ajax"></div>--}}
-{{--                                                    </div>--}}
+                                                    {{--                                                    <div style="display: flex; align-items: center;">--}}
+                                                    {{--                                                        <div id="search-ajax"></div>--}}
+                                                    {{--                                                        <div id="select-ajax"></div>--}}
+                                                    {{--                                                    </div>--}}
                                                 </div>
 
                                                 <div class="card">
@@ -115,6 +115,7 @@
                                                             <th>Mã sản phẩm</th>
                                                             <th>Tên sản phẩm</th>
                                                             <th>Hình ảnh</th>
+                                                            <th>Size</th>
                                                             <th>Giá nhập</th>
                                                             <th>Số lượng</th>
                                                             <th>Tùy biến</th>

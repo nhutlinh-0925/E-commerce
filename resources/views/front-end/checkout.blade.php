@@ -13,50 +13,56 @@
 <body>
     @include('front-end.pages.header')
 <!-- Cart -->
-<div class="wrap-header-cart js-panel-cart">
-    <div class="s-full js-hide-cart"></div>
-    <div class="header-cart">
-        <div class="header-cart-title ">
-            <h2>Giỏ hàng</h2>
-            <div class="js-hide-cart">
-                <i class="fa fa-close"></i>
-            </div>
-        </div>
-
-        <div class="header-cart-content">
-            @php $sumPriceCart = 0; @endphp
-            <ul class="header-cart-wrapitem">
+    <div class="wrap-header-cart js-panel-cart">
+        <div class="s-full js-hide-cart"></div>
+        <div class="header-cart">
+            <div class="header-cart-title ">
                 @if (count($products) > 0)
-                    @foreach ($products as $key => $cart)
-                        <li class="header-cart-item">
-                            <div class="header-cart-item-img">
-                                <img src="{{asset('/storage/images/products/'.$cart->sp_AnhDaiDien) }}" alt="IMG">
-                            </div>
-
-                            <div class="header-cart-item-txt">
-                                <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 80px">
-                                    {{ $cart->sp_TenSanPham }}
-                                </a>
-
-                                <span class="header-cart-item-info">
-                                    {{ $carts[$cart->id] }} x {{ number_format($cart->sp_Gia) }}<sup><ins>đ</ins></sup>
-                                </span>
-                            </div>
-                        </li>
-
-                    @endforeach
+                    <h2>Giỏ hàng</h2>
+                @else
+                    <h2>Giỏ hàng trống</h2>
                 @endif
-            </ul>
-
-            <div style="width: 100%">
-                <div class="header-cart-buttons">
-                    <a href="/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
+                <div class="js-hide-cart">
+                    <i class="fa fa-close"></i>
                 </div>
             </div>
 
+            <div class="header-cart-content">
+                @php $sumPriceCart = 0; @endphp
+                <ul class="header-cart-wrapitem">
+                    @if (count($products) > 0)
+                        @foreach ($products as $key => $cart)
+                            <li class="header-cart-item">
+                                <div class="header-cart-item-img">
+                                    <img src="{{ asset('/storage/images/products/' . $cart->sp_AnhDaiDien) }}" alt="IMG">
+                                </div>
+
+                                <div class="header-cart-item-txt">
+                                    <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 100px">
+                                        {{ $cart->sp_TenSanPham }}
+                                        <p>Size: {{ $cart->kt_TenKichThuoc }}</p>
+                                    </a>
+
+                                    <span class="header-cart-item-info">
+                                        @if (isset($gh[$key]) && isset($gh[$key]['qty']))
+                                            {{ $gh[$key]['qty'] }} x {{ number_format($cart->sp_Gia) }}<sup><ins>đ</ins></sup>
+                                        @endif
+                                        </span>
+                                </div>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
+
+                <div style="width: 100%">
+                    <div class="header-cart-buttons">
+                        <a href="/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
 
 {{--    @include('front-end.header_cart')--}}
@@ -98,7 +104,7 @@
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <form action="/user/carts/checkout" method="post">
+                <form action="/carts/checkout" method="post">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <h3 style="color: red">Thanh toán đơn hàng của ở đây</h3>
@@ -157,13 +163,15 @@
                             <br>
                             <a href="/carts">Xem lại giỏ hàng?</a>
                         </div>
+
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
                                 @php $total = 0; @endphp
-                                @foreach ($products as $key => $product)
+                                @foreach ($products as $product)
                                     @php
                                         $price = $product->sp_Gia;
-                                        $priceEnd = $price * $carts[$product->id];
+                                        $quantity = $product->qty;
+                                        $priceEnd = $price * $quantity;
                                         $total += $priceEnd;
                                     @endphp
                                 @endforeach

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DanhMucBaiViet;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\NhanVien;
 class DanhMucBaiVietController extends Controller
 {
     public function index()

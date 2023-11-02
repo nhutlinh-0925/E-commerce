@@ -62,7 +62,7 @@ class AdminController extends Controller
     public function getUser(){
         if(Auth::check()){
             $id_nv = Auth('admin')->user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
+//            $nhanvien = NhanVien::
             $product_tk = SanPham::all()->count();
             $product_views = SanPham::orderBy('sp_LuotXem','desc')->take(10)->get();
             $post_tk = BaiViet::all()->count();
@@ -72,7 +72,7 @@ class AdminController extends Controller
             $customer_tk = KhachHang::all()->count();
         }
         return view('back-end.home2',[
-            'nhanvien' => $nhanvien,
+//            'nhanvien' => $nhanvien,
             'product_tk' => $product_tk,
             'product_views' => $product_views,
             'post_tk' => $post_tk,

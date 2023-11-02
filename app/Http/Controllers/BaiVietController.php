@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\DanhMucBaiViet;
-use App\Models\NhanVien;
 use App\Models\BaiViet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

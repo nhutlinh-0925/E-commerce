@@ -133,7 +133,7 @@
                                                                 @if ($i <= 1)
                                                                     <span class="fa fa-star " style="color: #ff9705;"></span>
                                                                 @endif
-                                                                    @endfor</a>
+                                                            @endfor</a>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -257,7 +257,6 @@
                                             <option value="{{Request::url()}}?sort_by=cu_nhat">Cũ nhất</option>
                                             <option value="{{Request::url()}}?sort_by=moi_nhat">Mới nhất</option>
                                             <option value="{{Request::url()}}?sort_by=ban_chay">Bán chạy nhất</option>
-                                            <option value="{{Request::url()}}?sort_by=ton_kho">Tồn kho giảm dần</option>
                                     </select>
 
                                 </div>
@@ -288,9 +287,12 @@
                                         <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
                                     </ul>
                                 </div>
+
                                 <div class="product__item__text">
+
                                     <h6 class="text-center">{{ $product->sp_TenSanPham }}</h6>
                                     <a href="#" class="add-cart">Xem nhanh</a>
+
                                     <div class="text-center rating">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= $roundedAvgRating)
@@ -306,17 +308,7 @@
                                     <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
                                         + Thêm giỏ hàng
                                     </button>
-{{--                                    <div class="product__color__select">--}}
-{{--                                        <label for="pc-4">--}}
-{{--                                            <input type="radio" id="pc-4">--}}
-{{--                                        </label>--}}
-{{--                                        <label class="active black" for="pc-5">--}}
-{{--                                            <input type="radio" id="pc-5">--}}
-{{--                                        </label>--}}
-{{--                                        <label class="grey" for="pc-6">--}}
-{{--                                            <input type="radio" id="pc-6">--}}
-{{--                                        </label>--}}
-{{--                                    </div>--}}
+
                                 </div>
                             </div>
                             </form>

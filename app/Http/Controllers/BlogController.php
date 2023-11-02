@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Services\CartService;
 use App\Models\BaiViet;
 use App\Models\DanhMucBaiViet;
-use App\Models\KhachHang;
 use App\Models\BinhLuan;
 use App\Models\YeuThich;
 use Illuminate\Http\Request;

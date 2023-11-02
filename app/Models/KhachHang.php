@@ -15,7 +15,6 @@ class KhachHang extends Authenticatable
     protected $table ='khach_hangs';
 
     protected $fillable = [
-    	//'tai_khoan_id',
         'kh_Ten',
         'kh_SoDienThoai',
         'kh_TongTienDaMua',
@@ -37,12 +36,12 @@ class KhachHang extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function taikhoan()
-    {
-        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
-            ->withDefault(['email' => ''])
-            ->withDefault(['avatar' => '']);
-    }
+//    public function taikhoan()
+//    {
+//        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
+//            ->withDefault(['email' => ''])
+//            ->withDefault(['avatar' => '']);
+//    }
 
     public function diachi()
     {

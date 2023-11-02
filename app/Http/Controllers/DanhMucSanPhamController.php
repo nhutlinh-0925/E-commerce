@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DanhMucSanPham;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\NhanVien;
 
 class DanhMucSanPhamController extends Controller
 {

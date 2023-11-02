@@ -168,6 +168,17 @@ ol {
 	letter-spacing: 4px;
 }
 
+.primary-btn-detail {
+    /*display: inline-block;*/
+    /*font-size: 13px;*/
+    /*font-weight: 700;*/
+    /*text-transform: uppercase;*/
+    /*padding: 14px 30px;*/
+    color: #ffffff;
+    background: #000000;
+    /*letter-spacing: 4px;*/
+}
+
 .site-btn {
 	font-size: 14px;
 	color: #ffffff;
@@ -1964,7 +1975,7 @@ ol {
 	text-transform: uppercase;
 	display: inline-block;
 	border: 1px solid #e5e5e5;
-	padding: 6px 15px;
+	padding: 6px 10px;
 	margin-bottom: 0;
 	margin-right: 5px;
 	cursor: pointer;
@@ -4160,4 +4171,6 @@ ol {
 	.categories__text:before {
 		height: 250px;
 	}
+
+
 }

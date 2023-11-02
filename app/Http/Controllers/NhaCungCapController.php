@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NhaCungCap;
-use App\Models\NhanVien;
+//use App\Models\NhanVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

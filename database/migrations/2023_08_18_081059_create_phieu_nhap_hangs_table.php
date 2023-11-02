@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('nhan_vien_id');
             $table->unsignedBigInteger('nha_cung_cap_id');
+            $table->unsignedBigInteger('kich_thuoc_id');
             $table->timestamp('pnh_NgayLapPhieu');
             $table->timestamp('pnh_NgayXacNhan')->nullable();
             $table->decimal('pnh_TongTien',10,0);
@@ -29,6 +30,10 @@ return new class extends Migration
             $table->foreign('nha_cung_cap_id')
                 ->references('id')
                 ->on('nha_cung_caps')
+                ->onDelete('cascade');
+            $table->foreign('kich_thuoc_id')
+                ->references('id')
+                ->on('kich_thuocs')
                 ->onDelete('cascade');
             $table->timestamps();
         });

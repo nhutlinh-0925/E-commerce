@@ -17,7 +17,11 @@
         <div class="s-full js-hide-cart"></div>
             <div class="header-cart">
                 <div class="header-cart-title ">
-                    <h2>Giỏ hàng</h2>
+                    @if (count($products) > 0)
+                        <h2>Giỏ hàng</h2>
+                    @else
+                        <h2>Giỏ hàng trống</h2>
+                    @endif
                     <div class="js-hide-cart">
                     <i class="fa fa-close"></i>
                     </div>
@@ -28,28 +32,24 @@
                     <ul class="header-cart-wrapitem">
                         @if (count($products) > 0)
                             @foreach ($products as $key => $cart)
+                                <li class="header-cart-item">
+                                    <div class="header-cart-item-img">
+                                        <img src="{{ asset('/storage/images/products/' . $cart->sp_AnhDaiDien) }}" alt="IMG">
+                                    </div>
 
-                            {{--  @php
-                                $sumPriceCart += $product->price_sale != 0 ? $product->price;
-                            @endphp  --}}
-                        <li class="header-cart-item">
-                            <div class="header-cart-item-img">
-                                <img src="{{asset('/storage/images/products/'.$cart->sp_AnhDaiDien) }}" alt="IMG">
-                            </div>
+                                    <div class="header-cart-item-txt">
+                                        <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 100px">
+                                            {{ $cart->sp_TenSanPham }}
+                                            <p>Size: {{ $cart->kt_TenKichThuoc }}</p>
+                                        </a>
 
-                            <div class="header-cart-item-txt">
-                                <a href="/product/{{ $cart->id }}" class="header-cart-item-name" style="width: 80px">
-                                    {{ $cart->sp_TenSanPham }}
-                                </a>
-
-                                <span class="header-cart-item-info">
-                                    {{ $carts[$cart->id] }} x {{ number_format($cart->sp_Gia) }}<sup><ins>đ</ins></sup>
-                                </span>
-                            </div>
-                        </li>
-
-                        @endforeach
-                @endif
+                                        <span class="header-cart-item-info">
+                                                {{ $gh[$key]['qty'] }} x {{ number_format($cart->sp_Gia) }}<sup><ins>đ</ins></sup>
+                                        </span>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
 
                     <div style="width: 100%">
@@ -123,37 +123,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $key => $product)
-                                    @php
-                                        $price = $product->sp_Gia;
-                                        $priceEnd = $price * $carts[$product->id];
-                                        $total += $priceEnd;
-                                    @endphp
+                            @foreach ($products as $product)
+                                @php
+                                    $price = $product->sp_Gia;
+                                    $quantity = $product->qty;
+                                    $priceEnd = $price * $quantity;
+                                    $total += $priceEnd;
+                                @endphp
 
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
                                             <a href="/product/{{ $product->id }}">
-                                                <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px"></a>
+                                                <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px">
+                                            </a>
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6>{{ $product->sp_TenSanPham }}</h6>
                                             <h5>{{ number_format($price, 0, '', '.') }} đ</h5>
+                                            <h5>Size: {{ $product->kt_TenKichThuoc }}</h5>
                                         </div>
                                     </td>
+
                                     <td class="quantity__item">
                                         <div class="quantity">
                                             <div class="pro-qty-2">
-                                                <input type="number" name="num_product[{{ $product->id }}]" value="{{ $carts[$product->id] }}">
+                                                <input type="number" name="cart_qty[{{ $product->id }}][{{ $product->kich_thuoc_id }}]" value="{{ $product->qty }}" min="1">
                                             </div>
                                         </div>
                                     </td>
                                     <td class="cart__price">{{ number_format($priceEnd, 0, '', '.') }} đ</td>
                                     <td class="cart__close">
-                                        <a href="/carts/delete/{{ $product->id }}" onclick ='return confirm("Bạn chắc chắn muốn xóa sản phẩm khỏi giỏ hàng?")'><i class="fa fa-trash" style='color: red'></i></a>
+                                        <a href="{{ route('cart_remove', ['id' => $product->id, 'size' => $product->kich_thuoc_id]) }}" onclick ='return confirm("Bạn chắc chắn muốn xóa sản phẩm khỏi giỏ hàng?")'><i class="fa fa-trash" style='color: red'></i></a>
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -166,7 +171,6 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
                                 <button type="submit" class="btn btn-dark btn-lg" formaction="/update-cart"><i class="fa fa-spinner"></i> Cập nhật giỏ hàng</button>
-                                {{--  <a href="#"><i class="fa fa-spinner"></i>Cập nhật giỏ hàng</a>  --}}
                                 @csrf
                             </div>
                         </div>
@@ -201,10 +205,11 @@
                                 <li>Mã giảm : <span>0</span></li>
                                 <li>Tổng tiền được giảm <span>0</span></li><hr style="Border: solid 1px black;">
                                 <li>Tiền thanh toán<span>{{ number_format($total + 25000, 0, '', '.') }} đ</span></li>
-                                @endif
+                            @endif
                             </li>
                         </ul>
-                        <a href="/user/checkout"  class="primary-btn">Thanh toán</a>
+{{--                        <a href="/user/checkout"  class="primary-btn">Thanh toán</a>--}}
+                        <a href="/checkout"  class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>

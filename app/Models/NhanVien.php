@@ -61,12 +61,12 @@ class NhanVien extends Authenticatable
         'avatar'
     ];
 
-    public function taikhoan()
-    {
-        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
-            ->withDefault(['email' => ''])
-            ->withDefault(['avatar' => '']);
-    }
+//    public function taikhoan()
+//    {
+//        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
+//            ->withDefault(['email' => ''])
+//            ->withDefault(['avatar' => '']);
+//    }
 
     public function chitietquyen()
     {

@@ -42,13 +42,31 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 //      trannhutlinh@business.example.com
 //      linh_paypal
 
-
 //VNPAY
 //Ngân hàng: NCB
 //Số thẻ:           9704198526191432198
 //Tên chủ thẻ:      NGUYEN VAN A
 //Ngày phát hành:   07/15
 //Mật khẩu OTP:     123456
+
+
+//Trạng thái        pdh_TrangThai
+//1 - Chưa  duyệt
+//2 - Đã  duyệt
+//3 - Đang vận chuyển
+//4 - Giao hàng thành công
+//5 - Đã hủy đơn
+//6 - Giao hàng thất bại
+
+//Trạng thái        pdh_TrangThaiGiaoHang
+//0 - Từ chối nhận đơn
+//1 - Đã nhận đơn - Đang giao hàng
+//2 - Đã nhận đơn - Giao hàng thành công
+//3 - Đã nhận đơn - Giao hàng thất bại
+
+// Nếu pdh_TrangThai = 2 và pdh_TrangThaiGiaoHang = 0 => Chọn shipper
+// Nếu pdh_TrangThai = 2 và pdh_TrangThaiGiaoHang = 1 => Đã duyệt
+
 
 // Front-end - Trang người dùng
 
@@ -68,11 +86,13 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 
     //Trang cart
     Route::post('add-cart',[CartController::class, 'index']);
-    Route::post('add-cart-shop',[CartController::class,'add_cart_shop']);
+    //Route::post('add-cart-shop',[CartController::class,'add_cart_shop']);
     Route::get('carts',[CartController::class, 'show']);
     Route::post('update-cart',[CartController::class, 'update']);
-    Route::get('carts/delete/{id}',[CartController::class, 'remove']);
+    Route::get('carts/delete/{id}/{size}',[CartController::class, 'remove'])->name('cart_remove');
 
+    Route::get('checkout', [CartController::class, 'showcheckout'])->name('showcheckout');
+    Route::post('/carts/checkout', [CartController::class, 'getCart'])->name('checkout');
     //Mã giảm giá
     Route::post('/check_coupon',[CartController::class, 'check_coupon']);
     Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
@@ -130,8 +150,8 @@ Route::prefix('user')->name('user.')->group(function () {
             //Trang shop
 
             //Trang cart
-            Route::get('checkout', [CartController::class, 'showcheckout'])->name('showcheckout');
-            Route::post('/carts/checkout', [CartController::class, 'getCart'])->name('checkout');
+//            Route::get('checkout', [CartController::class, 'showcheckout'])->name('showcheckout');
+//            Route::post('/carts/checkout', [CartController::class, 'getCart'])->name('checkout');
 
             Route::get('success-transaction', [CartController::class, 'successTransaction'])->name('successTransaction');
             Route::get('cancel-transaction', [CartController::class, 'cancelTransaction'])->name('cancelTransaction');
@@ -321,7 +341,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::DELETE('destroy/{id}', [NhapKhoController::class, 'destroy']);
             });
 
-            //Đánh giá
+            //Đánh giá sản phẩm
             Route::prefix('/reviews')->group(function () {
                 Route::get('/', [ĐanhGiaController::class, 'index']);
                 Route::get('add', [ĐanhGiaController::class, 'create']);
@@ -331,7 +351,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::DELETE('destroy/{id}', [ĐanhGiaController::class, 'destroy']);
             });
 
-            //Đánh giá
+            //Đánh giá giao hàng
             Route::prefix('/feedbacks')->group(function () {
                 Route::get('/', [PhanHoiController::class, 'index']);
                 Route::get('add', [PhanHoiController::class, 'create']);

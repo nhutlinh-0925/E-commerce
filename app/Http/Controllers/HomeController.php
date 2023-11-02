@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Services\CartService;
 use App\Models\BaiViet;
 use App\Models\DanhMucSanPham;
-use App\Models\KhachHang;
+//use App\Models\KhachHang;
 use App\Models\SanPham;
 use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
@@ -47,7 +47,6 @@ class HomeController extends Controller
             ]);
         }else{
             $carts = $this->cartService->getProduct();
-
             $bestseller = SanPham::orderBy('sp_SoLuongBan', 'desc')->limit(8)->get();
             $new_arrivals = SanPham::orderBy('id', 'desc')->limit(8)->get();
             $most_views = SanPham::orderBy('sp_LuotXem', 'desc')->limit(8)->get();
@@ -261,7 +260,6 @@ class HomeController extends Controller
             $mergedArray = array_unique($mergedArray);
             // Giới hạn mảng chỉ còn tối đa 8 phần tử
             $limitedArray = array_slice($mergedArray, 0, 8);
-            //dd($limitedArray);
 
             $keywords = $request->keywork;
             $search_product = DB::table('san_phams')->where('sp_TenSanPham','like','%'.$keywords.'%')
@@ -282,7 +280,5 @@ class HomeController extends Controller
             'favoritedProducts' => $favoritedProducts,
         ]);
     }
-
-
 
 }

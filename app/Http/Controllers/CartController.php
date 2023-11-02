@@ -6,26 +6,24 @@ use App\Models\PhieuDatHang;
 use App\Models\PhiVanChuyen;
 use App\Models\PhuongThucThanhToan;
 use App\Models\SanPham;
-use App\Models\TaiKhoan;
+use App\Models\SanPhamKichThuoc;
+use App\Models\KhachHang;
+use App\Models\MaGiamGia;
+use App\Models\DiaChi;
+use App\Models\YeuThich;
+use App\Models\PhanHoi;
+use App\Models\ThongKe;
+
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-
-use App\Models\KhachHang;
-
-use DataTables;
-
-use App\Models\MaGiamGia;
-
-use App\Models\DiaChi;
-use App\Models\YeuThich;
-use App\Models\PhanHoi;
-use Carbon\Carbon;
 use Mail;
-use App\Models\ThongKe;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use DataTables;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -35,53 +33,102 @@ class CartController extends Controller
         $this->cartService = $cartService;
     }
 
+    //Hàm thêm sp vào giỏ hàng ở trang chi tiết sp
     public function index(Request $request)
     {
-        $result = $this->cartService->create($request);
-        // dd($result);
-        // dd(session()->get('carts'));
-        if ($result === false){
+        //dd($request);
+        $qty = (int)$request->input('num_product');
+        $product_id = (int)$request->input('product_id');
+        $size = $request->product_size;
+
+        $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)->where('kich_thuoc_id',$size)->first();
+        $slh = $spkt->spkt_soLuongHang;
+
+        if ($qty <= 0 || $product_id <= 0 || $qty > $slh) {
+            Session::flash('flash_message_error_qty', 'Số lượng hoặc sản phẩm không chính xác!');
             return redirect()->back();
         }
+        $carts = session()->get('carts');
+        //dd($carts);
+
+        if (is_null($carts)) {
+            $product_info = [
+                'product_id' => $product_id,
+                'qty' => $qty,
+                'size' => $size,
+            ];
+            $carts[] = $product_info;
+            session()->put('carts', $carts);
+        }
+
+        $exists = false;
+        foreach ($carts as $key => $item) {
+            // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng dựa trên product_id và size
+            if ($item['product_id'] == $product_id && $item['size'] == $size) {
+                $exists = true;
+                // Cập nhật số lượng nếu sản phẩm đã tồn tại
+                $carts[$key]['qty'] += $qty;
+
+                if ($carts[$key]['qty'] > $slh) {
+                    session()->flash('flash_message_error', 'Số lượng sản phẩm lớn hơn trong kho');
+                    return redirect()->back();
+                }
+                session()->put('carts', $carts);
+
+            }
+        }
+
+        if (!$exists) {
+            // Nếu sản phẩm không tồn tại trong giỏ hàng, thêm nó vào giỏ hàng
+            $product_info = [
+                'product_id' => $product_id,
+                'qty' => $qty,
+                'size' => $size,
+            ];
+
+            $carts[] = $product_info;
+            session()->put('carts', $carts);
+        }
+        //dd($carts);
+
         return redirect('/carts');
     }
 
-    public function add_cart_shop(Request $request)
-    {
-        $result = $this->cartService->create($request);
-        // dd($result);
-        // dd(session()->get('carts'));
-        if ($result === false){
-            return redirect()->back();
-        }
-        // Lưu thông báo vào Session
-        Session::flash('success_message', 'Thêm giỏ hàng thành công!');
-        return redirect()->back();
-    }
-
-
+//    public function add_cart_shop(Request $request)
+//    {
+//        $result = $this->cartService->create($request);
+//        // dd($result);
+//        // dd(session()->get('carts'));
+//        if ($result === false){
+//            return redirect()->back();
+//        }
+//        // Lưu thông báo vào Session
+//        Session::flash('success_message', 'Thêm giỏ hàng thành công!');
+//        return redirect()->back();
+//    }
 
     public function show()
     {
         if(Auth::check()){
             $id_kh = Auth('web')->user()->id;
-            //dd($id_kh);
             $products = $this->cartService->getProduct();
+            $gh = session()->get('carts');
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-            //dd($wish_count);
+
             return view('front-end.cart', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
-                'carts' => session()->get('carts'),
+                'gh' => $gh,
                 'coupons' => session()->get('coupon'),
                 'wish_count' => $wish_count
             ]);
         }else{
             $products = $this->cartService->getProduct();
+            $gh = session()->get('carts');
             return view('front-end.cart', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
-                'carts' => session()->get('carts'),
+                'gh' => $gh,
                 'coupons' => session()->get('coupon'),
             ]);
         }
@@ -94,9 +141,9 @@ class CartController extends Controller
         return redirect('/carts');
     }
 
-    public function remove($id = 0)
+    public function remove($id = 0,$size = 0)
     {
-        $this->cartService->remove($id);
+        $this->cartService->remove($id,$size);
 
         $products = $this->cartService->getProduct();
         if (count ($products) == 0){
@@ -128,12 +175,12 @@ class CartController extends Controller
             return view('front-end.checkout', [
                 // 'title' => 'Giỏ Hàng',
                 'products' => $products,
-                'carts' => session()->get('carts'),
+                'gh' => session()->get('carts'),
                 'khachhang' => $khachhang,
                 'coupons' => session()->get('coupon'),
                 'address' => $address,
                 'wish_count' => $wish_count,
-                'payments' => $payments
+                'payments' => $payments,
             ]);
         }else{
             Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
@@ -176,8 +223,6 @@ class CartController extends Controller
                 'phuong_thuc_thanh_toan_id.required' => 'Vui lòng chọn phương thức thanh toán',
             ]);
 
-        //$this->cartService->getCart($request);
-
         try {
             DB::beginTransaction();
             $total = 0;
@@ -193,40 +238,45 @@ class CartController extends Controller
             $data_get = session('data');
 
             // Lấy thông tin sản phẩm từ giỏ hàng
-            foreach ($carts as $product_id => $quantity_purchased) {
-                // Bước 1: Truy xuất thông tin sản phẩm từ cơ sở dữ liệu
-                $product = SanPham::find($product_id);
-                if ($product) {
-                    // Bước 2: Cập nhật số lượng sản phẩm
-                    $new_quantity_in_stock = max(0, $product->sp_SoLuongHang - $quantity_purchased);
-                    $new_quantity_sold = $product->sp_SoLuongBan + $quantity_purchased;
-                    // Bước 3: Lưu thông tin sản phẩm đã cập nhật trở lại cơ sở dữ liệu
-                    $product->sp_SoLuongHang = $new_quantity_in_stock;
-                    $product->sp_SoLuongBan = $new_quantity_sold;
-                    $product->save();
-                    // Cập nhật giỏ hàng với số lượng đã mua (có thể giữ nguyên hoặc xóa sản phẩm khỏi giỏ hàng tùy theo yêu cầu của bạn)
-                    $carts[$product_id] = $quantity_purchased;
+            foreach ($carts as $cart) {
+                // Lấy thông tin từ mảng cart
+                $product_id = $cart['product_id'];
+                $quantity_purchased = $cart['qty'];
+
+                // Truy vấn sản phẩm dựa trên $product_id
+                $sanPham = SanPham::find($product_id);
+
+                if ($sanPham) {
+                    // Cập nhật sp_SoLuongBan trong model SanPham
+                    $sanPham->sp_SoLuongBan += $quantity_purchased;
+                    $sanPham->save();
+                    $kichThuocId = $cart['size']; // Thay 'size' bằng trường chứa id kích thước
+                    $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)
+                        ->where('kich_thuoc_id', $kichThuocId)
+                        ->first();
+
+                    if ($spkt) {
+                        $spkt->spkt_soLuongHang -= $quantity_purchased;
+                        $spkt->save();
+                    }
                 }
             }
 
             // Lưu giỏ hàng đã cập nhật vào session
             session()->put('carts', $carts);
 
-            $products = SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien', 'sp_SoLuongHang', 'sp_SoLuongBan')
-                ->where('sp_TrangThai', 1)
-                ->whereIn('id', $productId)
-                ->get();
+            $products = $this->cartService->getProduct();
             //dd($products);
 
             foreach ($products as $product) {
                 $price = $product->sp_Gia;
-                $priceEnd = $price * $carts[$product->id];
+                $quantity = $product->qty;
+                $priceEnd = $price * $quantity;
                 $total += $priceEnd;
             }
 
             // Đặt múi giờ
             date_default_timezone_set('Asia/Ho_Chi_Minh');
-
             $id_kh = Auth('web')->user()->id;
 
             $id_dc = $request->dc_DiaChi;
@@ -253,7 +303,7 @@ class CartController extends Controller
                     $submitButtonName = 'redirect';
                     break;
                 case 4:
-                    $submitButtonName = 'onepay';
+                    $submitButtonName = 'momo';
                     break;
                 default:
                     // Xử lý mặc định nếu không khớp với bất kỳ giá trị nào
@@ -299,6 +349,7 @@ class CartController extends Controller
                     $cart->pdh_TrangThai = 1;
                     $cart->phuong_thuc_thanh_toan_id = $request->phuong_thuc_thanh_toan_id;
                     $cart->save();
+                    //dd($cart);
                 }
 
                 $customer = KhachHang::find($id_kh);
@@ -309,7 +360,8 @@ class CartController extends Controller
                     DB::table('chi_tiet_phieu_dat_hangs')->insert([
                         'phieu_dat_hang_id' => $cart->id,
                         'san_pham_id' => $product->id,
-                        'ctpdh_SoLuong' => $carts[$product->id],
+                        'kich_thuoc_id' => $product->kich_thuoc_id,
+                        'ctpdh_SoLuong' => $product->qty,
                         'ctpdh_Gia' => $product->sp_Gia
                     ]);
                 }
@@ -356,12 +408,14 @@ class CartController extends Controller
                         }
 
                         return redirect()
-                            ->route('user.checkout')
+                            ->route('checkout')
+//                            ->route('user.checkout')
                             ->with('flash_message_error', 'Lỗi thanh toán.');
 
                     } else {
                         return redirect()
-                            ->route('user.checkout')
+//                            ->route('user.checkout')
+                            ->route('checkout')
                             ->with('flash_message_error', $response['message'] ?? 'Lỗi thanh toán.');
                     }
             } elseif ($submitButtonName === 'redirect') {
@@ -441,7 +495,8 @@ class CartController extends Controller
                     die();
                     //return redirect()->away($vnp_Url);
                 } else {
-                    return redirect()->route('user.showcheckout');
+                    return redirect()->route('showcheckout');
+//                    return redirect()->route('user.showcheckout');
                     //echo json_encode($returnData);
                 }
 
@@ -475,29 +530,39 @@ class CartController extends Controller
             //dd($data_get);
 
             // Lấy thông tin sản phẩm từ giỏ hàng
-            foreach ($carts as $product_id => $quantity_purchased) {
-                $product = SanPham::find($product_id);
-                if ($product) {
-                    $new_quantity_in_stock = max(0, $product->sp_SoLuongHang - $quantity_purchased);
-                    $new_quantity_sold = $product->sp_SoLuongBan + $quantity_purchased;
-                    $product->sp_SoLuongHang = $new_quantity_in_stock;
-                    $product->sp_SoLuongBan = $new_quantity_sold;
-                    $product->save();
-                    $carts[$product_id] = $quantity_purchased;
+            foreach ($carts as $cart) {
+                // Lấy thông tin từ mảng cart
+                $product_id = $cart['product_id'];
+                $quantity_purchased = $cart['qty'];
+
+                // Truy vấn sản phẩm dựa trên $product_id
+                $sanPham = SanPham::find($product_id);
+
+                if ($sanPham) {
+                    // Cập nhật sp_SoLuongBan trong model SanPham
+                    $sanPham->sp_SoLuongBan += $quantity_purchased;
+                    $sanPham->save();
+                    $kichThuocId = $cart['size']; // Thay 'size' bằng trường chứa id kích thước
+                    $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)
+                        ->where('kich_thuoc_id', $kichThuocId)
+                        ->first();
+
+                    if ($spkt) {
+                        $spkt->spkt_soLuongHang -= $quantity_purchased;
+                        $spkt->save();
+                    }
                 }
             }
 
             // Lưu giỏ hàng đã cập nhật vào session
             session()->put('carts', $carts);
 
-            $products = SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien', 'sp_SoLuongHang', 'sp_SoLuongBan')
-                ->where('sp_TrangThai', 1)
-                ->whereIn('id', $productId)
-                ->get();
+            $products = $this->cartService->getProduct();
 
             foreach ($products as $product) {
                 $price = $product->sp_Gia;
-                $priceEnd = $price * $carts[$product->id];
+                $quantity = $product->qty;
+                $priceEnd = $price * $quantity;
                 $total += $priceEnd;
             }
 
@@ -561,7 +626,8 @@ class CartController extends Controller
                 DB::table('chi_tiet_phieu_dat_hangs')->insert([
                     'phieu_dat_hang_id' => $cart->id,
                     'san_pham_id' => $product->id,
-                    'ctpdh_SoLuong' => $carts[$product->id],
+                    'kich_thuoc_id' => $product->kich_thuoc_id,
+                    'ctpdh_SoLuong' => $product->qty,
                     'ctpdh_Gia' => $product->sp_Gia
                 ]);
             }
@@ -576,7 +642,8 @@ class CartController extends Controller
             session()->forget('data_get');
         } else {
             return redirect()
-                ->route('user.checkout')
+//                ->route('user.checkout')
+                ->route('checkout')
                 ->with('flash_message_error', $response['message'] ?? 'Lỗi thanh toán.');
         }
 
@@ -585,7 +652,8 @@ class CartController extends Controller
     }
 
     public function cancelTransaction(Request $request){
-        return redirect()->route('user.showcheckout');
+        return redirect()->route('showcheckout');
+//        return redirect()->route('user.showcheckout');
     }
 
     public function handleVnPayCallback(Request $request){
@@ -598,27 +666,37 @@ class CartController extends Controller
         $productId = array_keys($carts);
 
         // Lấy thông tin sản phẩm từ giỏ hàng
-        foreach ($carts as $product_id => $quantity_purchased) {
-            $product = SanPham::find($product_id);
-            if ($product) {
-                $new_quantity_in_stock = max(0, $product->sp_SoLuongHang - $quantity_purchased);
-                $new_quantity_sold = $product->sp_SoLuongBan + $quantity_purchased;
-                $product->sp_SoLuongHang = $new_quantity_in_stock;
-                $product->sp_SoLuongBan = $new_quantity_sold;
-                $product->save();
-                $carts[$product_id] = $quantity_purchased;
+        foreach ($carts as $cart) {
+            // Lấy thông tin từ mảng cart
+            $product_id = $cart['product_id'];
+            $quantity_purchased = $cart['qty'];
+
+            // Truy vấn sản phẩm dựa trên $product_id
+            $sanPham = SanPham::find($product_id);
+
+            if ($sanPham) {
+                // Cập nhật sp_SoLuongBan trong model SanPham
+                $sanPham->sp_SoLuongBan += $quantity_purchased;
+                $sanPham->save();
+                $kichThuocId = $cart['size']; // Thay 'size' bằng trường chứa id kích thước
+                $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)
+                    ->where('kich_thuoc_id', $kichThuocId)
+                    ->first();
+
+                if ($spkt) {
+                    $spkt->spkt_soLuongHang -= $quantity_purchased;
+                    $spkt->save();
+                }
             }
         }
         session()->put('carts', $carts);
 
-        $products = SanPham::select('id', 'SP_TenSanPham', 'sp_Gia', 'sp_AnhDaiDien', 'sp_SoLuongHang', 'sp_SoLuongBan')
-            ->where('sp_TrangThai', 1)
-            ->whereIn('id', $productId)
-            ->get();
+        $products = $this->cartService->getProduct();
 
         foreach ($products as $product) {
             $price = $product->sp_Gia;
-            $priceEnd = $price * $carts[$product->id];
+            $quantity = $product->qty;
+            $priceEnd = $price * $quantity;
             $total += $priceEnd;
         }
 
@@ -686,7 +764,8 @@ class CartController extends Controller
                     DB::table('chi_tiet_phieu_dat_hangs')->insert([
                         'phieu_dat_hang_id' => $cart->id,
                         'san_pham_id' => $product->id,
-                        'ctpdh_SoLuong' => $carts[$product->id],
+                        'kich_thuoc_id' => $product->kich_thuoc_id,
+                        'ctpdh_SoLuong' => $product->qty,
                         'ctpdh_Gia' => $product->sp_Gia
                     ]);
                 }
@@ -794,8 +873,6 @@ class CartController extends Controller
          }
      }
 
-
-
     public function show_ChitietDonhang($id){
         if(Auth::check()) {
             $id_kh = Auth('web')->user()->id;
@@ -823,9 +900,11 @@ class CartController extends Controller
 
             $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
                 ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
-                ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*')
+                ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+                ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*', 'kich_thuocs.*')
                 ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
                 ->get();
+//            dd($cart_id);
         }
 
         return view('front-end.detail_order2',[
@@ -847,9 +926,20 @@ class CartController extends Controller
             foreach ($order->chitietphieudathang as $detail) {
                 $product = $detail->sanpham;
                 if ($product) {
-                    $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
                     $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
                     $product->save();
+
+                    // Truy vấn dữ liệu trong bảng san_pham_kich_thuocs
+                    $spkt = SanPhamKichThuoc::where('san_pham_id', $product->id)
+                        ->where('kich_thuoc_id', $detail->kichthuoc->id) // Thay kichthuoc bằng tên quan hệ trong model PhieuDatHang
+                        ->first();
+
+                    if ($spkt) {
+                        // Cập nhật spkt_SoLuongHang bằng cách trừ đi ctpdh_SoLuong
+                        $spkt->spkt_soLuongHang += $detail->ctpdh_SoLuong;
+                        $spkt->save();
+                        //dd($spkt);
+                    }
                 }
             }
             $order->pdh_TrangThai = 5;
@@ -901,6 +991,7 @@ class CartController extends Controller
         }
 
         $order->pdh_TrangThai = 4;
+        $order->pdh_TrangThaiGiaoHang = 2;
         $order->save();
 
         $id_kh = $order->khach_hang_id;
@@ -908,10 +999,14 @@ class CartController extends Controller
         $customer = KhachHang::find($id_kh);
         $tien = $customer->kh_TongTienDaMua;
         $customer->kh_TongTienDaMua = $tien + $tien_hang;
+        if ($customer->kh_TongTienDaMua > 5000000){
+            $customer->vip = 1;
+        }elseif($customer->kh_TongTienDaMua < 5000000){
+            $customer->vip = 1;
+        }
         $customer->save();
 
         $pdh = PhieuDatHang::find($id);
-        $id_kh = $pdh->khach_hang_id;
         $email = $customer->email;
         $title_mail = "Thông báo giao hàng thành công";
 

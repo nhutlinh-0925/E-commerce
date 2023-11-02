@@ -66,9 +66,11 @@
                     {{--  <td>a</td>  --}}
 
                     <td><img src="{{ url('/storage/images/products/'.$item->sp_AnhDaiDien) }}" height="100px" width="100px"></td>
-                    <td><p style="text-align: center;color: red;"><b>{{ number_format($item->sp_Gia, 0, '', '.') }} đ</b></p></td>
+                    <td><p style="text-align: center;color: red;width: 90px"><b>{{ number_format($item->sp_Gia, 0, '', '.') }} đ</b></p></td>
                     <td><p style="text-align: center;">{{ $item->danhmuc->dmsp_TenDanhMuc }}</p></td>
-                    <td><p style="text-align: center;">{{ $item->sp_SoLuongHang }}</p></td>
+                    <td><p style="text-align: center;">
+                            {{ $item->sanphamkichthuoc->sum('spkt_soLuongHang') }}
+                        </p></td>
                     <td><p style="text-align: center;">{{ $item->thuonghieu->thsp_TenThuongHieu }}</p></td>
 {{--                    <td><p style="width: 100px">{{ $item->sp_MoTa }}</p></td>--}}
                     <td>

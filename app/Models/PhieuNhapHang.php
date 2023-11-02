@@ -31,4 +31,8 @@ class PhieuNhapHang extends Model
             ->withDefault(['ncc_TenNhaCungCap' => '']);
     }
 
+    public function chitietphieunhaphang() {
+        return $this->hasMany(ChiTietPhieuNhapHang::class, 'phieu_nhap_hang_id');
+    }
+
 }

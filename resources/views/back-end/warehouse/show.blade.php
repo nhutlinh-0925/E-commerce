@@ -81,6 +81,7 @@
                                                         <th>Mã sản phẩm</th>
                                                         <th>Hình ảnh</th>
                                                         <th>Tên sản phẩm</th>
+                                                        <th>Size</th>
                                                         <th>Giá nhập</th>
                                                         <th>Số lượng</th>
                                                     </tr>
@@ -102,12 +103,13 @@
                                                                 <img src="{{asset('/storage/images/products/'.$detail_warehouse->sanpham->sp_AnhDaiDien) }}" height="50px" width="50px">
                                                             </td>
                                                             <td><b>{{ $detail_warehouse->sanpham->sp_TenSanPham }}</b></td>
+                                                            <td><b>{{ $detail_warehouse->kichthuoc->kt_TenKichThuoc }}</b></td>
                                                             <td><p style="color: red">{{ number_format($detail_warehouse->ctpnh_GiaNhap, 0, '', '.') }} đ</p></td>
                                                             <td>{{ $detail_warehouse->ctpnh_SoLuongNhap }}</td>
                                                         </tr>
                                                     @endforeach
                                                     <tr>
-                                                        <td colspan="3" style="text-align: right;"><b>Tổng tiền: </b></td>
+                                                        <td colspan="4" style="text-align: right;"><b>Tổng tiền: </b></td>
                                                         <td colspan="1"><b style="color:red;;">{{ number_format($warehouse->pnh_TongTien, 0, '', '.') }} đ</b></td>
                                                         <td colspan="1"><b>Tổng SL : {{ $sln }}</b></td>
                                                     </tr>

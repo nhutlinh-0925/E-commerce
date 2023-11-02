@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+//use App\Models\KichThuoc;
 use Illuminate\Http\Request;
 use App\Models\DanhMucSanPham;
 use App\Models\ThuongHieu;
@@ -9,12 +10,13 @@ use App\Models\SanPham;
 use App\Models\YeuThich;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\KhachHang;
+//use App\Models\KhachHang;
 
 use App\Http\Services\CartService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\ĐanhGia;
+use App\Models\SanPhamKichThuoc;
 
 class ShopController extends Controller
 {
@@ -62,10 +64,6 @@ class ShopController extends Controller
                         ->paginate(9)->appends(request()->query());
                 } elseif ($sort_by == 'ban_chay') {
                     $products = SanPham::orderBy('sp_SoLuongBan', 'desc')
-                        ->where('sp_TrangThai', 1)
-                        ->paginate(9)->appends(request()->query());
-                } elseif ($sort_by == 'ton_kho') {
-                    $products = SanPham::orderBy('sp_SoLuongHang', 'desc')
                         ->where('sp_TrangThai', 1)
                         ->paginate(9)->appends(request()->query());
                 } elseif ($sort_by == '1000') {
@@ -262,10 +260,6 @@ class ShopController extends Controller
                     $products = SanPham::orderBy('sp_SoLuongBan', 'desc')
                         ->where('sp_TrangThai', 1)
                         ->paginate(9)->appends(request()->query());
-                } elseif ($sort_by == 'ton_kho') {
-                    $products = SanPham::orderBy('sp_SoLuongHang', 'desc')
-                        ->where('sp_TrangThai', 1)
-                        ->paginate(9)->appends(request()->query());
                 } elseif ($sort_by == '1000') {
                     $products = SanPham::orderBy('sp_Gia', 'asc')
                         ->where('sp_TrangThai', 1)
@@ -417,6 +411,9 @@ class ShopController extends Controller
             $roundedRating = round($rating, 1);
             $rating_products = ĐanhGia::where('san_pham_id', $id)->get();
 
+            $sizes = SanPhamKichThuoc::where('san_pham_id',$id)->where('spkt_soLuongHang','>', 0)->get();
+            $total_size = $sizes->sum('spkt_soLuongHang');
+
             return view('front-end.product_detail', [
                 'product' => $product,
                 'category_product' => $category_product,
@@ -431,7 +428,9 @@ class ShopController extends Controller
                 'review' => $review,
                 'roundedRating' => $roundedRating,
                 'rating_products' => $rating_products,
-                'product_id' => $id
+                'product_id' => $id,
+                'sizes' => $sizes,
+                'total_size' => $total_size
             ]);
         }else{
             $product = SanPham::find($id);
@@ -450,6 +449,10 @@ class ShopController extends Controller
             $review = ĐanhGia::where('san_pham_id',$id)->where('dg_TrangThai',1)->get();
             $roundedRating = round($rating, 1);
             $rating_products = ĐanhGia::where('san_pham_id', $id)->get();
+
+            $sizes = SanPhamKichThuoc::where('san_pham_id',$id)->where('spkt_soLuongHang','>', 0)->get();
+//            dd($sizes);
+            $total_size = $sizes->sum('spkt_soLuongHang');
             return view('front-end.product_detail', [
                 'product' => $product,
                 'category_product' => $category_product,
@@ -463,7 +466,9 @@ class ShopController extends Controller
                 'review' => $review,
                 'roundedRating' => $roundedRating,
                 'rating_products' => $rating_products,
-                'product_id' => $id
+                'product_id' => $id,
+                'sizes' => $sizes,
+                'total_size' => $total_size
             ]);
         }
     }

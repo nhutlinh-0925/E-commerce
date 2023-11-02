@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Mail;
 
 class DonHangShipperController extends Controller
 {
@@ -53,7 +54,8 @@ class DonHangShipperController extends Controller
 
         $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
             ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
-            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*')
+            ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*','kich_thuocs.*')
             ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
             ->get();
 
@@ -125,17 +127,20 @@ class DonHangShipperController extends Controller
                 $customer = KhachHang::find($id_kh);
                 $tien = $customer->kh_TongTienDaMua;
                 $customer->kh_TongTienDaMua = $tien + $tien_hang;
+                if ($customer->kh_TongTienDaMua > 5000000){
+                    $customer->vip = 1;
+                }elseif($customer->kh_TongTienDaMua < 5000000){
+                    $customer->vip = 1;
+                }
                 $customer->save();
 
                 $pdh = PhieuDatHang::find($id);
-                $id_kh = $pdh->khach_hang_id;
-                $kh = KhachHang::find($id_kh);
-                $email = $kh->email;
+                $email = $customer->email;
                 $title_mail = "Thông báo giao hàng thành công";
 
                 $mailData = [
                     'id_pdh' => $pdh->id,
-                    'kh_Ten' => $kh->kh_Ten,
+                    'kh_Ten' => $customer->kh_Ten,
                 ];
 
                 Mail::send('front-end.email_delivery', [$email,'mailData' => $mailData], function ($message) use ($email,$title_mail) {
@@ -154,15 +159,6 @@ class DonHangShipperController extends Controller
                 $order->nguoi_giao_hang_id = null;
                 $order->pdh_TrangThai = 2;
                 $order->save();
-
-                foreach ($order->chitietphieudathang as $detail) {
-                    $product = $detail->sanpham;
-                    if ($product) {
-                        $product->sp_SoLuongHang += $detail->ctpdh_SoLuong;
-                        $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
-                        $product->save();
-                    }
-                }
 
             }elseif($order->pdh_TrangThaiGiaoHang == 1){
                 $order->pdh_TrangThai = 3;

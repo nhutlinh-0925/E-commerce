@@ -12,6 +12,7 @@ class ChiTietPhieuNhapHang extends Model
     protected $fillable = [
         'phieu_nhap_hang_id',
         'san_pham_id',
+        'kich_thuoc_id',
         'ctpnh_SoLuongNhap',
         'ctpnh_GiaNhap'
     ];
@@ -19,5 +20,10 @@ class ChiTietPhieuNhapHang extends Model
     public function sanpham()
     {
         return $this->belongsTo(SanPham::class, 'san_pham_id');
+    }
+
+    public function kichthuoc()
+    {
+        return $this->belongsTo(KichThuoc::class, 'kich_thuoc_id');
     }
 }

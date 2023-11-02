@@ -62,6 +62,7 @@ nextBtnSec.addEventListener("click", function(event){
   event.preventDefault();
   $('#materialError').html('');
   $('#tagError').html('');
+  // $('#sizeError').html('');
   $('#pictureError').html('');
   $('#videoError').html('');
 
@@ -70,6 +71,8 @@ nextBtnSec.addEventListener("click", function(event){
     return false;
   } else if($('#sp_Tag').val() == ''){
       $('#tagError').html('Vui lòng nhập tag cho sản phẩm');
+  // } else if($('#kich_thuoc_id').val() == ''){
+  //     $('#sizeError').html('Vui lòng chọn kích cỡ cho sản phẩm');
   } else if($('#sp_AnhDaiDien').val() == ''){
     $('#pictureError').html('Vui lòng chọn hình ảnh');
   } else if($('#sp_Video').val() == ''){

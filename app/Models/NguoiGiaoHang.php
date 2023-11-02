@@ -28,7 +28,6 @@ class NguoiGiaoHang extends Authenticatable
     ];
 
     protected $fillable = [
-//        'tai_khoan_id',
         'ngh_Ten',
         'ngh_SoDienThoai',
         'ngh_DiaChi',

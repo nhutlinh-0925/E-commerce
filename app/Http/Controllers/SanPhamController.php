@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+//use App\Models\KichThuoc;
+use App\Models\SanPhamKichThuoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -11,8 +13,7 @@ use App\Models\SanPham;
 use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\NhanVien;
-
+//use App\Models\NhanVien;
 use App\Models\HinhAnh;
 
 class SanPhamController extends Controller
@@ -24,7 +25,8 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $products = SanPham::all()->sortByDesc("id");
+//        $products = SanPham::all()->sortByDesc("id");
+        $products = SanPham::withSum('sanphamkichthuoc', 'spkt_SoLuongHang')->get()->sortByDesc('id');
         return view('back-end.product.index',[
             'products' => $products,
         ]);
@@ -39,9 +41,11 @@ class SanPhamController extends Controller
     {
         $category_products = DanhMucSanPham::where('dmsp_TrangThai',1)->get();
         $brands = ThuongHieu::where('thsp_TrangThai',1)->get();
+//        $sizes = KichThuoc::all();
         $data = [
             'category_products' => $category_products,
             'brands' => $brands,
+//            'sizes' => $sizes
         ];
 
         return view('back-end.product.create2', $data);
@@ -55,7 +59,7 @@ class SanPhamController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+//         dd($request);
         $input = $request->all();
         if($request->hasFile('sp_AnhDaiDien'))
             {
@@ -85,6 +89,25 @@ class SanPhamController extends Controller
             }
         }
 
+//        $selectedSizes = $request->input('kich_thuoc_id', []);
+//        foreach ($selectedSizes as $sizeId) {
+//            $size = KichThuoc::find($sizeId);
+//            if ($size) {
+//                DB::table('san_pham_kich_thuocs')->insert([
+//                    'san_pham_id' => $id_sp,
+//                    'kich_thuoc_id' => $size->id,
+//                ]);
+//            }
+//        }
+
+        for ($kichthuocId = 1; $kichthuocId <= 4; $kichthuocId++) {
+            SanPhamKichThuoc::create([
+                'san_pham_id' => $id_sp,
+                'kich_thuoc_id' => $kichthuocId,
+                //'spkt_soLuongHang' => 0,
+            ]);
+        }
+
         Session::flash('flash_message', 'Thêm sản phẩm thành công!');
         return redirect('/admin/products');
     }
@@ -112,11 +135,17 @@ class SanPhamController extends Controller
         $category_products = DanhMucSanPham::where('dmsp_TrangThai',1)->get();
         $brands = ThuongHieu::where('thsp_TrangThai',1)->get();
         $images = $product->hinhanh; // Lấy các hình ảnh liên quan đến sản phẩm
+
+        //$selectedSizes = $product->kichthuoc->pluck('id')->toArray();
+        //$sizes = KichThuoc::all();
+
         return view('back-end.product.edit',[
             'product' => $product,
             'category_products' => $category_products,
             'brands' => $brands,
-            'images' => $images
+            'images' => $images,
+            //'selectedSizes' => $selectedSizes,
+            //'sizes' => $sizes
         ]);
     }
 
@@ -185,6 +214,10 @@ class SanPhamController extends Controller
             }
         }
 
+        // Cập nhật kích thước của sản phẩm
+        // Nếu đã bán sp có size đó r thì phải làm sao.
+        //$selectedSizes = $request->input('kich_thuoc_id', []);
+        //$product->kichthuoc()->sync($selectedSizes);
 
         Session::flash('flash_message', 'Cập nhật sản phẩm thành công!');
         return redirect('/admin/products');

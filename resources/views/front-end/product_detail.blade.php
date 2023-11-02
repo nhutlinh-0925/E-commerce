@@ -4,7 +4,25 @@
 <head>
     <!-- head -->
     @include('front-end.pages.head')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{{--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">--}}
+
+{{--    <link rel="icon" type="image/png" href="images/icons/favicon.png"/>--}}
+{{--    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">--}}
+
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/animate/animate.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/css-hamburgers/hamburgers.min.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/animsition/css/animsition.min.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/select2/select2.min.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/daterangepicker/daterangepicker.css">--}}
+    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/slick/slick.css">
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/MagnificPopup/magnific-popup.css">--}}
+{{--    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/perfect-scrollbar/perfect-scrollbar.css">--}}
+
+    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/util.css">
+    <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/main.css">
 </head>
 
 <body>
@@ -12,196 +30,160 @@
 
     @include('front-end.header_cart')
 
-    <!-- Shop Details Section Begin -->
-    <section class="shop-details">
-        <div class="product__details__pic">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__details__breadcrumb">
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Chi tiết sản phẩm</h4>
+                        <div class="breadcrumb__links">
                             <a href="/">Trang chủ</a>
                             <a href="/shop">Cửa hàng</a>
                             <span>Chi tiết sản phẩm</span>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-3 col-md-3">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                                    <div class="product__thumb__pic set-bg">
-                                        <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="100px" height="100px">
-                                    </div>
-                                </a>
-                            </li>
-                            @php
-                                $tabIndex = 2;
-                            @endphp
-                            @foreach ($images as $index => $image)
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-{{ $tabIndex }}" role="tab">
-                                        <div class="product__thumb__pic set-bg" data-setbg="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}" width="100px" height="100px">
-                                        </div>
-                                    </a>
-                                </li>
-                                @php
-                                    $tabIndex++;
-                                @endphp
-                            @endforeach
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <br><br>
 
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
-                                        <i class="fa fa-play"></i>
+        <!-- Product Detail -->
+        <section class="sec-product-detail bg0 p-t-65 p-b-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-7 p-b-30">
+                        <div class="p-l-25 p-r-30 p-lr-0-lg">
+                            <div class="wrap-slick3 flex-sb flex-w">
+                                <div class="wrap-slick3-dots"></div>
+                                <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+                                <div class="slick3 gallery-lb">
+                                    <div class="item-slick3" data-thumb="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
+                                        <div class="product__details__pic__item">
+                                            <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="800px" height="550px">
+                                            <a href="{{ $product->sp_Video }}" class="video-popup"><i class="fa fa-play"></i></a>
+                                        </div>
                                     </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-6 col-md-9">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" alt="" width="800px" height="550px">
-                                </div>
-                            </div>
-                            @php
-                                $tabIndex = 2;
-                            @endphp
-                            @foreach ($images as $index => $image)
-                                <div class="tab-pane" id="tabs-{{ $tabIndex }}" role="tabpanel">
-                                    <div class="product__details__pic__item">
-                                        <img src="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}" alt="" width="800px" height="550px">
+                                    <div class="item-slick3" data-thumb="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
+                                        <div class="wrap-pic-w pos-relative">
+                                            <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" alt="">
+
+                                            <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
+                                                <i class="fa fa-expand"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                @php
-                                    $tabIndex++;
-                                @endphp
-                            @endforeach
-                            <div class="tab-pane" id="tabs-4" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" width="800px" height="550px">
-                                    <a href="{{ $product->sp_Video }}" class="video-popup"><i class="fa fa-play"></i></a>
+                                    @foreach ($images as $index => $image)
+                                    <div class="item-slick3" data-thumb="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}">
+                                        <div class="wrap-pic-w pos-relative">
+                                            <img src="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}" alt="IMG-PRODUCT">
+
+                                            <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}">
+                                                <i class="fa fa-expand"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-5 p-b-30">
+                        <form action="/add-cart" method="post">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-lg-8">
+                                    <p class="product__details__text">
+                                        <h4>{{ $product->sp_TenSanPham }}</h4>
+                                        <div class="rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $rating_round)
+                                                    <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                @else
+                                                    <span class="fa fa-star " style="color: #ccc;"></span>
+                                                @endif
+                                            @endfor
+                                            <span> - {{ $review->count() }} Đánh giá</span>
+                                        </div>
+                                        @php
+                                            $price_reduced = 0;
+                                            $price = $product->sp_Gia;
+                                            $price_reduced = $price + $price*10/100;
+                                        @endphp
+                                        <h3>{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup>
+                                            <span><strike style="color: grey">{{ number_format($price_reduced, 0, '', '.') }}</strike><sup><ins style="color: grey">đ</ins></sup></span>
+                                        </h3>
+                                            <p>
+                                                @if($total_size > 0)
+                                                Tình trạng: Còn hàng <b id="total-quantity2">{{ $total_size }}</b> trong kho
+                                                @elseif($total_size == 0)
+                                                Tình trạng: <b style="color: red">Hết hàng</b>
+                                                 @endif
+                                            </p>
+
+                                        @if($total_size > 0)
+                                            <span><b>Chọn Size:</b></span>
+                                            <div>
+                                                @foreach($sizes as $item)
+                                                    <input type="radio" class="size-input2" name="product_size" data-quantity2="{{ $item->spkt_soLuongHang }}" value="{{$item->kich_thuoc_id}}" required>
+                                                    <label>Size {{ $item->kichthuoc->kt_TenKichThuoc }}</label><br>
+                                                @endforeach
+                                            </div>
+
+
+                                        <div class="product__details__cart__option">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input name="num_product" type="text" value="1" min="1">
+                                                </div>
+                                            </div>
+                                            <button type="submit"  class="primary-btn-detail">Thêm vào giỏ hàng </button>
+                                            <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+                                        </div>
+                                        @elseif($total_size == 0)
+                                        @endif
+                                        <div class="product__details__btns__option">
+                                            <a href="{{ route('user.wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
+                                                <i class="fa fa-heart" style="color: blue;"></i>
+                                                Yêu thích
+                                            </a>
+                                            <a href="#"><i class="fa fa-exchange"></i> So sánh</a>
+                                        </div>
+                                        <div class="product__details__last__option">
+                                            <h5><span>Thanh toán an toàn</span></h5>
+                                            <img src="/template/front-end/img/shop-details/details-payment.png" alt="">
+                                            <ul>
+                                                {{--                                    <li><span>SKU:</span> #000{{ $product->id }}</li>--}}
+                                                <li><span>Danh mục:</span> {{$product->danhmuc->dmsp_TenDanhMuc}}</li>
+                                                <li><span>Thương hiệu:</span> {{$product->thuonghieu->thsp_TenThuongHieu}}</li>
+                                                <li>
+                                                    <span>Tag:</span>
+                                                    @php
+                                                        $tags = $product->sp_Tag;
+                                                        $tags = explode(",",$tags);
+                                                    @endphp
+                                                    @foreach($tags as $tag)
+                                                        <a style="color: black" href="{{ url('/tag/' . Str::slug($tag)) }}">{{ $tag }},</a>
+                                                    @endforeach
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @csrf
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="product__details__content">
             <div class="container">
-                <form action="/add-cart" method="post">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="product__details__text">
-                            <h4>{{ $product->sp_TenSanPham }}</h4>
-
-
-                            <div class="rating">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $rating_round)
-                                        <span class="fa fa-star " style="color: #ff9705;"></span>
-                                    @else
-                                        <span class="fa fa-star " style="color: #ccc;"></span>
-                                    @endif
-                                @endfor
-                                <span> - {{ $review->count() }} Đánh giá</span>
-                            </div>
-                            @php
-                                $price_reduced = 0;
-                                $price = $product->sp_Gia;
-                                $price_reduced = $price + $price*10/100;
-                            @endphp
-                            <h3>{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup>
-                                <span>{{ number_format($price_reduced, 0, '', '.') }}<sup><ins>đ</ins></sup></span>
-                                <br>
-                                <p>Tình trạng :
-                                    @if($product->sp_SoLuongHang > 0)
-                                        <b>Còn hàng </b>({{ $product->sp_SoLuongHang }} sản phẩm trong kho)
-                                    @elseif($product->sp_SoLuongHang == 0)
-                                        <b style="color: red">Hết hàng</b>
-                                    @endif
-                                </p>
-                            </h3>
-                            <div class="product__details__option">
-                                <div class="product__details__option__size">
-                                    <span>Size:</span>
-                                    <label for="xxl">xxl
-                                        <input type="radio" id="xxl">
-                                    </label>
-                                    <label class="active" for="xl">xl
-                                        <input type="radio" id="xl">
-                                    </label>
-                                    <label for="l">l
-                                        <input type="radio" id="l">
-                                    </label>
-                                    <label for="sm">s
-                                        <input type="radio" id="sm">
-                                    </label>
-                                </div>
-                                <div class="product__details__option__color">
-                                    <span>Color:</span>
-                                    <label class="c-1" for="sp-1">
-                                        <input type="radio" id="sp-1">
-                                    </label>
-                                    <label class="c-2" for="sp-2">
-                                        <input type="radio" id="sp-2">
-                                    </label>
-                                    <label class="c-3" for="sp-3">
-                                        <input type="radio" id="sp-3">
-                                    </label>
-                                    <label class="c-4" for="sp-4">
-                                        <input type="radio" id="sp-4">
-                                    </label>
-                                    <label class="c-9" for="sp-9">
-                                        <input type="radio" id="sp-9">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="product__details__cart__option">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input name="num_product" type="text" value="1">
-                                    </div>
-                                </div>
-                                {{--  <a href="#"  class="primary-btn">add to cart</a>  --}}
-                                <button type="submit"  class="primary-btn">Thêm vào giỏ hàng </button>
-                                <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
-                            </div>
-                            <div class="product__details__btns__option">
-                                <a href="{{ route('user.wish_lish_show',$product->id) }}" class="wishlist-link" data-product-id="{{ $product->id }}">
-                                    <i class="fa fa-heart" style="color: blue;"></i>
-                                    Yêu thích
-                                </a>
-                                <a href="#"><i class="fa fa-exchange"></i> So sánh</a>
-                            </div>
-                            <div class="product__details__last__option">
-                                <h5><span>Đảm bảo thanh toán an toàn</span></h5>
-                                <img src="/template/front-end/img/shop-details/details-payment.png" alt="">
-                                <ul>
-{{--                                    <li><span>SKU:</span> #000{{ $product->id }}</li>--}}
-                                    <li><span>Danh mục:</span> {{$product->danhmuc->dmsp_TenDanhMuc}}</li>
-                                    <li><span>Thương hiệu:</span> {{$product->thuonghieu->thsp_TenThuongHieu}}</li>
-                                    <li>
-                                        <span>Tag:</span>
-                                        @php
-                                            $tags = $product->sp_Tag;
-                                            $tags = explode(",",$tags);
-                                        @endphp
-                                        @foreach($tags as $tag)
-                                            <a style="color: black" href="{{ url('/tag/' . Str::slug($tag)) }}">{{ $tag }},</a>
-                                        @endforeach
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @csrf
-                </form>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__details__tab">
@@ -233,7 +215,7 @@
                                 <div class="tab-pane" id="tabs-6" role="tabpanel">
                                     <div class="product__details__tab__content">
                                         <div class="product__details__tab__content__item">
-                                            <div class="row">
+{{--                                            <div class="row">--}}
                                                 <div class="component_rating_content" style="display: flex;align-items: center;border-radius: 5px;border: 1px solid #dedede">
                                                     <div class="rating_item" style="width: 10%; position: relative; display: grid; text-align: center;">
                                                         <span class="fa fa-star" style="font-size: 100px; color: #ff9705;"></span>
@@ -268,7 +250,7 @@
                                                                     </b>
                                                                 </span>
                                                             </div>
-                                                            <div style="width: 5%">
+                                                            <div style="width: 6%">
                                                                 <p>{{ round($percentageRatings[$i-1]) }} %</p>
                                                             </div>
                                                         </div>
@@ -277,7 +259,7 @@
 
 
                                                 </div>
-                                            </div>
+{{--                                            </div>--}}
                                             <br>
 
                                             @foreach($review as $rv)
@@ -285,7 +267,7 @@
                                                 <div class="row cm">
                                                     <div class="col-1">
                                                         <div class="blog__details__author__pic custom-avatar" style="width: 55px">
-                                                            <img src="{{ asset('/storage/images/avatar/customers/'.$rv->khachhang->taikhoan->avatar) }}" class="rounded-circle">
+                                                            <img src="{{ asset('/storage/images/avatar/customers/'.$rv->khachhang->avatar) }}" class="rounded-circle">
                                                         </div>
                                                     </div>
                                                     <div class="col-11">
@@ -353,7 +335,7 @@
                 </div>
             </div>
         </div>
-    </section>
+{{--    </section>--}}
     <!-- Shop Details Section End -->
 
     <!-- Related Section Begin -->
@@ -404,17 +386,6 @@
                             <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
                                 + Thêm giỏ hàng
                             </button>
-                            <div class="product__color__select">
-                                <label for="pc-1">
-                                    <input type="radio" id="pc-1">
-                                </label>
-                                <label class="active black" for="pc-2">
-                                    <input type="radio" id="pc-2">
-                                </label>
-                                <label class="grey" for="pc-3">
-                                    <input type="radio" id="pc-3">
-                                </label>
-                            </div>
                         </div>
                     </div>
                     </form>
@@ -426,6 +397,7 @@
     <!-- Related Section End -->
 
     @include('front-end.pages.footer')
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     @if(session()->has('success_message'))
         <style>
@@ -463,6 +435,30 @@
             Swal.fire({
                 title: 'Rất tiết!!!', // Tiêu đề của thông báo
                 text: 'Số lượng đã vượt quá trong kho!', // Nội dung của thông báo
+                icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+                showConfirmButton: false, // Không hiển thị nút xác nhận
+                timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+                showCloseButton: true, // Hiển thị nút X để tắt thông báo
+                customClass: {
+                    icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+                },
+                // background: '#ff0000', // Màu nền của thông báo
+                padding: '3rem', // Khoảng cách lề bên trong thông báo
+                borderRadius: '10px' // Độ cong của góc thông báo
+            });
+        </script>
+    @elseif(session()->has('flash_message_error_qty'))
+        <style>
+            .my-custom-icon {
+                color: #ff0000; /* Màu đỏ */
+                font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+            }
+        </style>
+
+        <script>
+            Swal.fire({
+                title: 'Rất tiết!!!', // Tiêu đề của thông báo
+                text: 'Số lượng hoặc sản phẩm không chính xác!', // Nội dung của thông báo
                 icon: 'success', // Icon của thông báo (success, error, warning, info, question)
                 showConfirmButton: false, // Không hiển thị nút xác nhận
                 timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
@@ -548,6 +544,7 @@
             });
         </script>
     @endif
+
     <script>
         // Hàm kiểm tra xem sản phẩm có trong danh sách yêu thích hay không
         function isProductFavorited(productId) {
@@ -620,6 +617,62 @@
             }
         });
     </script>
+
+
+{{--    <script src="/template/front-end/vendor/jquery/jquery-3.2.1.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/animsition/js/animsition.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/bootstrap/js/popper.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/bootstrap/js/bootstrap.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/select2/select2.min.js"></script>--}}
+{{--    <script>--}}
+{{--        $(".js-select2").each(function(){--}}
+{{--            $(this).select2({--}}
+{{--                minimumResultsForSearch: 20,--}}
+{{--                dropdownParent: $(this).next('.dropDownSelect2')--}}
+{{--            });--}}
+{{--        })--}}
+{{--    </script>--}}
+
+{{--    <script src="/template/front-end/vendor/daterangepicker/moment.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/daterangepicker/daterangepicker.js"></script>--}}
+    <script src="/template/front-end/vendor/slick/slick.min.js"></script>
+    <script src="/template/front-end/vendor/slick-custom.js"></script>
+    <script src="/template/front-end/vendor/parallax100/parallax100.js"></script>
+    <script>
+        $('.parallax100').parallax100();
+    </script>
+{{--    <script src="/template/front-end/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>--}}
+    <script>
+        $('.gallery-lb').each(function() { // the containers for all your galleries
+            $(this).magnificPopup({
+                delegate: 'a', // the selector for gallery item
+                type: 'image',
+                gallery: {
+                    enabled:true
+                },
+                mainClass: 'mfp-fade'
+            });
+        });
+    </script>
+
+    {{--    <script src="/template/front-end/vendor/isotope/isotope.pkgd.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/sweetalert/sweetalert.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>--}}
+{{--    <script src="/template/front-end/vendor/main.js"></script>--}}
+
+    <script>
+        var sizeInputs = document.querySelectorAll('.size-input2');
+        var totalQuantityDisplay = document.getElementById('total-quantity2');
+
+        sizeInputs.forEach(function(input) {
+            input.addEventListener('change', function() {
+                var quantity = this.getAttribute('data-quantity2');
+                // Cập nhật giá trị `$total_size`
+                totalQuantityDisplay.textContent = quantity;
+            });
+        });
+    </script>
+
 </body>
 
 </html>

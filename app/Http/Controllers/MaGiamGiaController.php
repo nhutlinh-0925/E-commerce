@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KhachHang;
-use App\Models\NhanVien;
+//use App\Models\NhanVien;
 use App\Models\MaGiamGia;
 //use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class MaGiamGiaController extends Controller
 
     public function store(Request $request)
     {
-//         dd($request);
+         //dd($request);
         $this -> validate($request, [
             'mgg_TenGiamGia' => 'required',
             'mgg_MaGiamGia' => 'required',

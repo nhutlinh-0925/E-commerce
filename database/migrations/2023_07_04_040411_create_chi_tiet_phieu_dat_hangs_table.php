@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('phieu_dat_hang_id');
             $table->unsignedBigInteger('san_pham_id');
+            $table->unsignedBigInteger('kich_thuoc_id');
             $table->integer('ctpdh_SoLuong');
             $table->integer('ctpdh_Gia');
             $table->foreign('phieu_dat_hang_id')
@@ -26,6 +27,10 @@ return new class extends Migration
             $table->foreign('san_pham_id')
                 ->references('id')
                 ->on('san_phams')
+                ->onDelete('cascade');
+            $table->foreign('kich_thuoc_id')
+                ->references('id')
+                ->on('kich_thuocs')
                 ->onDelete('cascade');
             $table->timestamps();
         });

@@ -6,7 +6,7 @@ use App\Models\ChiTietQuyen;
 use App\Models\Quyen;
 
 use App\Models\NhanVien;
-use App\Models\TaiKhoan;
+//use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

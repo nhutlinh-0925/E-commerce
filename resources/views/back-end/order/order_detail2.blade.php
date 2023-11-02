@@ -140,9 +140,10 @@
                                 <th>STT</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Hình ảnh</th>
+                                <th>Size</th>
                                 <th>Số lượng</th>
                                 <th>Giá tiền</th>
-                                <th style="width: 300px;">Thành tiền</th>
+                                <th>Thành tiền</th>
                             </thead>
                             <tbody>
                             @php $total = 0; @endphp
@@ -160,6 +161,7 @@
                                             <img src="{{ url('/storage/images/products/'.$detail_cart->sp_AnhDaiDien) }}" height="40px">
                                         </a>
                                     </td>
+                                    <td style="text-align: center;">{{ $detail_cart->kt_TenKichThuoc }}</td>
                                     <td style="text-align: center;">{{ $detail_cart->ctpdh_SoLuong }}</td>
                                     <td style="text-align: center;">{{ number_format($detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
                                     <td style="text-align: center;">{{ number_format($detail_cart->ctpdh_SoLuong * $detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
@@ -170,7 +172,7 @@
                                 <td colspan="5"><b></b></td>
                                 <td colspan="5">
                                     <label style="float: right;">{{ number_format($total, 0, '', '.') }} đ</label>
-                                    <label>Tổng giá trị đơn hàng : </label>
+                                    <label>Tổng giá trị đơn hàng : </label><br>
 
                                     <label style="float: right;">{{ number_format($phi, 0, '', '.') }} đ </label>
                                     <label>Phí ship : </label>
@@ -271,20 +273,20 @@
 {{--                                        <option value="3">Đang vận chuyển</option>--}}
 {{--                                        <option value="4">Giao hàng thành công</option>--}}
 {{--                                    </select>--}}
-                                    <p>Đang vận chuyển</p>
+                                    <p style="color: yellow"><b>Đang vận chuyển</b></p>
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 4 )
                                 <div class="form-group text-center">
 {{--                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">--}}
 {{--                                        <option value="4">Giao hàng thành công</option>--}}
-                                        <p>Giao hàng thành công</p>
+                                        <p style="color: green"><b>Giao hàng thành công</b></p>
 {{--                                    </select>--}}
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 5 )
                                 <div class="form-group text-center">
 {{--                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">--}}
 {{--                                        <option value="5">Đơn đã hủy</option>--}}
-                                        <p>Đơn đã hủy</p>
+                                        <p style="color: red"><b>Đơn đã hủy</b></p>
 {{--                                    </select>--}}
                                 </div>
                             @endif
@@ -326,11 +328,27 @@
 {{--                        </label>--}}
 {{--                        <br>--}}
 {{--                    </div>--}}
-
+                    @if( $pdh->pdh_TrangThai == 1)
                     <div class="fieldd btns">
                         <button class="prev-2 prev">QUAY LẠI</button>
                         <button type="submit" class="submit">XÁC NHẬN</button>
                     </div>
+                    @elseif( $pdh->pdh_TrangThai == 2 || $pdh->pdh_TrangThai == 3 || $pdh->pdh_TrangThai == 4 || $pdh->pdh_TrangThai == 5)
+                    <div class="fieldd btns">
+                        <a href="/admin/orders" class="prev-2 prev"
+                           style="display: flex;justify-content: center;
+                            align-items: center;margin: 5px 0;
+                            position: relative;">
+                            QUAY LẠI
+                        </a>
+                    </div>
+{{--                        <div class="text-center">--}}
+{{--                            <button type="submit" class="btn btn-primary" style="width: 10%;">Thêm</button>--}}
+{{--                            <a href="/admin/orders" class="btn btn-danger">Quay lại</a>--}}
+{{--                        </div>--}}
+                    @endif
+
+
                 </div>
             </form>
         </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\KhachHang;
-use App\Models\TaiKhoan;
+//use App\Models\TaiKhoan;
 
 use App\Http\Services\CartService;
 
@@ -84,7 +84,6 @@ class LoginController extends Controller
             'kh_Ten' => $request->kh_Ten,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-//            'loai' => 2,
             'trangthai' => 1,
             'vip' => 0
         ]);
@@ -200,7 +199,6 @@ class LoginController extends Controller
             ]);
 
         $email = $request->email;
-
 
         $token = Str::random(64);
         //dd($token);

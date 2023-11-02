@@ -15,18 +15,14 @@ return new class extends Migration
     {
         Schema::create('nhan_viens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tai_khoan_id');
             $table->string('nv_Ten');
             $table->string('nv_SoDienThoai');
             $table->string('nv_DiaChi');
-
-            $table->string('email')->unique()->nullable();
-            $table->string('password')->nullable();
-            
-            $table->foreign('tai_khoan_id')
-            ->references('id')
-            ->on('tai_khoans')
-            ->onDelete('cascade');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->integer('trangthai');
+            $table->integer('loai');
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

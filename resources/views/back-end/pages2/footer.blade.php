@@ -186,39 +186,6 @@
         });
     });
 
-    {{--$('#keywords').keyup(function (){--}}
-    {{--    //alert('hi');--}}
-    {{--    var query = $(this).val();--}}
-    {{--    //alert(query);--}}
-    {{--    // alert('hi');--}}
-    {{--    if(query != ''){--}}
-    {{--        var _token = $('input[name="_token"]').val();--}}
-    {{--        $.ajax({--}}
-    {{--            url:"{{url('/admin/warehouses/autocomplete-ajax')}}",--}}
-    {{--            method:"POST",--}}
-    {{--            data:{query:query, _token:_token},--}}
-    {{--            success:function (data) {--}}
-    {{--                $('#search-ajax').fadeIn();--}}
-    {{--                $('#search-ajax').html(data);--}}
-    {{--            }--}}
-    {{--        });--}}
-    {{--    }else{--}}
-    {{--        $('#search-ajax').fadeOut();--}}
-    {{--    }--}}
-    {{--});--}}
-
-    // $(document).on('click','li',function (){
-    //     $('#keywords').val($(this).text());
-    //     $('#search-ajax').fadeOut();
-    // });
-
-    // var inputField = $('#keywords');
-    // var clearButton = $('#clear-input'); // Nút xóa nội dung
-    // // Bắt sự kiện khi nút xóa nội dung được bấm
-    // clearButton.on('click', function () {
-    //     inputField.val(''); // Xóa nội dung trường nhập liệu
-    // });
-
     $(document).ready(function() {
         // Biến để lưu trữ tổng số lượng và tổng tiền
         var totalQuantity = 0;
@@ -247,61 +214,26 @@
             $('[name="pnh_TongTien"]').val(totalPrice);
         }
 
-        // Bắt sự kiện khi nút "Thêm" được bấm
-        {{--$(document).on('click', '.btn-add-product', function() {--}}
-        {{--    var productId = $(this).data('product-id');--}}
-        {{--    var productName = $(this).data('product-name');--}}
-        {{--    var productImage = $(this).data('product-image');--}}
-        {{--    var imageUrl = "{{ url('/storage/images/products/') }}" + '/' + productImage;--}}
-
-        {{--    // Kiểm tra xem sản phẩm đã có trong bảng chưa--}}
-        {{--    var $existingRow = $('#product-table tbody').find('[data-product-id="' + productId + '"]');--}}
-
-        {{--    if ($existingRow.length > 0) {--}}
-        {{--        // Sản phẩm đã có trong bảng, tăng số lượng--}}
-        {{--        var $quantityInput = $existingRow.find('.quantity-input');--}}
-        {{--        var currentQuantity = parseInt($quantityInput.val());--}}
-        {{--        $quantityInput.val(currentQuantity + 1);--}}
-        {{--    } else {--}}
-        {{--        // Sản phẩm chưa có trong bảng, thêm dòng mới--}}
-        {{--        var newRow = '<tr data-product-id="' + productId + '">' +--}}
-        {{--            '<td style="text-align: center;">#' + productId + '</td>' +--}}
-        {{--            '<td style="text-align: center;">' + productName + '</td>' +--}}
-        {{--            '<td style="text-align: center;">' +--}}
-        {{--            '<a><img src="' + imageUrl + '" height="40px"></a>' +--}}
-        {{--            '</td>' +--}}
-        {{--            '<td style="text-align: center;"><input type="text" autocomplete="off" required class="price-input" style="width: 80px" name="product_price[' + productId + ']" value=""></td>' +--}}
-        {{--            '<td style="text-align: center;"><input type="number" style="width: 40px" class="quantity-input" name="product_quantity[' + productId + ']" value="1" min="1"></td>' +--}}
-        {{--            '<td style="text-align: center;">' +--}}
-        {{--            '<button type="button" class="btn btn-primary btn-update-product" data-product-id="' + productId + '">Cập nhật</button>' +--}}
-        {{--            '<span style="margin: 0 5px;"></span>' + // Khoảng cách giữa nút--}}
-        {{--            '<button class="btn btn-danger btn-remove-product" data-product-id="' + productId + '">Xóa</button>' +--}}
-        {{--            '</td>' +--}}
-        {{--            '</tr>';--}}
-
-        {{--        $('#product-table tbody').append(newRow);--}}
-        {{--    }--}}
-
-        {{--    // Cập nhật tổng số lượng và tổng tiền--}}
-        {{--    updateTotals();--}}
-
-        {{--});--}}
         var selectedProductPrice; // Khai báo biến để lưu giá sản phẩm đã chọn
 
         $('#productSelect').on('select2:select', function (e) {
             var selectedProduct = e.params.data;
             // Lấy giá sản phẩm
             selectedProductPrice = parseFloat(selectedProduct.element.getAttribute('data-price').replace(/[,\.]/g, ''));
-            //alert(selectedProductPrice);
-            // Lấy tên sản phẩm
             var productName = selectedProduct.text.split(' - ')[1].trim();
-            //alert(productName);
             var productImage = selectedProduct.element.getAttribute('data-image');
-            //alert(productImage);
+
+            var productSize = selectedProduct.element.getAttribute('data-size');
+            var sizeOptions = '<option value="">Chọn kích thước</option>'; // Thêm một tùy chọn mặc định
+            var availableSizes = productSize.split(', ');
+            availableSizes.forEach(function (size) {
+                sizeOptions += '<option value="' + size + '">' + size + '</option>';
+            });
+
             // Kiểm tra xem sản phẩm đã có trong bảng chưa
             var $existingRow = $('#product-table tbody').find('[data-product-id="' + selectedProduct.id + '"]');
-
-            if ($existingRow.length > 0) {
+            var selectedSize = $('[name="product_size[' + selectedProduct.id + '][]"]').val();
+            if ($existingRow.length > 0 && !selectedSize) {
                 // Sản phẩm đã có trong bảng, tăng số lượng
                 var $quantityInput = $existingRow.find('.quantity-input');
                 var currentQuantity = parseInt($quantityInput.val());
@@ -310,13 +242,14 @@
                 // Sản phẩm chưa có trong bảng, thêm dòng mới
                 var newRow = '<tr data-product-id="' + selectedProduct.id + '">' +
                     '<td style="text-align: center;">#' + selectedProduct.id + '</td>' +
-                    '<td style="text-align: center;">' + productName + '</td>' +
+                    '<td style="text-align: center;width: 160px" >' + productName + '</td>' +
                     '<td style="text-align: center;">' +
                     '<a><img src="' + productImage + '" height="40px"></a>' +
+                    '<td style="text-align: center;"><select name="product_size[' + selectedProduct.id + '][]" required>' + sizeOptions + '</select>' +
                     '</td>' +
-                    '<td style="text-align: center;"><input type="text" autocomplete="off" required class="price-input" style="width: 80px" name="product_price[' + selectedProduct.id + ']" value=""></td>' +
-                    '<td style="text-align: center;"><input type="number" style="width: 40px" class="quantity-input" name="product_quantity[' + selectedProduct.id + ']" value="1" min="1"></td>' +
-                    '<td style="text-align: center;">' +
+                    '<td style="text-align: center;"><input type="text" autocomplete="off" required class="price-input" style="width: 80px" name="product_price[' + selectedProduct.id + '][]" value=""></td>' +
+                    '<td style="text-align: center;"><input type="number" style="width: 40px" class="quantity-input" name="product_quantity[' + selectedProduct.id + '][]" value="1" min="1"></td>' +
+                    '<td style="text-align: center;width: 180px" >' +
                     '<button type="button" class="btn btn-primary btn-update-product" data-product-id="' + selectedProduct.id + '">Cập nhật</button>' +
                     '<span style="margin: 0 5px;"></span>' + // Khoảng cách giữa nút
                     '<button class="btn btn-danger btn-remove-product" data-product-id="' + selectedProduct.id + '">Xóa</button>' +
@@ -373,7 +306,6 @@
                 alert('Giá sản phẩm phải lớn hơn 0.');
             }
         });
-
 
         // Hàm để cập nhật tổng tiền và tổng số lượng
         function updateTotal() {

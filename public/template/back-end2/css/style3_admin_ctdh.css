@@ -116,6 +116,35 @@ form .page .btns button.next {
     margin-left: 3px;
 }
 
+form .page .fieldd a {
+    width: 150px;
+    height: 50px;
+    border: none;
+    background: #32CD32;
+    margin-top: -20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+
+/*form .page .btns a {*/
+/*    margin-top: -20px!important;*/
+/*}*/
+
+form .page .btns a.prev {
+    margin-right: 3px;
+    font-size: 17px;
+}
+
+/*form .page .btns a.next {*/
+/*    margin-left: 3px;*/
+/*}*/
+
 .container .progress-bar {
     display: flex;
     margin: 40px 0;

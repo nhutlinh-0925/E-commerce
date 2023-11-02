@@ -86,7 +86,7 @@
                             <div class="row cm">
                                 <div class="col-1">
                                     <div class="blog__details__author__pic custom-avatar" style="width: 55px">
-                                        <img src="{{ asset('/storage/images/avatar/customers/'.$cm->khachhang->taikhoan->avatar) }}" class="rounded-circle">
+                                        <img src="{{ asset('/storage/images/avatar/customers/'.$cm->khachhang->avatar) }}" class="rounded-circle">
                                     </div>
                                 </div>
                                 <div class="col-11">

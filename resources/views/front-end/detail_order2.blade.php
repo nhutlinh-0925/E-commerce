@@ -263,6 +263,8 @@
                                                         <p style="color: green"><b>Giao hàng thành công</b></p>
                                                     @elseif($pdh->pdh_TrangThai == 5)
                                                         <p style="color:red;"><b>Đã hủy đơn</b></p>
+                                                    @elseif($pdh->pdh_TrangThai == 6)
+                                                        <p style="color:red;"><b>Giao hàng thất bại</b></p>
                                                     @endif
                                             </div>
                                             <div class="col-3"> <strong>Theo dõi #:</strong> <br>
@@ -296,6 +298,10 @@
                                                 $status_confirmed = 'active';
                                                 $status_picked = 'active';
                                                 $status_way = 'active';
+                                            } elseif ($pdh->pdh_TrangThai == 6) {
+                                                $status_confirmed = 'active';
+                                                $status_picked = 'active';
+                                                $status_way = 'active';
                                             } elseif ($pdh->pdh_TrangThai == 2) {
                                                 $status_confirmed = 'active';
                                                 $status_picked = 'active';
@@ -326,6 +332,7 @@
                                                 <th>STT</th>
                                                 <th>Tên sản phẩm</th>
                                                 <th>Hình ảnh</th>
+                                                <th>Size</th>
                                                 <th>Số lượng</th>
                                                 <th>Giá tiền</th>
                                                 <th>Thành tiền</th>
@@ -346,6 +353,7 @@
                                                             <img src="{{ url('/storage/images/products/'.$detail_cart->sp_AnhDaiDien) }}" height="40px">
                                                         </a>
                                                     </td>
+                                                    <td style="text-align: center;">{{ $detail_cart->kt_TenKichThuoc }}</td>
                                                     <td style="text-align: center;">{{ $detail_cart->ctpdh_SoLuong }}</td>
                                                     <td style="text-align: center;">{{ number_format($detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
                                                     <td style="text-align: center;">{{ number_format($detail_cart->ctpdh_SoLuong * $detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>

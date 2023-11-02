@@ -18,13 +18,12 @@ class SanPham extends Model
         'sp_NoiDung',
         'sp_ChatLieu',
         'sp_TrangThai',
-        'sp_SoLuongHang',
         'sp_SoLuongBan',
         'sp_AnhDaiDien',
         'sp_Video',
         'sp_LuotXem',
-        'sp_MauSac',
-        'sp_KichCo',
+//        'sp_MauSac',
+//        'sp_KichCo',
         'sp_Tag'
     ];
 
@@ -43,5 +42,15 @@ class SanPham extends Model
     public function hinhanh()
     {
         return $this->hasMany(HinhAnh::class);
+    }
+
+    public function kichthuoc()
+    {
+        return $this->belongsToMany(KichThuoc::class, 'san_pham_kich_thuocs', 'san_pham_id', 'kich_thuoc_id');
+    }
+
+    public function sanphamkichthuoc()
+    {
+        return $this->hasMany(SanPhamKichThuoc::class, 'san_pham_id');
     }
 }

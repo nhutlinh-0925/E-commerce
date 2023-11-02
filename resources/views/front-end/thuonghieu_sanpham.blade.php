@@ -256,17 +256,6 @@
                                     <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
                                         + Thêm giỏ hàng
                                     </button>
-{{--                                    <div class="product__color__select">--}}
-{{--                                        <label for="pc-4">--}}
-{{--                                            <input type="radio" id="pc-4">--}}
-{{--                                        </label>--}}
-{{--                                        <label class="active black" for="pc-5">--}}
-{{--                                            <input type="radio" id="pc-5">--}}
-{{--                                        </label>--}}
-{{--                                        <label class="grey" for="pc-6">--}}
-{{--                                            <input type="radio" id="pc-6">--}}
-{{--                                        </label>--}}
-{{--                                    </div>--}}
                                 </div>
                             </div>
                             </form>
