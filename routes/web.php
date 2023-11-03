@@ -24,6 +24,7 @@ use \App\Http\Controllers\ThanhTruotController;
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\ShopController;
+use \App\Http\Controllers\ShopDetailController;
 use \App\Http\Controllers\CartController;
 use \App\Http\Controllers\SettingController;
 use \App\Http\Controllers\BlogController;
@@ -77,11 +78,11 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 
     //Trang shop
     Route::get('/shop',[ShopController::class, 'shop'])->name('shop');
-    Route::get('/product/{id}',[ShopController::class, 'product_detail']);
+    Route::get('/product/{id}',[ShopDetailController::class, 'product_detail']);
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
 
-    Route::post('/product/{id}/add_review',[ShopController::class, 'add_review']);
+    Route::post('/product/{id}/add_review',[ShopDetailController::class, 'add_review']);
 
     //Tag
     Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
@@ -170,8 +171,8 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::post('/purchase_order/order_detail/add_feedback/{id}', [CartController::class, 'add_feedback']);
 
             //Yêu thích
-            Route::get('/wish-list/{id}', [ShopController::class, 'wish_lish_show'])->name('wish_lish_show');
-            Route::get('/wish-list-count/{id}', [ShopController::class, 'wish_list_count']);
+            Route::get('/wish-list/{id}', [ShopDetailController::class, 'wish_lish_show'])->name('wish_lish_show');
+            Route::get('/wish-list-count/{id}', [ShopDetailController::class, 'wish_list_count']);
 
             //Trang cài đặt
             Route::get('/setting/{id}', [SettingController::class, 'setting']);
