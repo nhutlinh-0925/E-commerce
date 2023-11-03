@@ -50,7 +50,7 @@ class LoginController extends Controller
             // Kiểm tra giá trị trangthai của người dùng
             if ($user->trangthai == 0) {
                 // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
-                Auth::guard('web')->user()->logout();
+                Auth::guard('web')->logout();
                 session()->flash('error', 'Tài khoản của bạn đã bị khóa');
                 return redirect()->back();
             }

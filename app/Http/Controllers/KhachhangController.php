@@ -163,23 +163,23 @@ class KhachhangController extends Controller
 
     }
 
-    public function index1(){
-        if(Auth::check()){
-            $id_nv = Auth::user()->id;
-            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
-            // dd($nhanvien);
-        }
-        $brands = ThuongHieu::all()->sortByDesc("id");
-        return view('back-end.user.index2',[
-            'brands' => $brands,
-            'nhanvien' => $nhanvien
-            ]);
-    }
+//    public function index1(){
+//        if(Auth::check()){
+//            $id_nv = Auth::user()->id;
+//            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
+//            // dd($nhanvien);
+//        }
+//        $brands = ThuongHieu::all()->sortByDesc("id");
+//        return view('back-end.user.index2',[
+//            'brands' => $brands,
+//            'nhanvien' => $nhanvien
+//            ]);
+//    }
 
-    public function index2(){
-
-        return view('back-end.user.index');
-    }
+//    public function index2(){
+//
+//        return view('back-end.user.index');
+//    }
 
     // public function getUsers(UsersDataTable $dataTable){
     //     return $dataTable->render('back-end.user.index');

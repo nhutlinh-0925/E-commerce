@@ -32,7 +32,7 @@ class ShipperController extends Controller
             // Kiểm tra giá trị trangthai của người dùng
             if ($user->trangthai == 0) {
                 // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
-                Auth::guard('shipper')->user()->logout();
+                Auth::guard('shipper')->logout();
                 session()->flash('error', 'Tài khoản của bạn đã bị khóa');
                 return redirect()->back();
             }

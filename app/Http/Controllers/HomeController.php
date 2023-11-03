@@ -7,6 +7,7 @@ use App\Models\BaiViet;
 use App\Models\DanhMucSanPham;
 //use App\Models\KhachHang;
 use App\Models\SanPham;
+use App\Models\Slider;
 use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ class HomeController extends Controller
             $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
-
+            $sliders = Slider::where('sl_TrangThai',1)->get();
             return view('front-end.home',[
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
@@ -43,7 +44,8 @@ class HomeController extends Controller
                 'most_views' => $most_views,
                 'posts' => $posts,
                 'favoritedProducts' => $favoritedProducts,
-                'wish_count' => $wish_count
+                'wish_count' => $wish_count,
+                'sliders' => $sliders
             ]);
         }else{
             $carts = $this->cartService->getProduct();
@@ -54,6 +56,8 @@ class HomeController extends Controller
             $posts = BaiViet::orderBy('id', 'desc')->limit(3)->get();
             $favoritedProducts = [];
 
+            $sliders = Slider::where('sl_TrangThai',1)->get();
+
             return view('front-end.home',[
                 'carts' => $carts,
                 'gh' => session()->get('carts'),
@@ -62,6 +66,7 @@ class HomeController extends Controller
                 'most_views' => $most_views,
                 'posts' => $posts,
                 'favoritedProducts' => $favoritedProducts,
+                'sliders' => $sliders
             ]);
         }
     }

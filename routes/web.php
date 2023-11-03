@@ -11,6 +11,7 @@ use \App\Http\Controllers\VanChuyenController;
 use \App\Http\Controllers\DonHangController;
 use \App\Http\Controllers\KhachHangController;
 use \App\Http\Controllers\NhanVienController;
+use \App\Http\Controllers\NguoiGiaoHangController;
 use \App\Http\Controllers\DanhMucBaiVietController;
 use \App\Http\Controllers\BaiVietController;
 use \App\Http\Controllers\BinhLuanController;
@@ -18,6 +19,7 @@ use \App\Http\Controllers\NhaCungCapController;
 use \App\Http\Controllers\NhapKhoController;
 use \App\Http\Controllers\ĐanhGiaController;
 use \App\Http\Controllers\PhanHoiController;
+use \App\Http\Controllers\ThanhTruotController;
 
 use \App\Http\Controllers\LoginController;
 use \App\Http\Controllers\HomeController;
@@ -290,6 +292,16 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::get('auth/{id}', [NhanVienController::class, 'auth']);
                 Route::get('unauth/{id}', [NhanVienController::class, 'unauth']);
             });
+
+            //Người giao hàng
+            Route::prefix('/carriers')->group(function () {
+                Route::get('/', [NguoiGiaoHangController::class, 'index']);
+                Route::get('add', [NguoiGiaoHangController::class, 'create']);
+                Route::post('add', [NguoiGiaoHangController::class, 'store']);
+                Route::get('active/{id}', [NguoiGiaoHangController::class, 'active']);
+                Route::get('unactive/{id}', [NguoiGiaoHangController::class, 'unactive']);
+            });
+
             //Danh mục bài viết
             Route::prefix('/category-posts')->group(function () {
                 Route::get('/', [DanhMucBaiVietController::class, 'index']);
@@ -361,8 +373,20 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::DELETE('destroy/{id}', [PhanHoiController::class, 'destroy']);
             });
 
-            Route::get('/users2', [KhachHangController::class, 'index1']);
-            Route::get('/user1', [KhachHangController::class, 'index2']);
+            //Slider
+            Route::prefix('/sliders')->group(function () {
+                Route::get('/', [ThanhTruotController::class, 'index']);
+                Route::get('add', [ThanhTruotController::class, 'create']);
+                Route::post('add', [ThanhTruotController::class, 'store']);
+                Route::get('edit/{id}', [ThanhTruotController::class, 'edit']);
+                Route::post('edit/{id}', [ThanhTruotController::class, 'update']);
+                Route::DELETE('destroy/{id}', [ThanhTruotController::class, 'destroy']);
+                Route::get('active/{id}', [ThanhTruotController::class, 'active']);
+                Route::get('unactive/{id}', [ThanhTruotController::class, 'unactive']);
+            });
+
+            //Route::get('/users2', [KhachHangController::class, 'index1']);
+            //Route::get('/user1', [KhachHangController::class, 'index2']);
 
             //Thống kê
             Route::post('/days-order', [AdminController::class, 'days_order']);

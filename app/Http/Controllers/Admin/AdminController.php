@@ -40,7 +40,7 @@ class AdminController extends Controller
              // Kiểm tra giá trị trangthai của người dùng
              if ($user->trangthai == 0) {
                  // Tài khoản bị khóa, hiển thị thông báo và đăng xuất
-                 Auth::guard('admin')->user()->logout();
+                 Auth::guard('admin')->logout();
                  session()->flash('error', 'Tài khoản của bạn đã bị khóa');
                  return redirect()->back();
              }

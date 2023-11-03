@@ -164,6 +164,24 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#slider-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-card-image" style="color: #990055 "></i><span>Slider</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="slider-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/sliders/add">
+                                <i class="bi bi-circle"></i><span>Thêm slider</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/sliders">
+                                <i class="bi bi-circle"></i><span>Danh sách slider</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <hr>
                 @elseif ($permission->q_TenQuyen == 'nhansu')
                 <li class="nav-item">
@@ -171,21 +189,21 @@
                         <i class="bi bi-person-fill" style="color: #0f6674"></i><span>Khách hàng</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="customer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="/admin/user1">
-                                <i class="bi bi-circle"></i><span>Test 1</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/users2">
-                                <i class="bi bi-circle"></i><span>Test 2</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/test3">
-                                <i class="bi bi-circle"></i><span>Test 3</span>
-                            </a>
-                        </li>
+{{--                        <li>--}}
+{{--                            <a href="/admin/user1">--}}
+{{--                                <i class="bi bi-circle"></i><span>Test 1</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="/admin/users2">--}}
+{{--                                <i class="bi bi-circle"></i><span>Test 2</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="/admin/test3">--}}
+{{--                                <i class="bi bi-circle"></i><span>Test 3</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                         <li>
                             <a href="/admin/customers/add">
                                 <i class="bi bi-circle"></i><span>Thêm khách hàng</span>
@@ -217,6 +235,24 @@
                         <li>
                             <a href="/admin/employees/permissions">
                                 <i class="bi bi-circle"></i><span>Phân quyền nhân viên</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#carrier-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-person-fill-check" style="color: #0f6674"></i><span>Shipper</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="carrier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/carriers/add">
+                                <i class="bi bi-circle"></i><span>Thêm shipper</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/carriers">
+                                <i class="bi bi-circle"></i><span>Danh sách shipper</span>
                             </a>
                         </li>
                     </ul>
