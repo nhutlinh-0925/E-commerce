@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('khach_hang_id');
             $table->unsignedBigInteger('phieu_dat_hang_id');
+            $table->integer('ph_SoSao');
             $table->longText('ph_MucPhanHoi');
             $table->integer('ph_TrangThai');
             $table->foreign('khach_hang_id')

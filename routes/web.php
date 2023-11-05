@@ -101,8 +101,8 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
     Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
 
     //Đăng nhập facebook
-    //Route::get('user/login/facebook', [LoginController::class, 'login_facebook']);
-    //Route::get('user/login/callback', [LoginController::class, 'callback_facebook']);
+//    Route::get('auth/facebook', [LoginController::class, 'login_facebook']);
+//    Route::get('auth/facebook/callback', [LoginController::class, 'callback_facebook']);
 
     //Đăng nhập google
     Route::get('auth/google', [LoginController::class, 'login_google']);

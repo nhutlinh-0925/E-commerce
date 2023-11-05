@@ -12,6 +12,7 @@ class PhanHoi extends Model
     protected $fillable = [
         'khach_hang_id',
         'phieu_dat_hang_id',
+        'ph_SoSao',
         'ph_MucPhanHoi',
         'ph_TrangThai'
     ];

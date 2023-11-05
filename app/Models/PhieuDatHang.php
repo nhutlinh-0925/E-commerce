@@ -53,4 +53,9 @@ class PhieuDatHang extends Model
         return $this->hasMany(ChiTietPhieuDatHang::class, 'phieu_dat_hang_id');
     }
 
+    public function phanhoi()
+    {
+        return $this->hasOne(PhanHoi::class, 'phieu_dat_hang_id', 'id');
+    }
+
 }

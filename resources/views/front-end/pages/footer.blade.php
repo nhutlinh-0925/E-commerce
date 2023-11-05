@@ -335,4 +335,87 @@
     }
 
 </script>
+
+<script type="text/javascript">
+    // Xử lý khi hover chuột vào ngôi sao
+    $(document).on('mouseenter', '.rating_feedback', function () {
+        var index = $(this).data("index");
+        var order_id = $(this).data('order_id');
+
+        // Loại bỏ màu nền của tất cả các sao
+        remove_background(order_id);
+
+        // Đặt màu nền cho các sao được hover
+        for (var count = 1; count <= index; count++) {
+            $('#' + order_id + '-' + count).css('color', '#ffcc00');
+        }
+
+        // Cập nhật giá trị ph_SoSao
+        $('#ph_SoSao').val(index);
+    });
+
+    // Xử lý khi rời chuột khỏi ngôi sao
+    $(document).on('mouseleave', '.rating_feedback', function () {
+        var order_id = $(this).data('order_id');
+
+        // Đặt màu nền dựa trên giá trị ph_SoSao
+        for (var count = 1; count <= $('#ph_SoSao').val(); count++) {
+            $('#' + order_id + '-' + count).css('color', '#ffcc00');
+        }
+    });
+
+    // Xử lý khi click vào ngôi sao
+    $(document).on('click', '.rating_feedback', function () {
+        var index = $(this).data("index");
+        var order_id = $(this).data('order_id');
+
+        // Đặt màu nền cho các sao được click
+        for (var count = 1; count <= index; count++) {
+            $('#' + order_id + '-' + count).css('color', '#ffcc00');
+        }
+
+        // Loại bỏ màu nền của các sao không được click
+        for (var count = index + 1; count <= 5; count++) {
+            $('#' + order_id + '-' + count).css('color', '#ccc');
+        }
+
+
+    });
+
+    // Hàm loại bỏ màu nền của tất cả các sao
+    function remove_background(order_id) {
+        for (var count = 1; count <= 5; count++) {
+            $('#' + order_id + '-' + count).css('color', '#ccc');
+        }
+    }
+
+</script>
+
+<!-- Your Plugin chat code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "177913452061491");
+    chatbox.setAttribute("attribution", "biz_inbox");
+</script>
+
+<!-- Your SDK code -->
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml            : true,
+            version          : 'v18.0'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
     @yield('footer')

@@ -917,7 +917,8 @@ class CartController extends Controller
             'mgg' => $mgg,
             'phi' => $phi,
             'id_kh' => $id_kh,
-            'feedback' => $feedback
+            'feedback' => $feedback,
+            'order_id' => $id,
         ]);
     }
 
@@ -1028,9 +1029,11 @@ class CartController extends Controller
         //dd($request);
 
         $this -> validate($request, [
+            'ph_SoSao' => 'required',
             'ph_MucPhanHoi' => 'required|max:255',
         ],
             [
+                'ph_SoSao.required' => 'Vui lòng chọn sao',
                 'ph_MucPhanHoi.required' => 'Vui lòng nhập nội dung phản hồi',
 //                'dg_MucDanhGia.min' => 'Đánh giá phải lớn hơn 1 kí tự',
                 'ph_MucPhanHoi.max' => 'Phản hồi phải nhỏ hơn 255 kí tự',
@@ -1042,6 +1045,7 @@ class CartController extends Controller
             $ph = new PhanHoi();
             $ph->khach_hang_id = $id_kh;
             $ph->phieu_dat_hang_id = $request->id_pdh;
+            $ph->ph_SoSao = $request->ph_SoSao;
             $ph->ph_MucPhanHoi = $request->ph_MucPhanHoi;
             $ph->ph_TrangThai = 1;
             $ph->save();

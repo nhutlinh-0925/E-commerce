@@ -433,8 +433,23 @@
                                         <form action="/user/purchase_order/order_detail/add_feedback/{{ $pdh->id}}" method="POST">
                                             <div class="text-start">
                                                 <div class="row">
-                                                    <label><strong>Phản hồi của bạn :</strong></label>
-                                                    <input type="hidden" name="id_pdh" value="{{$pdh->id}}">
+                                                    <label><strong>Phản hồi đơn hàng của bạn :</strong></label>
+                                                    <ul class="list-inline rating" title="Average Rating">
+                                                        @for($count = 1; $count <= 5; $count++)
+                                                            <li title="Đánh giá sao"
+                                                                id="{{ $order_id }}-{{ $count }}"
+                                                                data-index="{{ $count }}"
+                                                                data-order_id="{{ $order_id }}"
+{{--                                                                data-rating="{{ $rating }}"--}}
+                                                                data-dg-value="{{ $count }}"
+                                                                class="rating_feedback"
+                                                                style="cursor: pointer;font-size: 30px; display: inline-block; margin-right: 5px;">
+                                                                &#9733;
+                                                            </li>
+                                                        @endfor
+                                                    </ul>
+                                                    <input type="hidden" name="id_pdh" value="{{$order_id}}">
+                                                    <input type="hidden" name="ph_SoSao" id="ph_SoSao">
                                                     <textarea name="ph_MucPhanHoi" placeholder="Viết phản hồi của bạn" style="color: black;width: 1050px;height: 100px"></textarea>
                                                     @error ('ph_MucPhanHoi')
                                                     <span style="color: red;">{{ $message }}</span>
