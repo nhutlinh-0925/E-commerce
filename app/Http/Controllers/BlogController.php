@@ -277,14 +277,7 @@ class BlogController extends Controller
     }
 
     public function add_comment(Request $request){
-        $this -> validate($request, [
-            'bl_NoiDung' => 'required|min:3|max:255',
-        ],
-            [
-                'bl_NoiDung.required' => 'Vui lòng nhập nội dung bình luận',
-                'bl_NoiDung.min' => 'Bình luận phải lớn hơn 3 kí tự',
-                'bl_NoiDung.max' => 'Bình luận phải nhỏ hơn 255 kí tự',
-            ]);
+        //dd($request);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         if(Auth::check()){
             $id_kh = Auth('web')->user()->id;

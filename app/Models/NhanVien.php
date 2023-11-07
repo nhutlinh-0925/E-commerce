@@ -50,7 +50,6 @@ class NhanVien extends Authenticatable
     protected $table ='nhan_viens';
 
     protected $fillable = [
-//    	'tai_khoan_id',
         'nv_Ten',
         'nv_SoDienThoai',
         'nv_DiaChi',
@@ -60,13 +59,6 @@ class NhanVien extends Authenticatable
         'loai',
         'avatar'
     ];
-
-//    public function taikhoan()
-//    {
-//        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
-//            ->withDefault(['email' => ''])
-//            ->withDefault(['avatar' => '']);
-//    }
 
     public function chitietquyen()
     {

@@ -249,7 +249,12 @@
                                                 {{ $pdh->created_at->format('H:i:s d/m/Y') }}
                                             </div>
                                             <div class="col-3"> <strong>Vận chuyển bởi:</strong> <br>
-                                                Giao hàng tiết kiệm <i class="fa fa-phone"></i> 1111
+                                                @if ($pdh->nguoi_giao_hang_id == '')
+                                                    <p>Giao bởi : <i>*Chưa cập nhật*</i></p>
+                                                @elseif ($pdh->nguoi_giao_hang_id != '')
+                                                    <p>Giao bởi :<b>{{ $pdh->nguoigiaohang->ngh_Ten }}</b></p>
+                                                    <i class="fa fa-phone"></i> {{ $pdh->nguoigiaohang->ngh_SoDienThoai }}
+                                                @endif
                                             </div>
                                             <div class="col-3">
                                                 <strong>Tình trạng đơn hàng:</strong>
@@ -274,12 +279,46 @@
                                     </article>
                                     <article class="card mt-2">
                                         <div class="card-body row">
-                                            <div class="col-12"> <strong>Địa chỉ nhận hàng: </strong>{{ $pdh->pdh_DiaChiGiao }}
-                                                <br>
-                                                {{ $kh->kh_Ten }}
-                                                <br>
-                                                (+84) {{ $kh->kh_SoDienThoai }}
-                                                <br>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <label><b>Tên khách hàng : </b></label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p>{{ $kh->kh_Ten }}</p>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <label><b>Số điện thoại :</b></label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p>(+84) {{ $kh->kh_SoDienThoai }}</p>
+                                                    </div>
+
+                                                    <div class="col-2">
+                                                        <label><b>Thanh toán: </b></label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p class="text-success"><b>{{ $pdh->phuongthucthanhtoan->pttt_MoTa }}</b></p>
+                                                    </div>
+
+                                                    <div class="col-2">
+                                                        <label><b>Ghi chú: </b></label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        @if ($pdh->pdh_GhiChu == '')
+                                                        <p><i>*Không*</i></p>
+                                                        @elseif ($pdh->pdh_GhiChu != '')
+                                                        <p><b>{{ $pdh->pdh_GhiChu }}</b></p>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="col-2">
+                                                        <label><b>Địa chỉ giao hàng: </b></label>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <p>{{ $pdh->pdh_DiaChiGiao }}</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </article>
@@ -508,7 +547,7 @@
                                                     </ul>
                                                     <input type="hidden" name="id_pdh" value="{{$order_id}}">
                                                     <input type="hidden" name="ph_SoSao" id="ph_SoSao">
-                                                    <textarea name="ph_MucPhanHoi" placeholder="Viết phản hồi của bạn" style="color: black;width: 1050px;height: 100px"></textarea>
+                                                    <textarea name="ph_MucPhanHoi" placeholder="Viết phản hồi của bạn" style="color: black;width: 1050px;height: 100px" required></textarea>
                                                     @error ('ph_MucPhanHoi')
                                                     <span style="color: red;">{{ $message }}</span>
                                                     @enderror

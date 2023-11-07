@@ -119,8 +119,12 @@
                 <a href="{{ url('auth/google') }}" class="google-button waves-effect border-round col s12 text-center" >Google</a>
             </div>
 
+
+
+
+
 {{--          <div class="input-field col s6 m6 l6">--}}
-{{--              <a href="{{ url('user/login/facebook') }}" class="fb-button border-round">Facebook</a>--}}
+{{--              <a href="{{ url('auth/facebook') }}" class="fb-button border-round">Facebook</a>--}}
 {{--          </div>--}}
 {{--          <div class="input-field col s6 m6 l6">--}}
 {{--              <a href="{{ url('auth/google') }}" class="google-button border-round" >Google</a>--}}

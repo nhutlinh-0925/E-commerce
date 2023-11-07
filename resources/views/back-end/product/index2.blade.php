@@ -40,7 +40,6 @@
                       {{--  <th scope="col">Hình</th>  --}}
                       {{--  <th scope="col">Giá</th>  --}}
                       {{--  <th scope="col">Danh mục sản phẩm</th>  --}}
-                      {{--  <th scope="col">Số lượng hàng</th>  --}}
                       <th scope="col">Thương hiệu</th>
                       <th scope="col">Mô tả</th>
                       <th scope="col">Nội dung</th>
@@ -56,7 +55,6 @@
                         {{--  <td><img src="{{asset('/storage/images/products/'.$item->sp_AnhDaiDien) }}" height="100px" width="100px"</td>  --}}
                         {{--  <td>{{ $item->sp_Gia }}</td>  --}}
                         {{--  <td>{{ $item->danhmuc->dmsp_TenDanhMuc }}</td>  --}}
-                        {{--  <td>{{ $item->sp_SoLuongHang }}</td>  --}}
                         <td>{{ $item->thuonghieu->thsp_TenThuongHieu }}</td>
                         <td>{{ $item->sp_MoTa }}</td>
                         <td>{{ $item->sp_NoiDung }}</td>

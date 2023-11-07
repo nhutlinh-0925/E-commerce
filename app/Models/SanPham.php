@@ -22,8 +22,6 @@ class SanPham extends Model
         'sp_AnhDaiDien',
         'sp_Video',
         'sp_LuotXem',
-//        'sp_MauSac',
-//        'sp_KichCo',
         'sp_Tag'
     ];
 

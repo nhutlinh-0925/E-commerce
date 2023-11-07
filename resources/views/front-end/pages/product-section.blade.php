@@ -17,8 +17,6 @@
                         $roundedAvgRating = ceil($avgRating);
                     @endphp
                     <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix bestseller">
-                        <form action="/add-cart-shop" method="post">
-                        @csrf
                         <div class="product__item">
                             <div class="product__item__pic set-bg" >
                                 <a href="/product/{{ $product->id }}">
@@ -47,14 +45,8 @@
                                     @endfor
                                 </div>
                                 <h5 class="text-center">{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
-                                <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
-                                <input type="hidden" name="num_product" value= "1">
-                                <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
-                                    + Thêm giỏ hàng
-                                </button>
                             </div>
                         </div>
-                        </form>
                     </div>
                 @endforeach
 
@@ -64,8 +56,6 @@
                             $roundedAvgRating = ceil($avgRating);
                         @endphp
                     <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new_arrivals">
-                        <form action="/add-cart-shop" method="post">
-                        @csrf
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" >
                                     <a href="/product/{{ $product->id }}">
@@ -93,14 +83,8 @@
                                         @endfor
                                     </div>
                                     <h5 class="text-center">{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
-                                    <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
-                                    <input type="hidden" name="num_product" value= "1">
-                                    <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
-                                        + Thêm giỏ hàng
-                                    </button>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 @endforeach
 
@@ -110,8 +94,6 @@
                             $roundedAvgRating = ceil($avgRating);
                         @endphp
                     <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix most_views">
-                        <form action="/add-cart-shop" method="post">
-                        @csrf
                         <div class="product__item">
                             <div class="product__item__pic set-bg" >
                                 <a href="/product/{{ $product->id }}">
@@ -139,14 +121,8 @@
                                     @endfor
                                 </div>
                                 <h5 class="text-center">{{ number_format($product->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
-                                <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
-                                <input type="hidden" name="num_product" value= "1">
-                                <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
-                                    + Thêm giỏ hàng
-                                </button>
                             </div>
                         </div>
-                        </form>
                     </div>
                 @endforeach
             </div>

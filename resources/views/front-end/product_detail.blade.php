@@ -263,7 +263,7 @@
                                             <br>
 
                                             @foreach($review as $rv)
-                                            <div class="row">
+{{--                                            <div class="row">--}}
                                                 <div class="row cm">
                                                     <div class="col-1">
                                                         <div class="blog__details__author__pic custom-avatar" style="width: 55px">
@@ -285,46 +285,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+{{--                                            </div>--}}
                                             @endforeach
-
-                                            <h5>Đánh giá mới</h5>
-                                            <p>Chỉ những ai mua sản phẩm mới có thể đánh giá sản phẩm</p>
-
-                                            <div class="rating-container">
-                                                <div class="blog__details__comment">
-                                                    <form action="/product/{{ $product->id }}/add_review" method="POST">
-                                                        <div class="row">
-                                                            <ul class="list-inline rating" title="Average Rating">
-                                                                @for($count = 1; $count <= 5; $count++)
-                                                                    <li title="Đánh giá sao"
-                                                                        id="{{ $product_id }}-{{ $count }}"
-                                                                        data-index="{{ $count }}"
-                                                                        data-product_id="{{ $product_id }}"
-                                                                        data-rating="{{ $rating }}"
-                                                                        data-dg-value="{{ $count }}"
-                                                                        class="rating"
-                                                                        style="cursor: pointer;font-size: 30px; display: inline-block; margin-right: 5px;">
-                                                                        &#9733;
-                                                                    </li>
-                                                                @endfor
-                                                            </ul>
-                                                            <div class="col-lg-12 text-center">
-                                                                <input type="hidden" name="id_sp" value="{{$product->id}}">
-                                                                <input type="hidden" name="dg_SoSao" id="dg_SoSao">
-                                                                <textarea name="dg_MucDanhGia" placeholder="Viết đánh giá của bạn" style="color: black"></textarea>
-                                                                @error ('dg_MucDanhGia')
-                                                                <span style="color: red;">{{ $message }}</span>
-                                                                @enderror
-                                                                <br>
-                                                                <button type="submit" class="site-btn">Gửi đánh giá</button>
-                                                            </div>
-                                                        </div>
-                                                        @csrf
-                                                    </form>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -353,8 +315,6 @@
                         $roundedAvgRating = ceil($avgRating);
                     @endphp
                 <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                    <form action="/add-cart-shop" method="post">
-                    @csrf
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
                             <a href="/product/{{ $product_relate->id }}">
@@ -381,14 +341,8 @@
                                 @endfor
                             </div>
                             <h5 class="text-center">{{ number_format($product_relate->sp_Gia) }}<sup><ins>đ</ins></sup></h5>
-                            <input type="hidden" name="product_id" id="product_id" value="{{$product_relate->id}}">
-                            <input type="hidden" name="num_product" value= "1">
-                            <button type="submit" class="btn btn-info"  style="display: flex; justify-content: center; align-items: center; width: 140px; height: 30px; margin: 0 auto;">
-                                + Thêm giỏ hàng
-                            </button>
                         </div>
                     </div>
-                    </form>
                 </div>
                 @endforeach
             </div>

@@ -144,11 +144,11 @@
                         if (data == 1) {
                             return '<p style="color:green;"><b>Nhận hàng trả tiền</b></p>';
                         } else if (data == 2) {
-                            return '<p style="color:green;"><b>Thanh toán qua PayPal</b></p>';
+                            return '<p style="color:green;"><b>Thanh toán PayPal</b></p>';
                         } else if (data == 3) {
-                            return '<p style="color:green;"><b>Thanh toán qua VNPay</b></p>';
+                            return '<p style="color:green;"><b>Thanh toán VNPay</b></p>';
                         } else if (data == 4) {
-                            return '<p style="color:green;"><b>Thanh toán qua OnePay</b></p>';
+                            return '<p style="color:green;"><b>Thanh toán Momo</b></p>';
                         } else {
                             return '';
                         }
@@ -204,7 +204,7 @@
                 },
 
                 {data: null, name: 'actions', render: function(data, type, row) {
-                        return '<a class="btn btn-secondary" text-center" style="font-size: 10px" href="/user/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
+                        return '<a class="btn btn-primary" text-center" style="font-size: 10px" href="/user/purchase_order/order_detail/' + data.id + '"><i class="fa fa-eye"></i></a>';
                     }},
             ],
             order: [[0, 'desc']]

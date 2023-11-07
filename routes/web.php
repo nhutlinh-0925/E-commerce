@@ -97,7 +97,6 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 
     //Trang cart
     Route::post('add-cart',[CartController::class, 'index']);
-    //Route::post('add-cart-shop',[CartController::class,'add_cart_shop']);
     Route::get('carts',[CartController::class, 'show']);
     Route::post('update-cart',[CartController::class, 'update']);
     Route::get('carts/delete/{id}/{size}',[CartController::class, 'remove'])->name('cart_remove');
@@ -217,7 +216,6 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/home', [AdminController::class, 'getUser'])->name('home');
 
             // Danh muc sản phẩm
-//        Route::prefix('/category-products')->middleware('checkPermission:sanpham')->group(function () {
             Route::prefix('/category-products')->group(function () {
                 Route::get('/', [DanhMucSanPhamController::class, 'index']);
                 Route::get('add', [DanhMucSanPhamController::class, 'create']);

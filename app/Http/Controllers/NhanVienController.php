@@ -6,7 +6,6 @@ use App\Models\ChiTietQuyen;
 use App\Models\Quyen;
 
 use App\Models\NhanVien;
-//use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -89,7 +88,6 @@ class NhanVienController extends Controller
             ];
         }
 
-        // Cập nhật thông tin vào Model TaiKhoan
         $nhanvien->update($updateData);
 
         Session::flash('flash_message', 'Thêm nhân viên thành công!');

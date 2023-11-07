@@ -105,10 +105,7 @@
                             <div class="row">
                                 <div class="col-lg-12 text-center">
                                     <input type="hidden" name="id_bv" value="{{$post->id}}">
-                                    <textarea name="bl_NoiDung" placeholder="Viết bình luận của bạn (Vui lòng gõ tiếng Việt có dấu)" style="color: black"></textarea>
-                                    @error ('bl_NoiDung')
-                                    <span style="color: red;">{{ $message }}</span>
-                                    @enderror
+                                    <textarea name="bl_NoiDung" placeholder="Viết bình luận của bạn (Vui lòng gõ tiếng Việt có dấu)" style="color: black" required></textarea>
                                     <br>
                                     <button type="submit" class="site-btn">Gửi bình luận</button>
                                 </div>

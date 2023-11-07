@@ -76,7 +76,6 @@ class NguoiGiaoHangController extends Controller
             ];
         }
 
-        // Cập nhật thông tin vào Model TaiKhoan
         $nguoigiaohang->update($updateData);
 
         Session::flash('flash_message', 'Thêm người giao hàng thành công!');

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KhachHang;
-//use App\Models\NhanVien;
 use App\Models\MaGiamGia;
-//use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;

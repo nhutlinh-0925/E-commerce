@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DiaChi;
 use App\Models\KhachHang;
-//use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 
@@ -107,7 +106,6 @@ class KhachhangController extends Controller
             ];
         }
 
-        // Cập nhật thông tin vào Model TaiKhoan
         $khachhang->update($updateData);
 
         Session::flash('flash_message', 'Thêm khách hàng thành công!');
@@ -164,7 +162,7 @@ class KhachhangController extends Controller
 //    public function index1(){
 //        if(Auth::check()){
 //            $id_nv = Auth::user()->id;
-//            $nhanvien = NhanVien::where('tai_khoan_id', $id_nv)->first();
+//            $nhanvien = NhanVien::->first();
 //            // dd($nhanvien);
 //        }
 //        $brands = ThuongHieu::all()->sortByDesc("id");

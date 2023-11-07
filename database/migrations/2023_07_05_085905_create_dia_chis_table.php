@@ -17,8 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('khach_hang_id');
             $table->unsignedBigInteger('tinh_thanh_pho_id');
-            $table->unsignedBigInteger('quan_huyen_id');
-            $table->unsignedBigInteger('xa_phuong_thi_tran_id');
             $table->string('dc_DiaChi');
 //            $table->integer('dc_TrangThai');
             $table->foreign('khach_hang_id')
@@ -28,14 +26,6 @@ return new class extends Migration
             $table->foreign('tinh_thanh_pho_id')
                 ->references('id')
                 ->on('tinh_thanh_phos')
-                ->onDelete('cascade');
-            $table->foreign('quan_huyen_id')
-                ->references('id')
-                ->on('quan_huyens')
-                ->onDelete('cascade');
-            $table->foreign('xa_phuong_thi_tran_id')
-                ->references('id')
-                ->on('xa_phuong_thi_trans')
                 ->onDelete('cascade');
             $table->timestamps();
         });

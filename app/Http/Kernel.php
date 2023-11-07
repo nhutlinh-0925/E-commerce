@@ -67,6 +67,5 @@ class Kernel extends HttpKernel
 //        'isAdmin' => \App\Http\Middleware\AdminMiddleware::class,
 //        'isCus' => \App\Http\Middleware\CustomerMiddleware::class,
 //        'isShipper' => \App\Http\Middleware\ShipperMiddleware::class,
-//        'checkPermission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }

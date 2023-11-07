@@ -851,7 +851,7 @@ ol {
   Hero
 -----------------------*/
 
-.hero__slider.owl-carousel .owl-item.active .hero__text h3 {
+.hero__slider.owl-carousel .owl-item.active .hero__text h6 {
 	top: 0;
 	opacity: 1;
 }
@@ -891,7 +891,7 @@ ol {
 	padding-top: 230px;
 }
 
-.hero__text h3 {
+.hero__text h6 {
 	color: #e53637;
 	font-size: 14px;
 	font-weight: 700;
@@ -904,6 +904,20 @@ ol {
 	-webkit-transition: all, 0.3s;
 	-o-transition: all, 0.3s;
 	transition: all, 0.3s;
+}
+
+.hero__text h2 {
+	color: #0062cc;
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 58px;
+	margin-bottom: 30px;
+	position: relative;
+	top: 100px;
+	opacity: 0;
+	-webkit-transition: all, 0.6s;
+	-o-transition: all, 0.6s;
+	transition: all, 0.6s;
 }
 
 .hero__text p {

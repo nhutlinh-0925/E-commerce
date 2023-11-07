@@ -10,7 +10,7 @@
                                 <h6></h6>
                                 <h2></h2>
                                 <p></p><br>
-                                <h3>{{ $item->sl_TieuDe }}</h3>
+                                <h3 style="color: red">{{ $item->sl_TieuDe }}</h3>
                                 <br><br><br><br><br>
 {{--                                <h2>{{ $item->sl_TieuDe }}</h2>--}}
 {{--                                <p>{{ $item->sl_NoiDung }}</p>--}}

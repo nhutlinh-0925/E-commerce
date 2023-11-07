@@ -8,7 +8,6 @@ use App\Models\DiaChi;
 use App\Models\YeuThich;
 use App\Models\KhachHang;
 use App\Models\QuanHuyen;
-//use App\Models\TaiKhoan;
 use App\Models\TinhThanhPho;
 use App\Models\XaPhuongThiTran;
 use Illuminate\Http\Request;
@@ -102,7 +101,6 @@ class SettingController extends Controller
                 'kh_SoDienThoai' => $request->kh_SoDienThoai
             ];
 
-            // Cập nhật thông tin vào Model TaiKhoan
             $kh->update($updateData);
 
             Session::flash('flash_message', 'Cập nhật hồ sơ thành công!');

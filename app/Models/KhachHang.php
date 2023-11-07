@@ -36,13 +36,6 @@ class KhachHang extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-//    public function taikhoan()
-//    {
-//        return $this->hasOne(TaiKhoan::class, 'id', 'tai_khoan_id')
-//            ->withDefault(['email' => ''])
-//            ->withDefault(['avatar' => '']);
-//    }
-
     public function diachi()
     {
         return $this->hasMany(DiaChi::class);
