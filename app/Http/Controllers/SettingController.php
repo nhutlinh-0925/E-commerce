@@ -112,7 +112,7 @@ class SettingController extends Controller
 
     public function add_address(Request $request)
     {
-//        dd($request);
+        //dd($request);
         if (Auth::check()) {
             $id_kh = Auth('web')->user()->id;
             $request->validate([
@@ -131,8 +131,6 @@ class SettingController extends Controller
             $dc = new DiaChi();
             $dc->khach_hang_id = $id_kh;
             $dc->tinh_thanh_pho_id = $request->city;
-            $dc->quan_huyen_id = $request->province;
-            $dc->xa_phuong_thi_tran_id = $request->wards;
             $dc->dc_DiaChi = $request->dc_DiaChi;
             //$dc->dc_TrangThai = 0;
             $dc->save();

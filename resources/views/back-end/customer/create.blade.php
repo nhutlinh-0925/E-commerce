@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inputNanme4" class="form-label"><strong>Thành phố <span class="text-danger">(*)</span></strong></label>
-                            <select class="form-control choose city" name="city" id="city" >
+                            <select class="form-control choose city lchon" name="city" id="city" >
                                 <option value="">--- Chọn Thành phố ---</option>
                                 @foreach ($cities as $city)
                                     <option value="{{ $city->id }}" >{{ $city->tp_Ten }}</option>
@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="inputNanme4" class="form-label"><strong>Quận, huyện <span class="text-danger">(*)</span></strong></label>
-                            <select class="form-control province choose" name="province" id="province">
+                            <select class="form-control province choose lchon" name="province" id="province">
                                 <option value="">--- Chọn Quận Huyện ---</option>
                             </select>
                             @error ('province')
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="inputNanme4" class="form-label"><strong>Xã, phường, thị trấn <span class="text-danger">(*)</span></strong></label>
-                            <select class="form-control wards" name="wards" id="wards">
+                            <select class="form-control wards lchon" name="wards" id="wards">
                                 <option value="">---Xã Phường Thị trấn---</option>
                             </select>
                             @error ('wards')
@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="inputNanme4" class="form-label"><strong>Địa chỉ cụ thể <span class="text-danger">(*)</span></strong></label>
-                            <input type="text" class="form-control" id="" name="dc_DiaChi" placeholder="Nhập địa chỉ cụ thể" value="{{ old('dc_DiaChi', $request->dc_DiaChi ?? '') }}">
+                            <input type="text" class="form-control" name="dc_DiaChi" placeholder="Nhập địa chỉ cụ thể" value="{{ old('dc_DiaChi', $request->dc_DiaChi ?? '') }}" id="dc_DiaChiInput">
                             @error ('dc_DiaChi')
                             <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -245,6 +245,26 @@
     });
 
 </script>
+
+<script>
+    $(document).ready(function () {
+        // Lắng nghe sự kiện khi các dropdown thay đổi
+        $('.lchon').on('change', function () {
+            // Xác định giá trị của thành phố, quận/huyện và xã/phường được chọn
+            var cityValue = $('.city option:selected').text();
+            var provinceValue = $('.province option:selected').text();
+            var wardsValue = $('.wards option:selected').text();
+
+            // Tạo chuỗi kết hợp từ các giá trị
+            var fullAddress = wardsValue + ', ' + provinceValue + ', ' + cityValue;
+
+            // Gán chuỗi kết hợp vào trường input
+            $('#dc_DiaChiInput').val(fullAddress);
+        });
+    });
+
+</script>
+
 </body>
 
 </html>

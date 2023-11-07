@@ -87,8 +87,6 @@ class KhachhangController extends Controller
         $dc = DiaChi::create([
             'khach_hang_id' => $khachhang->id,
             'tinh_thanh_pho_id' => $request->city,
-            'quan_huyen_id' => $request->province,
-            'xa_phuong_thi_tran_id' => $request->wards,
             'dc_DiaChi' => $request->dc_DiaChi,
         ]);
 

@@ -216,7 +216,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="inputNanme4" class="form-label"><strong>Thành phố <span class="text-danger">(*)</span></strong></label>
-                                        <select class="form-control choose city" name="city" id="city" >
+                                        <select class="form-control choose city lchon" name="city" id="city" >
                                             <option value="">--- Chọn Thành phố ---</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}" >{{ $city->tp_Ten }}</option>
@@ -230,11 +230,8 @@
 
                                     <div class="col-md-4">
                                         <label for="inputNanme4" class="form-label"><strong>Quận, huyện <span class="text-danger">(*)</span></strong></label>
-                                        <select class="form-control province choose" name="province" id="province">
+                                        <select class="form-control province choose lchon" name="province" id="province">
                                             <option value="">--- Chọn Quận Huyện ---</option>
-{{--                                            @foreach ($districts as $district)--}}
-{{--                                                <option value="{{ $district->id }}" >{{ $district->qh_Ten }}</option>--}}
-{{--                                            @endforeach--}}
                                         </select>
                                         @error ('province')
                                         <span style="color: red;">{{ $message }}</span>
@@ -244,11 +241,8 @@
 
                                     <div class="col-md-4">
                                         <label for="inputNanme4" class="form-label"><strong>Xã, phường, thị trấn <span class="text-danger">(*)</span></strong></label>
-                                        <select class="form-control wards" name="wards" id="wards">
+                                        <select class="form-control wards lchon" name="wards" id="wards">
                                             <option value=""> Chọn Xã Phường Thị trấn </option>
-{{--                                            @foreach ($wards as $ward)--}}
-{{--                                                <option value="{{ $ward->id }}" >{{ $ward->xptt_Ten }}</option>--}}
-{{--                                            @endforeach--}}
                                         </select>
                                         @error ('wards')
                                         <span style="color: red;">{{ $message }}</span>
@@ -260,7 +254,9 @@
                                     <div class="row mb-3">
                                         <label for="" class="col-md-4 col-lg-3 col-form-label"><strong>Địa chỉ cụ thể <span class="text-danger">(*)</span></strong></label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="dc_DiaChi" type="text" class="form-control" id="" >
+{{--                                            <input type="checkbox" id="autoFill" checked> Tự động điền--}}
+{{--                                            <input name="dc_DiaChi" type="text" class="form-control" id="dc_DiaChiInput" disabled>--}}
+                                            <input name="dc_DiaChi" type="text" class="form-control" id="dc_DiaChiInput">
                                             @error ('dc_DiaChi')
                                             <span style="color: red;">{{ $message }}</span>
                                             @enderror
@@ -467,6 +463,57 @@
     });
 
 </script>
+
+<script>
+    $(document).ready(function () {
+        // Lắng nghe sự kiện khi các dropdown thay đổi
+        $('.lchon').on('change', function () {
+            // Xác định giá trị của thành phố, quận/huyện và xã/phường được chọn
+            var cityValue = $('.city option:selected').text();
+            var provinceValue = $('.province option:selected').text();
+            var wardsValue = $('.wards option:selected').text();
+
+            // Tạo chuỗi kết hợp từ các giá trị
+            var fullAddress = wardsValue + ', ' + provinceValue + ', ' + cityValue;
+
+            // Gán chuỗi kết hợp vào trường input
+            $('#dc_DiaChiInput').val(fullAddress);
+        });
+    });
+
+</script>
+
+{{--<script>--}}
+{{--    $(document).ready(function () {--}}
+{{--        // Lắng nghe sự kiện khi hộp kiểm thay đổi trạng thái--}}
+{{--        $('#autoFill').on('change', function () {--}}
+{{--            if ($(this).is(':checked')) {--}}
+{{--                // Nếu hộp kiểm được kiểm tra, tự động điền và vô hiệu hóa trường nhập--}}
+{{--                var cityValue = $('.city option:selected').text();--}}
+{{--                var provinceValue = $('.province option:selected').text();--}}
+{{--                var wardsValue = $('.wards option:selected').text();--}}
+{{--                var fullAddress = wardsValue + ', ' + provinceValue + ', ' + cityValue;--}}
+{{--                $('#dc_DiaChiInput').val(fullAddress).prop('disabled', true);--}}
+{{--            } else {--}}
+{{--                // Nếu hộp kiểm không được kiểm tra, cho phép nhập thủ công--}}
+{{--                $('#dc_DiaChiInput').prop('disabled', false);--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        // Lắng nghe sự kiện khi các dropdown thay đổi--}}
+{{--        $('.lchon').on('change', function () {--}}
+{{--            if ($('#autoFill').is(':checked')) {--}}
+{{--                // Chỉ tự động điền nếu hộp kiểm được kiểm tra--}}
+{{--                var cityValue = $('.city option:selected').text();--}}
+{{--                var provinceValue = $('.province option:selected').text();--}}
+{{--                var wardsValue = $('.wards option:selected').text();--}}
+{{--                var fullAddress = wardsValue + ', ' + provinceValue + ', ' + cityValue;--}}
+{{--                $('#dc_DiaChiInput').val(fullAddress);--}}
+{{--            }--}}
+{{--        });--}}
+{{--    });--}}
+
+{{--</script>--}}
 
 <!-- Messenger Plugin chat Code -->
 <div id="fb-root"></div>
