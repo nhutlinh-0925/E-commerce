@@ -82,8 +82,6 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
 
-    Route::post('/product/{id}/add_review',[ShopDetailController::class, 'add_review']);
-
     //Tag
     Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
 
@@ -168,6 +166,8 @@ Route::prefix('user')->name('user.')->group(function () {
 
             Route::get('/purchase_order/order_detail/status_confirmed_cancel/{id}', [CartController::class, 'cancel']);
             Route::get('/purchase_order/order_detail/status_confirmed_success/{id}', [CartController::class, 'success']);
+
+            Route::post('/purchase_order/order_detail/{id_dh}/add_review/{id_pr}',[ShopDetailController::class, 'add_review'])->name('add_review');
             Route::post('/purchase_order/order_detail/add_feedback/{id}', [CartController::class, 'add_feedback']);
 
             //Yêu thích

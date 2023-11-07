@@ -12,6 +12,7 @@ class ĐanhGia extends Model
     protected $fillable = [
         'khach_hang_id',
         'san_pham_id',
+        'phieu_dat_hang_id',
         'dg_SoSao',
         'dg_MucDanhGia',
         'dg_TrangThai'

@@ -39,7 +39,7 @@ class ShopDetailController extends Controller
 
             $rating = ĐanhGia::where('san_pham_id',$id)->avg('dg_SoSao');
             $rating_round = round($rating);
-            $review = ĐanhGia::where('san_pham_id',$id)->where('dg_TrangThai',1)->get();
+            $review = ĐanhGia::where('san_pham_id',$id)->where('dg_TrangThai',1)->orderBy('id', 'desc')->get();
             $roundedRating = round($rating, 1);
             $rating_products = ĐanhGia::where('san_pham_id', $id)->get();
 
@@ -105,26 +105,14 @@ class ShopDetailController extends Controller
         }
     }
 
-    public function add_review(Request $request){
+    public function add_review(Request $request, $id_dh, $id_pr){
         //dd($request);
-
-        $this -> validate($request, [
-            'dg_SoSao' => 'required',
-            'dg_MucDanhGia' => 'required|max:255',
-        ],
-            [
-                'dg_MucDanhGia.required' => 'Vui lòng nhập nội dung đánh giá',
-//                'dg_MucDanhGia.min' => 'Đánh giá phải lớn hơn 1 kí tự',
-                'dg_MucDanhGia.max' => 'Đánh giá phải nhỏ hơn 255 kí tự',
-            ]);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        if(Auth::check()){
             $id_kh = Auth('web')->user()->id;
-//            $userHasPurchasedProduct = $this->checkIfUserHasPurchasedProduct($id_kh, $request->id_sp);
-//            if ($userHasPurchasedProduct) {
             $dg = new ĐanhGia();
             $dg->khach_hang_id = $id_kh;
-            $dg->san_pham_id = $request->id_sp;
+            $dg->san_pham_id = $request->san_pham_id;
+            $dg->phieu_dat_hang_id = $request->phieu_dat_hang_id;
             $dg->dg_SoSao = $request->dg_SoSao;
             $dg->dg_MucDanhGia = $request->dg_MucDanhGia;
             $dg->dg_TrangThai = 1;
@@ -132,15 +120,6 @@ class ShopDetailController extends Controller
 
             Session::flash('success_message_review', 'Thêm đánh giá thành công!');
             return redirect()->back();
-//            }else {
-//                Session::flash('flash_message_error_review1', 'Bạn phải mua sản phẩm trước khi đánh giá!');
-//                return redirect()->back();
-//            }
-//            }
-        }else{
-            Session::flash('flash_message_error_review2', 'Vui lòng đăng nhập để đánh giá!');
-            return redirect()->back();
-        }
     }
 
     public function wish_lish_show($product_id)
@@ -204,9 +183,4 @@ class ShopDetailController extends Controller
             ]);
         }
     }
-
-//    private function checkIfUserHasPurchasedProduct($customerId, $productId) {
-//        // Implement your logic to check if the user (customerId) has purchased the product (productId)
-//        // Return true if the user has purchased the product, otherwise return false.
-//    }
 }

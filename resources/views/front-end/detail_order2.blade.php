@@ -336,6 +336,9 @@
                                                 <th>Số lượng</th>
                                                 <th>Giá tiền</th>
                                                 <th>Thành tiền</th>
+                                                @if($pdh->pdh_TrangThai == 4)
+                                                    <th>Đánh giá</th>
+                                                @endif
                                             </thead>
                                             <tbody>
                                             @php $total = 0; @endphp
@@ -357,7 +360,62 @@
                                                     <td style="text-align: center;">{{ $detail_cart->ctpdh_SoLuong }}</td>
                                                     <td style="text-align: center;">{{ number_format($detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
                                                     <td style="text-align: center;">{{ number_format($detail_cart->ctpdh_SoLuong * $detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
+                                                    @php
+                                                        $dg_hoan_thanh = false; // Mặc định đơn hàng chưa hoàn thành
+                                                        // Kiểm tra xem đã có phản hồi cho đơn hàng này hay chưa
+                                                        $dg_hoan_thanh = \App\Models\ĐanhGia::where('phieu_dat_hang_id', $pdh->id)
+                                                                        ->where('san_pham_id', $detail_cart->san_pham_id)
+                                                                        ->where('dg_TrangThai',1)->exists();
+                                                    @endphp
+                                                    <td style="text-align: center;">
+                                                        @if($pdh->pdh_TrangThai == 4 && !$dg_hoan_thanh)
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal-{{ $key }}" title ='Đánh giá sản phẩm'>
+                                                            <i class="fa fa-star"></i>
+                                                        </button>
 
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="exampleModal-{{ $key }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Đánh giá sản phẩm: <p style="color: #ee5435;">{{ $detail_cart->sp_TenSanPham }}</p></h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <div class="modal-body">
+                                                                        <form action="{{ route('user.add_review', ['id_dh' => $pdh->id, 'id_pr' => $detail_cart->san_pham_id]) }}" method="POST">
+                                                                            @csrf
+                                                                            <ul class="list-inline rating" title="Average Rating" style="float: left">
+                                                                                @for($count = 1; $count <= 5; $count++)
+                                                                                    <li id="{{ $detail_cart->san_pham_id }}-{{ $count }}"
+                                                                                        data-index="{{ $count }}"
+                                                                                        data-product_id="{{ $detail_cart->san_pham_id }}"
+                                                                                        data-dg-value="{{ $count }}"
+                                                                                        class="rating"
+                                                                                        style="cursor: pointer;font-size: 30px; display: inline-block; margin-right: 5px;">
+                                                                                        &#9733;
+                                                                                    </li>
+                                                                                @endfor
+                                                                            </ul>
+                                                                            <input type="hidden" name="san_pham_id" value="{{ $detail_cart->san_pham_id }}">
+                                                                            <input type="hidden" name="phieu_dat_hang_id" value="{{$pdh->id}}">
+                                                                            <input type="hidden" name="dg_SoSao" id="dg_SoSao">
+                                                                            <textarea name="dg_MucDanhGia" placeholder="Viết đánh giá của bạn" style="width: 480px;height: 100px" required></textarea>
+                                                                            <button type="submit" class="btn btn-sm btn-success justify-content-end" style="color: white;font-size: 18px;float: right;"><i class="fa fa-paper-plane"></i>Gửi đánh giá</button>
+                                                                        </form>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        @elseif($pdh->pdh_TrangThai == 4 && $dg_hoan_thanh)
+                                                            <a class="btn btn-primary btn-sm" href="/product/{{ $detail_cart->san_pham_id }}" title ='Xem đánh giá sản phẩm'><i class="fa fa-eye"></i></a>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             <tr>
@@ -466,7 +524,16 @@
                                     @elseif($pdh->pdh_TrangThai == 4 && $ph_hoan_thanh)
                                         <div class="text-start">
                                             <div class="row">
-                                                <label><strong>Phản hồi của bạn :</strong></label>
+                                                <label><strong>Phản hồi đơn hàng của bạn :</strong></label>
+                                                <ul class="list-inline rating" title="Average Rating">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $pdh->phanhoi->ph_SoSao)
+                                                            <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                        @else
+                                                            <span class="fa fa-star " style="color: #ccc;"></span>
+                                                        @endif
+                                                    @endfor
+                                                </ul>
                                                 <textarea placeholder="Viết phản hồi của bạn" style="color: black;width: 1050px;height: 100px" disabled>{{ $feedback->ph_MucPhanHoi }}</textarea>
                                             </div>
                                             <br>
@@ -514,8 +581,39 @@
             borderRadius: '10px' // Độ cong của góc thông báo
         });
     </script>
+@elseif(session()->has('success_message_review'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Cảm ơn bạn!!!', // Tiêu đề của thông báo
+            text: 'Đã thêm đánh giá cho sản phẩm!', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+@section('footer')
 
+    <script>
+        document.getElementById('myButton').addEventListener('click', function() {
+            $('#exampleModal-{{ $key }}').modal('show');
+        });
+    </script>
+@endsection
 </body>
 </html>
