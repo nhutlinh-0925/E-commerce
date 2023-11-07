@@ -949,6 +949,8 @@ class CartController extends Controller
     }
 
     public function cancel(Request $request, $id){
+        // Đặt múi giờ
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $order = PhieuDatHang::find($id);
             foreach ($order->chitietphieudathang as $detail) {
                 $product = $detail->sanpham;
@@ -976,6 +978,8 @@ class CartController extends Controller
     }
 
     public function success(Request $request, $id){
+        // Đặt múi giờ
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $order = PhieuDatHang::find($id);
 
         $order_date = $order->pdh_NgayDat;

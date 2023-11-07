@@ -82,4 +82,8 @@ class NhanVien extends Authenticatable
 //    {
 //        return $this->belongsToMany(Quyen::class, 'chi_tiet_quyens', 'nhan_vien_id', 'quyen_id');
 //    }
+
+    //Mật khẩu
+    // admin@gmail.com -> admin123
+    // kiemkho@admin.com -> kiemkho123
 }

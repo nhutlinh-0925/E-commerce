@@ -36,4 +36,8 @@ class NguoiGiaoHang extends Authenticatable
         'trangthai',
         'avatar'
     ];
+
+    //Mật khẩu
+    // shipper1@admin.com -> shipper1
+
 }

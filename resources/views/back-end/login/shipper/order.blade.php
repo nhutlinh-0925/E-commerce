@@ -62,13 +62,9 @@
                                     <td><p style="width: 90px"><b style="color: red;">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></p></td>
                                     <td>
                                         <p style="width: 110px">
-                                            @if ($item->pdh_TrangThai == 1)
-                                                <a href="#" class="btn btn-info" style=" font-size: 10px;">
-                                                    Chờ duyệt <i class="bi bi-clock-fill"></i>
-                                                </a>
-                                            @elseif ($item->pdh_TrangThai == 2)
+                                            @if ($item->pdh_TrangThai == 2)
                                                 <a href="#" class="btn btn-primary" style=" font-size: 10px;">
-                                                    Đã duyệt <i class="bi bi-check-circle-fill"></i>
+                                                    Chờ nhận đơn <i class="bi bi-check-circle-fill"></i>
                                                 </a>
                                             @elseif ($item->pdh_TrangThai == 3)
                                                 <a href="#" class="btn btn-warning" style=" font-size: 10px;">
@@ -95,11 +91,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if ($item->nhan_vien_id == '')
-                                            <i>*Chưa duyệt*</i>
-                                        @else
                                             <b>{{ $item->nhanvien->nv_Ten }}</b>
-                                        @endif
                                     </td>
                                     <td><p style="width: 100px"> {{ date("d-m-Y", strtotime($item->pdh_NgayDat)) }}</p></td>
 

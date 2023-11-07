@@ -77,10 +77,10 @@
 {{--                </a>--}}
 {{--            </td>--}}
             <td>{{ $detail_cart->sp_TenSanPham }}</td>
-            <td>{{ $detail_cart->kt_TenKichThuoc }}</td>
-            <td>{{ $detail_cart->ctpdh_SoLuong }}</td>
-            <td style="width: 40px">{{ number_format($detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
-            <td style="width: 40px">{{ number_format($detail_cart->ctpdh_SoLuong * $detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
+            <td style="text-align: center;">{{ $detail_cart->kt_TenKichThuoc }}</td>
+            <td style="text-align: center;">{{ $detail_cart->ctpdh_SoLuong }}</td>
+            <td style="width: 70px">{{ number_format($detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
+            <td style="width: 70px">{{ number_format($detail_cart->ctpdh_SoLuong * $detail_cart->ctpdh_Gia, 0, '', '.') }} đ</td>
         </tr>
         @endforeach
         </tbody>

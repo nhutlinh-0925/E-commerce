@@ -48,4 +48,8 @@ class KhachHang extends Authenticatable
         return $this->hasMany(DiaChi::class);
     }
 
+    //Mật khẩu
+    // nhutlinh@gmail.com -> nhutlinh123
+    //Google => google123
+
 }

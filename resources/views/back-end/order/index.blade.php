@@ -69,9 +69,13 @@
                                             <a href="#" class="btn btn-info" style=" font-size: 10px;">
                                                Chờ duyệt <i class="bi bi-clock-fill"></i>
                                             </a>
+                                        @elseif ($item->pdh_TrangThai == 2 && $item->pdh_TrangThaiGiaoHang == '')
+                                             <a href="#" class="btn btn-info" style=" font-size: 10px;">
+                                                 Đã duyệt <i class="bi bi-clock-fill"></i>
+                                             </a>
                                         @elseif ($item->pdh_TrangThai == 2 && $item->pdh_TrangThaiGiaoHang == 1)
                                             <a href="#" class="btn btn-primary" style=" font-size: 10px;">
-                                               Đã duyệt <i class="bi bi-check-circle-fill"></i>
+                                               Đã nhận đơn <i class="bi bi-check-circle-fill"></i>
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 2  && $item->pdh_TrangThaiGiaoHang == 0)
                                             <a href="#" class="btn btn-primary" style=" font-size: 10px;">

@@ -77,6 +77,8 @@ class DonHangController extends Controller
     }
 
     public function order_update(Request $request, $id){
+        // Đặt múi giờ
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $order = PhieuDatHang::find($id);
         $order_date = $order->pdh_NgayDat;
         $thongke = ThongKe::where('tk_Ngay',$order_date)->get();

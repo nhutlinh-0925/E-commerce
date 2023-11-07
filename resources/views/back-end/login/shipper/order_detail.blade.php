@@ -272,9 +272,13 @@
                             <div class="form-group text-center">
                                 <p style="color: red"><b>Đơn đã hủy</b></p>
                             </div>
+                        @elseif( $pdh->pdh_TrangThai == 6 )
+                            <div class="form-group text-center">
+                                <p style="color: red"><b>Giao hàng thất bại</b></p>
+                            </div>
                         @endif
                     </div>
-                    @if( $pdh->pdh_TrangThai == 5 || $pdh->pdh_TrangThai == 4)
+                    @if( $pdh->pdh_TrangThai == 4 || $pdh->pdh_TrangThai == 5 || $pdh->pdh_TrangThai == 6 )
                     <div class="fieldd btns">
                         <a href="/shipper/orders" class="prev-2 prev"
                            style="display: flex;justify-content: center;

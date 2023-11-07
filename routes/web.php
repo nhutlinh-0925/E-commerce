@@ -54,8 +54,8 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 
 
 //Trạng thái        pdh_TrangThai
-//1 - Chưa  duyệt
-//2 - Đã  duyệt
+//1 - Chờ duyệt
+//2 - Đã duyệt
 //3 - Đang vận chuyển
 //4 - Giao hàng thành công
 //5 - Đã hủy đơn
@@ -67,8 +67,18 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 //2 - Đã nhận đơn - Giao hàng thành công
 //3 - Đã nhận đơn - Giao hàng thất bại
 
-// Nếu pdh_TrangThai = 2 và pdh_TrangThaiGiaoHang = 0 => Chọn shipper
-// Nếu pdh_TrangThai = 2 và pdh_TrangThaiGiaoHang = 1 => Đã duyệt
+//Trang admin
+//pdh_TrangThai = 1 => Chọn shipper
+//pdh_TrangThai = 2 và pdh_TrangThaiGiaoHang = 0 => Chọn shipper
+
+//Trang shipper
+//pdh_TrangThai = 2
+//              + pdh_TrangThaiGiaoHang = 0 : Từ chối
+//              + pdh_TrangThaiGiaoHang = 1 : Nhận đơn
+//pdh_TrangThai = 3
+//              + pdh_TrangThaiGiaoHang = 2 : Giao thành công
+//              + pdh_TrangThaiGiaoHang = 3 : Giao thất bại
+
 
 
 // Front-end - Trang người dùng
@@ -162,7 +172,6 @@ Route::prefix('user')->name('user.')->group(function () {
             //Trang đơn hàng cua toi
             Route::get('/purchase_order/{id}', [CartController::class, 'show_DonHang'])->name('purchase_order');
             Route::get('/purchase_order/order_detail/{id}', [CartController::class, 'show_ChitietDonhang']);
-            //Route::post('/purchase_order/order_detail/{id}', [CartController::class, 'order_update']);
 
             Route::get('/purchase_order/order_detail/status_confirmed_cancel/{id}', [CartController::class, 'cancel']);
             Route::get('/purchase_order/order_detail/status_confirmed_success/{id}', [CartController::class, 'success']);

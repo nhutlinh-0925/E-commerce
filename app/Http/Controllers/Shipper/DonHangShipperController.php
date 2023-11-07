@@ -32,6 +32,8 @@ class DonHangShipperController extends Controller
 
     public function order_detail($id)
     {
+        // Đặt múi giờ
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $pdh = PhieuDatHang::find($id);
         $id_mgg = $pdh->ma_giam_gia_id;
         $mgg = MaGiamGia::find($id_mgg);
@@ -79,6 +81,8 @@ class DonHangShipperController extends Controller
 
     public function order_update(Request $request, $id){
         //dd($request);
+        // Đặt múi giờ
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $order = PhieuDatHang::find($id);
         $order_date = $order->pdh_NgayDat;
         $thongke = ThongKe::where('tk_Ngay',$order_date)->get();
@@ -163,10 +167,12 @@ class DonHangShipperController extends Controller
             if($order->pdh_TrangThaiGiaoHang == 0){
                 $order->nguoi_giao_hang_id = null;
                 $order->pdh_TrangThai = 2;
+                $order->pdh_TrangThaiGiaoHang = 0;
                 $order->save();
 
             }elseif($order->pdh_TrangThaiGiaoHang == 1){
                 $order->pdh_TrangThai = 3;
+                $order->pdh_TrangThaiGiaoHang = 1;
                 $order->save();
             }
         }
