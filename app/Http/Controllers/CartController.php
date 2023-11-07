@@ -195,14 +195,21 @@ class CartController extends Controller
         $addressId = $request->input('address_id');
         $address = DiaChi::find($addressId);
 
-        if ($address) {
-            // Lấy id của tỉnh/thành phố từ địa chỉ
-            $thanhPhoId = $address->tinh_thanh_pho_id;
+        // Lấy id của tỉnh/thành phố từ địa chỉ
+        $thanhPhoId = $address->tinh_thanh_pho_id;
+        // Tìm thông tin phí vận chuyển từ bảng `phi_van_chuyens`
+        $phi = PhiVanChuyen::where('thanh_pho_id', $thanhPhoId)->value('pvc_PhiVanChuyen');
 
-            // Tìm thông tin phí vận chuyển từ bảng `phi_van_chuyens`
-            $shippingFee = PhiVanChuyen::where('thanh_pho_id', $thanhPhoId)->value('pvc_PhiVanChuyen');
+//        if ($address) {
+//            //$thanhPhoId = $address->tinh_thanh_pho_id;
+//            //$shippingFee = PhiVanChuyen::where('thanh_pho_id', $thanhPhoId)->value('pvc_PhiVanChuyen');
+//        } else {
+//            $shippingFee = 25000;
+//        }
+
+        if ($phi) {
+            $shippingFee = $phi;
         } else {
-            // Nếu không tìm thấy địa chỉ, mặc định phí vận chuyển là 0 (hoặc giá trị tùy ý)
             $shippingFee = 25000;
         }
 
@@ -282,10 +289,16 @@ class CartController extends Controller
             $id_dc = $request->dc_DiaChi;
             $dc = DiaChi::find($id_dc);
             $pdh_DiaChiGiao = $dc->dc_DiaChi;
+            //dd($pdh_DiaChiGiao);
 
             $id_tp = $dc->tinh_thanh_pho_id;
             $pvc = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
-            $phi = $pvc[0]['pvc_PhiVanChuyen'];
+            //dd($pvc);
+            if($pvc->isNotEmpty()){
+                $phi = $pvc[0]['pvc_PhiVanChuyen'];
+            }else{
+                $phi = 25000;
+            }
 
             $today = Carbon::now()->toDateString();
 
@@ -575,7 +588,12 @@ class CartController extends Controller
 
             $id_tp = $dc->tinh_thanh_pho_id;
             $pvc = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
-            $phi = $pvc[0]['pvc_PhiVanChuyen'];
+            if($pvc->isNotEmpty()){
+                $phi = $pvc[0]['pvc_PhiVanChuyen'];
+            }else{
+                $phi = 25000;
+            }
+            //$phi = $pvc[0]['pvc_PhiVanChuyen'];
 
             $today = Carbon::now()->toDateString();
 
@@ -709,7 +727,12 @@ class CartController extends Controller
 
         $id_tp = $dc->tinh_thanh_pho_id;
         $pvc = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
-        $phi = $pvc[0]['pvc_PhiVanChuyen'];
+        if($pvc->isNotEmpty()){
+            $phi = $pvc[0]['pvc_PhiVanChuyen'];
+        }else{
+            $phi = 25000;
+        }
+        //$phi = $pvc[0]['pvc_PhiVanChuyen'];
 
         $today = Carbon::now()->toDateString();
 
@@ -885,16 +908,19 @@ class CartController extends Controller
             $id_mgg = $pdh->ma_giam_gia_id;
             $mgg = MaGiamGia::find($id_mgg);
 
-            $dc = PhieuDatHang::join('khach_hangs', 'khach_hangs.id', '=', 'phieu_dat_hangs.khach_hang_id')
-                ->join('dia_chis','khach_hangs.id','=', 'dia_chis.khach_hang_id')
-                ->select('dia_chis.*')
-                ->where('phieu_dat_hangs.khach_hang_id', '=', $id_kh)
-                ->whereColumn('phieu_dat_hangs.pdh_DiaChiGiao', '=', 'dia_chis.dc_DiaChi')
-                ->get();
+            $dc_giao = $pdh->pdh_DiaChiGiao;
+            $dc = DiaChi::where('dc_DiaChi',$dc_giao)->get();
+            $id_tp = $dc[0]->tinh_thanh_pho_id;
 
-            $id_tp = $dc[0]['tinh_thanh_pho_id'];
-            $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->first();
-            $phi = $phiVanChuyen->pvc_PhiVanChuyen;
+            $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
+            //dd($phiVanChuyen);
+            if($phiVanChuyen->isNotEmpty()){
+                $phi = $phiVanChuyen[0]['pvc_PhiVanChuyen'];
+            }else{
+                $phi = 25000;
+            }
+            //$phi = $phiVanChuyen[0]->pvc_PhiVanChuyen;
+            //dd($phi);
 
             $feedback = PhanHoi::where('phieu_dat_hang_id',$pdh->id)->first();
 
@@ -904,7 +930,7 @@ class CartController extends Controller
                 ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*', 'kich_thuocs.*')
                 ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
                 ->get();
-//            dd($cart_id);
+            //dd($cart_id);
         }
 
         return view('front-end.detail_order2',[
@@ -1028,16 +1054,6 @@ class CartController extends Controller
     public function add_feedback(Request $request, $id){
         //dd($request);
 
-        $this -> validate($request, [
-            'ph_SoSao' => 'required',
-            'ph_MucPhanHoi' => 'required|max:255',
-        ],
-            [
-                'ph_SoSao.required' => 'Vui lòng chọn sao',
-                'ph_MucPhanHoi.required' => 'Vui lòng nhập nội dung phản hồi',
-//                'dg_MucDanhGia.min' => 'Đánh giá phải lớn hơn 1 kí tự',
-                'ph_MucPhanHoi.max' => 'Phản hồi phải nhỏ hơn 255 kí tự',
-            ]);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         if(Auth::check()){
             $id_kh = Auth('web')->user()->id;

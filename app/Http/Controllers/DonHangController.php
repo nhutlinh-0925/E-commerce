@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use App\Models\ChiTietPhieuDatHang;
+use App\Models\DiaChi;
 use App\Models\KhachHang;
 use App\Models\MaGiamGia;
-//use App\Models\PhanHoi;
-//use App\Models\SanPham;
-//use App\Models\TaiKhoan;
 use App\Models\SanPhamKichThuoc;
 use App\Models\ThongKe;
-//use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +15,6 @@ use App\Models\PhieuDatHang;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NhanVien;
 
-//use App\Models\DiaChi;
 use App\Models\PhiVanChuyen;
 use Mail;
 use App\Models\NguoiGiaoHang;
@@ -46,16 +41,20 @@ class DonHangController extends Controller
         $id_nv = $pdh->nhan_vien_id;
         $nv = NhanVien::find($id_nv);
 
-        $dc = PhieuDatHang::join('khach_hangs', 'khach_hangs.id', '=', 'phieu_dat_hangs.khach_hang_id')
-            ->join('dia_chis','khach_hangs.id','=', 'dia_chis.khach_hang_id')
-            ->select('dia_chis.*')
-            ->where('phieu_dat_hangs.khach_hang_id', '=', $id_kh)
-            ->whereColumn('phieu_dat_hangs.pdh_DiaChiGiao', '=', 'dia_chis.dc_DiaChi')
-            ->get();
+        $dc_giao = $pdh->pdh_DiaChiGiao;
+        $dc = DiaChi::where('dc_DiaChi',$dc_giao)->get();
+        //dd($dc);
+        $id_tp = $dc[0]->tinh_thanh_pho_id;
 
-        $id_tp = $dc[0]['tinh_thanh_pho_id'];
-        $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->first();
-        $phi = $phiVanChuyen->pvc_PhiVanChuyen;
+        $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
+        //dd($phiVanChuyen);
+        if($phiVanChuyen->isNotEmpty()){
+            $phi = $phiVanChuyen[0]['pvc_PhiVanChuyen'];
+        }else{
+            $phi = 25000;
+        }
+        //$phi = $phiVanChuyen[0]->pvc_PhiVanChuyen;
+        //dd($phi);
 
         $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
             ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
