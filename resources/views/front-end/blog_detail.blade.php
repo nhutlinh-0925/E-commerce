@@ -82,22 +82,30 @@
                                 </div>
                             </div>
                         </div>
-                        @foreach($comment as $cm)
-                            <div class="row cm">
-                                <div class="col-1">
-                                    <div class="blog__details__author__pic custom-avatar" style="width: 55px">
-                                        <img src="{{ asset('/storage/images/avatar/customers/'.$cm->khachhang->avatar) }}" class="rounded-circle">
+
+                        <div class="comment-scroll" style="border:3px solid white;
+                                                           width:740px;height:300px;
+                                                           overflow-x:hidden;overflow-y:auto;">
+                            <div class="comment-list">
+                                @foreach($comment as $cm)
+                                    <div class="row cm">
+                                        <div class="col-1">
+                                            <div class="blog__details__author__pic custom-avatar" style="width: 55px">
+                                                <img src="{{ asset('/storage/images/avatar/customers/'.$cm->khachhang->avatar) }}" class="rounded-circle">
+                                            </div>
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="blog__details__author__text">
+                                                <h5>{{ $cm->khachhang->kh_Ten }}</h5>
+                                                <p>{{ $cm->bl_NoiDung }}</p><br>
+                                                <p>Lúc {{ $cm->created_at->format('H:i:s d/m/Y') }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-11">
-                                    <div class="blog__details__author__text">
-                                        <h5>{{ $cm->khachhang->kh_Ten }}</h5>
-                                        <p>Lúc {{ $cm->created_at->format('H:i:s d/m/Y') }}</p><br>
-                                        <p>{{ $cm->bl_NoiDung }}</p>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
-                        @endforeach
+                        </div>
+
                     </div>
                     <div class="blog__details__comment">
                         <h4>Để lại bình luận của bạn</h4>
@@ -150,6 +158,7 @@
 <!-- Related Section End -->
 
 @include('front-end.pages.footer')
+
 {{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>--}}
 @if(session()->has('success_message'))
     <style>
@@ -200,6 +209,7 @@
         });
     </script>
 @endif
+
 </body>
 
 </html>

@@ -73,7 +73,7 @@ class NhapKhoController extends Controller
 
     public function getProducts()
     {
-        $products = SanPham::where('sp_TrangThai', 1)->get();
+        $products = SanPham::where('sp_TrangThai', 1)->orderBy('id', 'desc')->get();
 
         $output = '<option value="">Sản phẩm</option>';
 

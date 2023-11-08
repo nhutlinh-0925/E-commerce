@@ -118,7 +118,7 @@
                         <!-- Form search 1 -->
                         <form action="/search" style="margin-right: 20px;" method="POST">
                             @csrf
-                            <input autocomplete="off" type="text" placeholder="Tìm kiếm sản phẩm" style="width: 240px;" name="keywords_submit" id="keywords">
+                            <input autocomplete="off" placeholder="Tìm kiếm sản phẩm" style="width: 240px;" name="keywords_submit" id="keywords">
                             <button type="submit"><i class="fa fa-search"></i></button>
                             <div id="search-ajax"></div>
                         </form>

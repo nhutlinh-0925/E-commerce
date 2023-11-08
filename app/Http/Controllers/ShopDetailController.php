@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CartService;
 use App\Models\DanhMucSanPham;
+use App\Models\PhanHoi;
 use App\Models\SanPham;
 use App\Models\SanPhamKichThuoc;
 use App\Models\ThuongHieu;
@@ -78,7 +79,7 @@ class ShopDetailController extends Controller
 
             $rating = ĐanhGia::where('san_pham_id',$id)->avg('dg_SoSao');
             $rating_round = round($rating);
-            $review = ĐanhGia::where('san_pham_id',$id)->where('dg_TrangThai',1)->get();
+            $review = ĐanhGia::where('san_pham_id',$id)->where('dg_TrangThai',1)->orderBy('id', 'desc')->get();
             $roundedRating = round($rating, 1);
             $rating_products = ĐanhGia::where('san_pham_id', $id)->get();
 
@@ -109,16 +110,55 @@ class ShopDetailController extends Controller
         //dd($request);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
             $id_kh = Auth('web')->user()->id;
-            $dg = new ĐanhGia();
-            $dg->khach_hang_id = $id_kh;
-            $dg->san_pham_id = $request->san_pham_id;
-            $dg->phieu_dat_hang_id = $request->phieu_dat_hang_id;
-            $dg->dg_SoSao = $request->dg_SoSao;
-            $dg->dg_MucDanhGia = $request->dg_MucDanhGia;
-            $dg->dg_TrangThai = 1;
-            $dg->save();
+            $sao = $request->dg_SoSao;
+            if($sao == ''){
+                $dg = new ĐanhGia();
+                $dg->khach_hang_id = $id_kh;
+                $dg->san_pham_id = $request->san_pham_id;
+                $dg->phieu_dat_hang_id = $request->phieu_dat_hang_id;
+                $dg->dg_SoSao = 4;
+                $dg->dg_MucDanhGia = $request->dg_MucDanhGia;
+                $dg->dg_TrangThai = 1;
+                $dg->save();
+            }elseif($sao != ''){
+                $dg = new ĐanhGia();
+                $dg->khach_hang_id = $id_kh;
+                $dg->san_pham_id = $request->san_pham_id;
+                $dg->phieu_dat_hang_id = $request->phieu_dat_hang_id;
+                $dg->dg_SoSao = $sao;
+                $dg->dg_MucDanhGia = $request->dg_MucDanhGia;
+                $dg->dg_TrangThai = 1;
+                $dg->save();
+            }
 
             Session::flash('success_message_review', 'Thêm đánh giá thành công!');
+            return redirect()->back();
+    }
+
+    public function add_feedback(Request $request, $id){
+        //dd($request);
+
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $id_kh = Auth('web')->user()->id;
+            $sao = $request->ph_SoSao;
+            if($sao == ''){
+                $ph = new PhanHoi();
+                $ph->khach_hang_id = $id_kh;
+                $ph->phieu_dat_hang_id = $request->id_pdh;
+                $ph->ph_SoSao = 4;
+                $ph->ph_MucPhanHoi = $request->ph_MucPhanHoi;
+                $ph->ph_TrangThai = 1;
+                $ph->save();
+            }elseif($sao != ''){
+                $ph = new PhanHoi();
+                $ph->khach_hang_id = $id_kh;
+                $ph->phieu_dat_hang_id = $request->id_pdh;
+                $ph->ph_SoSao = $sao;
+                $ph->ph_MucPhanHoi = $request->ph_MucPhanHoi;
+                $ph->ph_TrangThai = 1;
+                $ph->save();
+            }
+            Session::flash('success_message_feedback', 'Thêm phản hồi thành công!');
             return redirect()->back();
     }
 

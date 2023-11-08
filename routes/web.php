@@ -176,7 +176,7 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/purchase_order/order_detail/status_confirmed_success/{id}', [CartController::class, 'success']);
 
             Route::post('/purchase_order/order_detail/{id_dh}/add_review/{id_pr}',[ShopDetailController::class, 'add_review'])->name('add_review');
-            Route::post('/purchase_order/order_detail/add_feedback/{id}', [CartController::class, 'add_feedback']);
+            Route::post('/purchase_order/order_detail/add_feedback/{id}', [ShopDetailController::class, 'add_feedback']);
 
             //Yêu thích
             Route::get('/wish-list/{id}', [ShopDetailController::class, 'wish_lish_show'])->name('wish_lish_show');
@@ -273,9 +273,9 @@ Route::prefix('user')->name('user.')->group(function () {
             });
             //Đơn hàng
             Route::get('/orders', [DonHangController::class, 'index']);
-
             Route::get('/order_detail/{id}', [DonHangController::class, 'order_detail']);
             Route::post('/order_detail/{id}', [DonHangController::class, 'order_update']);
+            //Route::DELETE('/orders/destroy/{id}', [DonHangController::class, 'destroy']);
 
             //Khách hàng
             Route::prefix('/customers')->group(function () {

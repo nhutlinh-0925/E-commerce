@@ -391,7 +391,7 @@
                                                     <td style="text-align: center;">{{ $key+1 }}</td>
                                                     <td style="text-align: center;">{{ $detail_cart->sp_TenSanPham }}</td>
                                                     <td style="text-align: center;">
-                                                        <a>
+                                                        <a href="/product/{{ $detail_cart->san_pham_id }}">
                                                             <img src="{{ url('/storage/images/products/'.$detail_cart->sp_AnhDaiDien) }}" height="40px">
                                                         </a>
                                                     </td>

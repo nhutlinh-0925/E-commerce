@@ -46,6 +46,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên khách hàng</th>
                                 <th scope="col">ID đơn hàng</th>
+                                <th scope="col">Số sao</th>
                                 <th scope="col">Nội dung</th>
                                 <th scope="col">Tình trạng</th>
                                 <th scope="col">Tùy biến</th>
@@ -58,6 +59,15 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->khachhang->kh_Ten }}</td>
                                     <td>{{ $item->phieu_dat_hang_id }}</td>
+                                    <td><p style="width: 110px">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $item->ph_SoSao)
+                                                    <span class="fa fa-star " style="color: #ff9705;"></span>
+                                                @else
+                                                    <span class="fa fa-star " style="color: #ccc;"></span>
+                                                @endif
+                                            @endfor</p>
+                                    </td>
                                     <td>{{ $item->ph_MucPhanHoi }}</td>
                                     <td>
                                         @if ($item->ph_TrangThai == 0)

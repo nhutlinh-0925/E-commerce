@@ -241,7 +241,7 @@ class BlogController extends Controller
             $post->save();
 
             $id_bv = $post->id;
-            $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->get();
+            $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->orderBy('id', 'desc')->get();
 
             $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();
@@ -262,7 +262,7 @@ class BlogController extends Controller
             $post->save();
 
             $id_bv = $post->id;
-            $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->get();
+            $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->orderBy('id', 'desc')->get();
 
             $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();

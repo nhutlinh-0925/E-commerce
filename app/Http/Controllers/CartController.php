@@ -1042,24 +1042,4 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function add_feedback(Request $request, $id){
-        //dd($request);
-
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        if(Auth::check()){
-            $id_kh = Auth('web')->user()->id;
-
-            $ph = new PhanHoi();
-            $ph->khach_hang_id = $id_kh;
-            $ph->phieu_dat_hang_id = $request->id_pdh;
-            $ph->ph_SoSao = $request->ph_SoSao;
-            $ph->ph_MucPhanHoi = $request->ph_MucPhanHoi;
-            $ph->ph_TrangThai = 1;
-            $ph->save();
-
-            Session::flash('success_message_feedback', 'Thêm phản hồi thành công!');
-            return redirect()->back();
-        }
-    }
-
 }

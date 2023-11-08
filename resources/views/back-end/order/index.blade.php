@@ -115,16 +115,16 @@
                                     <td><p style="width: 100px"> {{ date("d-m-Y", strtotime($item->pdh_NgayDat)) }}</p></td>
 
                                     <td style="display: flex">
-                                        <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}" style="width: 80px">
+{{--                                        <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}" style="width: 80px">--}}
                                             <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa thương hiệu'
-                                                    data-toggle = 'tooltip'
-                                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>
+{{--                                            @method('delete')--}}
+{{--                                            @csrf--}}
+{{--                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa thương hiệu'--}}
+{{--                                                    data-toggle = 'tooltip'--}}
+{{--                                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>--}}
+{{--                                                <i class="bi bi-trash-fill"></i>--}}
+{{--                                            </button>--}}
+{{--                                        </form>--}}
                                     </td>
                                 </tr>
                             @endforeach
