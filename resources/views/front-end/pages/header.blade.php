@@ -12,7 +12,6 @@
                 <ul>
                      @if (Auth::check())
                         <a class="dropdown-item" href="">Xin chào {{ Auth('web')->user()->kh_Ten }}</a>
-                        {{--  <a class="dropdown-item" href="/purchase_order/{{Auth::user()->id}}">Đơn hàng</a>  --}}
                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                     @else
                         <a href="{{  route('user.login')}}">Đăng nhập</a>
@@ -41,7 +40,8 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__text">
-            <p>Free1 shipping, 30-day return or refund guarantee.</p>
+            <p>Hotline: 1800.6198 (8-22h, MIỄN PHÍ)</p>
+
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -51,22 +51,21 @@
         <div class="header__top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-7">
+                    <div class="col-lg-4 col-md-7">
                         <div class="header__top__left">
-                            <p>Free2 shipping, 30-day return or refund guarantee.</p>
+                            <p>Hotline: 1800.6198 (8-22h, MIỄN PHÍ) </p>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-5">
+                    <div class="col-lg-8 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__hover">
                                 @if (Auth::check())
                                 <span>Tài khoản : {{ Auth('web')->user()->kh_Ten }}<i class="arrow_carrot-down"></i></span>
                                 @else
-                                    <span>Tài khoản <i class="arrow_carrot-down"></i></span>
+                                <span>Tài khoản <i class="arrow_carrot-down"></i></span>
                                 @endif
                                 <ul>
                                     @if (Auth::check())
-{{--                                        <a class="dropdown-item" href="">Mục cài đặt</a>--}}
                                         <a class="dropdown-item" href="/user/purchase_order/{{ Auth('web')->user()->id }}">Đơn hàng</a>
                                         <a class="dropdown-item" href="{{  route('user.logout')}}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>Đăng xuất</a>
                                     @else
@@ -77,21 +76,22 @@
                             </div>
                             @if (Auth::check())
                             <div class="header__top__links">
+                                <a href="/user/warranty">Chính sách bảo hành</a>
                                 <a href="/user/setting/{{ Auth('web')->user()->id }}">Cài đặt</a>
                             </div>
-                            @else
-                                <div class="header__top__links">
-                                    <a href="#">FAQs</a>
-                                </div>
+                            @else()
+                            <div class="header__top__links">
+                                <a href="/warranty">Chính sách bảo hành</a>
+                            </div>
                             @endif
 
                             <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
+{{--                                <span>Usd <i class="arrow_carrot-down"></i></span>--}}
+{{--                                <ul>--}}
+{{--                                    <li>USD</li>--}}
+{{--                                    <li>EUR</li>--}}
+{{--                                    <li>USD</li>--}}
+{{--                                </ul>--}}
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                             <li class="active"><a href="/">Trang chủ</a></li>
                             <li><a href="/shop">Cửa hàng</a></li>
                             <li><a href="/blog">Tin tức</a></li>
-                            <li><a href="#">Về Chúng tôi</a></li>
+                            <li><a href="/about">Về Chúng tôi</a></li>
                             <li><a href="/contact">Liên lạc</a></li>
                         </ul>
                     </nav>

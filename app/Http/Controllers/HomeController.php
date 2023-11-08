@@ -187,6 +187,49 @@ class HomeController extends Controller
         }
     }
 
+    public function about(){
+        if(Auth::check()){
+            $id_kh = Auth('web')->user()->id;
+
+            $carts = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
+            return view('front-end.about',[
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'wish_count' => $wish_count
+            ]);
+        }else{
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+        }
+        return view('front-end.about',[
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+        ]);
+    }
+
+    public function warranty(){
+        if(Auth::check()){
+            $id_kh = Auth('web')->user()->id;
+
+            $carts = $this->cartService->getProduct();
+            $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
+            //dd($wish_count);
+            return view('front-end.warranty',[
+                'carts' => $carts,
+                'gh' => session()->get('carts'),
+                'wish_count' => $wish_count
+            ]);
+        }else{
+            $carts = $this->cartService->getProduct();
+            // dd($carts);
+        }
+        return view('front-end.warranty',[
+            'carts' => $carts,
+            'gh' => session()->get('carts'),
+        ]);
+    }
 
     public function contact(){
         if(Auth::check()){

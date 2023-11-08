@@ -92,7 +92,7 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
 
-    //Tag
+    //Tag sản phẩm
     Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
 
     //Trang cart
@@ -128,13 +128,20 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
     Route::post('search', [HomeController::class, 'search']);
     Route::post('autocomplete-ajax', [HomeController::class, 'autocomplete_ajax']);
 
+    //Về Chúng Tôi
+    Route::get('about',[HomeController::class,'about']);
+
     //Liên hệ
     Route::get('contact',[HomeController::class,'contact']);
+
+    //Chính sách bảo hành
+    Route::get('warranty',[HomeController::class,'warranty']);
 
 
     //Thanh toán ONEPAY
     //Route::post('onepay_payment', [PayPalController::class, 'onepay_payment']);
 
+    //Tìm kiếm giọng nói
     Route::get('/search_microphone', [HomeController::class, 'search_Microphone']);
 
 
@@ -153,7 +160,6 @@ Route::prefix('user')->name('user.')->group(function () {
          });
 
         // Đã đăng nhập thành công
-
         Route::middleware(['auth:web'])->group(function () {
             Route::get('/', [HomeController::class, 'home'])->name('home');
 
@@ -168,7 +174,7 @@ Route::prefix('user')->name('user.')->group(function () {
 
             Route::get('vnpay-callback', [CartController::class, 'handleVnPayCallback']);
 
-            //Trang đơn hàng cua toi
+            //Trang đơn hàng của toi
             Route::get('/purchase_order/{id}', [CartController::class, 'show_DonHang'])->name('purchase_order');
             Route::get('/purchase_order/order_detail/{id}', [CartController::class, 'show_ChitietDonhang']);
 
@@ -193,9 +199,13 @@ Route::prefix('user')->name('user.')->group(function () {
             //Chọn địa chỉ ra phí ship
             Route::post('/get_ship', [CartController::class, 'get_ship']);
 
+            //Tìm kiếm giọng nói
             Route::get('/search_microphone', [HomeController::class, 'search_Microphone']);
 
+            //Chính sách bảo hành
+            Route::get('warranty',[HomeController::class,'warranty']);
 
+            //Đăng xuất
             Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
         });
@@ -211,7 +221,6 @@ Route::prefix('user')->name('user.')->group(function () {
         });
 
         // Đã đăng nhập thành công
-
         Route::middleware(['auth:admin'])->group(function () {
             Route::get('/home', [AdminController::class, 'getUser'])->name('home');
 
@@ -238,6 +247,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::post('active/{id}', [ThuongHieuController::class, 'active']);
                 Route::post('unactive/{id}', [ThuongHieuController::class, 'unactive']);
             });
+
             //Sản phẩm
             Route::prefix('/products')->group(function () {
                 Route::get('/', [SanPhamController::class, 'index']);
@@ -248,6 +258,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::get('active/{id}', [SanPhamController::class, 'active']);
                 Route::get('unactive/{id}', [SanPhamController::class, 'unactive']);
             });
+
             //Mã giảm giá
             Route::prefix('/coupons')->group(function () {
                 Route::get('/', [MaGiamGiaController::class, 'index']);
@@ -271,6 +282,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::post('edit/{id}', [VanChuyenController::class, 'update']);
                 Route::DELETE('destroy/{id}', [VanChuyenController::class, 'destroy']);
             });
+
             //Đơn hàng
             Route::get('/orders', [DonHangController::class, 'index']);
             Route::get('/order_detail/{id}', [DonHangController::class, 'order_detail']);
@@ -294,7 +306,6 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::post('add', [NhanVienController::class, 'store']);
                 Route::get('active/{id}', [NhanVienController::class, 'active']);
                 Route::get('unactive/{id}', [NhanVienController::class, 'unactive']);
-
                 Route::get('/permissions', [NhanVienController::class, 'permissions']);
                 Route::get('/permissions/edit/{id}', [NhanVienController::class, 'edit_permission'])->name('edit_permission');
                 Route::get('auth/{id}', [NhanVienController::class, 'auth']);
@@ -401,6 +412,7 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::post('/dashboard-filter', [AdminController::class, 'dashboard_filter']);
             Route::post('/filter-by-date', [AdminController::class, 'filter_by_date']);
 
+            //Đăng xuất
             Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
 
         });
@@ -425,6 +437,7 @@ Route::prefix('shipper')->name('shipper.')->group(function () {
         Route::get('/order_detail/{id}', [DonHangShipperController::class, 'order_detail']);
         Route::post('/order_detail/{id}', [DonHangShipperController::class, 'order_update']);
 
+        //Đăng xuất
         Route::get('/logout', [ShipperController::class, 'logout'])->name('logout');
 
     });
