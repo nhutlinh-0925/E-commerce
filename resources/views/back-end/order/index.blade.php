@@ -75,7 +75,7 @@
                                              </a>
                                         @elseif ($item->pdh_TrangThai == 2 && $item->pdh_TrangThaiGiaoHang == 1)
                                             <a href="#" class="btn btn-primary" style=" font-size: 10px;">
-                                               Đã nhận đơn <i class="bi bi-check-circle-fill"></i>
+                                               Đã chọn shipper
                                             </a>
                                         @elseif ($item->pdh_TrangThai == 2  && $item->pdh_TrangThaiGiaoHang == 0)
                                             <a href="#" class="btn btn-primary" style=" font-size: 10px;">

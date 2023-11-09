@@ -273,7 +273,7 @@
 {{--                                        <option value="3">Đang vận chuyển</option>--}}
 {{--                                        <option value="4">Giao hàng thành công</option>--}}
 {{--                                    </select>--}}
-                                    <p style="color: yellow"><b>Đang vận chuyển</b></p>
+                                    <p style="color:orange"><b>Đang vận chuyển</b></p>
                                 </div>
                             @elseif( $pdh->pdh_TrangThai == 4 )
                                 <div class="form-group text-center">
@@ -289,6 +289,13 @@
                                         <p style="color: red"><b>Đơn đã hủy</b></p>
 {{--                                    </select>--}}
                                 </div>
+                        @elseif( $pdh->pdh_TrangThai == 6 )
+                            <div class="form-group text-center">
+                                {{--                                    <select name="pdh_TrangThai" class="form-control mx-auto" style="width: 200px;">--}}
+                                {{--                                        <option value="5">Đơn đã hủy</option>--}}
+                                <p style="color: red"><b>Giao hàng thất bại</b></p>
+                                {{--                                    </select>--}}
+                            </div>
                             @endif
                     </div>
 

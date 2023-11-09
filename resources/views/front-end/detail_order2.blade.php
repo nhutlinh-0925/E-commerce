@@ -263,7 +263,7 @@
                                                     @elseif($pdh->pdh_TrangThai == 2)
                                                         <p style="color: blue"><b>Đơn đã duyệt</b></p>
                                                     @elseif($pdh->pdh_TrangThai == 3)
-                                                        <p style="color: #0c5460"><b>Đang vận chuyển</b></p>
+                                                        <p style="color: orange"><b>Đang vận chuyển</b></p>
                                                     @elseif($pdh->pdh_TrangThai == 4)
                                                         <p style="color: green"><b>Giao hàng thành công</b></p>
                                                     @elseif($pdh->pdh_TrangThai == 5)

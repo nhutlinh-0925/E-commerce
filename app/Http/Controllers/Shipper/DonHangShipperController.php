@@ -10,6 +10,7 @@ use App\Models\NguoiGiaoHang;
 use App\Models\NhanVien;
 use App\Models\PhieuDatHang;
 use App\Models\PhiVanChuyen;
+use App\Models\SanPhamKichThuoc;
 use App\Models\ThongKe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -160,6 +161,26 @@ class DonHangShipperController extends Controller
                 $order->pdh_TrangThai = 6;
                 $order->pdh_TrangThaiGiaoHang = 3;
                 $order->save();
+
+                foreach ($order->chitietphieudathang as $detail) {
+                    $product = $detail->sanpham;
+                    if ($product) {
+                        $product->sp_SoLuongBan -= $detail->ctpdh_SoLuong;
+                        $product->save();
+
+                        // Truy vấn dữ liệu trong bảng san_pham_kich_thuocs
+                        $spkt = SanPhamKichThuoc::where('san_pham_id', $product->id)
+                            ->where('kich_thuoc_id', $detail->kichthuoc->id) // Thay kichthuoc bằng tên quan hệ trong model PhieuDatHang
+                            ->first();
+
+                        if ($spkt) {
+                            // Cập nhật spkt_SoLuongHang bằng cách trừ đi ctpdh_SoLuong
+                            $spkt->spkt_soLuongHang += $detail->ctpdh_SoLuong;
+                            $spkt->save();
+                            //dd($spkt);
+                        }
+                    }
+                }
             }
 
         }elseif($order->pdh_TrangThai == 2){

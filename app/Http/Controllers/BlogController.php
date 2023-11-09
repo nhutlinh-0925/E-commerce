@@ -243,7 +243,7 @@ class BlogController extends Controller
             $id_bv = $post->id;
             $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->orderBy('id', 'desc')->get();
 
-            $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
+            $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->where('id', '!=', $id_bv)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();
 
             $wish_count = YeuThich::where('khach_hang_id', $id_kh)->get();
@@ -264,7 +264,7 @@ class BlogController extends Controller
             $id_bv = $post->id;
             $comment = BinhLuan::where('bai_viet_id',$id_bv)->where('bl_TrangThai',1)->orderBy('id', 'desc')->get();
 
-            $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->inRandomOrder()->limit(4)->get();
+            $post_related = BaiViet::where('danh_muc_bai_viet_id',$post->danh_muc_bai_viet_id)->where('id', '!=', $id_bv)->inRandomOrder()->limit(4)->get();
             $carts = $this->cartService->getProduct();
             return view('front-end.blog_detail', [
                 'post' => $post,

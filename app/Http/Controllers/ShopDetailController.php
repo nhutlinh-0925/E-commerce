@@ -29,8 +29,10 @@ class ShopDetailController extends Controller
             $product->sp_LuotXem = $product->sp_LuotXem + 1;
             $product->save();
 
+            $id_sp = $product->id;
+
             $category_product = DanhMucSanPham::all();
-            $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
+            $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->where('id', '!=', $id_sp)->inRandomOrder()->limit(4)->get();
 
             $carts = $this->cartService->getProduct();
             $favoritedProducts = YeuThich::where('khach_hang_id', $id_kh)->pluck('san_pham_id')->toArray();
@@ -70,8 +72,10 @@ class ShopDetailController extends Controller
             $product->sp_LuotXem = $product->sp_LuotXem + 1;
             $product->save();
 
+            $id_sp = $product->id;
+
             $category_product = DanhMucSanPham::all();
-            $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->inRandomOrder()->limit(4)->get();
+            $product_related = SanPham::where('danh_muc_san_pham_id',$product->danh_muc_san_pham_id)->where('id', '!=', $id_sp)->inRandomOrder()->limit(4)->get();
 
             $carts = $this->cartService->getProduct();
             $favoritedProducts = [];
