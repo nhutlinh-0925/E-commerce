@@ -127,12 +127,9 @@
                                             <img src="{{asset('/storage/images/products/'.$product->sanpham->sp_AnhDaiDien) }}"></a>
                                         <ul class="product__hover">
                                             <li><a href="{{ route('user.wish_lish_show',$product->sanpham->id) }}" class="wishlist-link" data-product-id="{{ $product->sanpham->id }}">
-                                                    <i class="fa fa-heart" style="color: blue;"></i>
+                                                    <i class="fa fa-heart" style="color: blue;"></i> <span>Yêu thích</span>
                                                 </a>
                                             </li>
-                                            <li><a href="#"><img src="/template/front-end/img/icon/compare.png" alt=""> <span>Compare</span></a>
-                                            </li>
-                                            <li><a href="#"><img src="/template/front-end/img/icon/search.png" alt=""></a></li>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
