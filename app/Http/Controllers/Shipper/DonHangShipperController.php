@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+
+use App\Models\ChiTietPhieuNhapHang;
+
 use Mail;
 
 class DonHangShipperController extends Controller
@@ -99,21 +102,52 @@ class DonHangShipperController extends Controller
             if($order->pdh_TrangThaiGiaoHang == 2){
                 //dd(123);
                 $total_order = 0; //tong so luong don
-                $sales = 0; //doanh thu
+                $sales = 0; //doanh so
                 $profit = 0; //loi nhuan
                 $quantity = 0; //so luong
 
+                $tongChiPhiNhapKho = 0;
+
                 foreach ($order->chitietphieudathang as $detail) {
-                    $product = $detail->sanpham;
                     $quantity += $detail->ctpdh_SoLuong;
                     $sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
-                    $profit = $sales - 100000;
+                    // Lấy thông tin chi tiết phiếu nhập hàng
+                    $chiTietPhieuNhapHang = ChiTietPhieuNhapHang::join('phieu_nhap_hangs', 'chi_tiet_phieu_nhap_hangs.phieu_nhap_hang_id', '=', 'phieu_nhap_hangs.id')
+                        ->where('chi_tiet_phieu_nhap_hangs.san_pham_id', $detail->san_pham_id)
+                        ->where('chi_tiet_phieu_nhap_hangs.kich_thuoc_id', $detail->kich_thuoc_id)
+                        ->where('phieu_nhap_hangs.pnh_NgayXacNhan', '<', $order->pdh_NgayDat)
+                        ->orderBy('chi_tiet_phieu_nhap_hangs.id', 'desc')
+                        ->get();
+
+                    // Lặp qua từng chi tiết phiếu nhập hàng
+                    foreach ($chiTietPhieuNhapHang as $chiTiet) {
+                        $soLuongNhap = $chiTiet->ctpnh_SoLuongNhap;
+                        $giaNhap = $chiTiet->ctpnh_GiaNhap;
+
+                        // Tính giá trị của số lượng mua từ phiếu nhập hàng
+                        $soLuongMuaHienTai = min($detail->ctpdh_SoLuong, $soLuongNhap);
+                        $giaTriMua = $soLuongMuaHienTai * ($detail->ctpdh_Gia - $giaNhap);
+
+                        // Cập nhật số lượng mua còn lại
+                        $detail->ctpdh_SoLuong -= $soLuongMuaHienTai;
+
+                        // Cộng vào tổng chi phí nhập kho
+                        $tongChiPhiNhapKho += $giaTriMua;
+
+                        // Nếu đã mua đủ số lượng cần, thoát khỏi vòng lặp
+                        if ($detail->ctpdh_SoLuong <= 0) {
+                            break;
+                        }
+                    }
+
+                    // Tính lợi nhuận
+                    $profit = $order->pdh_TongTien - $tongChiPhiNhapKho;
                 }
                 $total_order += 1;
 
                 if ($thongke_dem > 0) {
                     $thongke_capnhat = ThongKe::where('tk_Ngay', $order_date)->first();
-                    $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TogTien + $sales;
+                    $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TongTien + $sales;
                     $thongke_capnhat->tk_LoiNhuan = $thongke_capnhat->tk_LoiNhuan + $profit;
                     $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
                     $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;

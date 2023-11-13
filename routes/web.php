@@ -81,6 +81,12 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 
 
 
+//Doanh số:            số lượng * giá bán
+//Doanh thu:           số lượng * giá bán - mgg + pvc = pdh_TongTien
+//Chi phí nhập kho:    số lượng * (giá bán - giá nhập)
+//Lợi nhuận:           Doanh thu - Chi phí nhập kho
+
+
 // Front-end - Trang người dùng
 
     //Trang chủ
