@@ -135,7 +135,7 @@
                                     <div class="product__details__cart__option">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input name="num_product" type="text" value="1" min="1">
+                                                <input name="num_product" type="text" min="1" value="1" required>
                                             </div>
                                         </div>
                                         <button type="submit"  class="primary-btn-detail">Thêm vào giỏ hàng </button>
@@ -272,6 +272,7 @@
                                                                 @endif
                                                             @endfor
                                                             <br>
+                                                            <i style="font-size: 12px;">Phân loại : Size {{ $rv->kichthuoc }}</i>
                                                             <p>{{ $rv->dg_MucDanhGia }}</p>
                                                             <p>Lúc {{ $rv->created_at->format('H:i:s d/m/Y') }}</p>
                                                         </div>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('san_pham_id');
             $table->integer('dg_SoSao');
             $table->longText('dg_MucDanhGia');
+            $table->string('kichthuoc');
             $table->integer('dg_TrangThai');
             $table->foreign('khach_hang_id')
                 ->references('id')

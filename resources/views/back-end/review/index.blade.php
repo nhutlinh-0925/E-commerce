@@ -46,6 +46,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên khách hàng</th>
                                 <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Size</th>
                                 <th scope="col">Id đơn hàng</th>
                                 <th scope="col">Số sao</th>
                                 <th scope="col">Nội dung</th>
@@ -60,6 +61,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->khachhang->kh_Ten }}</td>
                                     <td>{{ $item->sanpham->sp_TenSanPham }}</td>
+                                    <td>{{ $item->kichthuoc }}</td>
                                     <td>{{ $item->phieu_dat_hang_id }}</td>
                                     <td><p style="width: 110px">
                                         @for ($i = 1; $i <= 5; $i++)

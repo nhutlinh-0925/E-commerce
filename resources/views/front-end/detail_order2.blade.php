@@ -404,7 +404,9 @@
                                                         // Kiểm tra xem đã có phản hồi cho đơn hàng này hay chưa
                                                         $dg_hoan_thanh = \App\Models\ĐanhGia::where('phieu_dat_hang_id', $pdh->id)
                                                                         ->where('san_pham_id', $detail_cart->san_pham_id)
-                                                                        ->where('dg_TrangThai',1)->exists();
+                                                                        ->where('dg_TrangThai',1)
+                                                                        ->where('kichthuoc',$detail_cart->kt_TenKichThuoc)
+                                                                        ->exists();
                                                     @endphp
                                                     <td style="text-align: center;">
                                                         @if($pdh->pdh_TrangThai == 4 && !$dg_hoan_thanh)
@@ -441,6 +443,7 @@
                                                                             </ul>
                                                                             <input type="hidden" name="san_pham_id" value="{{ $detail_cart->san_pham_id }}">
                                                                             <input type="hidden" name="phieu_dat_hang_id" value="{{$pdh->id}}">
+                                                                            <input type="hidden" name="kichthuoc" value="{{ $detail_cart->kt_TenKichThuoc }}">
                                                                             <input type="hidden" name="dg_SoSao" id="dg_SoSao">
                                                                             <textarea name="dg_MucDanhGia" placeholder="Viết đánh giá của bạn" style="width: 480px;height: 100px" required></textarea>
                                                                             <button type="submit" class="btn btn-sm btn-success justify-content-end" style="color: white;font-size: 18px;float: right;"><i class="fa fa-paper-plane"></i>Gửi đánh giá</button>

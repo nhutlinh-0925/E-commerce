@@ -15,6 +15,7 @@ class ĐanhGia extends Model
         'phieu_dat_hang_id',
         'dg_SoSao',
         'dg_MucDanhGia',
+        'kichthuoc',
         'dg_TrangThai'
     ];
 
@@ -29,4 +30,6 @@ class ĐanhGia extends Model
         return $this->hasOne(SanPham::class, 'id', 'san_pham_id')
             ->withDefault(['sp_TenSanPham' => '']);
     }
+
+
 }

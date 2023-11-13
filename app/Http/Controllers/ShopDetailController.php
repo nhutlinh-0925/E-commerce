@@ -122,6 +122,7 @@ class ShopDetailController extends Controller
                 $dg->phieu_dat_hang_id = $request->phieu_dat_hang_id;
                 $dg->dg_SoSao = 4;
                 $dg->dg_MucDanhGia = $request->dg_MucDanhGia;
+                $dg->kichthuoc = $request->kichthuoc;
                 $dg->dg_TrangThai = 1;
                 $dg->save();
             }elseif($sao != ''){
@@ -131,6 +132,7 @@ class ShopDetailController extends Controller
                 $dg->phieu_dat_hang_id = $request->phieu_dat_hang_id;
                 $dg->dg_SoSao = $sao;
                 $dg->dg_MucDanhGia = $request->dg_MucDanhGia;
+                $dg->kichthuoc = $request->kichthuoc;
                 $dg->dg_TrangThai = 1;
                 $dg->save();
             }
