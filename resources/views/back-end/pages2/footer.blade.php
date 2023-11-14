@@ -70,6 +70,25 @@
                 success:function (data) {
                     //console.log(data);
                     chart.setData(data);
+
+                    // Reset totals
+                    totalRevenue = 0;
+                    totalProfit = 0;
+
+                    // Loop through data and update chart
+                    for (var i = 0; i < data.length; i++) {
+                        totalRevenue += parseFloat(data[i].sales);
+                        totalProfit += parseFloat(data[i].profit);
+                    }
+
+                    $("#total p:first-child").text("Tổng doanh số: " + numberFormat(totalRevenue) + ' đ');
+                    $("#total p:last-child").text("Tổng lợi nhuận: " + numberFormat(totalProfit) + ' đ');
+
+                    // Hàm để định dạng số theo kiểu number_format
+                    function numberFormat(number) {
+                        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+
                 }
             });
         };
@@ -86,6 +105,26 @@
 
                 success: function (data) {
                     chart.setData(data);
+
+                    // Reset totals
+                    totalRevenue = 0;
+                    totalProfit = 0;
+
+                    // Loop through data and update chart
+                    for (var i = 0; i < data.length; i++) {
+                        totalRevenue += parseFloat(data[i].sales);
+                        totalProfit += parseFloat(data[i].profit);
+                    }
+
+                    $("#total p:first-child").text("Tổng doanh số: " + numberFormat(totalRevenue) + ' đ');
+                    $("#total p:last-child").text("Tổng lợi nhuận: " + numberFormat(totalProfit) + ' đ');
+
+                    // Hàm để định dạng số theo kiểu number_format
+                    function numberFormat(number) {
+                        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+
+
                 }
             });
         });
@@ -107,6 +146,24 @@
 
                 success: function (data) {
                     chart.setData(data);
+
+                    // Reset totals
+                    totalRevenue = 0;
+                    totalProfit = 0;
+
+                    // Loop through data and update chart
+                    for (var i = 0; i < data.length; i++) {
+                        totalRevenue += parseFloat(data[i].sales);
+                        totalProfit += parseFloat(data[i].profit);
+                    }
+
+                    $("#total p:first-child").text("Tổng doanh số: " + numberFormat(totalRevenue) + ' đ');
+                    $("#total p:last-child").text("Tổng lợi nhuận: " + numberFormat(totalProfit) + ' đ');
+
+                    // Hàm để định dạng số theo kiểu number_format
+                    function numberFormat(number) {
+                        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
                 }
             });
         });
