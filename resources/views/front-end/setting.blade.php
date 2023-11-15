@@ -417,6 +417,7 @@
 {{--<script src="/template/back-end2/vendor/php-email-form/validate.js"></script>--}}
 
 <!-- Template Main JS File -->
+{{--  Chọn ảnh ra hình  --}}
 <script src="/template/back-end2/js/setting.js"></script>
     <script>
         var loadFile = function(event){
@@ -425,6 +426,7 @@
         };
     </script>
 
+{{--  Chọn tỉnh ra quận huyện ,xã  --}}
 <script type="text/javascript">
     $(document).ready(function (){
         // $('.add_address').click(function (){
@@ -462,6 +464,7 @@
 
 </script>
 
+{{--  Chọn tỉnh - quận - xã ra địa chỉ cụ thể  --}}
 <script>
     $(document).ready(function () {
         // Lắng nghe sự kiện khi các dropdown thay đổi
@@ -513,6 +516,7 @@
 
 {{--</script>--}}
 
+{{--  Chat FB    --}}
 <!-- Messenger Plugin chat Code -->
 <div id="fb-root"></div>
 

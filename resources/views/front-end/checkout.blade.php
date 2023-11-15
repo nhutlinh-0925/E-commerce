@@ -337,6 +337,8 @@
 {{--    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>--}}
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 {{--    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>--}}
+
+{{--    Chọn địa chỉ ra phí ship   --}}
     <script type="text/javascript">
         $(document).ready(function () {
             $("select[name='dc_DiaChi']").on('change', function () {
@@ -396,6 +398,8 @@
             });
         });
     </script>
+
+{{--    Chat FB   --}}
 
     <!-- Messenger Plugin chat Code -->
     <div id="fb-root"></div>

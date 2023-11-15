@@ -170,9 +170,9 @@
                             </div>  --}}
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                    <a data-toggle="collapse" data-target="#collapseThree">Tags</a>
                                 </div>
-                                <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__tags">
                                             @foreach($limitedArray as $item)

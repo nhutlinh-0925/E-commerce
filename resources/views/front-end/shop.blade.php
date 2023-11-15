@@ -96,9 +96,9 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Mức đánh giá</a>
+                                        <a data-toggle="collapse" data-target="#collapseFour">Mức đánh giá</a>
                                     </div>
-                                    <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <div class="shop__sidebar__review">
@@ -142,9 +142,9 @@
                                 </div>
                                   <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                                        <a data-toggle="collapse" data-target="#collapseFive">Size</a>
                                     </div>
-                                    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+                                    <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__size">
                                                 @foreach ($sizes as $item)
