@@ -238,7 +238,7 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6 class="text-center">{{ $product->sp_TenSanPham }}</h6>
-                                    <a href="#" class="add-cart">Xem nhanh</a>
+                                    <a href="#" class="xemnhanh" data-toggle="modal" data-target="#xemnhanh" data-product_id="{{ $product->id }}">Xem nhanh</a>
                                     <div class="text-center rating">
                                         @for ($i = 1; $i <= 5; $i++)
                                             @if ($i <= $roundedAvgRating)
@@ -253,6 +253,49 @@
                             </div>
                         </div>
                     @endforeach
+                    <!-- Modal quick_view -->
+                    <div class="modal fade" id="xemnhanh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title product_quickview_title" id="" style="color: #8b1014;">Xem nhanh </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <form action="/add-cart-quick_view" method="post">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <span id="product_quickview_image"></span>
+                                            </div>
+
+                                            <div class="col-md-7">
+                                                <h4><span id="product_quickview_name"></span></h4>
+
+                                                <div id="product_quickview_rating"></div>
+                                                <h5 style="color: red"><span id="product_quickview_price"></span></h5>
+                                                <p id="product_quickview_stock"></p>
+
+                                                <div id="product_quickview_options"></div>
+                                                <span id="product_quickview_category"></span><br>
+                                                <span id="product_quickview_brand"></span><br>
+
+                                                <p>Chia sẻ:
+                                                    <i class="fa fa-facebook"></i>
+                                                    <i class="fa fa-twitter"></i>
+                                                    <i class="fa fa-youtube-play"></i>
+                                                    <i class="fa fa-linkedin"></i>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     @else
                          <h3 style="text-align: center;color: red">Không tìm thấy sản phẩm nào</h3>
                     @endif
@@ -269,6 +312,82 @@
 <!-- Shop Section End -->
 
 @include('front-end.pages.footer')
+
+@if(session()->has('success_message'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Cảm ơn bạn!!!', // Tiêu đề của thông báo
+            text: 'Đã thêm sản phẩm vào giỏ hàng!', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 2000, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@elseif(session()->has('flash_message_error'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Rất tiết!!!', // Tiêu đề của thông báo
+            text: 'Số lượng đã vượt quá trong kho!', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@elseif(session()->has('flash_message_error_qty'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Rất tiết!!!', // Tiêu đề của thông báo
+            text: 'Số lượng hoặc sản phẩm không chính xác!', // Nội dung của thông báo
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 2500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
+@endif
+
+{{--    Mục yêu thích  --}}
 <script>
     // Hàm kiểm tra xem sản phẩm có trong danh sách yêu thích hay không
     function isProductFavorited(productId) {

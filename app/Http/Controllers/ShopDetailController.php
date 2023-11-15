@@ -88,7 +88,6 @@ class ShopDetailController extends Controller
             $rating_products = ĐanhGia::where('san_pham_id', $id)->get();
 
             $sizes = SanPhamKichThuoc::where('san_pham_id',$id)->where('spkt_soLuongHang','>', 0)->get();
-//            dd($sizes);
             $total_size = $sizes->sum('spkt_soLuongHang');
             return view('front-end.product_detail', [
                 'product' => $product,
@@ -108,6 +107,36 @@ class ShopDetailController extends Controller
                 'total_size' => $total_size
             ]);
         }
+    }
+
+    public function quick_view(Request $request){
+        $product_id = $request->product_id;
+        $product = SanPham::find($product_id);
+
+        $rating = ĐanhGia::where('san_pham_id',$product_id)->avg('dg_SoSao');
+        $review = ĐanhGia::where('san_pham_id',$product_id)->where('dg_TrangThai',1)->orderBy('id', 'desc')->get();
+
+        $sizes = SanPhamKichThuoc::where('san_pham_id',$product_id)->where('spkt_soLuongHang','>', 0)->get();
+        $total_size = $sizes->sum('spkt_soLuongHang');
+
+        $output['product_id'] = $product->id;
+        $output['product_name'] = $product->sp_TenSanPham;
+        $output['product_price'] = number_format($product->sp_Gia,0,',','.'). ' VNĐ';
+        $output['product_image'] = '<p><img width="100%" src="/storage/images/products/'.$product->sp_AnhDaiDien.'"></p>';
+
+        $output['product_category'] = $product->danhmuc->dmsp_TenDanhMuc;
+        $output['product_brand'] = $product->thuonghieu->thsp_TenThuongHieu;
+
+        $output['product_rating_round'] = round($rating);
+        $output['product_review_count'] = $review->count();
+
+        $output['product_total_size'] = $total_size;
+        $output['product_sizes'] = $sizes;
+
+        $sizeNames = $sizes->pluck('kichthuoc.kt_TenKichThuoc')->toArray();
+        $output['product_size_names'] = $sizeNames;
+
+        echo json_encode($output);
     }
 
     public function add_review(Request $request, $id_dh, $id_pr){

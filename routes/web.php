@@ -98,6 +98,10 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
     Route::get('/danhmuc-sanpham/{id}',[ShopController::class, 'danhmuc_sanpham']);
     Route::get('/thuonghieu-sanpham/{id}',[ShopController::class, 'thuonghieu_sanpham']);
 
+    //Xem nhanh
+    Route::post('add-cart-quick_view',[CartController::class, 'add_cart_quick_view']);
+    Route::post('/quick_view',[ShopDetailController::class, 'quick_view']);
+
     //Tag sản phẩm
     Route::get('tag/{product_tag}', [ShopController::class, 'tag']);
 

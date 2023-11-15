@@ -106,6 +106,8 @@
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+{{--Data-table danh sách các đơn hàng --}}
 <script type="text/javascript">
     $(function () {
         @if (Auth::check())
@@ -211,6 +213,7 @@
     });
 </script>
 
+{{-- Sản phẩm gợi ý --}}
 <script type="text/javascript">
     $('#keywords').keyup(function (){
         var query = $(this).val();
@@ -235,8 +238,10 @@
         $('#search-ajax').fadeOut();
     });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
+{{-- Tìm kiếm sản phẩm bằng giọng nói --}}
 <script type="text/javascript">
     var message = document.querySelector('#message');
 
@@ -279,6 +284,7 @@
     })
 </script>
 
+{{-- Đánh giá sao cho sản phẩm --}}
 <script type="text/javascript">
     // Xử lý khi hover chuột vào ngôi sao
     $(document).on('mouseenter', '.rating', function () {
@@ -334,6 +340,7 @@
 
 </script>
 
+{{-- Đánh giá sao cho đơn hàng --}}
 <script type="text/javascript">
     // Xử lý khi hover chuột vào ngôi sao
     $(document).on('mouseenter', '.rating_feedback', function () {
@@ -389,7 +396,82 @@
 
 </script>
 
-<!-- Your Plugin chat code -->
+{{-- Modal xem nhanh --}}
+<script type="text/javascript">
+    $('.xemnhanh').click(function (){
+        var product_id = $(this).data('product_id');
+        var _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ url('/quick_view') }}",
+            method: "POST",
+            dataType: "JSON",
+            data: {product_id:product_id, _token: _token},
+            success:function (data) {
+                $('#product_quickview_name').html(data.product_name);
+                $('#product_quickview_price').html(data.product_price);
+                $('#product_quickview_image').html(data.product_image);
+
+                $('#product_quickview_category').html('<span>Danh mục:</span> ' + data.product_category);
+                $('#product_quickview_brand').html('<span>Thương hiệu:</span> ' + data.product_brand);
+
+                // Hiển thị đánh giá sao
+                var ratingStarsHtml = '';
+                for (var i = 1; i <= 5; i++) {
+                    if (i <= data.product_rating_round) {
+                        ratingStarsHtml += '<span class="fa fa-star" style="color: #ff9705;"></span>';
+                    } else {
+                        ratingStarsHtml += '<span class="fa fa-star" style="color: #ccc;"></span>';
+                    }
+                }
+                $('#product_quickview_rating').html(ratingStarsHtml + ' - ' + data.product_review_count + ' Đánh giá');
+
+                //Hiển thị thông tin tình trạng hàng
+                if (data.product_total_size > 0) {
+                    $('#product_quickview_stock').html('Tình trạng: Còn hàng <b id="total-quantity2">' + data.product_total_size + '</b> trong kho');
+                } else {
+                    $('#product_quickview_stock').html('Tình trạng: <b style="color: red">Hết hàng</b>');
+                }
+
+                // Hiển thị thông tin tình trạng hàng
+                if (data.product_total_size > 0) {
+                    // Hiển thị tùy chọn kích thước
+                    var sizes = data.product_sizes;
+                    var sizeOptionsHtml = '<span><b>Chọn Size:</b></span><div>';
+
+                    sizes.forEach(function(size, index) {
+                        sizeOptionsHtml += '<input type="radio" class="size-input2" name="product_size" data-quantity2="' + size.spkt_soLuongHang + '" value="' + size.kich_thuoc_id + '" required>';
+                        sizeOptionsHtml += '<label>Size ' + data.product_size_names[index] + '</label><br>';
+                    });
+
+                    sizeOptionsHtml += '</div><div class="product__details__cart__option">';
+                    sizeOptionsHtml += '<input name="num_product" type="number" min="1" value="1" required style="width: 40px">';
+                    sizeOptionsHtml += '<button type="submit" class="primary-btn-detail">Thêm vào giỏ hàng </button>';
+                    sizeOptionsHtml += '<input type="hidden" name="product_id" id="product_id" value="' + data.product_id + '">';
+                    sizeOptionsHtml += '</div>';
+
+                    $('#product_quickview_options').html(sizeOptionsHtml);
+
+                    var sizeInputs = document.querySelectorAll('.size-input2');
+                    var totalQuantityDisplay = document.getElementById('total-quantity2');
+
+                    sizeInputs.forEach(function (input) {
+                        input.addEventListener('change', function () {
+                            var quantity = this.getAttribute('data-quantity2');
+                            totalQuantityDisplay.textContent = quantity;
+                        });
+                    });
+
+                } else {
+                    $('#product_quickview_options').html('');
+                }
+
+            }
+        });
+    });
+
+</script>
+
+<!-- Chat FB -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 
@@ -416,4 +498,5 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
+
     @yield('footer')
