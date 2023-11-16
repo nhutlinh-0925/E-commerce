@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DiaChi;
 use App\Models\KhachHang;
+use App\Models\PhieuDatHang;
+use App\Models\YeuThich;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 
@@ -157,6 +159,20 @@ class KhachhangController extends Controller
             echo $output;
         }
 
+    }
+
+    public function show($id){
+        $customer = KhachHang::find($id);
+        $address = DiaChi::where('khach_hang_id', $id)->get();
+        $order = PhieuDatHang::where('khach_hang_id', $id)->orderBy('id', 'desc')->get();
+        $wish = YeuThich::where('khach_hang_id',$id)->with('sanpham')->orderBy('id', 'desc')->get();
+
+        return view('back-end.customer.show',[
+            'customer' => $customer,
+            'address' => $address,
+            'order' => $order,
+            'wish' => $wish
+        ]);
     }
 
 //    public function index1(){

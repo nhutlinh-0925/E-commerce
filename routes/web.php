@@ -306,6 +306,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::post('add', [KhachHangController::class, 'store']);
                 Route::get('active/{id}', [KhachHangController::class, 'active']);
                 Route::get('unactive/{id}', [KhachHangController::class, 'unactive']);
+                Route::get('show/{id}', [KhachHangController::class, 'show']);
                 Route::post('/select_city', [KhachHangController::class, 'select_city']);
             });
 

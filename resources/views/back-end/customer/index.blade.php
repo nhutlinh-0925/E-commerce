@@ -80,10 +80,12 @@
                                     </td>
 
                                     <td>
-                                        <p style="width: 30px">
+                                        <p style="width: 65px">
                                         @if ($item->trangthai == 1)
+                                            <a href="{{ url('/admin/customers/show/' . $item->id ) }}" title="Xem chi tiết khách hàng"><span class="bi bi-eye" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
                                             <a href="/admin/customers/unactive/{{ $item->id }}" onclick ='return confirm("Bạn chắc chắn muốn khóa tài khoản?")' title="Khóa tài khoản"><span class="bi bi-unlock" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
                                         @elseif ($item->trangthai == 0)
+                                            <a href="{{ url('/admin/customers/show/' . $item->id ) }}" title="Xem chi tiết khách hàng"><span class="bi bi-eye" style="font-size: 25px;color: blue; font-weight: bold"></span></a>
                                             <a href="/admin/customers/active/{{ $item->id }}" onclick ='return confirm("Bạn chắc chắn muốn mở khóa tài khoản?")' title="Mở tài khoản"><span class="bi bi-lock" style="font-size: 25px;color: red; font-weight: bold"></span></a>
                                         @endif
                                         </p>
