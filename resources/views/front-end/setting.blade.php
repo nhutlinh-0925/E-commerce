@@ -57,8 +57,20 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    <img src="{{ url('/storage/images/avatar/customers/'.$khachhang->avatar) }}" alt="Profile" class="rounded-circle">
+                    <div class="image-container" style=" position: relative;display: inline-block;">
+                        <img src="{{ url('/storage/images/avatar/customers/'.$khachhang->avatar) }}" alt="Profile" class="rounded-circle">
+                        @if(Auth('web')->user()->vip == 1)
+                            <span class="label" style="position: absolute;top: 0;right: 0;
+                                                       background-color: red;color: white;
+                                                       padding: 5px;border-radius: 10px;">
+                                Vip
+                            </span>
+                        @endif
+                    </div>
                     <h2>{{ Auth('web')->user()->kh_Ten }}</h2>
+                    <i class="fa fa-picture-o" aria-hidden="true" style="font-size: 35px"></i>
+                    <h5>Ảnh đại diện</h5>
+                    <p style="text-indent: 10px;font-size: 12px;text-align: center">Để có kết quả tốt nhất, hãy sử dụng hình ảnh có kích thước tối thiểu 128px x 128px (tốt nhất tỉ lệ 1:1)</p>
                 </div>
             </div>
 

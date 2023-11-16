@@ -64,46 +64,46 @@
                                     <td><b>{{ $item->khachhang->kh_Ten }}</b></td>
                                     <td><p style="width: 90px"><b style="color: red;">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></p></td>
                                     <td>
-                                        <p style="width: 110px">
                                         @if ($item->pdh_TrangThai == 1)
-                                            <a href="#" class="btn btn-info" style=" font-size: 10px;">
-                                               Chờ duyệt <i class="bi bi-clock-fill"></i>
-                                            </a>
+                                            <span class="badge bg-info" style="width: 100%">
+                                                Chờ duyệt <i class="bi bi-clock-fill"></i>
+                                            </span>
                                         @elseif ($item->pdh_TrangThai == 2 && $item->pdh_TrangThaiGiaoHang == '')
-                                             <a href="#" class="btn btn-info" style=" font-size: 10px;">
-                                                 Đã duyệt <i class="bi bi-clock-fill"></i>
-                                             </a>
+                                             <span class="badge bg-primary" style="width: 100%">
+                                                Đã duyệt <i class="bi bi-check-circle-fill"></i>
+                                             </span>
                                         @elseif ($item->pdh_TrangThai == 2 && $item->pdh_TrangThaiGiaoHang == 1)
-                                            <a href="#" class="btn btn-primary" style=" font-size: 10px;">
-                                               Đã chọn shipper
-                                            </a>
+                                            <span class="badge bg-secondary" style="width: 100%">
+                                                Đã chọn shipper <i class="bi bi-person-check-fill"></i>
+                                            </span>
                                         @elseif ($item->pdh_TrangThai == 2  && $item->pdh_TrangThaiGiaoHang == 0)
-                                            <a href="#" class="btn btn-primary" style=" font-size: 10px;">
-                                                Chọn shipper <i class="bi bi-check-circle-fill"></i>
-                                            </a>
+                                            <span class="badge bg-dark" style="width: 100%">
+                                                Chọn shipper <i class="bi bi-person-fill-exclamation"></i>
+                                            </span>
                                         @elseif ($item->pdh_TrangThai == 3)
-                                            <a href="#" class="btn btn-warning" style=" font-size: 10px;">
-                                                Đang vận chuyển <i class="bi bi-bus-front-fill"></i>
-                                            </a>
+                                            <span class="badge bg-warning" style="width: 100%">
+                                                Đang vận chuyển <i class="bi bi-bus-front-fill" style="color: black"></i>
+                                            </span>
                                         @elseif ($item->pdh_TrangThai == 4)
-                                            <a href="#" class="btn btn-success" style=" font-size: 10px;">
-                                                Giao thành công <i class=""></i>
-                                            </a>
+                                            <span class="badge bg-success" style="width: 100%">
+                                                Giao thành công <i class="bi bi-calendar-check-fill"></i>
+                                            </span>
                                         @elseif ($item->pdh_TrangThai == 5)
-                                            <a href="#" class="btn btn-danger" style=" font-size: 10px;">
+                                            <span class="badge bg-danger" style="width: 100%">
                                                 Đơn bị hủy <i class="bi bi-x-circle-fill"></i>
-                                            </a>
+                                            </span>
                                         @elseif ($item->pdh_TrangThai == 6)
-                                            <a href="#" class="btn btn-danger" style=" font-size: 10px;">
-                                                Giao thất bại <i class="bi bi-x-circle-fill"></i>
-                                            </a>
+                                            <span class="badge bg-danger" style="width: 100%">
+                                                Giao thất bại <i class="bi bi-x-octagon-fill"></i>
+                                            </span>
                                         @endif
-                                        </p>
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-success" style="width: 70%; font-size: 10px;">
-                                            {{ $item->phuongthucthanhtoan->pttt_TenPhuongThucThanhToan }}
-                                        </a>
+                                        <p style="text-align: center">
+                                            <span class="badge bg-success" style="width: 70%">
+                                                {{ $item->phuongthucthanhtoan->pttt_TenPhuongThucThanhToan }}
+                                            </span>
+                                        </p>
                                     </td>
                                     <td>
                                         @if ($item->nhan_vien_id == '')
