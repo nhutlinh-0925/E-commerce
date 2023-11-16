@@ -272,7 +272,7 @@
                         <ol class="list_views">
                             @foreach($product_views as $key => $pro)
                                 <li>
-                                    <a href="#"><b>{{ $pro->sp_TenSanPham }} </b></a>
+                                    <a href="/admin/products/show/{{ $pro->id }}"><b>{{ $pro->sp_TenSanPham }} </b></a>
                                 </li>
                             @endforeach
                         </ol>
@@ -293,7 +293,7 @@
                         <ol class="list_views">
                             @foreach($post_views as $key => $pos)
                                 <li>
-                                    <a href="#"><b>{{ $pos->bv_TieuDeBaiViet }} </b></a>
+                                    <a href="/admin/posts"><b>{{ $pos->bv_TieuDeBaiViet }} </b></a>
                                 </li>
                             @endforeach
                         </ol>

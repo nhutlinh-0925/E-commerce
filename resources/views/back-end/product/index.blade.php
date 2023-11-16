@@ -81,13 +81,15 @@
                         @endif
                     </td>
                     <td style="display: flex;">
-                        <p style="width: 70px">
+                        <p style="width: 110px;text-align: center">
                         @if ($item->sp_TrangThai == 1)
                             <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
-                            <a href="/admin/products/unactive/{{ $item->id }}" class="btn btn-primary btn-sm" title="Ẩn sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn ẩn sản phẩm?")'><span class="bi bi-eye-slash"></span></a>
+                            <a href="{{ url('/admin/products/show/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết sản phẩm"><i class="bi bi-eye"></i></a>
+                            <a href="/admin/products/unactive/{{ $item->id }}" class="btn btn-danger btn-sm" title="Ẩn sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn ẩn sản phẩm?")'><span class="bi bi-x-circle-fill"></span></a>
                         @elseif ($item->sp_TrangThai == 0)
                             <a href="{{ url('/admin/products/edit/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Cập nhật sản phẩm"><i class="bi bi-pencil-square"></i></a>
-                            <a href="/admin/products/active/{{ $item->id }}" class="btn btn-danger btn-sm" title="Hiện sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn hiện sản phẩm?")'><span class="bi bi-eye"></span></a>
+                            <a href="{{ url('/admin/products/show/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết sản phẩm"><i class="bi bi-eye"></i></a>
+                            <a href="/admin/products/active/{{ $item->id }}" class="btn btn-primary btn-sm" title="Hiện sản phẩm" onclick ='return confirm("Bạn chắc chắn muốn hiện sản phẩm?")'><span class="bi bi-check-circle-fill"></span></a>
                         @endif
                         </p>
                     </td>

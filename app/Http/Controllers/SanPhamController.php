@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //use App\Models\KichThuoc;
 use App\Models\SanPhamKichThuoc;
+use App\Models\ĐanhGia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -120,7 +121,25 @@ class SanPhamController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = SanPham::find($id);
+        $images = $product->hinhanh;
+        $sizes = SanPhamKichThuoc::where('san_pham_id',$id)->where('spkt_soLuongHang','>', 0)->get();
+        $total_size = $sizes->sum('spkt_soLuongHang');
+        $review = ĐanhGia::where('san_pham_id',$id)->where('dg_TrangThai',1)->orderBy('id', 'desc')->get();
+        $rating = ĐanhGia::where('san_pham_id',$id)->avg('dg_SoSao');
+        $roundedRating = round($rating, 1);
+        $rating_products = ĐanhGia::where('san_pham_id', $id)->get();
+
+        return view('back-end.product.show',[
+            'product' => $product,
+            'images' => $images,
+            'sizes' => $sizes,
+            'total_size' => $total_size,
+            'review' => $review,
+            'rating' => $rating,
+            'roundedRating' => $roundedRating,
+            'rating_products' => $rating_products,
+        ]);
     }
 
     /**

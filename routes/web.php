@@ -265,6 +265,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::post('add', [SanPhamController::class, 'store']);
                 Route::get('edit/{id}', [SanPhamController::class, 'edit']);
                 Route::post('edit/{id}', [SanPhamController::class, 'update']);
+                Route::get('show/{id}', [SanPhamController::class, 'show']);
                 Route::get('active/{id}', [SanPhamController::class, 'active']);
                 Route::get('unactive/{id}', [SanPhamController::class, 'unactive']);
             });
