@@ -465,6 +465,10 @@
                     $('#product_quickview_options').html('');
                 }
 
+
+                var id_sp = data.product_id;
+                $('#product_quickview_url').html('<a href="/product/' + id_sp + '" style="font-size: 14px;color: black"><i><u>Xem chi tiết sản phẩm</u></i></a>');
+
             }
         });
     });

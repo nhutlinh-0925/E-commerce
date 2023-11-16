@@ -306,6 +306,9 @@
                                                         <i class="fa fa-youtube-play"></i>
                                                         <i class="fa fa-linkedin"></i>
                                                     </p>
+
+                                                    <span id="product_quickview_url"></span>
+
                                                 </div>
                                             </div>
                                         </div>
