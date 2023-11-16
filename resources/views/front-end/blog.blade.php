@@ -58,9 +58,9 @@
 
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Tags</a>
                                 </div>
-                                <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__tags">
                                             @foreach($limitedArray as $item)
@@ -73,6 +73,22 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseThree">Tin tức vừa xem</a>
+                                </div>
+                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__tags">
+
+                                            <div id="row_post_viewed" class="row"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -85,26 +101,22 @@
 {{--                                <p>Hiển thị 1-12 của  kết quả</p>--}}
 {{--                            </div>--}}
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="shop__product__option__right">
-                                <p>Sort by Price:</p>
-                                <select>
-                                    <option value="">Low To High</option>
-                                    <option value="">$0 - $55</option>
-                                    <option value="">$55 - $100</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
                     @foreach($posts as $post)
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="blog__item">
+                            <div class="blog__item" data-post-id="{{ $post->id }}">
                                 <div class="blog__item__pic set-bg">
                                     <a href="/blog/{{ $post->id }}">
                                         <img src="{{asset('/storage/images/posts/'.$post->bv_AnhDaiDien) }}" width="340px" height="260px"></a>
                                 </div>
+
+                                <input type="hidden" id="post_viewed_id" value="{{ $post->id }}">
+                                <input type="hidden" id="viewed_post_title{{ $post->id }}" value="{{ $post->bv_TieuDeBaiViet }}">
+                                <input type="hidden" id="viewed_post_image{{ $post->id }}" value="{{asset('/storage/images/posts/'.$post->bv_AnhDaiDien) }}">
+                                <input type="hidden" id="viewed_post_date{{ $post->id }}" value="{{ date("d-m-Y", strtotime($post->bv_NgayTao)) }}">
+
                                 <div class="blog__item__text">
                                     <span><img src="/template/front-end/img/icon/calendar.png" alt=""> {{ date("d-m-Y", strtotime($post->bv_NgayTao)) }}</span>
                                     <h6>{{ $post->bv_TieuDeBaiViet }}</h6>

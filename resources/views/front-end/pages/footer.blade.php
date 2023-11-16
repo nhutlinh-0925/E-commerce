@@ -471,6 +471,174 @@
 
 </script>
 
+{{--  Sản phẩm vừa xem  --}}
+<script>
+    function pro_viewed(){
+        if(localStorage.getItem('viewed') != null){
+            var data = JSON.parse(localStorage.getItem('viewed'));
+            //alert(data);
+
+            data.reverse();
+
+            document.getElementById('row_viewed').style.overflow = 'scroll';
+            document.getElementById('row_viewed').style.height = '300px';
+
+            for (i=0;i<data.length;i++){
+
+                var name = data[i].name;
+                var price = data[i].price;
+                var image = data[i].image;
+
+                $('#row_viewed').append('<div class="row" style="margin: 10px 0">' +
+                    '<div class="col-md-5"><img width="125px" height="95px" src="' + image + '"></div>' +
+                    '<div class="col-md-7">' +
+                    '<p style="font-size: 15px">' + name + '<br>' + ' <span style="color: red; font-weight: bold;">' + price + '</span></p>' +
+                    '</div>' +
+                    '</div>');
+
+            }
+        }
+    }
+
+    pro_viewed();
+
+    product_viewed();
+
+    $('.product__item').on('click', function() {
+        var id_product = $(this).data('product-id');
+        product_viewed(id_product);
+    });
+
+    function product_viewed(id_product) {
+        //alert(id_product);
+
+        if(id_product != undefined){
+            var id = id_product;
+            var name = document.getElementById('viewed_product_name'+id).value;
+            var price = document.getElementById('viewed_product_price'+id).value;
+            var image = document.getElementById('viewed_product_image'+id).value;
+
+            var newItem = {
+                'id':id,
+                'name':name,
+                'price':price,
+                'image':image
+            }
+
+            if(localStorage.getItem('viewed')==null){
+                localStorage.setItem('viewed', '[]');
+            }
+
+            var old_data = JSON.parse(localStorage.getItem('viewed'));
+
+            var matches = $.grep(old_data, function (obj){
+                return obj.id == id;
+            })
+
+            if(matches.length){
+
+            }else{
+                old_data.push(newItem);
+
+                $('#row_viewed').append('<div class="row" style="margin: 10px 0">' +
+                    '<div class="col-md-5"><img width="125px" height="95px" src="' + newItem.image + '"></div>' +
+                    '<div class="col-md-7">' +
+                    '<p style="font-size: 12px">' + newItem.name + '<br>' + ' <span style="color: red; font-weight: bold;">' + newItem.price + '</span></p>' +
+                    '</div>' +
+                    '</div>');
+
+            }
+
+            localStorage.setItem('viewed', JSON.stringify(old_data));
+        }
+
+    }
+</script>
+
+{{--  Tin tức vừa xem  --}}
+<script>
+    function po_viewed(){
+        if(localStorage.getItem('viewed_po') != null){
+            var data = JSON.parse(localStorage.getItem('viewed_po'));
+            //alert(data);
+
+            data.reverse();
+
+            document.getElementById('row_post_viewed').style.overflow = 'scroll';
+            document.getElementById('row_post_viewed').style.height = '300px';
+
+            for (i=0;i<data.length;i++){
+
+                var title = data[i].title;
+                var date = data[i].date;
+                var image = data[i].image;
+
+                $('#row_post_viewed').append('<div class="row" style="margin: 10px 0">' +
+                    '<div class="col-md-5"><img width="125px" height="95px" src="' + image + '"></div>' +
+                    '<div class="col-md-7">' +
+                    '<p style="font-size: 15px">' + title + '<br>' + ' <span style="color: black; font-weight: bold;">' + date + '</span></p>' +
+                    '</div>' +
+                    '</div>');
+
+            }
+        }
+    }
+
+    po_viewed();
+
+    post_viewed();
+
+    $('.blog__item').on('click', function() {
+        var id_post = $(this).data('post-id');
+        post_viewed(id_post);
+    });
+
+    function post_viewed(id_post) {
+        //alert(id_post);
+
+        if(id_post != undefined){
+            var id = id_post;
+            var title = document.getElementById('viewed_post_title'+id).value;
+            var date = document.getElementById('viewed_post_date'+id).value;
+            var image = document.getElementById('viewed_post_image'+id).value;
+
+            var newItem = {
+                'id':id,
+                'title':title,
+                'date':date,
+                'image':image
+            }
+
+            if(localStorage.getItem('viewed_po')==null){
+                localStorage.setItem('viewed_po', '[]');
+            }
+
+            var old_data = JSON.parse(localStorage.getItem('viewed_po'));
+
+            var matches = $.grep(old_data, function (obj){
+                return obj.id == id;
+            })
+
+            if(matches.length){
+
+            }else{
+                old_data.push(newItem);
+
+                $('#row_post_viewed').append('<div class="row" style="margin: 10px 0">' +
+                    '<div class="col-md-5"><img width="125px" height="95px" src="' + newItem.image + '"></div>' +
+                    '<div class="col-md-7">' +
+                    '<p style="font-size: 12px">' + newItem.title + '<br>' + ' <span style="color: black; font-weight: bold;">' + newItem.date + '</span></p>' +
+                    '</div>' +
+                    '</div>');
+
+            }
+
+            localStorage.setItem('viewed_po', JSON.stringify(old_data));
+        }
+
+    }
+</script>
+
 <!-- Chat FB -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
@@ -499,4 +667,4 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-    @yield('footer')
+@yield('footer')

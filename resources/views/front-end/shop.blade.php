@@ -176,6 +176,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <a data-toggle="collapse" data-target="#collapseSeven">Sản phẩm vừa xem</a>
+                                    </div>
+                                    <div id="collapseSeven" class="collapse show" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="shop__sidebar__tags">
+
+                                                <div id="row_viewed" class="row"></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -216,8 +232,9 @@
                                 $avgRating = \App\Models\ĐanhGia::where('san_pham_id', $product->id)->avg('dg_SoSao');
                                 $roundedAvgRating = ceil($avgRating);
                             @endphp
+
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
+                            <div class="product__item" data-product-id="{{ $product->id }}">
                                 <div class="product__item__pic set-bg" >
                                     <a href="/product/{{ $product->id }}">
                                         <img src="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}"></a>
@@ -228,6 +245,11 @@
                                         </li>
                                     </ul>
                                 </div>
+
+                                <input type="hidden" id="product_viewed_id" value="{{ $product->id }}">
+                                <input type="hidden" id="viewed_product_name{{ $product->id }}" value="{{ $product->sp_TenSanPham }}">
+                                <input type="hidden" id="viewed_product_image{{ $product->id }}" value="{{asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
+                                <input type="hidden" id="viewed_product_price{{ $product->id }}" value="{{number_format($product->sp_Gia,0,',','.')}} VNĐ">
 
                                 <div class="product__item__text">
                                     <h6 class="text-center">{{ $product->sp_TenSanPham }}</h6>
