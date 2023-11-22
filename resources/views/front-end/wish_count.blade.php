@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6 class="text-center">{{ $product->sanpham->sp_TenSanPham }}</h6>
-                                        <a href="#" class="xemnhanh" data-toggle="modal" data-target="#xemnhanh" data-product_id="{{ $product->id }}">Xem nhanh</a>
+                                        <a href="#" class="xemnhanh" data-toggle="modal" data-target="#xemnhanh" data-product_id="{{ $product->sanpham->id }}">Xem nhanh</a>
                                         <div class="text-center rating">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 @if ($i <= $roundedAvgRating)

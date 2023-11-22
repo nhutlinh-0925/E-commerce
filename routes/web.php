@@ -419,10 +419,17 @@ Route::prefix('user')->name('user.')->group(function () {
             //Route::get('/users2', [KhachHangController::class, 'index1']);
             //Route::get('/user1', [KhachHangController::class, 'index2']);
 
-            //Thống kê
+            //Thống kê doanh thu biểu đồ cột
             Route::post('/days-order', [AdminController::class, 'days_order']);
             Route::post('/dashboard-filter', [AdminController::class, 'dashboard_filter']);
             Route::post('/filter-by-date', [AdminController::class, 'filter_by_date']);
+
+            //Thống kê doanh thu biểu đồ đường
+            Route::get('/getChartData', [AdminController::class, 'getChartData'])->name('getChartData');
+            Route::get('/getChartDataByYear', [AdminController::class, 'getChartDataByYear'])->name('getChartDataByYear');
+
+            //Thống kê sản phẩm bán chạy bằng table
+            Route::post('/product-tops', [AdminController::class, 'product_tops'])->name('product_tops');
 
             //Đăng xuất
             Route::get('/logout', [AdminController::class, 'logout'])->name('logout');

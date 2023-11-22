@@ -163,8 +163,8 @@
 
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Thống kê doanh thu</h5>
+            <div class="card-body row">
+                <h5 class="card-title">Thống kê doanh thu<span id="doanhthu_loc"> | 30 ngày qua</span></h5>
 
                 <div class="row">
                     <form autocomplete="off" style="display: flex;">
@@ -198,19 +198,103 @@
                         </div>
 
                         <div class="col-4" id="total">
-                            <p>Tổng doanh số: </p>
+                            <p>Tổng doanh thu: </p>
                             <p>Tổng lợi nhuận: </p>
                         </div>
                     </form>
                 </div>
 
                 <div class="col-12">
-                    <div id="chart" style="height: 250px;"></div>
+                    <div id="chart" style="max-height: 400px;"></div>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <section class="section">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thống kê doanh thu theo năm <span id="selectedYear">| Năm 2023</span></h5>
+
+                        <div class="col-2 d-flex align-items-center justify-content-center">
+                            <p>
+                                <select id="yearFilter" class="dashboard-filter-year" name="year">
+                                    <option>-- Chọn năm --</option>
+                                    <option value="2022">Năm 2022</option>
+                                    <option value="2023">Năm 2023</option>
+                                    <option value="2024">Năm 2024</option>
+                                </select>
+                            </p>
+                        </div>
+
+                        <!-- Line Chart -->
+                        <canvas id="lineChart" style="max-height: 400px;"></canvas>
+
+                        <canvas id="lineChart1" style="max-height: 400px; "></canvas>
+
+                    </div>
+                </div>
+            </div>
+
+{{--            <div class="col-lg-6">--}}
+{{--                <div class="card">--}}
+{{--                    <div class="card-body">--}}
+{{--                        <h5 class="card-title">Bar CHart</h5>--}}
+
+{{--                        <!-- Bar Chart -->--}}
+{{--                        <canvas id="barChart" style="max-height: 400px;"></canvas>--}}
+{{--                        <script>--}}
+{{--                            document.addEventListener("DOMContentLoaded", () => {--}}
+{{--                                new Chart(document.querySelector('#barChart'), {--}}
+{{--                                    type: 'bar',--}}
+{{--                                    data: {--}}
+{{--                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],--}}
+{{--                                        datasets: [{--}}
+{{--                                            label: 'Bar Chart',--}}
+{{--                                            data: [65, 59, 80, 81, 56, 55, 40],--}}
+{{--                                            backgroundColor: [--}}
+{{--                                                'rgba(255, 99, 132, 0.2)',--}}
+{{--                                                'rgba(255, 159, 64, 0.2)',--}}
+{{--                                                'rgba(255, 205, 86, 0.2)',--}}
+{{--                                                'rgba(75, 192, 192, 0.2)',--}}
+{{--                                                'rgba(54, 162, 235, 0.2)',--}}
+{{--                                                'rgba(153, 102, 255, 0.2)',--}}
+{{--                                                'rgba(201, 203, 207, 0.2)'--}}
+{{--                                            ],--}}
+{{--                                            borderColor: [--}}
+{{--                                                'rgb(255, 99, 132)',--}}
+{{--                                                'rgb(255, 159, 64)',--}}
+{{--                                                'rgb(255, 205, 86)',--}}
+{{--                                                'rgb(75, 192, 192)',--}}
+{{--                                                'rgb(54, 162, 235)',--}}
+{{--                                                'rgb(153, 102, 255)',--}}
+{{--                                                'rgb(201, 203, 207)'--}}
+{{--                                            ],--}}
+{{--                                            borderWidth: 1--}}
+{{--                                        }]--}}
+{{--                                    },--}}
+{{--                                    options: {--}}
+{{--                                        scales: {--}}
+{{--                                            y: {--}}
+{{--                                                beginAtZero: true--}}
+{{--                                            }--}}
+{{--                                        }--}}
+{{--                                    }--}}
+{{--                                });--}}
+{{--                            });--}}
+{{--                        </script>--}}
+{{--                        <!-- End Bar CHart -->--}}
+
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
+        </div>
+    </section>
 
 {{--<div class="row">--}}
 {{--    <style type="text/css">--}}
@@ -246,6 +330,123 @@
 {{--    </table>--}}
 {{--</div>--}}
 
+
+    <!-- Top Selling -->
+    <div class="col-12">
+        <div class="card top-selling overflow-auto">
+
+            <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="price">
+                    <li class="dropdown-header text-start">
+                        <h6>Lọc theo</h6>
+                    </li>
+                    <li data-filter="7 ngày qua"><a class="dropdown-item" href="#">7 ngày qua</a></li>
+                    <li data-filter="Tháng trước"><a class="dropdown-item" href="#">Tháng trước</a></li>
+                    <li data-filter="Tháng này"><a class="dropdown-item" href="#">Tháng này</a></li>
+                    <li data-filter="Quý 1"><a class="dropdown-item" href="#">Quý 1</a></li>
+                    <li data-filter="Quý 2"><a class="dropdown-item" href="#">Quý 2</a></li>
+                    <li data-filter="Quý 3"><a class="dropdown-item" href="#">Quý 3</a></li>
+                    <li data-filter="Quý 4"><a class="dropdown-item" href="#">Quý 4</a></li>
+                </ul>
+            </div>
+
+            <div class="card-body pb-0">
+                <h5 class="card-title">Sản phẩm bán chạy <span id="time-range">| 30 ngày qua</span></h5>
+
+                <table class="table" style="text-align: center">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">Giá</th>
+                        <th scope="col">Số lượng bán</th>
+                    </tr>
+                    </thead>
+                    <tbody id="product-top-table-body">
+                    @foreach($product_tops as $item)
+                        <tr>
+                            <td>{{ $item->san_pham_id }}</td>
+                            <td>{{ $item->sanpham->sp_TenSanPham }}</td>
+                            <td><img src="{{ url('/storage/images/products/'.$item->sanpham->sp_AnhDaiDien) }}" height="50px" width="50px"></td>
+                            <td><p style="text-align: center;color: red"><b>{{ number_format($item->sanpham->sp_Gia, 0, '', '.') }} đ</b></p></td>
+                            <td>{{ $item->totalQuantity }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div><!-- End Top Selling -->
+
+    <section class="section">
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Trạng thái đơn hàng (%)</h5>
+
+                        <!-- Pie Chart -->
+                        <div id="pieChart"></div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                new ApexCharts(document.querySelector("#pieChart"), {
+                                    series: [pdh_tt_1, pdh_tt_2, pdh_tt_3, pdh_tt_4, pdh_tt_5, pdh_tt_6],
+                                    chart: {
+                                        height: 350,
+                                        type: 'pie',
+                                        toolbar: {
+                                            show: true
+                                        }
+                                    },
+                                    labels: ['Chưa duyệt', 'Đã duyệt', 'Giao hàng', 'Thành công', 'Thất bại', 'Đã hủy']
+                                }).render();
+                            });
+                        </script>
+                        <!-- End Pie Chart -->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Phương thức thanh toán (%)</h5><br>
+
+                        <!-- Donut Chart -->
+                        <div id="donutChart"></div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                new ApexCharts(document.querySelector("#donutChart"), {
+                                    series: [pdh_pttt_1, pdh_pttt_2, pdh_pttt_3],
+                                    chart: {
+                                        height: 350,
+                                        type: 'donut',
+                                        toolbar: {
+                                            show: true
+                                        }
+                                    },
+                                    labels: ['Nhận hàng trả tiền', 'Thanh toán qua PayPal', 'Thanh toán qua VNPay'],
+                                }).render();
+                            });
+                        </script>
+                        <!-- End Donut Chart -->
+                        <br><br>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
 
     <div class="col-lg-12">
         <div class="card" style="background-color: #11cdef">
@@ -305,73 +506,6 @@
     </div>
 
 
-    <section class="section">
-        <div class="row">
-
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Trạng thái đơn hàng</h5>
-
-                        <!-- Pie Chart -->
-                        <div id="pieChart"></div>
-
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                                new ApexCharts(document.querySelector("#pieChart"), {
-                                    series: [pdh_tt_1, pdh_tt_2, pdh_tt_3, pdh_tt_4, pdh_tt_5, pdh_tt_6],
-                                    chart: {
-                                        height: 350,
-                                        type: 'pie',
-                                        toolbar: {
-                                            show: true
-                                        }
-                                    },
-                                    labels: ['Chưa duyệt', 'Đã duyệt', 'Giao hàng', 'Thành công', 'Thất bại', 'Đã hủy']
-                                }).render();
-                            });
-                        </script>
-                        <!-- End Pie Chart -->
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Phương thức thanh toán</h5><br>
-
-                        <!-- Donut Chart -->
-                        <div id="donutChart"></div>
-
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                                new ApexCharts(document.querySelector("#donutChart"), {
-                                    series: [pdh_pttt_1, pdh_pttt_2, pdh_pttt_3],
-                                    chart: {
-                                        height: 350,
-                                        type: 'donut',
-                                        toolbar: {
-                                            show: true
-                                        }
-                                    },
-                                    labels: ['Nhận hàng trả tiền', 'Thanh toán qua PayPal', 'Thanh toán qua VNPay'],
-                                }).render();
-                            });
-                        </script>
-                        <!-- End Donut Chart -->
-                        <br><br>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-
 @endsection
 
 <script>
@@ -386,3 +520,4 @@
     var pdh_pttt_2 = <?php echo $pdh_pttt_2; ?>;
     var pdh_pttt_3 = <?php echo $pdh_pttt_3; ?>;
 </script>
+

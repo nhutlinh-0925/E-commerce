@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->date('tk_Ngay');
             $table->integer('tk_SoLuong');
-            $table->decimal('tk_TongTien',10,0);
+            $table->decimal('tk_DoanhSo',10,0);
+            $table->decimal('tk_DoanhThu',10,0);
             $table->decimal('tk_LoiNhuan',10,0);
             $table->integer('tk_TongDonHang');
             $table->timestamps();

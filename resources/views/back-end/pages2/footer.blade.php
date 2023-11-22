@@ -44,6 +44,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+{{--  Thống kê doanh thu trong 30 ngày  --}}
 <script type="text/javascript">
     $(document).ready(function (){
         chart30daysorder();
@@ -81,7 +82,7 @@
                         totalProfit += parseFloat(data[i].profit);
                     }
 
-                    $("#total p:first-child").text("Tổng doanh số: " + numberFormat(totalRevenue) + ' đ');
+                    $("#total p:first-child").text("Tổng doanh thu: " + numberFormat(totalRevenue) + ' đ');
                     $("#total p:last-child").text("Tổng lợi nhuận: " + numberFormat(totalProfit) + ' đ');
 
                     // Hàm để định dạng số theo kiểu number_format
@@ -93,9 +94,13 @@
             });
         };
 
+
+        // select các ngày trong thống kê doanh thu
         $('.dashboard-filter').change(function () {
             var dashboard_value = $(this).val();
             var _token = $('input[name="_token"]').val();
+
+            $('#doanhthu_loc').text(' | ' + dashboard_value);
 
             $.ajax({
                 url: "{{url('/admin/dashboard-filter')}}",
@@ -116,7 +121,7 @@
                         totalProfit += parseFloat(data[i].profit);
                     }
 
-                    $("#total p:first-child").text("Tổng doanh số: " + numberFormat(totalRevenue) + ' đ');
+                    $("#total p:first-child").text("Tổng doanh thu: " + numberFormat(totalRevenue) + ' đ');
                     $("#total p:last-child").text("Tổng lợi nhuận: " + numberFormat(totalProfit) + ' đ');
 
                     // Hàm để định dạng số theo kiểu number_format
@@ -137,6 +142,7 @@
             var from_date = moment($('#datepicker').val(), 'MM/DD/YYYY').format('YYYY-MM-DD');
             var to_date = moment($('#datepicker2').val(), 'MM/DD/YYYY').format('YYYY-MM-DD');
             //alert(from_date);
+            $('#doanhthu_loc').text(' | ' + from_date + ' đến ' + to_date);
 
             $.ajax({
                 url: "{{url('/admin/filter-by-date')}}",
@@ -157,7 +163,7 @@
                         totalProfit += parseFloat(data[i].profit);
                     }
 
-                    $("#total p:first-child").text("Tổng doanh số: " + numberFormat(totalRevenue) + ' đ');
+                    $("#total p:first-child").text("Tổng doanh thu: " + numberFormat(totalRevenue) + ' đ');
                     $("#total p:last-child").text("Tổng lợi nhuận: " + numberFormat(totalProfit) + ' đ');
 
                     // Hàm để định dạng số theo kiểu number_format
@@ -171,6 +177,7 @@
     });
 </script>
 
+{{--  Thống kê số lượng  --}}
 <script type="text/javascript">
     $(document).ready(function (){
         var donut = Morris.Donut({
@@ -195,6 +202,7 @@
     });
 </script>
 
+{{--  Lựa chọn lịch của thống kê doanh thu  --}}
 <script type="text/javascript">
     $(function() {
         $("#datepicker").datepicker({
@@ -214,6 +222,174 @@
     });
 </script>
 
+{{--   Thống kê doanh thu trong năm biểu đồ đường   --}}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Sử dụng Ajax để gửi yêu cầu đến route và nhận dữ liệu
+        $.ajax({
+            url : "{{ route('admin.getChartData') }}",
+            method: 'GET',
+            success: function (data) {
+                // Cập nhật dữ liệu trong biểu đồ
+                var lineChart = new Chart(document.querySelector('#lineChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        datasets: [{
+                            label: 'Doanh thu',
+                            data: data,
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+        });
+    });
+</script>
+
+{{--  Thống kê doanh thu trong năm biểu đồ ường khi select year  --}}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        var lineChart = null;
+
+        function updateChart(data) {
+            var canvas = document.getElementById('lineChart');
+            if (canvas) {
+                canvas.remove();
+            }
+
+            // Tạo một canvas mới
+            var newCanvas = document.createElement('canvas');
+            newCanvas.id = 'lineChart';
+            document.querySelector('.card-body').appendChild(newCanvas);
+
+            lineChart = new Chart(document.querySelector('#lineChart1'), {
+            // lineChart = new Chart(newCanvas, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: data,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Lắng nghe sự kiện change của dropdown
+        document.getElementById('yearFilter').addEventListener('change', function () {
+            // Lấy giá trị năm được chọn
+            var selectedYear = this.value;
+
+            // Nếu không chọn năm, không thực hiện gì cả
+            if (selectedYear === '') {
+                return;
+            }
+
+            // Cập nhật giá trị của thẻ span hiển thị năm
+            document.getElementById('selectedYear').textContent = '| Năm ' + selectedYear;
+
+            // Sử dụng Ajax để gửi yêu cầu đến route và nhận dữ liệu
+            $.ajax({
+                url: "{{ route('admin.getChartDataByYear') }}",
+                method: 'GET',
+                data: { year: selectedYear },
+                success: function (data) {
+                    // Cập nhật dữ liệu trong biểu đồ
+                    updateChart(data);
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+
+        // Gọi Ajax khi trang vừa được tải để hiển thị dữ liệu mặc định
+        $('#yearFilter').change();
+    });
+
+</script>
+
+
+{{--   Thống kê top sản phẩm bán chạy bằng table  --}}
+<script>
+    $(document).ready(function () {
+        // Xử lý sự kiện khi người dùng chọn thời gian
+        $('.dropdown-item').click(function (e) {
+            e.preventDefault();
+            var filter = $(this).parent().data('filter');
+            //alert(filter);
+
+            // Gửi yêu cầu AJAX để tải dữ liệu mới
+            loadData(filter);
+
+            // Cập nhật thông tin hiển thị thời gian
+            $('#time-range').text('| ' + filter);
+        });
+
+        // Hàm để gửi yêu cầu AJAX và cập nhật dữ liệu trong bảng
+        // Khi chọn các fifter
+        function loadData(filter) {
+            var url = "{{ route('admin.product_tops') }}";
+            var data = {
+                _token: "{{ csrf_token() }}",
+                data_value: filter
+            };
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: data,
+                success: function (response) {
+                    var tbody = $('#product-top-table-body');
+                    tbody.empty(); // Clear existing rows
+
+                    // Iterate through the response data and append rows to the table
+                    $.each(response.product_tops, function (index, item) {
+                        var formatter = new Intl.NumberFormat('vi-VN');
+                        var formattedPrice = formatter.format(parseFloat(item.sanpham.sp_Gia));
+
+                        var row = '<tr>' +
+                            '<td>' + item.san_pham_id + '</td>' +
+                            '<td>' + item.sanpham.sp_TenSanPham + '</td>' +
+                            '<td><img src="{{ url('/storage/images/products/') }}/' + item.sanpham.sp_AnhDaiDien + '" height="50px" width="50px"></td>' +
+                            '<td><p style="color: red;"><b>' + formattedPrice + ' đ</b></p></td>' +
+                            '<td>' + item.totalQuantity + '</td>' +
+                            '</tr>';
+                        tbody.append(row);
+                    });
+
+                },
+
+
+            });
+        }
+
+    });
+
+</script>
+
+
+{{--  Lựa chọn sản phẩm khi nhập kho  --}}
 <script type="text/javascript">
     $('#productSelect').select2({
         templateResult: function(data) {
@@ -417,12 +593,10 @@
             // Kiểm tra giá trị số lượng mới và thực hiện các thao tác cập nhật dựa trên nó
             if (!isNaN(newQuantity) && newQuantity >= 1) {
                 // Thực hiện các thao tác cập nhật ở đây
-                // Ví dụ: có thể gửi dữ liệu cập nhật lên máy chủ thông qua AJAX
                 alert('Đã cập nhật số lượng sản phẩm thành công');
             } else {
                 alert('Số lượng không hợp lệ.');
             }
-
 
         });
     });

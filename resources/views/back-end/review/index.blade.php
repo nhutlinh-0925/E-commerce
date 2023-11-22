@@ -81,20 +81,20 @@
                                         @endif
                                     </td>
                                     <td style="display: flex">
-                                        <form method="post" action="{{ url('/admin/reviews/destroy/' .$item->id  ) }}" style="width: 80px">
+{{--                                        <form method="post" action="{{ url('/admin/reviews/destroy/' .$item->id  ) }}" style="width: 80px">--}}
                                             @if ($item->dg_TrangThai == 0)
                                                 <a href="{{ url('/admin/reviews/unactive/' . $item->id ) }}" class="btn btn-primary btn-sm" onclick ='return confirm("Bạn chắc chắn muốn hiện đánh giá?")' title="Hiển thị"><i class="bi bi-check2-circle"></i></a>
                                             @elseif($item->dg_TrangThai == 1)
                                                 <a href="{{ url('/admin/reviews/active/' . $item->id ) }}" class="btn btn-secondary btn-sm" onclick ='return confirm("Bạn chắc chắn muốn ẩn đánh giá?")' title="Ẩn"><i class="bi bi-x-octagon"></i></a>
                                             @endif
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa đánh giá'
-                                                    data-toggle = 'tooltip'
-                                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>
+{{--                                            @method('delete')--}}
+{{--                                            @csrf--}}
+{{--                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa đánh giá'--}}
+{{--                                                    data-toggle = 'tooltip'--}}
+{{--                                                    onclick ='return confirm("Bạn chắc chắn muốn xóa?")'>--}}
+{{--                                                <i class="bi bi-trash-fill"></i>--}}
+{{--                                            </button>--}}
+{{--                                        </form>--}}
                                     </td>
                                 </tr>
                             @endforeach

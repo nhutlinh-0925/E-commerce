@@ -12,7 +12,8 @@ class ThongKe extends Model
     protected $fillable = [
         'tk_Ngay',
         'tk_SoLuong',
-        'tk_TongTien',
+        'tk_DoanhSo',
+        'tk_DoanhThu',
         'tk_LoiNhuan',
         'tk_TongDonHang',
     ];

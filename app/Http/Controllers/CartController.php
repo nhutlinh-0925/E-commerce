@@ -491,7 +491,7 @@ class CartController extends Controller
                 // Chuyển đổi mảng thông tin thành query string
                 $queryString = http_build_query($queryData);
                 // Cập nhật biến $vnp_Returnurl bằng cách thêm query string vào URL
-                $vnp_Returnurl = "http://127.0.0.1:8000/user/vnpay-callback?" . $queryString;
+                $vnp_Returnurl = "http://baloviet.com/user/vnpay-callback?" . $queryString;
                 //$vnp_Returnurl = "http://127.0.0.1:8000/vnpay-callback";
                 $vnp_TmnCode = "JZXSHR5X";//Mã website tại VNPAY
                 $vnp_HashSecret = "TQWUZAKGSAQBBWMNDTMZXINTWDJYXPBA"; //Chuỗi bí mật
@@ -1040,15 +1040,16 @@ class CartController extends Controller
         }
 
         $total_order = 0; //tong so luong don
-        $sales = 0; //doanh so
+//        $sales = 0; //doanh so
+        $sales = $order->pdh_TongTien; //doanh thu
         $profit = 0; //loi nhuan
         $quantity = 0; //so luong
 
         $tongChiPhiNhapKho = 0;
 
         foreach ($order->chitietphieudathang as $detail) {
-            $quantity += $detail->ctpdh_SoLuong;
-            $sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
+            //$quantity += $detail->ctpdh_SoLuong;
+            //$sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
             // Lấy thông tin chi tiết phiếu nhập hàng
             $chiTietPhieuNhapHang = ChiTietPhieuNhapHang::join('phieu_nhap_hangs', 'chi_tiet_phieu_nhap_hangs.phieu_nhap_hang_id', '=', 'phieu_nhap_hangs.id')
                 ->where('chi_tiet_phieu_nhap_hangs.san_pham_id', $detail->san_pham_id)
@@ -1085,7 +1086,8 @@ class CartController extends Controller
 
         if($thongke_dem > 0){
             $thongke_capnhat = ThongKe::where('tk_Ngay',$order_date)->first();
-            $thongke_capnhat->tk_TongTien = $thongke_capnhat->tk_TongTien + $sales;
+//            $thongke_capnhat->tk_DoanhSo = $thongke_capnhat->tk_DoanhSo + $sales;
+            $thongke_capnhat->tk_DoanhThu = $thongke_capnhat->tk_DoanhThu + $sales;
             $thongke_capnhat->tk_LoiNhuan = $thongke_capnhat->tk_LoiNhuan + $profit;
             $thongke_capnhat->tk_SoLuong = $thongke_capnhat->tk_SoLuong + $quantity;
             $thongke_capnhat->tk_TongDonHang = $thongke_capnhat->tk_TongDonHang + $total_order;
@@ -1094,7 +1096,8 @@ class CartController extends Controller
             $thongke_moi = new ThongKe();
             $thongke_moi->tk_Ngay = $order_date;
             $thongke_moi->tk_SoLuong = $quantity;
-            $thongke_moi->tk_TongTien = $sales;
+//            $thongke_moi->tk_DoanhSo = $sales;
+            $thongke_moi->tk_DoanhThu = $sales;
             $thongke_moi->tk_LoiNhuan = $profit;
             $thongke_moi->tk_TongDonHang = $total_order;
             $thongke_moi->save();

@@ -97,7 +97,7 @@
                 <div class="row">
                     <div class="col-12">
                         <label for="validationDefault04" class="form-label"><strong>Giá trị <span class="text-danger">(*)</span></strong></label>
-                        <input type="number" class="form-control" id="mgg_GiaTri" name="mgg_GiaTri" placeholder="Nhập giá trị giảm" value="{{ old('mgg_GiaTri', $coupon->mgg_GiaTri ?? '') }}">
+                        <input type="number" class="form-control" id="mgg_GiaTri" name="mgg_GiaTri" placeholder="Nhập giá trị giảm" value="{{ old('mgg_GiaTri', $coupon->mgg_GiaTri ?? '') }}" max="500000" min="1">
                         @error ('mgg_GiaTri')
                         <span style="color: red;">{{ $message }}</span>
                         @enderror
