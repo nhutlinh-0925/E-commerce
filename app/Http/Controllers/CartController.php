@@ -37,122 +37,134 @@ class CartController extends Controller
     //Hàm thêm sp vào giỏ hàng ở trang chi tiết sp
     public function index(Request $request)
     {
-        //dd($request);
-        $qty = (int)$request->input('num_product');
-        $product_id = (int)$request->input('product_id');
-        $size = $request->product_size;
+        if(Auth::check()){
+            //dd($request);
+            $qty = (int)$request->input('num_product');
+            $product_id = (int)$request->input('product_id');
+            $size = $request->product_size;
 
-        $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)->where('kich_thuoc_id',$size)->first();
-        $slh = $spkt->spkt_soLuongHang;
+            $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)->where('kich_thuoc_id',$size)->first();
+            $slh = $spkt->spkt_soLuongHang;
 
-        if ($qty <= 0 || $product_id <= 0 || $qty > $slh) {
-            Session::flash('flash_message_error_qty', 'Số lượng hoặc sản phẩm không chính xác!');
+            if ($qty <= 0 || $product_id <= 0 || $qty > $slh) {
+                Session::flash('flash_message_error_qty', 'Số lượng hoặc sản phẩm không chính xác!');
+                return redirect()->back();
+            }
+            $carts = session()->get('carts');
+            //dd($carts);
+
+            if (is_null($carts)) {
+                $product_info = [
+                    'product_id' => $product_id,
+                    'qty' => $qty,
+                    'size' => $size,
+                ];
+                $carts[] = $product_info;
+                session()->put('carts', $carts);
+            }
+
+            $exists = false;
+            foreach ($carts as $key => $item) {
+                // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng dựa trên product_id và size
+                if ($item['product_id'] == $product_id && $item['size'] == $size) {
+                    $exists = true;
+                    // Cập nhật số lượng nếu sản phẩm đã tồn tại
+                    $carts[$key]['qty'] += $qty;
+
+                    if ($carts[$key]['qty'] > $slh) {
+                        session()->flash('flash_message_error', 'Số lượng sản phẩm lớn hơn trong kho');
+                        return redirect()->back();
+                    }
+                    session()->put('carts', $carts);
+
+                }
+            }
+
+            if (!$exists) {
+                // Nếu sản phẩm không tồn tại trong giỏ hàng, thêm nó vào giỏ hàng
+                $product_info = [
+                    'product_id' => $product_id,
+                    'qty' => $qty,
+                    'size' => $size,
+                ];
+
+                $carts[] = $product_info;
+                session()->put('carts', $carts);
+            }
+            //dd($carts);
+
+            return redirect('/carts');
+        }else{
+            Session::flash('flash_message_login', 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!');
+//            Session::put('flash_message_error_link', '/user/login');
             return redirect()->back();
         }
-        $carts = session()->get('carts');
-        //dd($carts);
-
-        if (is_null($carts)) {
-            $product_info = [
-                'product_id' => $product_id,
-                'qty' => $qty,
-                'size' => $size,
-            ];
-            $carts[] = $product_info;
-            session()->put('carts', $carts);
-        }
-
-        $exists = false;
-        foreach ($carts as $key => $item) {
-            // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng dựa trên product_id và size
-            if ($item['product_id'] == $product_id && $item['size'] == $size) {
-                $exists = true;
-                // Cập nhật số lượng nếu sản phẩm đã tồn tại
-                $carts[$key]['qty'] += $qty;
-
-                if ($carts[$key]['qty'] > $slh) {
-                    session()->flash('flash_message_error', 'Số lượng sản phẩm lớn hơn trong kho');
-                    return redirect()->back();
-                }
-                session()->put('carts', $carts);
-
-            }
-        }
-
-        if (!$exists) {
-            // Nếu sản phẩm không tồn tại trong giỏ hàng, thêm nó vào giỏ hàng
-            $product_info = [
-                'product_id' => $product_id,
-                'qty' => $qty,
-                'size' => $size,
-            ];
-
-            $carts[] = $product_info;
-            session()->put('carts', $carts);
-        }
-        //dd($carts);
-
-        return redirect('/carts');
     }
 
     public function add_cart_quick_view(Request $request)
     {
-        //dd($request);
-        $qty = (int)$request->input('num_product');
-        $product_id = (int)$request->input('product_id');
-        $size = $request->product_size;
+        if(Auth::check()){
+            //dd($request);
+            $qty = (int)$request->input('num_product');
+            $product_id = (int)$request->input('product_id');
+            $size = $request->product_size;
 
-        $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)->where('kich_thuoc_id',$size)->first();
-        $slh = $spkt->spkt_soLuongHang;
+            $spkt = SanPhamKichThuoc::where('san_pham_id', $product_id)->where('kich_thuoc_id',$size)->first();
+            $slh = $spkt->spkt_soLuongHang;
 
-        if ($qty <= 0 || $product_id <= 0 || $qty > $slh) {
-            Session::flash('flash_message_error_qty', 'Số lượng hoặc sản phẩm không chính xác!');
+            if ($qty <= 0 || $product_id <= 0 || $qty > $slh) {
+                Session::flash('flash_message_error_qty', 'Số lượng hoặc sản phẩm không chính xác!');
+                return redirect()->back();
+            }
+            $carts = session()->get('carts');
+            //dd($carts);
+
+            if (is_null($carts)) {
+                $product_info = [
+                    'product_id' => $product_id,
+                    'qty' => $qty,
+                    'size' => $size,
+                ];
+                $carts[] = $product_info;
+                session()->put('carts', $carts);
+            }
+
+            $exists = false;
+            foreach ($carts as $key => $item) {
+                // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng dựa trên product_id và size
+                if ($item['product_id'] == $product_id && $item['size'] == $size) {
+                    $exists = true;
+                    // Cập nhật số lượng nếu sản phẩm đã tồn tại
+                    $carts[$key]['qty'] += $qty;
+
+                    if ($carts[$key]['qty'] > $slh) {
+                        session()->flash('flash_message_error', 'Số lượng sản phẩm lớn hơn trong kho');
+                        return redirect()->back();
+                    }
+                    session()->put('carts', $carts);
+
+                }
+            }
+
+            if (!$exists) {
+                // Nếu sản phẩm không tồn tại trong giỏ hàng, thêm nó vào giỏ hàng
+                $product_info = [
+                    'product_id' => $product_id,
+                    'qty' => $qty,
+                    'size' => $size,
+                ];
+
+                $carts[] = $product_info;
+                session()->put('carts', $carts);
+            }
+            //dd($carts);
+            Session::flash('success_message', 'Đã thêm sản phẩm vào giỏ hàng!');
+            return redirect()->back();
+        }else{
+            Session::flash('flash_message_login', 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!');
+//            Session::put('flash_message_error_link', '/user/login');
             return redirect()->back();
         }
-        $carts = session()->get('carts');
-        //dd($carts);
-
-        if (is_null($carts)) {
-            $product_info = [
-                'product_id' => $product_id,
-                'qty' => $qty,
-                'size' => $size,
-            ];
-            $carts[] = $product_info;
-            session()->put('carts', $carts);
-        }
-
-        $exists = false;
-        foreach ($carts as $key => $item) {
-            // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng dựa trên product_id và size
-            if ($item['product_id'] == $product_id && $item['size'] == $size) {
-                $exists = true;
-                // Cập nhật số lượng nếu sản phẩm đã tồn tại
-                $carts[$key]['qty'] += $qty;
-
-                if ($carts[$key]['qty'] > $slh) {
-                    session()->flash('flash_message_error', 'Số lượng sản phẩm lớn hơn trong kho');
-                    return redirect()->back();
-                }
-                session()->put('carts', $carts);
-
-            }
-        }
-
-        if (!$exists) {
-            // Nếu sản phẩm không tồn tại trong giỏ hàng, thêm nó vào giỏ hàng
-            $product_info = [
-                'product_id' => $product_id,
-                'qty' => $qty,
-                'size' => $size,
-            ];
-
-            $carts[] = $product_info;
-            session()->put('carts', $carts);
-        }
-        //dd($carts);
-        Session::flash('success_message', 'Đã thêm sản phẩm vào giỏ hàng!');
-        return redirect()->back();
     }
 
     public function show()

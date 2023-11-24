@@ -29,7 +29,7 @@ class BaiVietController extends Controller
      */
     public function create()
     {
-        $category_posts = DanhMucBaiViet::all();
+        $category_posts = DanhMucBaiViet::where('dmbv_TrangThai',1)->get();
         $data = [
             'category_posts' => $category_posts,
         ];

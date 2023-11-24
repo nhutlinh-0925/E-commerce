@@ -217,7 +217,7 @@
 
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body lineChart">
                         <h5 class="card-title">Thống kê doanh thu theo năm <span id="selectedYear">| Năm 2023</span></h5>
 
                         <div class="col-2 d-flex align-items-center justify-content-center">
@@ -234,7 +234,7 @@
                         <!-- Line Chart -->
                         <canvas id="lineChart" style="max-height: 400px;"></canvas>
 
-                        <canvas id="lineChart1" style="max-height: 400px; "></canvas>
+{{--                        <canvas id="lineChart1" style="max-height: 400px; "></canvas>--}}
 
                     </div>
                 </div>
@@ -341,13 +341,13 @@
                     <li class="dropdown-header text-start">
                         <h6>Lọc theo</h6>
                     </li>
-                    <li data-filter="7 ngày qua"><a class="dropdown-item" href="#">7 ngày qua</a></li>
-                    <li data-filter="Tháng trước"><a class="dropdown-item" href="#">Tháng trước</a></li>
-                    <li data-filter="Tháng này"><a class="dropdown-item" href="#">Tháng này</a></li>
-                    <li data-filter="Quý 1"><a class="dropdown-item" href="#">Quý 1</a></li>
-                    <li data-filter="Quý 2"><a class="dropdown-item" href="#">Quý 2</a></li>
-                    <li data-filter="Quý 3"><a class="dropdown-item" href="#">Quý 3</a></li>
-                    <li data-filter="Quý 4"><a class="dropdown-item" href="#">Quý 4</a></li>
+                    <li data-filter="7 ngày qua"><a class="dropdown-item selling" href="#">7 ngày qua</a></li>
+                    <li data-filter="Tháng trước"><a class="dropdown-item selling" href="#">Tháng trước</a></li>
+                    <li data-filter="Tháng này"><a class="dropdown-item selling" href="#">Tháng này</a></li>
+                    <li data-filter="Quý 1"><a class="dropdown-item selling" href="#">Quý 1</a></li>
+                    <li data-filter="Quý 2"><a class="dropdown-item selling" href="#">Quý 2</a></li>
+                    <li data-filter="Quý 3"><a class="dropdown-item selling" href="#">Quý 3</a></li>
+                    <li data-filter="Quý 4"><a class="dropdown-item selling" href="#">Quý 4</a></li>
                 </ul>
             </div>
 

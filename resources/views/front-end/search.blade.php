@@ -385,6 +385,30 @@
             borderRadius: '10px' // Độ cong của góc thông báo
         });
     </script>
+@elseif(session()->has('flash_message_login'))
+    <style>
+        .my-custom-icon {
+            color: #ff0000; /* Màu đỏ */
+            font-size: 5px; /* Kích thước nhỏ hơn (16px) */
+        }
+    </style>
+
+    <script>
+        Swal.fire({
+            title: 'Rất tiết!!!', // Tiêu đề của thông báo
+            html: 'Bạn cần <a href="/user/login">đăng nhập</a> để thêm sản phẩm vào giỏ hàng', // Nội dung của thông báo với đường liên kết
+            icon: 'success', // Icon của thông báo (success, error, warning, info, question)
+            showConfirmButton: false, // Không hiển thị nút xác nhận
+            timer: 6500, // Thời gian hiển thị thông báo (tính theo milliseconds)
+            showCloseButton: true, // Hiển thị nút X để tắt thông báo
+            customClass: {
+                icon: 'my-custom-icon' // Sử dụng lớp CSS tùy chỉnh cho icon
+            },
+            // background: '#ff0000', // Màu nền của thông báo
+            padding: '3rem', // Khoảng cách lề bên trong thông báo
+            borderRadius: '10px' // Độ cong của góc thông báo
+        });
+    </script>
 @endif
 
 {{--    Mục yêu thích  --}}

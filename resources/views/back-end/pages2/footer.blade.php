@@ -257,23 +257,24 @@
 </script>
 
 {{--  Thống kê doanh thu trong năm biểu đồ ường khi select year  --}}
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         var lineChart = null;
 
         function updateChart(data) {
-            var canvas = document.getElementById('lineChart');
-            if (canvas) {
-                canvas.remove();
-            }
+            // Loại bỏ các canvas hiện có
+            var existingCanvases = document.querySelectorAll('.card-body canvas');
+            existingCanvases.forEach(canvas => canvas.remove());
 
             // Tạo một canvas mới
             var newCanvas = document.createElement('canvas');
-            newCanvas.id = 'lineChart';
-            document.querySelector('.card-body').appendChild(newCanvas);
+            newCanvas.id = 'lineChart'; // Sử dụng cùng một ID như trong việc tạo biểu đồ ban đầu
+            newCanvas.style.maxHeight = '400px';
+            document.querySelector('.lineChart').appendChild(newCanvas);
 
-            lineChart = new Chart(document.querySelector('#lineChart1'), {
-            // lineChart = new Chart(newCanvas, {
+            // Cập nhật biểu đồ với dữ liệu mới
+            lineChart = new Chart(newCanvas, {
                 type: 'line',
                 data: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -295,26 +296,23 @@
             });
         }
 
-        // Lắng nghe sự kiện change của dropdown
+        // Thêm lắng nghe sự kiện cho sự thay đổi của dropdown
         document.getElementById('yearFilter').addEventListener('change', function () {
-            // Lấy giá trị năm được chọn
             var selectedYear = this.value;
 
-            // Nếu không chọn năm, không thực hiện gì cả
             if (selectedYear === '') {
                 return;
             }
 
-            // Cập nhật giá trị của thẻ span hiển thị năm
             document.getElementById('selectedYear').textContent = '| Năm ' + selectedYear;
 
-            // Sử dụng Ajax để gửi yêu cầu đến route và nhận dữ liệu
+            // Sử dụng Ajax để lấy dữ liệu cho năm đã chọn
             $.ajax({
                 url: "{{ route('admin.getChartDataByYear') }}",
                 method: 'GET',
                 data: { year: selectedYear },
                 success: function (data) {
-                    // Cập nhật dữ liệu trong biểu đồ
+                    // Cập nhật biểu đồ với dữ liệu mới
                     updateChart(data);
                 },
                 error: function (error) {
@@ -323,10 +321,9 @@
             });
         });
 
-        // Gọi Ajax khi trang vừa được tải để hiển thị dữ liệu mặc định
+        // Kích hoạt sự kiện thay đổi khi trang được tải để hiển thị dữ liệu mặc định
         $('#yearFilter').change();
     });
-
 </script>
 
 
@@ -334,7 +331,7 @@
 <script>
     $(document).ready(function () {
         // Xử lý sự kiện khi người dùng chọn thời gian
-        $('.dropdown-item').click(function (e) {
+        $('.selling').click(function (e) {
             e.preventDefault();
             var filter = $(this).parent().data('filter');
             //alert(filter);

@@ -58,7 +58,11 @@
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <div class="image-container" style=" position: relative;display: inline-block;">
-                        <img src="{{ url('/storage/images/avatar/customers/'.$khachhang->avatar) }}" alt="Profile" class="rounded-circle">
+                        @if(Auth('web')->user()->avatar == '')
+                            <img src="/template/front-end/img/avatar.jpg" alt="Profile" class="rounded-circle">
+                        @else
+                            <img src="{{ url('/storage/images/avatar/customers/'.$khachhang->avatar) }}" alt="Profile" class="rounded-circle">
+                        @endif
                         @if(Auth('web')->user()->vip == 1)
                             <span class="label" style="position: absolute;top: 0;right: 0;
                                                        background-color: red;color: white;
