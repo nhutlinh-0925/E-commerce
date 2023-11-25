@@ -30,7 +30,6 @@ class AdminController extends Controller
         [
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Không đúng định dạng email',
-//            'email.unique' => 'Email đã được đăng kí',
             'password.required' => 'Vui lòng nhập passwod',
             'password.min' => 'Mật khẩu ít nhất 5 kí tự',
         ]);
@@ -78,6 +77,7 @@ class AdminController extends Controller
 
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $startDate)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $endDate)
                 ->groupBy('san_pham_id')
@@ -170,6 +170,7 @@ class AdminController extends Controller
         if($data['data_value'] == '7 ngày qua'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $sub7days)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $now)
                 ->groupBy('san_pham_id')
@@ -181,6 +182,7 @@ class AdminController extends Controller
         elseif ($data['data_value'] == 'Tháng trước'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $dauthangtruoc)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $cuoithangtruoc)
                 ->groupBy('san_pham_id')
@@ -191,6 +193,7 @@ class AdminController extends Controller
         }elseif ($data['data_value'] == 'Tháng này'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $dauthangnay)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $now)
                 ->groupBy('san_pham_id')
@@ -201,6 +204,7 @@ class AdminController extends Controller
         }elseif ($data['data_value'] == 'Quý 1'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $quy1_start)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $quy1_end)
                 ->groupBy('san_pham_id')
@@ -211,6 +215,7 @@ class AdminController extends Controller
         }elseif ($data['data_value'] == 'Quý 2'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $quy2_start)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $quy2_end)
                 ->groupBy('san_pham_id')
@@ -221,6 +226,7 @@ class AdminController extends Controller
         }elseif ($data['data_value'] == 'Quý 3'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $quy3_start)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $quy3_end)
                 ->groupBy('san_pham_id')
@@ -231,6 +237,7 @@ class AdminController extends Controller
         }elseif ($data['data_value'] == 'Quý 4'){
             $product_tops = ChiTietPhieuDatHang::select('san_pham_id', \DB::raw('SUM(ctpdh_SoLuong) as totalQuantity'))
                 ->join('phieu_dat_hangs', 'chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', 'phieu_dat_hangs.id')
+                ->where('phieu_dat_hangs.pdh_TrangThai', 4)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '>=', $quy4_start)
                 ->where('phieu_dat_hangs.pdh_NgayDat', '<=', $quy4_end)
                 ->groupBy('san_pham_id')

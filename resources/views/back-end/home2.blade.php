@@ -369,7 +369,11 @@
                         <tr>
                             <td>{{ $item->san_pham_id }}</td>
                             <td>{{ $item->sanpham->sp_TenSanPham }}</td>
-                            <td><img src="{{ url('/storage/images/products/'.$item->sanpham->sp_AnhDaiDien) }}" height="50px" width="50px"></td>
+                            <td>
+                                <a href="/admin/products/show/{{ $item->san_pham_id }}">
+                                <img src="{{ url('/storage/images/products/'.$item->sanpham->sp_AnhDaiDien) }}" height="50px" width="50px">
+                                </a>
+                            </td>
                             <td><p style="text-align: center;color: red"><b>{{ number_format($item->sanpham->sp_Gia, 0, '', '.') }} đ</b></p></td>
                             <td>{{ $item->totalQuantity }}</td>
                         </tr>

@@ -19,7 +19,6 @@ class ShipperController extends Controller
             [
                 'email.required' => 'Vui lòng nhập email',
                 'email.email' => 'Không đúng định dạng email',
-//            'email.unique' => 'Email đã được đăng kí',
                 'password.required' => 'Vui lòng nhập passwod',
                 'password.min' => 'Mật khẩu ít nhất 5 kí tự',
             ]);

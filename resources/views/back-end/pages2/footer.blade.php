@@ -55,7 +55,7 @@
             hideHover:"auto",
             xkey: 'period',
             ykeys: ['order','sales','profit','quantity'],
-            labels: ['đơn hàng','doanh số','lợi nhuận','số lượng']
+            labels: ['đơn hàng','doanh thu','lợi nhuận','số lượng sản phẩm']
         });
 
         function chart30daysorder(){
@@ -368,7 +368,7 @@
                         var row = '<tr>' +
                             '<td>' + item.san_pham_id + '</td>' +
                             '<td>' + item.sanpham.sp_TenSanPham + '</td>' +
-                            '<td><img src="{{ url('/storage/images/products/') }}/' + item.sanpham.sp_AnhDaiDien + '" height="50px" width="50px"></td>' +
+                            '<td><a href="/admin/products/show/' + item.san_pham_id + '"><img src="{{ url('/storage/images/products/') }}/' + item.sanpham.sp_AnhDaiDien + '" height="50px" width="50px"></a></td>' +
                             '<td><p style="color: red;"><b>' + formattedPrice + ' đ</b></p></td>' +
                             '<td>' + item.totalQuantity + '</td>' +
                             '</tr>';

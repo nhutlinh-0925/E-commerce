@@ -28,7 +28,7 @@ class NguoiGiaoHangController extends Controller
 //         dd($request);
         $this -> validate($request, [
             'ngh_Ten' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:nguoi_giao_hangs',
             'ngh_DiaChi' => 'required',
             'password' => 'required|min:6',
             'password_again' => 'required|same:password',
@@ -40,6 +40,7 @@ class NguoiGiaoHangController extends Controller
                 'ngh_Ten.required' => 'Vui lòng nhập họ tên',
                 'email.required' => 'Vui lòng nhập email',
                 'email.email' => 'Không đúng định dạng email',
+                'email.unique' => 'Email đã được đăng kí',
                 'ngh_DiaChi.required' => 'Vui lòng nhập địa chỉ cụ thể',
                 'password.required' => 'Vui lòng nhập mật khẩu',
                 'password.min' => 'Mật khẩu ít nhất 5 kí tự',
