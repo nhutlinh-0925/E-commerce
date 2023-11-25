@@ -475,7 +475,14 @@
                                                             <label style="float: right;">{{ $mgg->mgg_GiaTri }} %</label>
                                                             <label>Mã giảm : </label>
                                                             @php
-                                                                $total_coupon = ($total * $mgg->mgg_GiaTri)/100;
+                                                                $total_coupon1 = ($total * $mgg->mgg_GiaTri)/100;
+                                                                $total_coupon2 = $mgg->mgg_GiamToiDa;//100
+                                                                if($total_coupon1 > $total_coupon2)
+                                                                    $total_coupon = $total_coupon2;
+                                                                elseif($total_coupon1 < $total_coupon2)
+                                                                    $total_coupon = $total_coupon1;
+                                                                elseif($total_coupon1 == $total_coupon2)
+                                                                    $total_coupon = $total_coupon2;
                                                             @endphp
 
                                                             <br>

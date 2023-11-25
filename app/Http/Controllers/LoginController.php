@@ -12,6 +12,7 @@ use App\Social;
 //use Laravel\Socialite\Facades\Socialite;
 //use Socialite;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Socialite;
 
 use Illuminate\Support\Str;
@@ -31,12 +32,11 @@ class LoginController extends Controller
         // dd($request);
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6|max:15'
+            'password' => 'required|min:6'
         ],
         [
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Không đúng định dạng email',
-            'email.unique' => 'Email đã được đăng kí',
             'password.required' => 'Vui lòng nhập passwod',
             'password.min' => 'Mật khẩu ít nhất 5 kí tự',
         ]);
@@ -100,6 +100,10 @@ class LoginController extends Controller
         Auth::guard('web')->logout();
 //        $request->session()->invalidate();
 //        $request->session()->regenerateToken();
+        if (Session::get('coupon') == true) {
+            Session::forget('coupon');
+        }
+        session()->forget('carts');
         return redirect('/user/login');
     }
 

@@ -88,15 +88,32 @@
                         <span style="color: red;">{{ $message }}</span>
                         @enderror
                     </div>
+                </div><br><br><br><br>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="inputNanme4" class="form-label"><strong>Giá trị <span class="text-danger">(*)</span></strong></label>
+                        <input type="number" class="form-control" id="mgg_GiaTri" name="mgg_GiaTri" placeholder="Nhập giá trị giảm" value="{{ old('mgg_GiaTri', $request->mgg_GiaTri ?? '') }}" max="500000" min="1">
+                        @error ('mgg_GiaTri')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputNanme4" class="form-label"><strong>Đơn tối thiểu <span class="text-danger">(*)</span></strong></label>
+                        <input type="number" class="form-control" id="mgg_DonToiThieu" name="mgg_DonToiThieu" placeholder="Nhập đơn tối thiểu" value="{{ old('mgg_DonToiThieu', $request->mgg_DonToiThieu ?? '') }}" max="5000000" min="1000000">
+                        @error ('mgg_DonToiThieu')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputNanme4" class="form-label"><strong>Giảm tối đa <span class="text-danger">(*)</span></strong></label>
+                        <input type="number" class="form-control" id="mgg_GiamToiDa" name="mgg_GiamToiDa" placeholder="Nhập giảm tối đa" value="{{ old('mgg_GiamToiDa', $request->mgg_GiamToiDa ?? '') }}" max="750000" min="50000">
+                        @error ('mgg_GiamToiDa')
+                        <span style="color: red;">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="col-12">
-                    <label for="validationDefault04" class="form-label"><strong>Giá trị <span class="text-danger">(*)</span></strong></label>
-                    <input type="number" class="form-control" id="mgg_GiaTri" name="mgg_GiaTri" placeholder="Nhập giá trị giảm" value="{{ old('mgg_GiaTri', $request->mgg_GiaTri ?? '') }}" max="500000" min="1">
-                    @error ('mgg_GiaTri')
-                    <span style="color: red;">{{ $message }}</span>
-                    @enderror
-                </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary" style="width: 10%;">Thêm</button>
                     <a href="/admin/coupons" class="btn btn-danger" style="width: 12%;">Quay lại</a>

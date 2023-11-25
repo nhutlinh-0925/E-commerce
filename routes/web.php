@@ -107,15 +107,6 @@ use \App\Http\Controllers\Shipper\DonHangShipperController;
 
     //Trang cart
     Route::post('add-cart',[CartController::class, 'index']);
-    Route::get('carts',[CartController::class, 'show']);
-    Route::post('update-cart',[CartController::class, 'update']);
-    Route::get('carts/delete/{id}/{size}',[CartController::class, 'remove'])->name('cart_remove');
-
-    Route::get('checkout', [CartController::class, 'showcheckout'])->name('showcheckout');
-    Route::post('/carts/checkout', [CartController::class, 'getCart'])->name('checkout');
-    //Mã giảm giá
-    Route::post('/check_coupon',[CartController::class, 'check_coupon']);
-    Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
 
     //Đăng nhập facebook
 //    Route::get('auth/facebook', [LoginController::class, 'login_facebook']);
@@ -173,11 +164,16 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::middleware(['auth:web'])->group(function () {
             Route::get('/', [HomeController::class, 'home'])->name('home');
 
-            //Trang shop
-
             //Trang cart
-//            Route::get('checkout', [CartController::class, 'showcheckout'])->name('showcheckout');
-//            Route::post('/carts/checkout', [CartController::class, 'getCart'])->name('checkout');
+            Route::get('carts',[CartController::class, 'show']);
+            Route::post('update-cart',[CartController::class, 'update']);
+            Route::get('carts/delete/{id}/{size}',[CartController::class, 'remove'])->name('cart_remove');
+            Route::get('checkout', [CartController::class, 'showcheckout'])->name('showcheckout');
+            Route::post('/carts/checkout', [CartController::class, 'getCart'])->name('checkout');
+
+            //Mã giảm giá
+            Route::post('/check_coupon',[CartController::class, 'check_coupon']);
+            Route::get('/delete_coupon',[CartController::class, 'delete_coupon']);
 
             Route::get('success-transaction', [CartController::class, 'successTransaction'])->name('successTransaction');
             Route::get('cancel-transaction', [CartController::class, 'cancelTransaction'])->name('cancelTransaction');

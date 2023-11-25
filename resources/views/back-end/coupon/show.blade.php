@@ -41,23 +41,12 @@
                 </div>
 
                 <div class="card">
-                        <h5 class="card-title" style="font-size: 25px; color: blue;text-align: center">Xem lại thông tin mã giảm giá</h5>
+                        <h5 class="card-title" style="font-size: 25px; color: blue;text-align: center"><b>Xem lại thông tin mã giảm giá ({{ $coupon->mgg_MaGiamGia }}) #{{ $coupon->id }}</b></h5>
 
                         <div class="row">
                             <div class="col-6">
-                                <label><b>Id mã giảm giá : </b>{{ $coupon->id }}</label>
-                            </div>
-                            <div class="col-6">
                                 <label><b>Tên mã giảm giá : </b>{{ $coupon->mgg_TenGiamGia }}</label>
                             </div>
-
-                            <div class="col-6">
-                                <label><b>Mã giảm giá :</b> {{ $coupon->mgg_MaGiamGia }}</label>
-                            </div>
-                            <div class="col-6">
-                                <label><b>Số lượng mã: </b>{{ $coupon->mgg_SoLuongMa }}</label>
-                            </div>
-
                             <div class="col-6">
                                 <label>
                                     <b>Loại giảm giá : </b>
@@ -70,14 +59,26 @@
                             </div>
 
                             <div class="col-6">
+                                <label><b>Số lượng mã: {{ $coupon->mgg_SoLuongMa }}</b></label>
+                            </div>
+                            <div class="col-6">
                                 <label>
-                                    <b>Giá trị được giảm : </b>
-                                    @if ($coupon->mgg_LoaiGiamGia == 1)
-                                        {{ number_format($coupon->mgg_GiaTri, 0, '', '.') }} đ
-                                    @elseif ($coupon->mgg_LoaiGiamGia == 2)
-                                        {{ $coupon->mgg_GiaTri }} %
-                                    @endif
+                                    <b>Giá trị được giảm :
+                                        @if ($coupon->mgg_LoaiGiamGia == 1)
+                                            <span>{{ number_format($coupon->mgg_GiaTri, 0, '', '.') }} đ</span>
+                                        @elseif ($coupon->mgg_LoaiGiamGia == 2)
+                                            <span>{{ $coupon->mgg_GiaTri }} %</span>
+                                        @endif
+                                    </b>
                                 </label>
+                            </div>
+
+                            <div class="col-6">
+                                <label><b>Đơn tối thiểu: <span style="color: red;">{{ number_format($coupon->mgg_DonToiThieu, 0, '', '.') }} đ</span></b></label>
+                            </div>
+
+                            <div class="col-6">
+                                <label><b>Giảm tối đa: <span style="color: red;">{{ number_format($coupon->mgg_GiamToiDa, 0, '', '.') }} đ</span></b></label>
                             </div>
 
                             <div class="col-6">
@@ -86,12 +87,14 @@
                             <div class="col-6">
                                 <label><b>Ngày kết thúc :</b> {{ \Carbon\Carbon::parse($coupon->mgg_NgayKetThuc)->format('d-m-Y H:i:s') }}</label>
                             </div>
-                        </div>
-                </div>
+                        </div><br>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary" style="width: 10%;" id="submitButton">Gửi</button>
-                    <a href="/admin/coupons" class="btn btn-danger" style="width: 12%;">Quay lại</a>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" style="width: 10%;" id="submitButton">Gửi</button>
+                        <a href="/admin/coupons" class="btn btn-danger" style="width: 12%;">Quay lại</a>
+                    </div>
+                    <br>
+
                 </div>
             </form>
         </div>

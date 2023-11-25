@@ -20,6 +20,9 @@ return new class extends Migration
             $table->integer('mgg_SoLuongMa');
             $table->string('mgg_LoaiGiamGia');
             $table->integer('mgg_GiaTri');
+            $table->integer('mgg_DonToiThieu');
+            $table->integer('mgg_GiamToiDa');
+            $table->string('mgg_DaSuDung')->nullable();
             $table->timestamps('mgg_NgayBatDau');
             $table->timestamps('mgg_NgayKetThuc');
             $table->timestamps();

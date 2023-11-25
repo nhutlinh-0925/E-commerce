@@ -53,18 +53,21 @@
     <div class="container" style="background: white">
         <h2 class="note"><b><i>
             @if ($mailData['mgg_LoaiGiamGia'] == 2)
-                Giảm {{ $mailData['mgg_GiaTri'] }}%
+                        Giảm <span style="color: red"> {{ $mailData['mgg_GiaTri'] }}% </span>
             @else
-                Giảm {{ number_format($mailData['mgg_GiaTri'], 0, '', '.') }} đ
+                        Giảm <span style="color: red"> {{ number_format($mailData['mgg_GiaTri'], 0, '', '.') }}đ </span>
             @endif
-            cho tổng đơn hàng đặt mua</i></b></h2>
+                    cho đơn hàng tối thiểu <span style="color: red">{{ number_format($mailData['mgg_DonToiThieu'], 0, '', '.') }}đ</span>
+                    giảm tối đa <span style="color: red">{{ number_format($mailData['mgg_GiamToiDa'], 0, '', '.') }}đ</span>
+            </i></b>
+        </h2>
         <p>Qúy khách mua hàng tại shop Balo Việt.
             Vào tài khoản để mua hàng và nhập mã code phía dưới để được giám giá mua hàng.
             Xin cảm ơn quý khách và chúc quý khách thật nhiều sức khỏe và may mắn trong cuộc sống.
         </p>
     </div>
     <div class="container">
-        <p class="code">Sử dụng Code sau: <span class="promo">{{ $mailData['mgg_MaGiamGia'] }}</span> với {{ $mailData['mgg_SoLuongMa'] }} mã giảm giá đầu tiên </p>
+        <p class="code" style="text-align: center;">Sử dụng Code sau: <span class="promo">{{ $mailData['mgg_MaGiamGia'] }}</span> <br>với {{ $mailData['mgg_SoLuongMa'] }} mã giảm giá đầu tiên </p>
         <p class="expire">Ngày bắt đầu : {{ \Carbon\Carbon::parse($mailData['mgg_NgayBatDau'])->format('d-m-Y H:i:s') }} / Ngày hết hạn mã code: {{ \Carbon\Carbon::parse($mailData['mgg_NgayKetThuc'])->format('d-m-Y H:i:s') }}</p>
     </div>
 </div>

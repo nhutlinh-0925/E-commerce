@@ -46,6 +46,8 @@ class MaGiamGiaController extends Controller
                 'after:' . now()->format('Y-m-d\TH:i'), // mgg_NgayKetThuc phải sau ngày và giờ hiện tại
             ],
             'mgg_GiaTri' => 'required',
+            'mgg_DonToiThieu' => 'required',
+            'mgg_GiamToiDa' => 'required'
         ],
             [
                 'mgg_TenGiamGia.required' => 'Vui lòng nhập tên mã giảm giá',
@@ -60,6 +62,8 @@ class MaGiamGiaController extends Controller
                 'mgg_NgayKetThuc.date' => 'Định dạng ngày không hợp lệ',
                 'mgg_NgayKetThuc.after' => 'Ngày kết thúc phải sau ngày hiện tại',
                 'mgg_GiaTri.required' => 'Vui lòng nhập giá trị giảm',
+                'mgg_DonToiThieu.required' => 'Vui lòng nhập đơn tối thiểu',
+                'mgg_GiamToiDa.required' => 'Vui lòng nhập giảm tối đa',
             ]);
 
         $mgg = new MaGiamGia();
@@ -70,6 +74,8 @@ class MaGiamGiaController extends Controller
         $mgg->mgg_NgayBatDau = $request->mgg_NgayBatDau;
         $mgg->mgg_NgayKetThuc = $request->mgg_NgayKetThuc;
         $mgg->mgg_GiaTri = $request->mgg_GiaTri;
+        $mgg->mgg_DonToiThieu = $request->mgg_DonToiThieu;
+        $mgg->mgg_GiamToiDa = $request->mgg_GiamToiDa;
         $mgg->save();
 
         Session::flash('flash_message', 'Thêm mã giảm giá thành công!');
@@ -105,6 +111,8 @@ class MaGiamGiaController extends Controller
                 'after:' . now()->format('Y-m-d\TH:i'), // mgg_NgayKetThuc phải sau ngày và giờ hiện tại
             ],
             'mgg_GiaTri' => 'required',
+            'mgg_DonToiThieu' => 'required',
+            'mgg_GiamToiDa' => 'required'
         ],
             [
                 'mgg_TenGiamGia.required' => 'Vui lòng nhập tên mã giảm giá',
@@ -119,6 +127,8 @@ class MaGiamGiaController extends Controller
                 'mgg_NgayKetThuc.date' => 'Định dạng ngày không hợp lệ',
                 'mgg_NgayKetThuc.after' => 'Ngày kết thúc phải sau ngày hiện tại',
                 'mgg_GiaTri.required' => 'Vui lòng nhập giá trị giảm',
+                'mgg_DonToiThieu.required' => 'Vui lòng nhập đơn tối thiểu',
+                'mgg_GiamToiDa.required' => 'Vui lòng nhập giảm tối đa',
             ]);
         $coupon = MaGiamGia::find($id);
 
@@ -130,6 +140,8 @@ class MaGiamGiaController extends Controller
         $coupon->mgg_NgayBatDau = $request->mgg_NgayBatDau;
         $coupon->mgg_NgayKetThuc = $request->mgg_NgayKetThuc;
         $coupon->mgg_GiaTri = $request->mgg_GiaTri;
+        $coupon->mgg_DonToiThieu = $request->mgg_DonToiThieu;
+        $coupon->mgg_GiamToiDa = $request->mgg_GiamToiDa;
         $coupon->save();
 
         Session::flash('flash_message', 'Cập nhật mã giảm giá thành công!');
@@ -161,6 +173,8 @@ class MaGiamGiaController extends Controller
             'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
             'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
             'mgg_GiaTri' => $coupon->mgg_GiaTri,
+            'mgg_DonToiThieu' => $coupon->mgg_DonToiThieu,
+            'mgg_GiamToiDa' => $coupon->mgg_GiamToiDa,
             'mgg_NgayBatDau' => $coupon->mgg_NgayBatDau,
             'mgg_NgayKetThuc' => $coupon->mgg_NgayKetThuc
         ];
@@ -189,6 +203,8 @@ class MaGiamGiaController extends Controller
             'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
             'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
             'mgg_GiaTri' => $coupon->mgg_GiaTri,
+            'mgg_DonToiThieu' => $coupon->mgg_DonToiThieu,
+            'mgg_GiamToiDa' => $coupon->mgg_GiamToiDa,
             'mgg_NgayBatDau' => $coupon->mgg_NgayBatDau,
             'mgg_NgayKetThuc' => $coupon->mgg_NgayKetThuc
         ];
@@ -219,6 +235,8 @@ class MaGiamGiaController extends Controller
             'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
             'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
             'mgg_GiaTri' => $coupon->mgg_GiaTri,
+            'mgg_DonToiThieu' => $coupon->mgg_DonToiThieu,
+            'mgg_GiamToiDa' => $coupon->mgg_GiamToiDa,
             'mgg_NgayBatDau' => $coupon->mgg_NgayBatDau,
             'mgg_NgayKetThuc' => $coupon->mgg_NgayKetThuc
         ];

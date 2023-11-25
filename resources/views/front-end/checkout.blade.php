@@ -56,7 +56,7 @@
 
                 <div style="width: 100%">
                     <div class="header-cart-buttons">
-                        <a href="/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
+                        <a href="/user/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
                     </div>
                 </div>
 
@@ -77,7 +77,7 @@
                         <div class="breadcrumb__links">
                             <a href="/">Trang chủ</a>
                             <a href="/shop">Cửa hàng</a>
-                            <a href="/carts">Giỏ hàng</a>
+                            <a href="/user/carts">Giỏ hàng</a>
                             <span>Thanh toán</span>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <form action="/carts/checkout" method="post">
+                <form action="/user/carts/checkout" method="post">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <h3 style="color: red">Thanh toán đơn hàng của ở đây</h3>
@@ -161,7 +161,7 @@
                             <br><br>
                             <a href="/user/setting/{{Auth::user()->id}}" class="btn btn-primary">Thêm địa chỉ</a>
                             <br>
-                            <a href="/carts">Xem lại giỏ hàng?</a>
+                            <a href="/user/carts">Xem lại giỏ hàng?</a>
                         </div>
 
                         <div class="col-lg-4 col-md-6">
@@ -188,7 +188,14 @@
                                             @if($cou['mgg_LoaiGiamGia'] == 2)
                                                 <div class="checkout__order__products">Mã giảm: <span style="color: red"><b>{{ $cou['mgg_GiaTri'] }} %</b></span></div>
                                                 @php
-                                                    $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
+                                                    $total_coupon1 = ($total * $cou['mgg_GiaTri'])/100;//160k
+                                                    $total_coupon2 = $cou['mgg_GiamToiDa'];//100
+                                                    if($total_coupon1 > $total_coupon2)
+                                                        $total_coupon = $total_coupon2;
+                                                    elseif($total_coupon1 < $total_coupon2)
+                                                        $total_coupon = $total_coupon1;
+                                                    elseif($total_coupon1 == $total_coupon2)
+                                                        $total_coupon = $total_coupon2;
                                                 @endphp
                                                 <div class="checkout__order__products">Mã giảm được <span style="color: red"><b>{{ number_format($total_coupon, 0, '', '.') }} đ</b></span></div>
                                                 <div class="checkout__order__products">Tổng tiền được giảm <span class="total_coupon" style="color: red;font-weight: bold;">{{ number_format($total_coupon, 0, '', '.') }} đ</span></div><hr style="Border: solid 1px black;">
@@ -366,11 +373,20 @@
 
                         // Tính tổng tiền được giảm từ mã giảm giá và phí vận chuyển
                         var total_coupon = 0;
+
                         @if($coupons)
                             @foreach($coupons as $key => $cou)
                                 @if($cou['mgg_LoaiGiamGia'] == 2)
-                                    var couponDiscount = (total * {{ $cou['mgg_GiaTri'] }}) / 100;
-                                    total_coupon += couponDiscount ;
+                                    var total_coupon1 = (total * {{ $cou['mgg_GiaTri'] }}) / 100;
+                                    var total_coupon2 = {{ $cou['mgg_GiamToiDa'] }};
+
+                                    if (total_coupon1 > total_coupon2) {
+                                        total_coupon = total_coupon2;
+                                    } else if (total_coupon1 < total_coupon2) {
+                                        total_coupon = total_coupon1;
+                                    } else if (total_coupon1 === total_coupon2) {
+                                        total_coupon = total_coupon2;
+                                    }
                                 @elseif($cou['mgg_LoaiGiamGia'] == 1)
                                     total_coupon += {{ $cou['mgg_GiaTri'] }};
                                 @endif
@@ -378,6 +394,7 @@
                         @else
                             total_coupon = 0;
                         @endif
+
 
                         // Tính total_payment sau khi đã có giá trị formattedAmount và total_coupon
                         var total_payment = total + response.pvc_PhiVanChuyen - total_coupon;

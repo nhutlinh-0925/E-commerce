@@ -110,7 +110,7 @@ class DonHangShipperController extends Controller
                 $tongChiPhiNhapKho = 0;
 
                 foreach ($order->chitietphieudathang as $detail) {
-                    //$quantity += $detail->ctpdh_SoLuong;
+                    $quantity += $detail->ctpdh_SoLuong;
                     //$sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
                     // Lấy thông tin chi tiết phiếu nhập hàng
                     $chiTietPhieuNhapHang = ChiTietPhieuNhapHang::join('phieu_nhap_hangs', 'chi_tiet_phieu_nhap_hangs.phieu_nhap_hang_id', '=', 'phieu_nhap_hangs.id')
@@ -177,7 +177,7 @@ class DonHangShipperController extends Controller
                 if ($customer->kh_TongTienDaMua > 5000000){
                     $customer->vip = 1;
                 }elseif($customer->kh_TongTienDaMua < 5000000){
-                    $customer->vip = 1;
+                    $customer->vip = 0;
                 }
                 $customer->save();
 

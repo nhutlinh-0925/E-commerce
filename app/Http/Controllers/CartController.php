@@ -93,7 +93,7 @@ class CartController extends Controller
             }
             //dd($carts);
 
-            return redirect('/carts');
+            return redirect('/user/carts');
         }else{
             Session::flash('flash_message_login', 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!');
 //            Session::put('flash_message_error_link', '/user/login');
@@ -182,15 +182,6 @@ class CartController extends Controller
                 'coupons' => session()->get('coupon'),
                 'wish_count' => $wish_count
             ]);
-        }else{
-            $products = $this->cartService->getProduct();
-            $gh = session()->get('carts');
-            return view('front-end.cart', [
-                // 'title' => 'Giỏ Hàng',
-                'products' => $products,
-                'gh' => $gh,
-                'coupons' => session()->get('coupon'),
-            ]);
         }
     }
 
@@ -198,7 +189,26 @@ class CartController extends Controller
     {
         // dd($request->all());
         $this->cartService->update($request);
-        return redirect('/carts');
+
+        $products = $this->cartService->getProduct();
+        $total = 0;
+        foreach ($products as $product) {
+            $price = $product->sp_Gia;
+            $quantity = $product->qty;
+            $priceEnd = $price * $quantity;
+            $total += $priceEnd;
+        }
+        if (Session::get('coupon') == true) {
+            $coupon = session()->get('coupon');
+
+            foreach($coupon as $key => $cou) {
+                $dontoithieu = $cou['mgg_DonToiThieu'];
+            }
+            if($total < $dontoithieu ){
+                Session::forget('coupon');
+            }
+        }
+        return redirect('/user/carts');
     }
 
     public function remove($id = 0,$size = 0)
@@ -206,15 +216,28 @@ class CartController extends Controller
         $this->cartService->remove($id,$size);
 
         $products = $this->cartService->getProduct();
-        if (count ($products) == 0){
-            $coupon = Session::get('coupon');
-            if($coupon == true){
+        $total = 0;
+        foreach ($products as $product) {
+            $price = $product->sp_Gia;
+            $quantity = $product->qty;
+            $priceEnd = $price * $quantity;
+            $total += $priceEnd;
+        }
+        if (Session::get('coupon') == true) {
+            $coupon = session()->get('coupon');
+
+            foreach($coupon as $key => $cou) {
+                $dontoithieu = $cou['mgg_DonToiThieu'];
+            }
+            if($total < $dontoithieu ){
                 Session::forget('coupon');
-                return redirect()->back();
+            }
+            if (count ($products) == 0){
+                Session::forget('coupon');
             }
         }
 
-        return redirect('/carts');
+        return redirect('/user/carts');
     }
 
 
@@ -242,10 +265,6 @@ class CartController extends Controller
                 'wish_count' => $wish_count,
                 'payments' => $payments,
             ]);
-        }else{
-            Session::flash('flash_message_error', 'Vui lòng đăng nhập để thanh toán!');
-            Session::put('flash_message_error_link', '/user/login');
-            return redirect('/carts');
         }
     }
 
@@ -388,7 +407,17 @@ class CartController extends Controller
                 if ($coupons) {
                     foreach ($coupons as $key => $cou)
                         if ($cou['mgg_LoaiGiamGia'] == 2) {
-                            $total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
+                            //$total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
+
+                            $total_coupon1 = ($total * $cou['mgg_GiaTri'])/100;
+                            $total_coupon2 = $cou['mgg_GiamToiDa'];
+                            if($total_coupon1 > $total_coupon2)
+                                $total_coupon = $total_coupon2;
+                            elseif($total_coupon1 < $total_coupon2)
+                                $total_coupon = $total_coupon1;
+                            elseif($total_coupon1 == $total_coupon2)
+                                $total_coupon = $total_coupon2;
+
                             $tien_end = $total - $total_coupon + $phi;
                         } elseif ($cou['mgg_LoaiGiamGia'] == 1) {
                             $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
@@ -406,9 +435,16 @@ class CartController extends Controller
                     $cart->save();
 
                     // Cập nhật trường mgg_SoLuongMa
+                    $mgg = MaGiamGia::find($cou['id']);
                     $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
-                    MaGiamGia::where('id', $cou['id'])
-                        ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
+                    $update_mgg = [
+                        'mgg_SoLuongMa' => $newSoLuongMa,
+                        'mgg_DaSuDung' => $mgg->mgg_DaSuDung.','.$id_kh,
+                    ];
+                    $mgg->update($update_mgg);
+
+//                    MaGiamGia::where('id', $cou['id'])
+//                        ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
 
                 } else {
                     $tien_end = $total + $phi;
@@ -481,14 +517,14 @@ class CartController extends Controller
                         }
 
                         return redirect()
-                            ->route('checkout')
-//                            ->route('user.checkout')
+//                            ->route('checkout')
+                            ->route('user.checkout')
                             ->with('flash_message_error', 'Lỗi thanh toán.');
 
                     } else {
                         return redirect()
-//                            ->route('user.checkout')
-                            ->route('checkout')
+                            ->route('user.checkout')
+//                            ->route('checkout')
                             ->with('flash_message_error', $response['message'] ?? 'Lỗi thanh toán.');
                     }
             } elseif ($submitButtonName === 'redirect') {
@@ -568,8 +604,8 @@ class CartController extends Controller
                     die();
                     //return redirect()->away($vnp_Url);
                 } else {
-                    return redirect()->route('showcheckout');
-//                    return redirect()->route('user.showcheckout');
+//                    return redirect()->route('showcheckout');
+                    return redirect()->route('user.showcheckout');
                     //echo json_encode($returnData);
                 }
 
@@ -660,7 +696,15 @@ class CartController extends Controller
             if ($coupons) {
                 foreach ($coupons as $key => $cou)
                     if ($cou['mgg_LoaiGiamGia'] == 2) {
-                        $total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
+                        //$total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
+                        $total_coupon1 = ($total * $cou['mgg_GiaTri'])/100;
+                        $total_coupon2 = $cou['mgg_GiamToiDa'];
+                        if($total_coupon1 > $total_coupon2)
+                            $total_coupon = $total_coupon2;
+                        elseif($total_coupon1 < $total_coupon2)
+                            $total_coupon = $total_coupon1;
+                        elseif($total_coupon1 == $total_coupon2)
+                            $total_coupon = $total_coupon2;
                         $tien_end = $total - $total_coupon + $phi;
                     } elseif ($cou['mgg_LoaiGiamGia'] == 1) {
                         $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
@@ -678,9 +722,18 @@ class CartController extends Controller
                 $cart->save();
 
                 // Cập nhật trường mgg_SoLuongMa
+                $mgg = MaGiamGia::find($cou['id']);
                 $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
-                MaGiamGia::where('id', $cou['id'])
-                    ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
+                $update_mgg = [
+                    'mgg_SoLuongMa' => $newSoLuongMa,
+                    'mgg_DaSuDung' => $mgg->mgg_DaSuDung.','.$id_kh,
+                ];
+                $mgg->update($update_mgg);
+
+                // Cập nhật trường mgg_SoLuongMa
+//                $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
+//                MaGiamGia::where('id', $cou['id'])
+//                    ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
 
             } else {
                 $tien_end = $total + $phi;
@@ -720,8 +773,8 @@ class CartController extends Controller
             session()->forget('data_get');
         } else {
             return redirect()
-//                ->route('user.checkout')
-                ->route('checkout')
+                ->route('user.checkout')
+//                ->route('checkout')
                 ->with('flash_message_error', $response['message'] ?? 'Lỗi thanh toán.');
         }
 
@@ -730,8 +783,8 @@ class CartController extends Controller
     }
 
     public function cancelTransaction(Request $request){
-        return redirect()->route('showcheckout');
-//        return redirect()->route('user.showcheckout');
+//        return redirect()->route('showcheckout');
+        return redirect()->route('user.showcheckout');
     }
 
     public function handleVnPayCallback(Request $request){
@@ -804,7 +857,15 @@ class CartController extends Controller
                 if ($coupons) {
                     foreach ($coupons as $key => $cou)
                         if ($cou['mgg_LoaiGiamGia'] == 2) {
-                            $total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
+                            //$total_coupon = ($total * $cou['mgg_GiaTri']) / 100;
+                            $total_coupon1 = ($total * $cou['mgg_GiaTri'])/100;
+                            $total_coupon2 = $cou['mgg_GiamToiDa'];
+                            if($total_coupon1 > $total_coupon2)
+                                $total_coupon = $total_coupon2;
+                            elseif($total_coupon1 < $total_coupon2)
+                                $total_coupon = $total_coupon1;
+                            elseif($total_coupon1 == $total_coupon2)
+                                $total_coupon = $total_coupon2;
                             $tien_end = $total - $total_coupon + $phi;
                         } elseif ($cou['mgg_LoaiGiamGia'] == 1) {
                             $tien_end = $total - $cou['mgg_GiaTri'] + $phi;
@@ -822,9 +883,18 @@ class CartController extends Controller
                     $cart->save();
 
                     // Cập nhật trường mgg_SoLuongMa
+                    $mgg = MaGiamGia::find($cou['id']);
                     $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
-                    MaGiamGia::where('id', $cou['id'])
-                        ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
+                    $update_mgg = [
+                        'mgg_SoLuongMa' => $newSoLuongMa,
+                        'mgg_DaSuDung' => $mgg->mgg_DaSuDung.','.$id_kh,
+                    ];
+                    $mgg->update($update_mgg);
+
+                    // Cập nhật trường mgg_SoLuongMa
+//                    $newSoLuongMa = $cou['mgg_SoLuongMa'] - 1;
+//                    MaGiamGia::where('id', $cou['id'])
+//                        ->update(['mgg_SoLuongMa' => $newSoLuongMa]);
 
                 } else {
                     $tien_end = $total + $phi;
@@ -874,50 +944,97 @@ class CartController extends Controller
 
     public function check_coupon(Request $request){
     //dd($request);
+        //Lấy thời gian thực
         $now = \Carbon\Carbon::now('Asia/Ho_Chi_Minh');
         $data = $request->all();
-        $coupon = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])
-                            ->where(\DB::raw('DATE(mgg_NgayKetThuc)'), '>=', $now->toDateString())
-                           ->first();
 
-        if($coupon){
-            $count_coupon = $coupon->count();
-            if($count_coupon>0){
-                $coupon_session = Session::get('coupon');
-                if($coupon_session == true){
-                    $is_avaiable = 0;
-                    if($is_avaiable==0){
-                        $cou[] = array(
-                            'id' => $coupon->id,
-                            'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
-                            'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
-                            'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
-                            'mgg_GiaTri' => $coupon->mgg_GiaTri,
-                        );
-                        //dd($cou);
-                        session()->put('coupon',$cou);
-                    }
+        //Lấy thông tin giỏ hàng
+        $products = $this->cartService->getProduct();
+        $total = 0;
+        foreach ($products as $product) {
+            $price = $product->sp_Gia;
+            $quantity = $product->qty;
+            $priceEnd = $price * $quantity;
+            $total += $priceEnd;
+        }
+        //Lấy ra được tổng tiền
+
+//        $coupon_dasudung = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])
+//            ->where(\DB::raw('DATE(mgg_NgayKetThuc)'), '>=', $now->toDateString())
+//            ->where('mgg_DaSuDung','LIKE','%'.Auth('web')->user()->id.'%')
+//            ->first();
+        $coupon_dasudung = MaGiamGia::where('mgg_MaGiamGia', $data['coupon'])
+            ->where(\DB::raw('DATE(mgg_NgayKetThuc)'), '>=', $now->toDateString())
+            ->where(function ($query) {
+                $query->where('mgg_DaSuDung', 'LIKE', '%,' . Auth('web')->user()->id . ',%')
+                    ->orWhere('mgg_DaSuDung', 'LIKE', Auth('web')->user()->id . ',%')
+                    ->orWhere('mgg_DaSuDung', 'LIKE', '%,' . Auth('web')->user()->id);
+            })
+            ->first();
+        //dd($coupon_dasudung);
+
+        //Tim mgg KH đã dùng chưa nếu tìm được hiện lỗi "đã sử dụng"
+        //Nếu chưa tìm được tức là mgg chưa đc sd. Xét ngày hết hạn
+        if($coupon_dasudung){
+            Session::flash('flash_message_error_coupon1', 'Mã giảm giá đã sử dụng, vui lòng nhập mã khác');
+            return redirect()->back();
+        }else{
+            $coupon_hansudung = MaGiamGia::where('mgg_MaGiamGia',$data['coupon'])
+                ->where(\DB::raw('DATE(mgg_NgayKetThuc)'), '>=', $now->toDateString())
+                ->first();
+            //dd($coupon_hansudung);
+            //Tìm mgg hết hạn hay chưa. Nếu chưa xét hạn mức của mgg đó
+            if($coupon_hansudung){
+                $coupon_dontoithieu = $coupon_hansudung->mgg_DonToiThieu;
+                if($total < $coupon_dontoithieu){
+                    Session::flash('flash_message_error_coupon3', 'Đơn hàng phải tối thiểu ' . number_format($coupon_dontoithieu, 0, '', '.')  . ' đ');
+                    return redirect()->back();
                 }else{
-                    $cou[] = array(
-                        'id' => $coupon->id,
-                        'mgg_MaGiamGia' => $coupon->mgg_MaGiamGia,
-                        'mgg_SoLuongMa' => $coupon->mgg_SoLuongMa,
-                        'mgg_LoaiGiamGia' => $coupon->mgg_LoaiGiamGia,
-                        'mgg_GiaTri' => $coupon->mgg_GiaTri,
-                    );
-                    //dd($cou);
-                      session()->put('coupon',$cou);
+                    //Lưu mgg vào session
+                    $count_coupon = $coupon_hansudung->count();
+                    //dd($count_coupon);
+                    if($count_coupon>0){
+                        $coupon_session = Session::get('coupon');
+                        if($coupon_session == true){
+                            $is_avaiable = 0;
+                            if($is_avaiable==0){
+                                $cou[] = array(
+                                    'id' => $coupon_hansudung->id,
+                                    'mgg_MaGiamGia' => $coupon_hansudung->mgg_MaGiamGia,
+                                    'mgg_SoLuongMa' => $coupon_hansudung->mgg_SoLuongMa,
+                                    'mgg_LoaiGiamGia' => $coupon_hansudung->mgg_LoaiGiamGia,
+                                    'mgg_GiaTri' => $coupon_hansudung->mgg_GiaTri,
+                                    'mgg_DonToiThieu' => $coupon_hansudung->mgg_DonToiThieu,
+                                    'mgg_GiamToiDa' => $coupon_hansudung->mgg_GiamToiDa
+                                );
+                                //dd($cou);
+                                session()->put('coupon',$cou);
+                            }
+                        }else{
+                            $cou[] = array(
+                                'id' => $coupon_hansudung->id,
+                                'mgg_MaGiamGia' => $coupon_hansudung->mgg_MaGiamGia,
+                                'mgg_SoLuongMa' => $coupon_hansudung->mgg_SoLuongMa,
+                                'mgg_LoaiGiamGia' => $coupon_hansudung->mgg_LoaiGiamGia,
+                                'mgg_GiaTri' => $coupon_hansudung->mgg_GiaTri,
+                                'mgg_DonToiThieu' => $coupon_hansudung->mgg_DonToiThieu,
+                                'mgg_GiamToiDa' => $coupon_hansudung->mgg_GiamToiDa
+                            );
+                            //dd($cou);
+                            session()->put('coupon',$cou);
 
+                        }
+                        Session::save();
+                        Session::flash('flash_message', 'Thêm mã giảm giá thành công');
+                        return redirect()->back();
+                    }
                 }
-                Session::save();
-                Session::flash('flash_message', 'Thêm mã giảm giá thành công');
+            }else{
+                Session::flash('flash_message_error_coupon2', 'Mã giảm giá không đúng hoặc hết hạn');
                 return redirect()->back();
             }
-
-        }else{
-            Session::flash('flash_message_error', 'Mã giảm giá không đúng hoặc hết hạn');
-            return redirect()->back();
         }
+
     }
 
     public function delete_coupon(){
@@ -1060,7 +1177,7 @@ class CartController extends Controller
         $tongChiPhiNhapKho = 0;
 
         foreach ($order->chitietphieudathang as $detail) {
-            //$quantity += $detail->ctpdh_SoLuong;
+            $quantity += $detail->ctpdh_SoLuong;
             //$sales += $detail->ctpdh_Gia * $detail->ctpdh_SoLuong;
             // Lấy thông tin chi tiết phiếu nhập hàng
             $chiTietPhieuNhapHang = ChiTietPhieuNhapHang::join('phieu_nhap_hangs', 'chi_tiet_phieu_nhap_hangs.phieu_nhap_hang_id', '=', 'phieu_nhap_hangs.id')
@@ -1127,7 +1244,7 @@ class CartController extends Controller
         if ($customer->kh_TongTienDaMua > 5000000){
             $customer->vip = 1;
         }elseif($customer->kh_TongTienDaMua < 5000000){
-            $customer->vip = 1;
+            $customer->vip = 0;
         }
         $customer->save();
 

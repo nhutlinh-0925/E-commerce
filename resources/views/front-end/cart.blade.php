@@ -54,7 +54,7 @@
 
                     <div style="width: 100%">
                         <div class="header-cart-buttons">
-                            <a href="/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
+                            <a href="/user/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
                         </div>
                     </div>
 
@@ -99,6 +99,21 @@
         <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             {!! session('flash_message_error_err') !!}
+        </div>
+    @elseif(Session::has('flash_message_error_coupon1'))
+        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            {!! session('flash_message_error_coupon1') !!}
+        </div>
+    @elseif(Session::has('flash_message_error_coupon2'))
+        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            {!! session('flash_message_error_coupon2') !!}
+        </div>
+    @elseif(Session::has('flash_message_error_coupon3'))
+        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            {!! session('flash_message_error_coupon3') !!}
         </div>
 
     @endif
@@ -154,7 +169,7 @@
                                     </td>
                                     <td class="cart__price">{{ number_format($priceEnd, 0, '', '.') }} đ</td>
                                     <td class="cart__close">
-                                        <a href="{{ route('cart_remove', ['id' => $product->id, 'size' => $product->kich_thuoc_id]) }}" onclick ='return confirm("Bạn chắc chắn muốn xóa sản phẩm khỏi giỏ hàng?")'><i class="fa fa-trash" style='color: red'></i></a>
+                                        <a href="{{ route('user.cart_remove', ['id' => $product->id, 'size' => $product->kich_thuoc_id]) }}" onclick ='return confirm("Bạn chắc chắn muốn xóa sản phẩm khỏi giỏ hàng?")'><i class="fa fa-trash" style='color: red'></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -170,7 +185,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <button type="submit" class="btn btn-dark btn-lg" formaction="/update-cart"><i class="fa fa-spinner"></i> Cập nhật giỏ hàng</button>
+                                <button type="submit" class="btn btn-dark btn-lg" formaction="/user/update-cart"><i class="fa fa-spinner"></i> Cập nhật giỏ hàng</button>
                                 @csrf
                             </div>
                         </div>
@@ -188,7 +203,15 @@
                                     @if($cou['mgg_LoaiGiamGia'] == 2)
                                         Mã giảm: <span>{{ $cou['mgg_GiaTri'] }} %</span>
                                         @php
-                                            $total_coupon = ($total * $cou['mgg_GiaTri'])/100;
+                                                //$total_coupon = 0;
+                                                $total_coupon1 = ($total * $cou['mgg_GiaTri'])/100;//160k
+                                                $total_coupon2 = $cou['mgg_GiamToiDa'];//100
+                                                if($total_coupon1 > $total_coupon2)
+                                                    $total_coupon = $total_coupon2;
+                                                elseif($total_coupon1 < $total_coupon2)
+                                                    $total_coupon = $total_coupon1;
+                                                elseif($total_coupon1 == $total_coupon2)
+                                                    $total_coupon = $total_coupon2;
                                         @endphp
                                         <li>Tổng tiền được giảm <span>{{ number_format($total_coupon, 0, '', '.') }} đ</span></li><hr style="Border: solid 1px black;">
                                         <li>Tiền thanh toán<span>{{ number_format($total - $total_coupon + 25000, 0, '', '.') }} đ</span></li>
@@ -209,7 +232,7 @@
                             </li>
                         </ul>
 {{--                        <a href="/user/checkout"  class="primary-btn">Thanh toán</a>--}}
-                        <a href="/checkout"  class="primary-btn">Thanh toán</a>
+                        <a href="/user/checkout"  class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>
@@ -224,13 +247,13 @@
                 @php
                     $cou = $cou ?? ['mgg_MaGiamGia' => ''];
                 @endphp
-                <form action="check_coupon" method="POST">
+                <form action="/user/check_coupon" method="POST">
                     @csrf
                     <input type="text" name="coupon" style="color: black" placeholder="Nhập mã giảm giá" value="{{ old($cou['mgg_MaGiamGia'], $cou['mgg_MaGiamGia']) }}">
                     <button type="submit">Áp dụng</button>
                 </form>
                 @if($coupons)
-                    <a href="/delete_coupon">Xóa mã giảm giá</a>
+                    <a href="/user/delete_coupon">Xóa mã giảm giá</a>
                 @endif
             </div>
             </div>

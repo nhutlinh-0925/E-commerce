@@ -40,7 +40,7 @@
 
                     <div style="width: 100%">
                         <div class="header-cart-buttons">
-                            <a href="/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
+                            <a href="/user/carts" class="primary-btn">Xem giỏ hàng <span class="arrow_right"></span></a>
                         </div>
                     </div>
 
