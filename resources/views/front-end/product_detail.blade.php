@@ -23,6 +23,27 @@
 
     <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/util.css">
     <link rel="stylesheet" type="text/css" href="/template/front-end/vendor/main.css">
+    <style>
+        .zoomer1 {
+            position: relative;
+            display: flex;
+        }
+
+        .result {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.6);
+            border-radius: 50%;
+            overflow: hidden;
+            transform: translate(-90%, -90%);
+            pointer-events: none;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -68,22 +89,24 @@
                                         <a href="{{ $product->sp_Video }}" class="video-popup"><i class="fa fa-play"></i></a>
                                     </div>
                                 </div>
-                                <div class="item-slick3" data-thumb="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
-                                    <div class="wrap-pic-w pos-relative">
+                                <div class="item-slick3 zoomer1" data-thumb="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
+                                    <div class="wrap-pic-w pos-relative image1">
                                         <img src="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}" alt="">
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset('/storage/images/products/'.$product->sp_AnhDaiDien) }}">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
+                                    <div class="result hide"></div>
                                 </div>
                                 @foreach ($images as $index => $image)
-                                <div class="item-slick3" data-thumb="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}">
-                                    <div class="wrap-pic-w pos-relative">
+                                <div class="item-slick3 zoomer1" data-thumb="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}">
+                                    <div class="wrap-pic-w pos-relative image1">
                                         <img src="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}" alt="IMG-PRODUCT">
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset('/storage/images/product/detail/' . $image->ha_Ten) }}">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
+                                    <div class="result hide" style=""></div>
                                 </div>
                                 @endforeach
 
@@ -445,6 +468,7 @@
         </script>
     @endif
 
+{{--    Yêu thích sản phẩm   --}}
     <script>
         // Hàm kiểm tra xem sản phẩm có trong danh sách yêu thích hay không
         function isProductFavorited(productId) {
@@ -542,6 +566,8 @@
         $('.parallax100').parallax100();
     </script>
 {{--    <script src="/template/front-end/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>--}}
+
+{{--    Hiện các sản phẩm  --}}
     <script>
         $('.gallery-lb').each(function() { // the containers for all your galleries
             $(this).magnificPopup({
@@ -560,6 +586,7 @@
 {{--    <script src="/template/front-end/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>--}}
 {{--    <script src="/template/front-end/vendor/main.js"></script>--}}
 
+{{--    Thay đổi số lượng khi chọn size   --}}
     <script>
         var sizeInputs = document.querySelectorAll('.size-input2');
         var totalQuantityDisplay = document.getElementById('total-quantity2');
@@ -569,6 +596,44 @@
                 var quantity = this.getAttribute('data-quantity2');
                 // Cập nhật giá trị `$total_size`
                 totalQuantityDisplay.textContent = quantity;
+            });
+        });
+    </script>
+
+{{--    Zoom hình ảnh   --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const zoomers = document.querySelectorAll('.zoomer1');
+
+            zoomers.forEach((zoomer) => {
+                const wrapImg = zoomer.querySelector('.image1');
+                const result = zoomer.querySelector('.result');
+
+                const size = 2;
+
+                wrapImg.addEventListener('mousemove', function (e) {
+                    result.classList.remove('hide');
+
+                    const img = wrapImg.querySelector('img');
+                    let x = (e.offsetX / this.offsetWidth) * 100;
+                    let y = (e.offsetY / this.offsetHeight) * 100;
+
+                    let posX = e.pageX - zoomer.offsetLeft - 150;
+                    let posY = e.pageY - zoomer.offsetTop - 280;
+
+                    result.style.cssText = `
+                    background-image: url(${img.src});
+                    background-size: ${img.width * size}px ${img.height * size}px;
+                    background-position: ${x}% ${y}%;
+                    left: ${posX}px;
+                    top: ${posY}px;
+                    `;
+                });
+
+                wrapImg.addEventListener('mouseleave', function () {
+                    result.style = '';
+                    result.classList.add('hide');
+                });
             });
         });
     </script>
