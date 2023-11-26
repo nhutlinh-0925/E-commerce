@@ -92,10 +92,15 @@
             {!! session('flash_message') !!}
         </div>
 
-    @elseif(Session::has('flash_message_error'))
+    @elseif(Session::has('flash_message_error_paypal'))
         <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-            {!! session('flash_message_error') !!}
+            {!! session('flash_message_error_paypal') !!}
+        </div>
+    @elseif(Session::has('flash_message_error_vnpay'))
+        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show text-center" role="alert">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            {!! session('flash_message_error_vnpay') !!}
         </div>
 
     @endif

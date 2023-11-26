@@ -784,6 +784,7 @@ class CartController extends Controller
 
     public function cancelTransaction(Request $request){
 //        return redirect()->route('showcheckout');
+        Session::flash('flash_message_error_paypal', 'Bạn đã hủy giao dịch Paypal!');
         return redirect()->route('user.showcheckout');
     }
 
@@ -933,10 +934,12 @@ class CartController extends Controller
                 session()->forget('total_paypal');
                 session()->forget('data_get');
             }
+            else{
+                Session::flash('flash_message_error_vnpay', 'Bạn đã hủy giao dịch VNPay!');
+                return redirect()->route('user.showcheckout');
+            }
         }
-//        else{
-//            return redirect()->route('showcheckout');
-//        }
+
 
         Session::flash('flash_message_checkout', 'Đặt hàng thành công!');
         return redirect('/shop');
