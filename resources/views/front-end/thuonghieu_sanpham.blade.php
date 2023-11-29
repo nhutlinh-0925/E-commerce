@@ -439,6 +439,8 @@
             const notifyElement = document.querySelector('.js-show-wish');
             const currentNotifyValue = parseInt(notifyElement.getAttribute('data-notify'));
             notifyElement.setAttribute('data-notify', currentNotifyValue - 1);
+            // Hiển thị thông báo đã xóa sản phẩm khỏi yêu thích
+            alert('Sản phẩm đã được xóa khỏi danh sách yêu thích!');
         } else {
             // Thêm sản phẩm vào danh sách yêu thích (đổi màu thành đỏ)
             heartIcon.style.color = 'red';
@@ -447,6 +449,8 @@
             const notifyElement = document.querySelector('.js-show-wish');
             const currentNotifyValue = parseInt(notifyElement.getAttribute('data-notify'));
             notifyElement.setAttribute('data-notify', currentNotifyValue + 1);
+            // Hiển thị thông báo đã thêm sản phẩm vào yêu thích
+            alert('Sản phẩm đã được thêm vào danh sách yêu thích!');
         }
 
         // Gửi yêu cầu AJAX đến route 'wish_lish_show' để thêm/xóa sản phẩm khỏi danh sách yêu thích
