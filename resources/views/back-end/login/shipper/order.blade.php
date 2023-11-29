@@ -46,7 +46,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên khách hàng</th>
-                                <th scope="col">Tổng tiền</th>
+                                <th scope="col">Tiền thu</th>
                                 <th scope="col">Trạng thái</th>
                                 <th scope="col">Hình thức thanh toán</th>
                                 <th scope="col">Nhân viên duyệt</th>
@@ -59,7 +59,13 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td><b>{{ $item->khachhang->kh_Ten }}</b></td>
-                                    <td><p style="width: 90px"><b style="color: red;">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></p></td>
+                                    <td>
+                                        @if($item->phuong_thuc_thanh_toan_id == 1)
+                                        <p style="width: 90px;text-align: center"><b style="color: red;">{{ number_format($item->pdh_TongTien, 0, '', '.') }} đ</b></p>
+                                        @else
+                                        <p style="width: 90px;text-align: center"><b style="color: red;">{{ number_format(0, 0, '', '.') }} đ</b></p>
+                                        @endif
+                                    </td>
                                     <td>
                                         <p style="width: 110px">
                                             @if ($item->pdh_TrangThai == 2)

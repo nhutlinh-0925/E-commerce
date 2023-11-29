@@ -13,8 +13,8 @@
         <h1>Đơn hàng</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin/home">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="/admin/orders">Đơn hàng</a></li>
+                <li class="breadcrumb-item"><a href="/shipper">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/shipper/orders">Đơn hàng</a></li>
                 <li class="breadcrumb-item active"><a href="">Chi tiết đơn hàng</a></li>
             </ol>
         </nav>
@@ -73,8 +73,12 @@
                             <input  type="text" class="form-control" value="{{ $kh->kh_Ten }}" disabled >
                         </div>
                         <div class="col-md-6">
-                            <label for="inputNanme4" class="form-label"><strong>Tổng giá trị đơn hàng: <span class="text-danger">(*)</span></strong></label>
-                            <input type="text" class="form-control" value="{{ number_format($pdh->pdh_TongTien, 0, '', '.') }} đ" disabled>
+                            <label for="inputNanme4" class="form-label"><strong>Tiền thu: <span class="text-danger">(*)</span></strong></label>
+                            @if($pdh->phuong_thuc_thanh_toan_id == 1)
+                            <input type="text" class="form-control" style="color: red;font-weight: bold" value="{{ number_format($pdh->pdh_TongTien, 0, '', '.') }} đ" disabled>
+                            @else
+                            <input type="text" class="form-control" style="color: red;font-weight: bold" value="{{ number_format(0, 0, '', '.') }} đ" disabled>
+                            @endif
                         </div>
                     </div>
 

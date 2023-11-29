@@ -234,7 +234,7 @@
         }
     });
     $(document).on('click','li',function (){
-        $('#keywords').val($(this).text());
+        // $('#keywords').val($(this).text());
         $('#search-ajax').fadeOut();
     });
 </script>

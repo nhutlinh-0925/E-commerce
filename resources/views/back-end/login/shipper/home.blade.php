@@ -5,7 +5,7 @@
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><a href="/shipper/home">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/shipper">Dashboard</a></li>
             </ol>
         </nav>
     </div>
