@@ -93,6 +93,17 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-md-12">
+                            <label for="inputName4" class="form-label"><strong>Chọn quyền <span class="text-danger">(*)</span></strong></label><br>
+                            <input class="checkbox1" type="checkbox" name="quyen[1]" value="1" style="margin-right: 10px;">Quyền đơn hàng<br>
+                            <input class="checkbox1" type="checkbox" name="quyen[2]" value="1" style="margin-right: 10px;">Quyền sản phẩm<br>
+                            <input class="checkbox1" type="checkbox" name="quyen[3]" value="1" style="margin-right: 10px;">Quyền nhân sự<br>
+                            <input class="checkbox1" type="checkbox" name="quyen[4]" value="1" style="margin-right: 10px;">Quyền bài viết<br>
+                            <input class="checkbox1" type="checkbox" name="quyen[5]" value="1" style="margin-right: 10px;">Quyền nhập kho
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-6">
                             <label for="" class="form-label"><strong>Ảnh đại diện <span class="text-danger">(*)</span></strong></label>
                             <input type="file" class="form-control" id="" name="avatar" onchange="loadFile(event)">

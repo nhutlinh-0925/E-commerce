@@ -64,11 +64,15 @@ class NhanVienController extends Controller
             'trangthai' => $request->trangthai,
         ]);
 
+        $nhanvienId = $nhanvien->id;
+        $quyen = $request->quyen;
         for ($quyenId = 1; $quyenId <= 5; $quyenId++) {
+            $ctqCoQuyen = isset($quyen[$quyenId]) ? $quyen[$quyenId] : 0;
+            // Tạo bản ghi ChiTietQuyen
             ChiTietQuyen::create([
                 'quyen_id' => $quyenId,
-                'nhan_vien_id' => $nhanvien->id,
-                'ctq_CoQuyen' => 0,
+                'nhan_vien_id' => $nhanvienId,
+                'ctq_CoQuyen' => $ctqCoQuyen,
             ]);
         }
 

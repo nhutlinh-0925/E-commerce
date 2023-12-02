@@ -31,8 +31,8 @@
 
         .result {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             box-shadow: 0 0 10px rgba(0,0,0,0.6);
             border-radius: 50%;
             overflow: hidden;
@@ -613,7 +613,7 @@
                 const wrapImg = zoomer.querySelector('.image1');
                 const result = zoomer.querySelector('.result');
 
-                const size = 2;
+                const size = 3;
 
                 wrapImg.addEventListener('mousemove', function (e) {
                     result.classList.remove('hide');
