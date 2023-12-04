@@ -38,7 +38,7 @@ return [
         'client_id' => '162872207327-tmi81rj44cq1r6a31lvhia5edltc8bcv.apps.googleusercontent.com',
         'client_secret' => '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',
         //'redirect' => env('APP_URL').'/auth/google/callback',
-        'redirect' => 'http://baloviet.com/auth/google/callback',
+        'redirect' => 'https://baloviet.com/auth/google/callback',
     ],
 
 ];

@@ -88,7 +88,7 @@
 
     <h3>Trạng thái đơn hàng</h3>
     <label><p style="color: green"><b>Đã xác nhận</b></p></label>
-    <p>Bạn có thể xem chi tiết <a href="http://baloviet.com/user/purchase_order/order_detail/{{ $mailData['id_pdh']}}">tại đây</a></p>
+    <p>Bạn có thể xem chi tiết <a href="https://baloviet.com/user/purchase_order/order_detail/{{ $mailData['id_pdh']}}">tại đây</a></p>
     <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !!!</p>
 
 </div>

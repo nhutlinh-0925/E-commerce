@@ -539,7 +539,8 @@ class CartController extends Controller
                 // Chuyển đổi mảng thông tin thành query string
                 $queryString = http_build_query($queryData);
                 // Cập nhật biến $vnp_Returnurl bằng cách thêm query string vào URL
-                $vnp_Returnurl = "http://baloviet.com/user/vnpay-callback?" . $queryString;
+                $vnp_Returnurl = "https://baloviet.com/user/vnpay-callback?" . $queryString;
+                //dd($vnp_Returnurl);
                 //$vnp_Returnurl = "http://127.0.0.1:8000/vnpay-callback";
                 $vnp_TmnCode = "JZXSHR5X";//Mã website tại VNPAY
                 $vnp_HashSecret = "TQWUZAKGSAQBBWMNDTMZXINTWDJYXPBA"; //Chuỗi bí mật
