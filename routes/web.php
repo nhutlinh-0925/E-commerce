@@ -295,6 +295,9 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/order_detail/{id}', [DonHangController::class, 'order_detail']);
             Route::post('/order_detail/{id}', [DonHangController::class, 'order_update']);
             //Route::DELETE('/orders/destroy/{id}', [DonHangController::class, 'destroy']);
+            //Route::get('/order_detail1/{id}', [DonHangController::class, 'order_detail1']);
+            Route::get('/order_detail/view_pdf/{id}', [DonHangController::class, 'view_pdf']);
+            Route::get('/order_detail/print_pdf/{id}', [DonHangController::class, 'print_pdf']);
 
             //Khách hàng
             Route::prefix('/customers')->group(function () {

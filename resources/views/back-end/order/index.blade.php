@@ -115,8 +115,13 @@
                                     <td><p style="width: 100px"> {{ date("d-m-Y", strtotime($item->pdh_NgayDat)) }}</p></td>
 
                                     <td style="display: flex">
+                                        <p style="width: 110px;text-align: center">
+                                        @if ($item->pdh_TrangThai == 4)
 {{--                                        <form method="post" action="{{ url('/admin/brands/destroy/' .$item->id  ) }}" style="width: 80px">--}}
                                             <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+{{--                                                <a href="{{ url('/admin/order_detail1/' . $item->id ) }}" class="btn btn-danger btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>--}}
+                                            <a target="_blank" href="{{ url('/admin/order_detail/view_pdf/' . $item->id ) }}" class="btn btn-info btn-sm" title="Xem trước hóa đơn"><i class="bi bi-file-pdf"></i></a>
+                                            <a target="_blank" href="{{ url('/admin/order_detail/print_pdf/' . $item->id ) }}" class="btn btn-danger btn-sm" title="In pdf hóa đơn"><i class="bi bi-filetype-pdf"></i></a>
 {{--                                            @method('delete')--}}
 {{--                                            @csrf--}}
 {{--                                            <button type="submit" class="btn btn-danger btn-sm" title = 'Xóa thương hiệu'--}}
@@ -125,6 +130,10 @@
 {{--                                                <i class="bi bi-trash-fill"></i>--}}
 {{--                                            </button>--}}
 {{--                                        </form>--}}
+                                        @else
+                                            <a href="{{ url('/admin/order_detail/' . $item->id ) }}" class="btn btn-primary btn-sm" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                                        @endif
+                                        </p>
                                     </td>
                                 </tr>
                             @endforeach

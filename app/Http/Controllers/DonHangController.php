@@ -19,6 +19,9 @@ use App\Models\PhiVanChuyen;
 use Mail;
 use App\Models\NguoiGiaoHang;
 
+//use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class DonHangController extends Controller
 {
     public function index()
@@ -165,4 +168,144 @@ class DonHangController extends Controller
         Session::flash('success_message', 'Cập nhật trạng thái thành công!');
         return redirect('/admin/orders');
     }
+
+    public function view_pdf($id){
+        $pdh = PhieuDatHang::find($id);
+        $id_mgg = $pdh->ma_giam_gia_id;
+        $mgg = MaGiamGia::find($id_mgg);
+
+        $id_kh = $pdh->khach_hang_id;
+        $kh = KhachHang::find($id_kh);
+
+        $id_nv = $pdh->nhan_vien_id;
+        $nv = NhanVien::find($id_nv);
+
+        $dc_giao = $pdh->pdh_DiaChiGiao;
+        $dc = DiaChi::where('dc_DiaChi',$dc_giao)->get();
+        //dd($dc);
+        $id_tp = $dc[0]->tinh_thanh_pho_id;
+
+        $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
+        //dd($phiVanChuyen);
+        if($phiVanChuyen->isNotEmpty()){
+            $phi = $phiVanChuyen[0]['pvc_PhiVanChuyen'];
+        }else{
+            $phi = 25000;
+        }
+        //$phi = $phiVanChuyen[0]->pvc_PhiVanChuyen;
+        //dd($phi);
+
+        $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
+            ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
+            ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*','kich_thuocs.*')
+            ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
+            ->get();
+
+        $shippers = NguoiGiaoHang::where('trangthai', 1)->get();
+
+        return view('back-end.invoice.generate-invoice',[
+            'pdh' => $pdh,
+            'kh' => $kh,
+            'nv' => $nv,
+            'cart_id' => $cart_id,
+            'mgg' => $mgg,
+            'phi' => $phi,
+            'shippers' => $shippers
+        ]);
+    }
+
+    public function print_pdf($id){
+        $pdh = PhieuDatHang::find($id);
+        $id_mgg = $pdh->ma_giam_gia_id;
+        $mgg = MaGiamGia::find($id_mgg);
+
+        $id_kh = $pdh->khach_hang_id;
+        $kh = KhachHang::find($id_kh);
+
+        $id_nv = $pdh->nhan_vien_id;
+        $nv = NhanVien::find($id_nv);
+
+        $dc_giao = $pdh->pdh_DiaChiGiao;
+        $dc = DiaChi::where('dc_DiaChi',$dc_giao)->get();
+        //dd($dc);
+        $id_tp = $dc[0]->tinh_thanh_pho_id;
+
+        $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
+        //dd($phiVanChuyen);
+        if($phiVanChuyen->isNotEmpty()){
+            $phi = $phiVanChuyen[0]['pvc_PhiVanChuyen'];
+        }else{
+            $phi = 25000;
+        }
+        //$phi = $phiVanChuyen[0]->pvc_PhiVanChuyen;
+        //dd($phi);
+
+        $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
+            ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
+            ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*','kich_thuocs.*')
+            ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
+            ->get();
+
+        $shippers = NguoiGiaoHang::where('trangthai', 1)->get();
+        $data = [
+            'pdh' => $pdh,
+            'kh' => $kh,
+            'nv' => $nv,
+            'cart_id' => $cart_id,
+            'mgg' => $mgg,
+            'phi' => $phi,
+            'shippers' => $shippers
+        ];
+        $pdf = PDF::loadView('back-end.invoice.generate-invoice',$data);
+        return $pdf->download('invoice'.$pdh->id.'.pdf');
+    }
+
+//    public function order_detail1($id)
+//    {
+//        $pdh = PhieuDatHang::find($id);
+//        $id_mgg = $pdh->ma_giam_gia_id;
+//        $mgg = MaGiamGia::find($id_mgg);
+//
+//        $id_kh = $pdh->khach_hang_id;
+//        $kh = KhachHang::find($id_kh);
+//
+//        $id_nv = $pdh->nhan_vien_id;
+//        $nv = NhanVien::find($id_nv);
+//
+//        $dc_giao = $pdh->pdh_DiaChiGiao;
+//        $dc = DiaChi::where('dc_DiaChi',$dc_giao)->get();
+//        //dd($dc);
+//        $id_tp = $dc[0]->tinh_thanh_pho_id;
+//
+//        $phiVanChuyen = PhiVanChuyen::where('thanh_pho_id', $id_tp)->get();
+//        //dd($phiVanChuyen);
+//        if($phiVanChuyen->isNotEmpty()){
+//            $phi = $phiVanChuyen[0]['pvc_PhiVanChuyen'];
+//        }else{
+//            $phi = 25000;
+//        }
+//        //$phi = $phiVanChuyen[0]->pvc_PhiVanChuyen;
+//        //dd($phi);
+//
+//        $cart_id = DB::table('chi_tiet_phieu_dat_hangs')
+//            ->join('san_phams', 'chi_tiet_phieu_dat_hangs.san_pham_id', '=', 'san_phams.id')
+//            ->join('kich_thuocs', 'chi_tiet_phieu_dat_hangs.kich_thuoc_id', '=', 'kich_thuocs.id')
+//            ->select('chi_tiet_phieu_dat_hangs.*', 'san_phams.*','kich_thuocs.*')
+//            ->where('chi_tiet_phieu_dat_hangs.phieu_dat_hang_id', '=', $id)
+//            ->get();
+//
+//        $shippers = NguoiGiaoHang::where('trangthai', 1)->get();
+//
+//        return view('back-end.order.order_detail',[
+//            'pdh' => $pdh,
+//            'kh' => $kh,
+//            'nv' => $nv,
+//            'cart_id' => $cart_id,
+//            'mgg' => $mgg,
+//            'phi' => $phi,
+//            'shippers' => $shippers
+//        ]);
+//    }
 }

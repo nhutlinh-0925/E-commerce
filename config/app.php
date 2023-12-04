@@ -181,6 +181,7 @@ return [
         // Yajra\DataTables\ButtonsServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        //Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -200,6 +201,7 @@ return [
         // 'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        //'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];
