@@ -408,7 +408,7 @@
                                             show: true
                                         }
                                     },
-                                    labels: ['Chưa duyệt', 'Đã duyệt', 'Giao hàng', 'Thành công', 'Thất bại', 'Đã hủy']
+                                    labels: ['Chưa duyệt', 'Đã duyệt', 'Giao hàng', 'Thành công', 'Đã hủy', 'Thất bại']
                                 }).render();
                             });
                         </script>

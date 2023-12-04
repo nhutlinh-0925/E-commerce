@@ -309,14 +309,15 @@
                     @if($pdh->pdh_TrangThai == 1)
                     <div class="col-md-3">
                         <label for="inputNanme4" class="form-label"><strong>Shipper giao hàng: <span class="text-danger">(*)</span></strong></label>
-                        <select class="form-control" name="nguoi_giao_hang_id" id="nguoi_giao_hang_id">
+{{--                        <select class="form-control" name="nguoi_giao_hang_id" id="nguoi_giao_hang_id">--}}
+                        <select class="form-control" name="nguoi_giao_hang_id">
                             <option value="">--- Chọn Shipper ---</option>
                             @foreach ($shippers as $shipper)
                                 <option value="{{ $shipper->id }}" >{{ $shipper->ngh_Ten }}</option>
                             @endforeach
 
                         </select>
-                        <b class="form-text text-danger" id="shipperError"></b>
+{{--                        <b class="form-text text-danger" id="shipperError"></b>--}}
 
                     </div>
                     @elseif($pdh->pdh_TrangThai == 2 && $pdh->pdh_TrangThaiGiaoHang == 0)
