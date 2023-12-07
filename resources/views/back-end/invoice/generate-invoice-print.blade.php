@@ -174,19 +174,16 @@
         </tr>
     @endforeach
     <tr>
-        <td colspan="3"><b></b></td>
+        <td colspan="3"></td>
         <td colspan="3">
-            <label style="float: right;">{{ number_format($total, 0, '', '.') }} đ</label>
-            <label>Tổng tiền :</label><br>
-
-            <label style="float: right;">{{ number_format($phi, 0, '', '.') }} đ </label>
-            <label>Phí ship : </label>
-
+            <label>Tổng tiền :{{ number_format($total, 0, '', '.') }} đ</label>
+            <br>
+            <label>Phí ship : {{ number_format($phi, 0, '', '.') }} đ </label>
             @if($mgg)
                 @if($mgg->mgg_LoaiGiamGia == 2)
                     <br>
-                    <label style="float: right;">{{ $mgg->mgg_GiaTri }} %</label>
-                    <label>Mã giảm : </label>
+                    <label>Mã giảm : {{ $mgg->mgg_GiaTri }} %</label>
+
                     @php
                         $total_coupon1 = ($total * $mgg->mgg_GiaTri)/100;
                         $total_coupon2 = $mgg->mgg_GiamToiDa;//100
@@ -199,43 +196,33 @@
                     @endphp
 
                     <br>
-                    <label style="float: right;">{{ number_format($total_coupon, 0, '', '.') }} đ</label>
-                    <label>Mã giảm được: </label>
-
+                    <label>Mã giảm được: {{ number_format($total_coupon, 0, '', '.') }} đ</label>
                     <br>
-                    <label style="float: right;">{{ number_format($total_coupon, 0, '', '.') }} đ</label>
-                    <label>Tổng tiền giảm : </label>
+                    <label>Tổng tiền giảm : {{ number_format($total_coupon, 0, '', '.') }} đ</label>
                     <hr style="Border: solid 1px black;">
+                    <label>Tiền thanh toán : <b style="color: red">{{ number_format($total - $total_coupon + $phi, 0, '', '.') }} đ</b></label>
 
-                    <label style="float: right;color: red"><b>{{ number_format($total - $total_coupon + $phi, 0, '', '.') }} đ</b></label>
-                    <label>Tiền thanh toán : </label>
                 @elseif($mgg->mgg_LoaiGiamGia == 1)
                     <br>
-                    <label style="float: right;">{{ number_format($mgg->mgg_GiaTri, 0, '', '.') }} đ</label>
-                    <label>Mã giảm : </label>
+                    <label>Mã giảm : {{ number_format($mgg->mgg_GiaTri, 0, '', '.') }} đ</label>
                     @php
                         $total_coupon = $total - $mgg->mgg_GiaTri;
                     @endphp
 
                     <br>
-                    <label style="float: right;">{{ number_format($mgg->mgg_GiaTri, 0, '', '.') }} đ</label>
-                    <label>Tổng tiền giảm : </label>
+                    <label>Tổng tiền giảm : {{ number_format($mgg->mgg_GiaTri, 0, '', '.') }} đ</label>
                     <hr style="Border: solid 1px black;">
 
-                    <label style="float: right;color: red"><b>{{ number_format($total_coupon + $phi, 0, '', '.') }} đ</b></label>
-                    <label>Tiền thanh toán: </label>
+                    <label>Tiền thanh toán: <b style="color: red">{{ number_format($total_coupon + $phi, 0, '', '.') }} đ</b></label>
                 @endif
             @else
                 <br>
-                <label class="justify-content-end" style="float: right;">0 đ</label>
-                <label>Mã giảm : </label>
+                <label>Mã giảm : 0 đ<</label>
                 <br>
-                <label class="justify-content-end" style="float: right;">0 đ</label>
-                <label>Tổng tiền giảm : </label>
+                <label>Tổng tiền giảm : 0 đ</label>
                 <hr style="border: solid 1px black;">
 
-                <label style="float: right;color: red"><b>{{ number_format($total + $phi, 0, '', '.') }} đ</b></label>
-                <label>Tiền thanh toán : </label>
+                <label>Tiền thanh toán : <b style="color: red">{{ number_format($total + $phi, 0, '', '.') }} đ</b></label>
             @endif
         </td>
     </tr>

@@ -258,7 +258,7 @@ class DonHangController extends Controller
             'phi' => $phi,
             'shippers' => $shippers
         ];
-        $pdf = PDF::loadView('back-end.invoice.generate-invoice',$data);
+        $pdf = PDF::loadView('back-end.invoice.generate-invoice-print',$data);
         return $pdf->download('invoice'.$pdh->id.'.pdf');
     }
 

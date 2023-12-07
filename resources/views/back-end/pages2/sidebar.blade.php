@@ -26,15 +26,15 @@
             }
         @endphp
             <!-- Kiểm tra và hiển thị menu tương ứng -->
+        <li class="nav-item">
+            <a class="nav-link " href="/admin/home">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
         @foreach ($permissions as $permission)
-            @if ($permission->q_TenQuyen == 'donhang')
-                <li class="nav-item">
-                    <a class="nav-link " href="/admin/home">
-                      <i class="bi bi-grid"></i>
-                      <span>Dashboard</span>
-                    </a>
-                </li>
 
+            @if ($permission->q_TenQuyen == 'donhang')
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#order-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-layout-text-window-reverse" style="color: green"></i><span>Đơn hàng</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -183,6 +183,40 @@
                     </ul>
                 </li>
                 <hr>
+            @elseif ($permission->q_TenQuyen == 'nhapkho')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-bookmark-plus-fill" style="color: #004d40"></i><span>Nhà cung cấp</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="supplier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/suppliers/add">
+                                <i class="bi bi-circle"></i><span>Thêm nhà cung cấp</span>
+                            </a>
+                            <a href="/admin/suppliers">
+                                <i class="bi bi-circle"></i><span>Danh sách nhà cung cấp</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#warehouse-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-house-add-fill" style="color: #8b1014"></i><span>Nhập kho</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="warehouse-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/admin/warehouses/add">
+                                <i class="bi bi-circle"></i><span>Thêm phiếu nhập</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/warehouses">
+                                <i class="bi bi-circle"></i><span>Danh sách phiếu nhập</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <hr>
                 @elseif ($permission->q_TenQuyen == 'nhansu')
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#customer-nav" data-bs-toggle="collapse" href="#">
@@ -301,40 +335,6 @@
                         <li>
                             <a href="/admin/comments">
                                 <i class="bi bi-circle"></i><span>Danh sách bình luận</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <hr>
-                @elseif ($permission->q_TenQuyen == 'nhapkho')
-                <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-bookmark-plus-fill" style="color: #004d40"></i><span>Nhà cung cấp</span><i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
-                    <ul id="supplier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="/admin/suppliers/add">
-                                <i class="bi bi-circle"></i><span>Thêm nhà cung cấp</span>
-                            </a>
-                            <a href="/admin/suppliers">
-                                <i class="bi bi-circle"></i><span>Danh sách nhà cung cấp</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#warehouse-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-house-add-fill" style="color: #8b1014"></i><span>Nhập kho</span><i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
-                    <ul id="warehouse-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="/admin/warehouses/add">
-                                <i class="bi bi-circle"></i><span>Thêm phiếu nhập</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/warehouses">
-                                <i class="bi bi-circle"></i><span>Danh sách phiếu nhập</span>
                             </a>
                         </li>
                     </ul>
